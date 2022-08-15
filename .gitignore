@@ -8,6 +8,9 @@ build/
 ### OAUTH ###
 application-oauth.properties
 
+### DB ###
+application-db.properties
+
 
 
 ### STS ###

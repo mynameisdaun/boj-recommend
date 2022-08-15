@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daun.word.member.TestDAO">
+    <select id="getTestData" resultType="com.daun.word.member.TestDTO">
+        SELECT
+            TITLE,
+            NAME
+        FROM
+            HEALTH_CHECK
+    </select>
+</mapper>
