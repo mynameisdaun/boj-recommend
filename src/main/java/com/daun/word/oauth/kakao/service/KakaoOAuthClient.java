@@ -1,6 +1,6 @@
-package com.daun.word.oauth.service;
+package com.daun.word.oauth.kakao.service;
 
-import com.daun.word.oauth.dto.KakaoAccessTokenResponse;
+import com.daun.word.oauth.kakao.dto.KakaoAccessTokenResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class KakaoOAuthClient {
-    //TODO: restapikey 숨기기
     @Value("${OAuth.kakao.rest_api_key}")
     private String REST_API_KEY;
     @Value("${OAuth.kakao.redirect_uri}")

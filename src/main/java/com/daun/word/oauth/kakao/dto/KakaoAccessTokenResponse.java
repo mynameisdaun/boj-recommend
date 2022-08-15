@@ -1,4 +1,4 @@
-package com.daun.word.oauth.dto;
+package com.daun.word.oauth.kakao.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

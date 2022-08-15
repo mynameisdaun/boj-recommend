@@ -1,6 +1,6 @@
-package com.daun.word.oauth.controller;
+package com.daun.word.oauth.kakao.controller;
 
-import com.daun.word.oauth.service.KakaoOAuthClient;
+import com.daun.word.oauth.kakao.service.KakaoOAuthClient;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
