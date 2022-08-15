@@ -11,7 +11,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan("com.daun.word.member")
+@MapperScan("com.daun.word")
 public class MySQLConfig {
 
     @Bean
