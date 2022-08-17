@@ -1,5 +1,7 @@
 package com.daun.word.infra.kakao.dto;
 
+import com.daun.word.member.domain.vo.Email;
+import com.daun.word.member.domain.vo.Nickname;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -42,11 +44,11 @@ public class KakaoProfileResponse {
         private String gender;
     }
 
-    public String getEmail() {
-        return this.kakao_account.getEmail();
+    public Email getEmail() {
+        return new Email(this.kakao_account.getEmail());
     }
-    public String getNickname() {
-        return this.properties.getNickname();
+    public Nickname getNickname() {
+        return new Nickname(this.properties.getNickname());
     }
     public String getProfileImage() {
         return this.properties.getProfile_image();

@@ -3,6 +3,7 @@ package com.daun.word.member.service;
 import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.SocialType;
 import com.daun.word.member.domain.repository.MemberRepository;
+import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.dto.RegisterRequest;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class MemberService {
     }
 
     /* email, socialType으로 회원 조회 */
-    public Member findMemberByEmailAndSocialType(String email, SocialType socialType) {
+    public Member findMemberByEmailAndSocialType(Email email, SocialType socialType) {
         return memberRepository.findMemberByEmailAndSocialType(email, socialType);
     }
 }

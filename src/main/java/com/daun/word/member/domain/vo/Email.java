@@ -4,12 +4,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.regex.Pattern;
 
-@ToString
-@EqualsAndHashCode
 @Getter
-public class Email {
+@EqualsAndHashCode
+@ToString
+public class Email implements Serializable {
     private final String email;
 
     public Email(String email) {
@@ -19,5 +20,9 @@ public class Email {
             throw new IllegalArgumentException("형식에 맞지 않는 이메일 입니다.");
         }
         this.email = email;
+    }
+
+    public String getValue() {
+        return this.email;
     }
 }

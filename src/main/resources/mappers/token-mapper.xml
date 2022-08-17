@@ -38,7 +38,8 @@
             social_access_token = #{socialAccessToken},
             social_access_token_expired_date = #{socialAccessTokenExpiredDate},
             social_refresh_token = #{socialRefreshToken},
-            social_refresh_token_expired_date = #{socialRefreshTokenExpiredDate}
+            social_refresh_token_expired_date = #{socialRefreshTokenExpiredDate},
+            updated_at = SYSDATE()
         <selectKey keyColumn="createdAt,updatedAt" keyProperty="createdAt,updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
             SELECT created_at as createdAt,

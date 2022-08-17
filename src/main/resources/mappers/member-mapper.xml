@@ -10,8 +10,8 @@
                member.social_type as socialType,
                member.created_at  as createdAt,
                member.updated_at  as updatedAt
-        FROM member
-        WHERE member.email = #{email}
+          FROM member
+        WHERE member.email = #{email.value}
           AND member.social_type = #{socialType}
     </select>
     <insert id="register" parameterType="com.daun.word.member.domain.Member" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
@@ -37,20 +37,6 @@
               FROM member
              where member.id = LAST_INSERT_ID();
         </selectKey>
-<!--        <selectKey-->
-<!--                keyColumn="id,email,password,nickname,socialType,createdAt,updatedAt"-->
-<!--                keyProperty="id,email,password,nickname,socialType,createdAt,updatedAt"-->
-<!--                resultType="com.daun.word.member.domain.Member"-->
-<!--                order="AFTER">-->
-<!--            SELECT member.id,-->
-<!--            member.email,-->
-<!--            member.password,-->
-<!--            member.nickname,-->
-<!--            member.social_type as socialType,-->
-<!--            NOW() as createdAt,-->
-<!--            NOW() as updatedAt-->
-<!--            FROM member-->
-<!--            WHERE member.id = LAST_INSERT_ID()-->
-<!--        </selectKey>-->
+
     </insert>
 </mapper>
