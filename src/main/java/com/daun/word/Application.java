@@ -2,6 +2,7 @@ package com.daun.word;
 
 import com.daun.word.infra.kakao.client.DefaultKakaoOAuthClient;
 import com.daun.word.infra.kakao.client.KakaoOAuthClient;
+import com.daun.word.utils.JwtUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -35,6 +36,11 @@ public class Application {
     @Bean
     public KakaoOAuthClient kakaoOAuthClient() {
         return new DefaultKakaoOAuthClient(restTemplate());
+    }
+
+    @Bean
+    public JwtUtils jwtUtils() {
+        return new JwtUtils();
     }
 
 }

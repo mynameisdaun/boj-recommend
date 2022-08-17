@@ -14,8 +14,6 @@ import static com.daun.word.utils.StringUtils.isNullOrBlank;
 @ToString
 @EqualsAndHashCode
 public class Member {
-    @ToString.Exclude
-    private final Logger logger = LoggerFactory.getLogger(Member.class);
     private Integer id;
     private String email;
     @ToString.Exclude
