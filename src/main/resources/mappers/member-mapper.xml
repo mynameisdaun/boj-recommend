@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daun.word.member.domain.repository.MemberRepository">
+
+    <select id="findMemberByEmailAndSocialType" resultType="com.daun.word.member.domain.Member">
+        /* email, Social Type으로 회원 조회 */
+        SELECT member.id          as id,
+               member.email       as email,
+               member.nickname    as nickname,
+               member.social_type as socialType,
+               member.created_at  as createdAt,
+               member.updated_at  as updatedAt
+        FROM member
+        WHERE member.email = #{email}
+          AND member.social_type = #{socialType}
+    </select>
+    <insert id="register" parameterType="com.daun.word.member.domain.Member" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        /* 회원 생성 */
+        INSERT INTO member
+        (
+        email,
+        password,
+        nickname,
+        social_type
+        )
+        VALUES
+        (
+        #{email},
+        #{password},
+        #{nickname},
+        #{socialType}
+        )
+        <selectKey keyColumn="id,created_at,updated_at" keyProperty="id,createdAt,updatedAt" resultType="java.util.HashMap" order="AFTER">
+            SELECT member.id,
+                   member.created_at,
+                   member.updated_at
+              FROM member
+             where member.id = LAST_INSERT_ID();
+        </selectKey>
+<!--        <selectKey-->
+<!--                keyColumn="id,email,password,nickname,socialType,createdAt,updatedAt"-->
+<!--                keyProperty="id,email,password,nickname,socialType,createdAt,updatedAt"-->
+<!--                resultType="com.daun.word.member.domain.Member"-->
+<!--                order="AFTER">-->
+<!--            SELECT member.id,-->
+<!--            member.email,-->
+<!--            member.password,-->
+<!--            member.nickname,-->
+<!--            member.social_type as socialType,-->
+<!--            NOW() as createdAt,-->
+<!--            NOW() as updatedAt-->
+<!--            FROM member-->
+<!--            WHERE member.id = LAST_INSERT_ID()-->
+<!--        </selectKey>-->
+    </insert>
+</mapper>

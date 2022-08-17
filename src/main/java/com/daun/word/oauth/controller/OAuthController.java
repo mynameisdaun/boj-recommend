@@ -1,6 +1,6 @@
-package com.daun.word.oauth.kakao.controller;
+package com.daun.word.oauth.controller;
 
-import com.daun.word.oauth.kakao.service.KakaoOAuthClient;
+import com.daun.word.oauth.service.OAuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/oauth")
-public class
-OAuthController {
+public class OAuthController {
 
-    private final KakaoOAuthClient kakaoOAuthClient;
+    private final OAuthService oAuthService;
 
     @GetMapping("/kakao/callback")
-    public ResponseEntity<?> kakao_token(@RequestParam("code") String code) {
-        return kakaoOAuthClient.token(code);
+    public ResponseEntity<?> kakaoLogin(@RequestParam("code") String code) {
+        return ResponseEntity.ok(oAuthService.kakaoLogin(code));
     }
 }

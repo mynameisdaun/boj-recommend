@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.daun.word.oauth.token">
-    <insert id="createToken" parameterType="com.daun.word.oauth.token.dto.TokenDTO">
+<mapper namespace="com.daun.word.oauth.token.repository.TokenRepository">
+    <insert id="createToken" parameterType="com.daun.word.oauth.token.Token">
         /* 토큰 생성 */
         INSERT INTO token
         (
@@ -32,7 +32,7 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
-    <select id="getTokenByMemberId" resultType="com.daun.word.oauth.token.dto.TokenDTO">
+    <select id="getTokenByMemberId" resultType="com.daun.word.oauth.token.Token">
         /* 멤버 ID(구분값)으로 토큰 조회 */
         SELECT member_id,
                access_token,
