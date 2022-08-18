@@ -13,6 +13,34 @@ public class KakaoProfileResponse {
     private KakaoAccount kakao_account;
     private Properties properties;
 
+    public Email getEmail() {
+        return new Email(this.kakao_account.getEmail());
+    }
+
+    public Nickname getNickname() {
+        return new Nickname(this.properties.getNickname());
+    }
+
+    public String getProfileImage() {
+        return this.properties.getProfile_image();
+    }
+
+    public String getThumbnailImage() {
+        return this.properties.getThumbnail_image();
+    }
+
+    public String getGender() {
+        return this.kakao_account.getGender();
+    }
+
+    public String getBirthday() {
+        return this.kakao_account.getBirthday();
+    }
+
+    public String getAgeRange() {
+        return this.kakao_account.getAge_range();
+    }
+
     @Data
     @NoArgsConstructor
     static class Properties {
@@ -40,29 +68,7 @@ public class KakaoProfileResponse {
         private String birthday;
         private String birthday_type;
         private boolean has_gender = true;
-        private boolean gender_needs_agreement=false;
+        private boolean gender_needs_agreement = false;
         private String gender;
-    }
-
-    public Email getEmail() {
-        return new Email(this.kakao_account.getEmail());
-    }
-    public Nickname getNickname() {
-        return new Nickname(this.properties.getNickname());
-    }
-    public String getProfileImage() {
-        return this.properties.getProfile_image();
-    }
-    public String getThumbnailImage() {
-        return this.properties.getThumbnail_image();
-    }
-    public String getGender() {
-        return this.kakao_account.getGender();
-    }
-    public String getBirthday() {
-        return this.kakao_account.getBirthday();
-    }
-    public String getAgeRange() {
-        return this.kakao_account.getAge_range();
     }
 }

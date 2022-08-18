@@ -26,7 +26,6 @@ public class OAuthService {
 
     private final TokenService tokenService;
 
-    //TODO: Change Return Type
     public LoginResponse kakaoLogin(String code) {
         KakaoTokenResponse kakaoTokenResponse = kakaoOAuthClient.token(code);
         logger.info(kakaoTokenResponse.toString());

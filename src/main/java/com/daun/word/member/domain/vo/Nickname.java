@@ -10,10 +10,10 @@ import static com.daun.word.utils.StringUtils.isNullOrBlank;
 @EqualsAndHashCode
 @ToString
 public class Nickname {
-    private String nickname;
+    private final String nickname;
 
     public Nickname(String nickname) {
-        if(isNullOrBlank(nickname)) {
+        if (isNullOrBlank(nickname)) {
             throw new IllegalArgumentException("정책에 맞지 않는 닉네임 입니다.");
         }
         this.nickname = nickname;

@@ -8,8 +8,6 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-import static com.daun.word.utils.StringUtils.isNullOrBlank;
-
 @Getter
 @Setter
 public class RegisterRequest {
@@ -20,8 +18,8 @@ public class RegisterRequest {
 
 
     public RegisterRequest(Nickname nickname, Email email, SocialType socialType) {
-        if(nickname == null || email == null || socialType == null) {
-           throw new IllegalArgumentException("닉네임, 이메일, 소셜타입은 회원가입하기 위한 필수 조건입니다.");
+        if (nickname == null || email == null || socialType == null) {
+            throw new IllegalArgumentException("닉네임, 이메일, 소셜타입은 회원가입하기 위한 필수 조건입니다.");
         }
         this.nickname = nickname;
         this.password = UUID.randomUUID().toString();

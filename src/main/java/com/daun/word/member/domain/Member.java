@@ -25,7 +25,7 @@ public class Member {
 
     //TODO: email , password VO , nickName vo 생성
     public Member(Email email, String password, Nickname nickname, SocialType socialType) {
-        if(email == null || isNullOrBlank(password) || nickname == null || socialType == null) {
+        if (email == null || isNullOrBlank(password) || nickname == null || socialType == null) {
             throw new IllegalArgumentException("이메일, 비밀번호, 닉네임, 소셜타입은 빈 값이 올 수 없습니다!");
         }
         this.email = email;
@@ -38,16 +38,18 @@ public class Member {
         return this.email.getValue();
     }
 
-    protected void setEmail (String email) {
+    protected void setEmail(String email) {
         this.email = new Email(email);
     }
+
     public String getNickname() {
         return this.nickname.getValue();
     }
 
-    protected void setNickname (String nickname) {
+    protected void setNickname(String nickname) {
         this.nickname = new Nickname(nickname);
     }
+
     public String getSocialType() {
         return socialType.name();
     }
