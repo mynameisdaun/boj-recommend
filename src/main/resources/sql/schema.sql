@@ -30,4 +30,41 @@ CREATE TABLE token
     FOREIGN KEY (member_email) REFERENCES member (email)
 ) comment '토큰';
 
+/* 22.08.18 단어장 테이블 */
+CREATE TABLE workbook
+(
+    id              int auto_increment not null comment '단어장 일련번호(seq)',
+    title           varchar(100)       not null comment '단어장 제목',
+    author          varchar(100)       not null comment '단어장 저자',
+    description     text               not null comment '단어장 설명',
+    cover_image_url text               not null comment '단어장 커버이미지 URL 주소',
+    created_at      datetime           not null default current_timestamp comment '데이터 생성일시',
+    updated_at      datetime           not null default current_timestamp comment '데이터 수정일시',
+    PRIMARY KEY (id)
+) comment '단어장';
+
+/* 22.08.18 챕터 테이블 */
+CREATE TABLE chapter
+(
+    id          int auto_increment not null comment '챕터 일련번호(seq)',
+    title       varchar(100)       not null comment '챕터 제목',
+    workbook_id int                not null comment '단어장 일련번호(seq)',
+    word_list   text               not null comment '단어 리스트 ,로 구분한다',
+    created_at  datetime           not null default current_timestamp comment '데이터 생성일시',
+    updated_at  datetime           not null default current_timestamp comment '데이터 수정일시',
+    PRIMARY KEY (id),
+    FOREIGN KEY (workbook_id) REFERENCES workbook (id)
+) comment '챕터';
+
+/* 22.08.18 단어 테이블 */
+CREATE TABLE word
+(
+    id         int auto_increment not null comment '아이디 일련번호(seq)',
+    english    varchar(100)       not null comment '영어 표기',
+    korean     varchar(100)       not null comment '한글 표기',
+    created_at datetime           not null default current_timestamp comment '데이터 생성일시',
+    updated_at datetime           not null default current_timestamp comment '데이터 수정일시',
+    PRIMARY KEY (id)
+) comment '단어';
+
 
