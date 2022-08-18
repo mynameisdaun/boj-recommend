@@ -1,16 +1,15 @@
 package com.daun.word.word.domain;
 
-
 import com.daun.word.word.domain.vo.English;
 import com.daun.word.word.domain.vo.Korean;
-import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Getter
+@EqualsAndHashCode
 public class Word {
 
     private Integer id;                 // 단어 일련번호(seq)

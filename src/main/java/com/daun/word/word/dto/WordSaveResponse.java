@@ -19,4 +19,5 @@ public class WordSaveResponse {
     public static WordSaveResponse fromWord (Word word) {
         return new WordSaveResponse(word.getEnglish(), word.getKorean());
     }
+
 }

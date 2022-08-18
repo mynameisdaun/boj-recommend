@@ -9,6 +9,9 @@ import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.oauth.token.domain.Token;
 import com.daun.word.oauth.token.domain.TokenFactory;
 import com.daun.word.utils.JwtUtils;
+import com.daun.word.word.domain.Word;
+import com.daun.word.word.domain.vo.English;
+import com.daun.word.word.domain.vo.Korean;
 
 public class Fixture {
     public static String FAKE_KAKAO_REST_API_KEY = "fake-api-key";
@@ -55,5 +58,9 @@ public class Fixture {
             token = new TokenFactory(new JwtUtils("longerlongerlongerfakeaccesskeyas2ef2f2sc11212", "fakeafakakwefjwoef1d131e1diejffakerefreshkey", 6000L, 60000L)).generateToken(member(), kakaoTokenResponse());
         }
         return token;
+    }
+
+    public static Word word() {
+        return new Word(new English("word"), new Korean("단어"));
     }
 }

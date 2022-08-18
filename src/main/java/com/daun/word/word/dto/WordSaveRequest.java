@@ -14,4 +14,5 @@ public class WordSaveRequest {
         this.english = new English(english);
         this.korean = new Korean(korean);
     }
+
 }
