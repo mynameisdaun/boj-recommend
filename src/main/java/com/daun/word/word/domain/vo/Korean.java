@@ -1,12 +1,12 @@
 package com.daun.word.word.domain.vo;
 
-import com.daun.word.utils.StringUtils;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-import static com.daun.word.utils.StringUtils.*;
+import java.util.regex.Pattern;
+
+import static com.daun.word.utils.StringUtils.isNullOrBlank;
 
 @Getter
 @EqualsAndHashCode
@@ -16,8 +16,11 @@ public class Korean {
     private final String korean;
 
     public Korean(String korean) {
-        if(isNullOrBlank(korean)) {
+        if (isNullOrBlank(korean)) {
             throw new IllegalArgumentException("단어의 한글 표기는 한글자 이상이어야 합니다.");
+        }
+        if (!Pattern.matches("^[ㄱ-ㅎ가-힣]*$", korean)) {
+            throw new IllegalArgumentException("한국어 표기는 한글만 포함하고 있어야 합니다.");
         }
         this.korean = korean;
     }
