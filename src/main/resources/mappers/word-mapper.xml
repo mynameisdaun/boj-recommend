@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.daun.word.word.domain.Word">
-
+<mapper namespace="com.daun.word.word.domain.repository.WordRepository">
     <insert id="save" parameterType="com.daun.word.word.domain.Word" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         /* 회원 생성 */
         INSERT INTO word
