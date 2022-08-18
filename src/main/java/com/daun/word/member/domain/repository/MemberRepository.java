@@ -1,7 +1,7 @@
 package com.daun.word.member.domain.repository;
 
 import com.daun.word.member.domain.Member;
-import com.daun.word.member.domain.SocialType;
+import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.member.domain.vo.Email;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

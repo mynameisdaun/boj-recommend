@@ -1,6 +1,6 @@
 package com.daun.word.oauth.token.domain;
 
-import com.daun.word.member.domain.SocialType;
+import com.daun.word.member.domain.vo.SocialType;
 import lombok.*;
 
 import java.time.LocalDateTime;

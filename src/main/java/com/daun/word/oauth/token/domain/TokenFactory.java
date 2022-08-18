@@ -2,7 +2,7 @@ package com.daun.word.oauth.token.domain;
 
 import com.daun.word.infra.kakao.dto.SocialTokenResponse;
 import com.daun.word.member.domain.Member;
-import com.daun.word.member.domain.SocialType;
+import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.utils.JwtUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -2,6 +2,7 @@ package com.daun.word.member.domain;
 
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
+import com.daun.word.member.domain.vo.SocialType;
 import lombok.*;
 
 import java.time.LocalDateTime;

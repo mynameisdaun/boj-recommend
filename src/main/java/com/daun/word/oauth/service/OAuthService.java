@@ -4,7 +4,7 @@ import com.daun.word.infra.kakao.client.KakaoOAuthClient;
 import com.daun.word.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.infra.kakao.dto.KakaoTokenResponse;
 import com.daun.word.member.domain.Member;
-import com.daun.word.member.domain.SocialType;
+import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.member.dto.RegisterRequest;
 import com.daun.word.member.service.MemberService;
 import com.daun.word.oauth.dto.LoginResponse;

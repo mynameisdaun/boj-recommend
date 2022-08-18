@@ -1,7 +1,7 @@
 package com.daun.word.member.service;
 
 import com.daun.word.member.domain.Member;
-import com.daun.word.member.domain.SocialType;
+import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.member.domain.repository.MemberRepository;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.dto.RegisterRequest;

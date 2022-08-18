@@ -1,6 +1,6 @@
 package com.daun.word.member.dto;
 
-import com.daun.word.member.domain.SocialType;
+import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
 import lombok.Getter;

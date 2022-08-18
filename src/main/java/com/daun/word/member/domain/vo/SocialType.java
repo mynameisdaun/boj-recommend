@@ -1,4 +1,4 @@
-package com.daun.word.member.domain;
+package com.daun.word.member.domain.vo;
 
 public enum SocialType {
     K, // K : 카카오
