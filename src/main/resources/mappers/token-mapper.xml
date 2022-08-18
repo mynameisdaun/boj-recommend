@@ -5,7 +5,7 @@
         /* 토큰 생성 */
         INSERT INTO token
         (
-            member_id,
+            member_email,
             access_token,
             access_token_expired_date,
             refresh_token,
@@ -18,7 +18,7 @@
         )
         VALUES
         (
-            #{memberId},
+            #{email},
             #{accessToken},
             #{accessTokenExpiredDate},
             #{refreshToken},
@@ -49,9 +49,9 @@
         </selectKey>
     </insert>
 
-    <select id="getTokenByMemberId" resultType="com.daun.word.oauth.token.domain.Token">
+    <select id="getTokenByEmail" resultType="com.daun.word.oauth.token.domain.Token">
         /* 멤버 ID(구분값)으로 토큰 조회 */
-        SELECT member_id,
+        SELECT member_email,
                access_token,
                access_token_expired_date,
                refresh_token,
@@ -64,6 +64,6 @@
                created_at,
                updated_at
         FROM token
-        where token.member_id = #{memberId}
+        where token.member_email = #{email}
     </select>
 </mapper>

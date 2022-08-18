@@ -1,5 +1,6 @@
 package com.daun.word.oauth.token.domain.repository;
 
+import com.daun.word.member.domain.vo.Email;
 import com.daun.word.oauth.token.domain.Token;
 import com.daun.word.oauth.token.dto.TokenDTO;
 import org.apache.ibatis.annotations.Param;
@@ -11,5 +12,5 @@ public interface TokenRepository {
     Integer save(Token token);
 
     /* 멤버 ID(구분값)으로 토큰 조회 */
-    TokenDTO getTokenByMemberId(@Param("memberId") Integer memberId);
+    TokenDTO getTokenByEmail(@Param("email") Email email);
 }

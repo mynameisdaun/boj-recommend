@@ -2,11 +2,13 @@ package com.daun.word.infra.kakao.dto;
 
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class KakaoProfileResponse {
     private String id;
     private String connected_at;
@@ -42,16 +44,18 @@ public class KakaoProfileResponse {
     }
 
     @Data
+    @AllArgsConstructor
     @NoArgsConstructor
-    static class Properties {
+    public static class Properties {
         private String nickname;
         private String profile_image;
         private String thumbnail_image;
     }
 
     @Data
+    @AllArgsConstructor
     @NoArgsConstructor
-    static class KakaoAccount {
+    public static class KakaoAccount {
         private boolean profile_nickname_needs_agreement;
         private boolean profile_image_needs_agreement;
         private Properties profile;

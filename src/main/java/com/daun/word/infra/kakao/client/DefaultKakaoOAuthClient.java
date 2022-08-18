@@ -13,26 +13,23 @@ import static com.daun.word.utils.StringUtils.isNullOrBlank;
 
 @Service
 public class DefaultKakaoOAuthClient implements KakaoOAuthClient {
-
+    //TODO: 해피케이스만 존재한다, 안 해피한 케이스도 생각해서 추가해야 한다
     private final Logger logger = LoggerFactory.getLogger(DefaultKakaoOAuthClient.class);
 
     private final RestTemplate restTemplate;
-    @Value("${OAuth.kakao.rest_api_key}")
-    private String REST_API_KEY;
-    @Value("${OAuth.kakao.redirect_uri}")
-    private String REDIRECT_URI;
+
 
     public DefaultKakaoOAuthClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     @Override
-    public KakaoTokenResponse token(String authCode) {
+    public KakaoTokenResponse token(String authCode, String restApiKey, String redirectUri) {
         if (isNullOrBlank(authCode)) {
             throw new IllegalArgumentException("authCode는 빈 값이 될 수 없습니다.");
         }
         String url = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code&" +
-                "client_id=" + REST_API_KEY + "&redirect_uri=" + REDIRECT_URI + "&code=" + authCode;
+                "client_id=" + restApiKey + "&redirect_uri=" + redirectUri + "&code=" + authCode;
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity request = new HttpEntity(headers);
@@ -41,12 +38,12 @@ public class DefaultKakaoOAuthClient implements KakaoOAuthClient {
                 HttpMethod.GET,
                 request,
                 KakaoTokenResponse.class);
-        logger.info(response.getBody().toString());
         return response.getBody();
     }
 
     @Override
     public KakaoProfileResponse profile(String accessToken) {
+        //TODO: 3rd party api end point 어떻게 관리하면 좋을까?
         String url = "https://kapi.kakao.com/v2/user/me";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + accessToken);

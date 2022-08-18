@@ -19,6 +19,9 @@ public class MemberService {
 
     /* 회원 가입 */
     public Member register(RegisterRequest request) {
+        if(request == null) {
+            throw new IllegalArgumentException("회원 가입을 위해서 올바른 회원 가입 요청이 있어야 합니다.");
+        }
         Member member = new Member(request.getEmail(), request.getPassword(), request.getNickname(), request.getSocialType());
         memberRepository.register(member);
         return member;
@@ -26,6 +29,9 @@ public class MemberService {
 
     /* email, socialType으로 회원 조회 */
     public Member findMemberByEmailAndSocialType(Email email, SocialType socialType) {
+        if(email == null || socialType == null) {
+            throw new IllegalArgumentException("해당 조회를 위해서 이메일과 소셜 타입은 필수값 입니다.");
+        }
         return memberRepository.findMemberByEmailAndSocialType(email, socialType);
     }
 }

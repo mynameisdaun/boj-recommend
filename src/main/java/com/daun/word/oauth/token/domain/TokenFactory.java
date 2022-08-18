@@ -2,6 +2,7 @@ package com.daun.word.oauth.token.domain;
 
 import com.daun.word.infra.kakao.dto.SocialTokenResponse;
 import com.daun.word.member.domain.Member;
+import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.utils.JwtUtils;
 import lombok.AllArgsConstructor;
@@ -16,10 +17,9 @@ public class TokenFactory {
     private final JwtUtils jwtUtils;
 
     public Token generateToken(Member member, SocialTokenResponse socialTokenResponse) {
-        Integer memberId = member.getId();
-        String accessToken = jwtUtils.accessToken(memberId);
+        String accessToken = jwtUtils.accessToken(member.getEmail());
         LocalDateTime accessTokenExpiredDate = LocalDateTime.now().plusSeconds(jwtUtils.getAccessExpiresIn() / 1000);
-        String refreshToken = jwtUtils.refreshToken(memberId);
+        String refreshToken = jwtUtils.refreshToken(member.getEmail());
         LocalDateTime refreshTokenExpiredDate = LocalDateTime.now().plusSeconds(jwtUtils.getRefreshExpiresIn() / 1000);
         SocialType memberSocialType = SocialType.valueOf(member.getSocialType());
         String socialAccessToken = socialTokenResponse.getAccess_token();
@@ -28,7 +28,7 @@ public class TokenFactory {
         LocalDateTime socialRefreshTokenExpiredDate = LocalDateTime.now().plusSeconds(socialTokenResponse.getRefresh_token_expires_in());
 
         return new Token(
-                memberId,
+                new Email(member.getEmail()),
                 accessToken,
                 accessTokenExpiredDate,
                 refreshToken,

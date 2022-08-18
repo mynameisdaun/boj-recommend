@@ -4,43 +4,40 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 
-
+@RequiredArgsConstructor
 public class JwtUtils {
 
-    @Value("${OAuth.jwt.access.key}")
-    private String accessKey;
-    @Value("${OAuth.jwt.refresh.key}")
-    private String refreshKey;
-    @Value("${OAuth.jwt.duration.access}")
-    private Long accessExpiresIn;
-    @Value("${OAuth.jwt.duration.refresh}")
-    private Long refreshExpiresIn;
+    private final String accessKey;
+    private final String refreshKey;
+    private final Long accessExpiresIn;
+    private final Long refreshExpiresIn;
 
     //TODO: AccessToken 정책 정리
-    public String accessToken(int memberId) {
+    public String accessToken(String email) {
         Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuer("word")
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + getAccessExpiresIn()))
-                .claim("memberId", memberId)
+                .claim("email", email)
                 .signWith(SignatureAlgorithm.HS256, accessKey)
                 .compact();
     }
 
-    public String refreshToken(int memberId) {
+    public String refreshToken(String email) {
         Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuer("word")
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + getRefreshExpiresIn()))
-                .claim("memberId", memberId)
+                .claim("email", email)
                 .signWith(SignatureAlgorithm.HS256, refreshKey)
                 .compact();
     }

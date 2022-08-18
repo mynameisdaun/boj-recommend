@@ -13,7 +13,7 @@ import static com.daun.word.utils.StringUtils.isNullOrBlank;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"id", "password", "createdAt", "updatedAt", "nickname"})
 public class Member {
     private Integer id;
     private Email email;

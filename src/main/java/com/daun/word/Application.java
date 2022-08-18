@@ -3,6 +3,7 @@ package com.daun.word;
 import com.daun.word.infra.kakao.client.DefaultKakaoOAuthClient;
 import com.daun.word.infra.kakao.client.KakaoOAuthClient;
 import com.daun.word.utils.JwtUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -13,6 +14,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class Application {
+
+    @Value("${OAuth.jwt.access.key}")
+    private String accessKey;
+    @Value("${OAuth.jwt.refresh.key}")
+    private String refreshKey;
+    @Value("${OAuth.jwt.duration.access}")
+    private Long accessExpiresIn;
+    @Value("${OAuth.jwt.duration.refresh}")
+    private Long refreshExpiresIn;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -40,7 +50,7 @@ public class Application {
 
     @Bean
     public JwtUtils jwtUtils() {
-        return new JwtUtils();
+        return new JwtUtils(accessKey, refreshKey, accessExpiresIn, refreshExpiresIn);
     }
 
 }

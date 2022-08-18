@@ -1,12 +1,10 @@
 package com.daun.word.infra.kakao.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
-@Setter
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class KakaoTokenResponse extends SocialTokenResponse {
     private String token_type;            //토큰타입, bearer 고정
     private String access_token;           // 사용자 액세스 토큰
