@@ -39,7 +39,6 @@ public class OAuthService {
         KakaoTokenResponse kakaoTokenResponse = kakaoOAuthClient.token(code, REST_API_KEY, REDIRECT_URI);
         KakaoProfileResponse kakaoProfile = kakaoOAuthClient.profile(kakaoTokenResponse.getAccess_token());
         Member member = memberService.findMemberByEmailAndSocialType(kakaoProfile.getEmail(), SocialType.K);
-
         /* 우리 서버에 등록되지 않은 회원이라면 회원가입 처리 한다 */
         if (member == null) {
             RegisterRequest request = new RegisterRequest(kakaoProfile.getNickname(), kakaoProfile.getEmail(), SocialType.K);

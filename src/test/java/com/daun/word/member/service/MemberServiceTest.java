@@ -72,7 +72,7 @@ class MemberServiceTest {
     @Test
     void findMemberByEmailAndSocialType_success() throws Exception {
         //given, when
-        memberService.findMemberByEmailAndSocialType(email(), SocialType.K);
+        memberService.findMemberByEmailAndSocialType(email(), SocialType.W);
         //then
         verify(memberRepository, times(1)).findMemberByEmailAndSocialType(any(Email.class), any(SocialType.class));
     }

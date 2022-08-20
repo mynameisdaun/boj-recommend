@@ -19,15 +19,15 @@ public class Fixture {
     private static Token token;
 
     public static Email email() {
-        return new Email("tester@tester.com");
+        return new Email("tester@weword.com");
     }
 
     public static Nickname nickname() {
-        return new Nickname("tester");
+        return new Nickname("테스터");
     }
 
     public static Member member() {
-        Member member = new Member(email(), "fake-password", nickname(), SocialType.K);
+        Member member = new Member(email(), "fake-password", nickname(), SocialType.W);
         return member;
     }
 
