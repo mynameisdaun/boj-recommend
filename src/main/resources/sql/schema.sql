@@ -1,3 +1,5 @@
+SET MODE MYSQL;
+
 /* 22.08.17 회원 테이블 */
 CREATE TABLE member
 (
@@ -49,7 +51,6 @@ CREATE TABLE chapter
     id          int auto_increment not null comment '챕터 일련번호(seq)',
     title       varchar(100)       not null comment '챕터 제목',
     workbook_id int                not null comment '단어장 일련번호(seq)',
-    word_list   text               not null comment '단어 리스트 ,로 구분한다',
     created_at  datetime           not null default current_timestamp comment '데이터 생성일시',
     updated_at  datetime           not null default current_timestamp comment '데이터 수정일시',
     PRIMARY KEY (id),
@@ -66,5 +67,18 @@ CREATE TABLE word
     updated_at datetime           not null default current_timestamp comment '데이터 수정일시',
     PRIMARY KEY (id)
 ) comment '단어';
+
+/* 22.08.18 챕터 단어 매핑 테이블 */
+create table chapter_word_mapping
+(
+    id         int          NOT NULL AUTO_INCREMENT PRIMARY KEY comment '챕터 단어 매핑 구분자(seq)',
+    chapter_id int          not null comment '챕터 구분자(seq)',
+    word_id    int          not null comment '단어 구분자(seq)',
+    english    varchar(100) not null comment '영어 표기',
+    created_at datetime     not null default current_timestamp comment '데이터 생성일시',
+    updated_at datetime     not null default current_timestamp comment '데이터 수정일시',
+    FOREIGN KEY (word_id)    REFERENCES word (id),
+    FOREIGN KEY (chapter_id) REFERENCES chapter (id)
+) comment '챕터 단어 매핑';
 
 

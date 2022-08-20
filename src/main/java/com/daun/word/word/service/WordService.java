@@ -2,6 +2,7 @@ package com.daun.word.word.service;
 
 import com.daun.word.word.domain.Word;
 import com.daun.word.word.domain.repository.WordRepository;
+import com.daun.word.word.domain.vo.English;
 import com.daun.word.word.dto.WordSaveRequest;
 import com.daun.word.word.dto.WordSaveResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,9 @@ public class WordService {
         Word word = new Word(wordSaveRequest.getEnglish(), wordSaveRequest.getKorean());
         wordRepository.save(word);
         return WordSaveResponse.fromWord(word);
+    }
+
+    public Word findByEnglish(English english) {
+        return wordRepository.findByEnglish(english);
     }
 }

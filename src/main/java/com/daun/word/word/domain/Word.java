@@ -2,6 +2,7 @@ package com.daun.word.word.domain;
 
 import com.daun.word.word.domain.vo.English;
 import com.daun.word.word.domain.vo.Korean;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,4 +19,13 @@ public class Word {
     private LocalDateTime createdAt;    // 생성 일시
     private LocalDateTime updatedAt;    // 최종 수정 일시
 
+
+    //TODO: For mybatis
+    public Word(Integer id, String english, String korean, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.english = new English(english);
+        this.korean = new Korean(korean);
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 }

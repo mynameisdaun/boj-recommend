@@ -37,6 +37,5 @@
               FROM member
              where member.id = LAST_INSERT_ID();
         </selectKey>
-
     </insert>
 </mapper>

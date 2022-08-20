@@ -4,7 +4,9 @@ import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = false)
 public class KakaoTokenResponse extends SocialTokenResponse {
     private String token_type;            //토큰타입, bearer 고정
     private String access_token;           // 사용자 액세스 토큰

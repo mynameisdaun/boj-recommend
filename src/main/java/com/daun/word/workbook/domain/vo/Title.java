@@ -10,16 +10,16 @@ import static com.daun.word.utils.StringUtils.isNullOrBlank;
 @EqualsAndHashCode
 @ToString
 public class Title {
-    private final String author;
+    private final String title;
 
-    public Title(String author) {
-        if (isNullOrBlank(author)) {
-            throw new IllegalArgumentException("정책에 맞지 않는 단어장 제목 입니다.");
+    public Title(String title) {
+        if (isNullOrBlank(title)) {
+            throw new IllegalArgumentException("정책에 맞지 않는 제목 입니다.");
         }
-        this.author = author;
+        this.title = title;
     }
 
     public String getValue() {
-        return this.author;
+        return this.title;
     }
 }
