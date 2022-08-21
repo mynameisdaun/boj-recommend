@@ -35,27 +35,10 @@ public class Member {
         this.socialType = socialType;
     }
 
-    public String getEmail() {
-        return this.email.getValue();
-    }
-
-    protected void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = new Email(email);
     }
-
-    public String getNickname() {
-        return this.nickname.getValue();
-    }
-
-    protected void setNickname(String nickname) {
+    public void setNickname(String nickname) {
         this.nickname = new Nickname(nickname);
-    }
-
-    public String getSocialType() {
-        return socialType.name();
-    }
-
-    public void setSocialType(String socialType) {
-        this.socialType = SocialType.valueOf(socialType);
     }
 }

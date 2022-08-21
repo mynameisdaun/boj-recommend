@@ -11,10 +11,11 @@
                member.created_at  as createdAt,
                member.updated_at  as updatedAt
           FROM member
-        WHERE member.email = #{email.value}
-          AND member.social_type = #{socialType}
+         WHERE member.email = #{email.value}
+           AND member.social_type = #{socialType}
     </select>
-    <insert id="register" parameterType="com.daun.word.member.domain.Member" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="register" parameterType="com.daun.word.member.domain.Member" useGeneratedKeys="true" keyColumn="id"
+            keyProperty="id">
         /* 회원 생성 */
         INSERT INTO member
         (
@@ -25,12 +26,13 @@
         )
         VALUES
         (
-        #{email},
-        #{password},
-        #{nickname},
-        #{socialType}
+        #{member.email.value},
+        #{member.password},
+        #{member.nickname.value},
+        #{member.socialType.name}
         )
-        <selectKey keyColumn="id,created_at,updated_at" keyProperty="id,createdAt,updatedAt" resultType="java.util.HashMap" order="AFTER">
+        <selectKey keyColumn="id,created_at,updated_at" keyProperty="id,createdAt,updatedAt"
+                   resultType="java.util.HashMap" order="AFTER">
             SELECT member.id,
                    member.created_at,
                    member.updated_at

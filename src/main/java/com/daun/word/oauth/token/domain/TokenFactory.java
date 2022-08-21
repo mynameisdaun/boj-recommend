@@ -17,18 +17,18 @@ public class TokenFactory {
     private final JwtUtils jwtUtils;
 
     public Token generateToken(Member member, SocialTokenResponse socialTokenResponse) {
-        String accessToken = jwtUtils.accessToken(member.getEmail());
+        String accessToken = jwtUtils.accessToken(member.getEmail().getValue());
         LocalDateTime accessTokenExpiredDate = LocalDateTime.now().plusSeconds(jwtUtils.getAccessExpiresIn() / 1000);
-        String refreshToken = jwtUtils.refreshToken(member.getEmail());
+        String refreshToken = jwtUtils.refreshToken(member.getEmail().getValue());
         LocalDateTime refreshTokenExpiredDate = LocalDateTime.now().plusSeconds(jwtUtils.getRefreshExpiresIn() / 1000);
-        SocialType memberSocialType = SocialType.valueOf(member.getSocialType());
+        SocialType memberSocialType = SocialType.valueOf(member.getSocialType().name());
         String socialAccessToken = socialTokenResponse.getAccess_token();
         LocalDateTime socialAccessTokenExpiredDate = LocalDateTime.now().plusSeconds(socialTokenResponse.getAccess_token_expires_in());
         String socialRefreshToken = socialTokenResponse.getRefresh_token();
         LocalDateTime socialRefreshTokenExpiredDate = LocalDateTime.now().plusSeconds(socialTokenResponse.getRefresh_token_expires_in());
 
         return new Token(
-                new Email(member.getEmail()),
+                member.getEmail(),
                 accessToken,
                 accessTokenExpiredDate,
                 refreshToken,
