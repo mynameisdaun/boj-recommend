@@ -1,19 +1,17 @@
 package com.daun.word.chapter.domain;
 
-import com.daun.word.word.domain.Word;
 import com.daun.word.word.domain.Words;
 import com.daun.word.workbook.domain.vo.Title;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 public class Chapter {
     private Integer id;
-    private Title title;
-    private Integer workBookId;
-    private Words words;
+    private final Title title;
+    private final Integer workBookId;
+    private final Words words;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

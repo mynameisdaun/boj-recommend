@@ -38,6 +38,7 @@ public class Member {
     public void setEmail(String email) {
         this.email = new Email(email);
     }
+
     public void setNickname(String nickname) {
         this.nickname = new Nickname(nickname);
     }

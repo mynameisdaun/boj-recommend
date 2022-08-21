@@ -8,8 +8,6 @@ import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
 import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.oauth.token.domain.Token;
-import com.daun.word.oauth.token.domain.TokenFactory;
-import com.daun.word.utils.JwtUtils;
 import com.daun.word.word.domain.Word;
 import com.daun.word.word.domain.Words;
 import com.daun.word.word.domain.vo.English;
@@ -69,9 +67,9 @@ public class Fixture {
         return new Token(
                 new Email("tester@weword.com"),
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjA5Nzc4MzEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.Bs9nDgglcyg_IQCcsLQVH48RW1t1-w8QYqkLJissNuU",
-                LocalDateTime.parse("2022-08-20 15:43:51",formatter),
+                LocalDateTime.parse("2022-08-20 15:43:51", formatter),
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjEwMzY1MTEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.uCNJxT-PuD2FNLZcplTULRqu1XO2YEWX_0--35quTGU",
-                LocalDateTime.parse("2022-08-21 08:01:51",formatter),
+                LocalDateTime.parse("2022-08-21 08:01:51", formatter),
                 SocialType.valueOf("W"),
                 "7MP8EHWXFLzHxQsi1YNMXs3KVb1paQBpEPLwZb6QCj1zFwAAAYK54uKs",
                 LocalDateTime.parse("2022-08-20 15:13:51", formatter),
@@ -94,6 +92,6 @@ public class Fixture {
     }
 
     public static Chapter chapter() {
-        return new Chapter(1, new Title("Day 1"), 1,  new Words(new ArrayList<>(Arrays.asList(word()))));
+        return new Chapter(1, new Title("Day 1"), 1, new Words(new ArrayList<>(Arrays.asList(word()))));
     }
 }

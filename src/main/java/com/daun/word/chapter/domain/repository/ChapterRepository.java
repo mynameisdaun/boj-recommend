@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 public interface ChapterRepository {
 
     /* 챕터 저장*/
-    public int save(Chapter chapter);
+    int save(Chapter chapter);
 
     /* 챕터-단어 매핑 저장 */
-    public int saveChapterWordMapping(ChapterWordMapping chapterWordMapping);
+    int saveChapterWordMapping(ChapterWordMapping chapterWordMapping);
 }

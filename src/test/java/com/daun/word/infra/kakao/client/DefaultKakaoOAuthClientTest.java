@@ -38,7 +38,7 @@ class DefaultKakaoOAuthClientTest {
         //given
         String authCode = "fake-Auth-Code";
         given(restTemplate.exchange(any(String.class), any(HttpMethod.class), any(HttpEntity.class), any(Class.class)))
-        .willReturn(ResponseEntity.of(Optional.of(kakaoTokenResponse())));
+                .willReturn(ResponseEntity.of(Optional.of(kakaoTokenResponse())));
         //when
         KakaoTokenResponse response = kakaoOAuthClient.token(authCode, FAKE_KAKAO_REST_API_KEY, FAKE_KAKAO_REDIRECT_URI);
         //then

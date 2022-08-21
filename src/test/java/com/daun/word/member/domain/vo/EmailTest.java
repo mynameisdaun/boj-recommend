@@ -2,18 +2,19 @@ package com.daun.word.member.domain.vo;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.*;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class EmailTest {
 
     private static Stream<Arguments> inValidEmail() {
-        return Stream.of (
+        return Stream.of(
                 Arguments.of("plainaddress"),
                 Arguments.of("#@%^%#$@#$@#.com"),
                 Arguments.of("@example.com"),
@@ -36,7 +37,7 @@ class EmailTest {
     }
 
     private static Stream<Arguments> validEmail() {
-        return Stream.of (
+        return Stream.of(
                 Arguments.of("email@example.com"),
                 Arguments.of("firstname.lastname@example.com"),
                 Arguments.of("email@subdomain.example.com"),
@@ -62,14 +63,14 @@ class EmailTest {
                 () -> assertThat(email.getEmail()).isEqualTo(str)
         );
     }
-    
+
     @DisplayName(value = "정책에 위반되는 Email은 사용할 수 없다")
     @MethodSource("inValidEmail")
     @ParameterizedTest
     void create_fail(String str) throws Exception {
         //given&&when&&then
         assertThatThrownBy(() -> {
-           new Email(str);
+            new Email(str);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -16,7 +16,7 @@ public class WordSaveResponse {
         this.korean = korean.getValue();
     }
 
-    public static WordSaveResponse fromWord (Word word) {
+    public static WordSaveResponse fromWord(Word word) {
         return new WordSaveResponse(word.getEnglish(), word.getKorean());
     }
 

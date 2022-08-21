@@ -2,7 +2,10 @@ package com.daun.word.oauth.token.domain;
 
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.SocialType;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 

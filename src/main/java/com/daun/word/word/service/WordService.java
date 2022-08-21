@@ -23,7 +23,7 @@ public class WordService {
 
     public WordSaveResponse save(WordSaveRequest wordSaveRequest) {
         //TODO: 이미 저장되어있는 단어 처리에 대한 응답 정의, 현재 처리는 너무 이상하다고 생각된다.
-        if(wordRepository.findByEnglish(wordSaveRequest.getEnglish()).isPresent()) {
+        if (wordRepository.findByEnglish(wordSaveRequest.getEnglish()).isPresent()) {
             throw new IllegalStateException("이미 저장되어 있는 단어입니다.");
         }
         Word word = new Word(wordSaveRequest.getEnglish(), wordSaveRequest.getKorean());

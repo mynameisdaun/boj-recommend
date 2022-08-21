@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class DescriptionTest {
     private static Stream<Arguments> valid() {
-        return Stream.of (
+        return Stream.of(
                 Arguments.of("tester"),
                 Arguments.of("설명"),
                 Arguments.of("하위루123")
@@ -21,7 +21,7 @@ class DescriptionTest {
     }
 
     private static Stream<Arguments> invalid() {
-        return Stream.of (
+        return Stream.of(
                 Arguments.of(" "),
                 Arguments.of("")
         );

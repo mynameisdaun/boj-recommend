@@ -1,7 +1,6 @@
 package com.daun.word.oauth.dto;
 
 import com.daun.word.member.domain.Member;
-import com.daun.word.member.domain.vo.Nickname;
 import com.daun.word.oauth.token.domain.Token;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class LoginResponseTest {
 
     private static Stream<Arguments> invalid() {
-        return Stream.of (
+        return Stream.of(
                 Arguments.of(member(), null),
                 Arguments.of(null, token())
         );

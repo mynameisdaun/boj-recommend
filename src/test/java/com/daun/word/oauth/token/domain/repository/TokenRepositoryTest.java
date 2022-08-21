@@ -3,7 +3,6 @@ package com.daun.word.oauth.token.domain.repository;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.oauth.token.domain.Token;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -22,10 +21,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 @MybatisTest
 class TokenRepositoryTest {
 
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     @Autowired
     private TokenRepository tokenRepository;
-
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @DisplayName(value = "이메일로 토큰 조회하기")
     @Test
@@ -68,9 +66,9 @@ class TokenRepositoryTest {
         Token token = new Token(
                 new Email("another-tester@weword.com"),
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjA5Nzc4MzEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.Bs9nDgglcyg_IQCcsLQVH48RW1t1-w8QYqkLJissNuU",
-                LocalDateTime.parse("2022-08-20 15:43:51",formatter),
+                LocalDateTime.parse("2022-08-20 15:43:51", formatter),
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjEwMzY1MTEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.uCNJxT-PuD2FNLZcplTULRqu1XO2YEWX_0--35quTGU",
-                LocalDateTime.parse("2022-08-21 08:01:51",formatter),
+                LocalDateTime.parse("2022-08-21 08:01:51", formatter),
                 SocialType.valueOf("W"),
                 "7MP8EHWXFLzHxQsi1YNMXs3KVb1paQBpEPLwZb6QCj1zFwAAAYK54uKs",
                 LocalDateTime.parse("2022-08-20 15:13:51", formatter),

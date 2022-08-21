@@ -1,10 +1,8 @@
 package com.daun.word.workbook.domain;
 
-import com.daun.word.chapter.domain.Chapters;
 import com.daun.word.workbook.domain.vo.Author;
 import com.daun.word.workbook.domain.vo.Description;
 import com.daun.word.workbook.domain.vo.Title;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

@@ -1,9 +1,7 @@
 package com.daun.word.workbook.dto;
 
-import com.daun.word.chapter.domain.Chapter;
 import com.daun.word.chapter.dto.ChapterSaveRequest;
 import com.daun.word.workbook.domain.WorkBook;
-import com.daun.word.chapter.domain.Chapters;
 import com.daun.word.workbook.domain.vo.Author;
 import com.daun.word.workbook.domain.vo.Description;
 import com.daun.word.workbook.domain.vo.Title;

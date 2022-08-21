@@ -1,12 +1,9 @@
 package com.daun.word.chapter.dto;
 
-import com.daun.word.word.domain.Word;
-import com.daun.word.word.domain.Words;
 import com.daun.word.workbook.domain.vo.Title;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 

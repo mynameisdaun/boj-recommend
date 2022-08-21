@@ -14,12 +14,12 @@ class JwtUtilsTest {
     private JwtUtils jwtUtils;
 
     @BeforeEach
-    public void setUp () {
+    public void setUp() {
         this.jwtUtils = new JwtUtils("testaccesskeytestaccesskeytestaccesskeytestaccesskeytestaccesskey",
                 "testrefreshkeytestrefreshkeytestrefreshkeytestrefreshkeytestrefreshkey",
-                new Date(),
                 1800000L,
-                604800000L);
+                604800000L,
+                new Date());
     }
 
     @DisplayName(value = "액세스 토큰을 발급한다")

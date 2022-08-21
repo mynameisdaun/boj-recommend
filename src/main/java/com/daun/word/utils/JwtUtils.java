@@ -1,6 +1,5 @@
 package com.daun.word.utils;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -15,9 +14,9 @@ public class JwtUtils {
 
     private final String accessKey;
     private final String refreshKey;
-    private Date date;
     private final Long accessExpiresIn;
     private final Long refreshExpiresIn;
+    private Date date;
 
     //TODO: AccessToken 정책 정리
     public String accessToken(String email) {

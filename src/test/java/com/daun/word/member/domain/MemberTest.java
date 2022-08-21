@@ -3,7 +3,6 @@ package com.daun.word.member.domain;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
 import com.daun.word.member.domain.vo.SocialType;
-import com.daun.word.member.dto.RegisterRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,14 +15,14 @@ import static com.daun.word.Fixture.Fixture.email;
 import static com.daun.word.Fixture.Fixture.nickname;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class MemberTest {
 
     private static Stream<Arguments> inValid() {
-        return Stream.of (
+        return Stream.of(
                 Arguments.of(null, "fake-password", email(), SocialType.K),
-                Arguments.of(nickname(), null,  email(), SocialType.K),
+                Arguments.of(nickname(), null, email(), SocialType.K),
                 Arguments.of(nickname(), "fake-password", null, SocialType.K),
                 Arguments.of(nickname(), "fake-password", email(), null)
         );

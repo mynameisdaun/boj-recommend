@@ -1,6 +1,5 @@
 package com.daun.word.workbook.domain.vo;
 
-import com.daun.word.member.domain.vo.Nickname;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -10,11 +9,11 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class AuthorTest {
     private static Stream<Arguments> valid() {
-        return Stream.of (
+        return Stream.of(
                 Arguments.of("tester"),
                 Arguments.of("저자명"),
                 Arguments.of("하위루123")
@@ -22,7 +21,7 @@ class AuthorTest {
     }
 
     private static Stream<Arguments> invalid() {
-        return Stream.of (
+        return Stream.of(
                 Arguments.of(" "),
                 Arguments.of("")
         );

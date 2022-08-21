@@ -1,6 +1,5 @@
 package com.daun.word.workbook.dto;
 
-import com.daun.word.chapter.domain.Chapters;
 import com.daun.word.chapter.dto.ChapterSaveResponse;
 import com.daun.word.workbook.domain.WorkBook;
 import lombok.AllArgsConstructor;

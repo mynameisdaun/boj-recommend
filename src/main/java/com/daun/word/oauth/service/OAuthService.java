@@ -22,18 +22,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class OAuthService {
 
+    private final Logger logger = LoggerFactory.getLogger(OAuthService.class);
+    private final MemberService memberService;
+    private final KakaoOAuthClient kakaoOAuthClient;
+    private final TokenService tokenService;
     @Value("${OAuth.kakao.rest_api_key}")
     private String REST_API_KEY;
     @Value("${OAuth.kakao.redirect_uri}")
     private String REDIRECT_URI;
-
-    private final Logger logger = LoggerFactory.getLogger(OAuthService.class);
-
-    private final MemberService memberService;
-
-    private final KakaoOAuthClient kakaoOAuthClient;
-
-    private final TokenService tokenService;
 
     public LoginResponse kakaoLogin(String code) {
         KakaoTokenResponse kakaoTokenResponse = kakaoOAuthClient.token(code, REST_API_KEY, REDIRECT_URI);

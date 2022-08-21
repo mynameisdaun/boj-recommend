@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 @Getter
 @RequiredArgsConstructor
 public class ChapterWordMapping {
-    private Integer id;
     private final Chapter chapter;
     private final Word word;
+    private Integer id;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

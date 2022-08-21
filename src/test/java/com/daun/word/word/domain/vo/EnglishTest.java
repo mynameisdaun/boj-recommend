@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class EnglishTest {
 
     private static Stream<Arguments> invalid() {
-        return Stream.of (
+        return Stream.of(
                 Arguments.of(" "),
                 Arguments.of(""),
                 Arguments.of("test1"),

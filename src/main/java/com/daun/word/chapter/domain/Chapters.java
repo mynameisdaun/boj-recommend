@@ -1,6 +1,5 @@
 package com.daun.word.chapter.domain;
 
-import com.daun.word.word.domain.Word;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

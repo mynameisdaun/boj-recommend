@@ -4,8 +4,6 @@ import com.daun.word.workbook.domain.WorkBook;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
 @Mapper
 public interface WorkBookRepository {

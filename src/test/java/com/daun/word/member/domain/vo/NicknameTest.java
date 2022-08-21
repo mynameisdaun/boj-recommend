@@ -9,11 +9,11 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class NicknameTest {
     private static Stream<Arguments> validNickname() {
-        return Stream.of (
+        return Stream.of(
                 Arguments.of("tester"),
                 Arguments.of("테스터"),
                 Arguments.of("하위루123")
@@ -21,7 +21,7 @@ class NicknameTest {
     }
 
     private static Stream<Arguments> inValidNickname() {
-        return Stream.of (
+        return Stream.of(
                 Arguments.of(" "),
                 Arguments.of("")
         );

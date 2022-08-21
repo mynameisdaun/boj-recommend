@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class RegisterRequestTest {
 
     private static Stream<Arguments> inValid() {
-        return Stream.of (
+        return Stream.of(
                 Arguments.of(null, email(), SocialType.K),
                 Arguments.of(nickname(), null, SocialType.K),
                 Arguments.of(nickname(), email(), null)

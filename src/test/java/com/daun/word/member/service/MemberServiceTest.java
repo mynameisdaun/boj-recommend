@@ -35,7 +35,7 @@ class MemberServiceTest {
     MemberRepository memberRepository;
 
     private static Stream<Arguments> invalid_findByEmailAndSocialType() {
-        return Stream.of (
+        return Stream.of(
                 Arguments.of(null, SocialType.K),
                 Arguments.of(email(), null)
         );
