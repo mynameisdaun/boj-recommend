@@ -4,6 +4,7 @@ import com.daun.word.chapter.domain.Chapters;
 import com.daun.word.workbook.domain.vo.Author;
 import com.daun.word.workbook.domain.vo.Description;
 import com.daun.word.workbook.domain.vo.Title;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +21,14 @@ public class WorkBook {
     private final String coverImageUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public WorkBook(Integer id, Title title, Author author, Description description, String coverImageUrl) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.coverImageUrl = coverImageUrl;
+    }
 
     @Override
     public boolean equals(Object o) {

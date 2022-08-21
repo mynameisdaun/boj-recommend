@@ -1,5 +1,6 @@
 package com.daun.word.Fixture;
 
+import com.daun.word.chapter.domain.Chapter;
 import com.daun.word.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.infra.kakao.dto.KakaoTokenResponse;
 import com.daun.word.member.domain.Member;
@@ -10,11 +11,18 @@ import com.daun.word.oauth.token.domain.Token;
 import com.daun.word.oauth.token.domain.TokenFactory;
 import com.daun.word.utils.JwtUtils;
 import com.daun.word.word.domain.Word;
+import com.daun.word.word.domain.Words;
 import com.daun.word.word.domain.vo.English;
 import com.daun.word.word.domain.vo.Korean;
+import com.daun.word.workbook.domain.WorkBook;
+import com.daun.word.workbook.domain.vo.Author;
+import com.daun.word.workbook.domain.vo.Description;
+import com.daun.word.workbook.domain.vo.Title;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Fixture {
     public static String FAKE_KAKAO_REST_API_KEY = "fake-api-key";
@@ -73,6 +81,19 @@ public class Fixture {
     }
 
     public static Word word() {
-        return new Word(new English("word"), new Korean("단어"));
+        return new Word(1, new English("word"), new Korean("단어"));
+    }
+
+    public static WorkBook workbook() {
+        return new WorkBook(
+                Integer.valueOf(1),
+                new Title("재밌는 단어장"),
+                new Author("운영자"),
+                new Description("아주 친절한 설명"),
+                "https://weword.com/fake-image");
+    }
+
+    public static Chapter chapter() {
+        return new Chapter(1, new Title("Day 1"), 1,  new Words(new ArrayList<>(Arrays.asList(word()))));
     }
 }
