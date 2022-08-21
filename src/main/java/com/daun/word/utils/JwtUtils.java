@@ -4,61 +4,61 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class JwtUtils {
 
     private final String accessKey;
     private final String refreshKey;
+    private Date date;
     private final Long accessExpiresIn;
     private final Long refreshExpiresIn;
 
     //TODO: AccessToken 정책 정리
     public String accessToken(String email) {
-        Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuer("word")
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + getAccessExpiresIn()))
+                .setIssuedAt(this.date)
+                .setExpiration(new Date(this.date.getTime() + getAccessExpiresIn()))
                 .claim("email", email)
                 .signWith(SignatureAlgorithm.HS256, accessKey)
                 .compact();
     }
 
     public String refreshToken(String email) {
-        Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuer("word")
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + getRefreshExpiresIn()))
+                .setIssuedAt(this.date)
+                .setExpiration(new Date(this.date.getTime() + getRefreshExpiresIn()))
                 .claim("email", email)
                 .signWith(SignatureAlgorithm.HS256, refreshKey)
                 .compact();
     }
 
-    public Claims verifyAccess(String authorizationHeader) {
-        validationAuthorizationHeader(authorizationHeader); // (1)
-        String token = extractToken(authorizationHeader); // (2)
-        return Jwts.parser()
-                .setSigningKey(accessKey) // (3)
-                .parseClaimsJws(token) // (4)
-                .getBody();
-    }
-
-    public Claims verifyRefresh(String authorizationHeader) {
-        validationAuthorizationHeader(authorizationHeader); // (1)
-        String token = extractToken(authorizationHeader); // (2)
-        return Jwts.parser()
-                .setSigningKey(refreshKey) // (3)
-                .parseClaimsJws(token) // (4)
-                .getBody();
-    }
+//    public Claims verifyAccess(String authorizationHeader) {
+//        validationAuthorizationHeader(authorizationHeader); // (1)
+//        String token = extractToken(authorizationHeader); // (2)
+//        return Jwts.parser()
+//                .setSigningKey(accessKey) // (3)
+//                .parseClaimsJws(token) // (4)
+//                .getBody();
+//    }
+//
+//    public Claims verifyRefresh(String authorizationHeader) {
+//        validationAuthorizationHeader(authorizationHeader); // (1)
+//        String token = extractToken(authorizationHeader); // (2)
+//        return Jwts.parser()
+//                .setSigningKey(refreshKey) // (3)
+//                .parseClaimsJws(token) // (4)
+//                .getBody();
+//    }
 
     public Long getAccessExpiresIn() {
         return accessExpiresIn;
