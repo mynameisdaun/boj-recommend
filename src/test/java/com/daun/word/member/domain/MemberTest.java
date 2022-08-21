@@ -37,10 +37,10 @@ class MemberTest {
         //then
         assertThat(member).isNotNull();
         assertAll(
-                () -> assertThat(member.getEmail()).isEqualTo(email().getValue()),
+                () -> assertThat(member.getEmail()).isEqualTo(email()),
                 () -> assertThat(member.getPassword()).isEqualTo("fake-password"),
-                () -> assertThat(member.getNickname()).isEqualTo(nickname().getValue()),
-                () -> assertThat(member.getSocialType()).isEqualTo(SocialType.K.name())
+                () -> assertThat(member.getNickname()).isEqualTo(nickname()),
+                () -> assertThat(member.getSocialType()).isEqualTo(SocialType.K)
         );
 
     }

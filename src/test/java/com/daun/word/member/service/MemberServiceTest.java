@@ -53,9 +53,9 @@ class MemberServiceTest {
         assertThat(registered).isNotNull();
         assertAll(
                 () -> assertThat(registered).isEqualTo(new Member(email(), "fake-password", nickname(), SocialType.K)),
-                () -> assertThat(registered.getEmail()).isEqualTo(email().getValue()),
-                () -> assertThat(registered.getNickname()).isEqualTo(nickname().getValue()),
-                () -> assertThat(registered.getSocialType()).isEqualTo(SocialType.K.name())
+                () -> assertThat(registered.getEmail()).isEqualTo(email()),
+                () -> assertThat(registered.getNickname()).isEqualTo(nickname()),
+                () -> assertThat(registered.getSocialType()).isEqualTo(SocialType.K)
         );
     }
 
