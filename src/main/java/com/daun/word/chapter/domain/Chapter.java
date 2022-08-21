@@ -22,4 +22,11 @@ public class Chapter {
         this.title = title;
         this.words = words;
     }
+
+    public Chapter(Integer id, Title title, Integer workBookId, Words words) {
+        this.id = id;
+        this.title = title;
+        this.workBookId = workBookId;
+        this.words = words;
+    }
 }

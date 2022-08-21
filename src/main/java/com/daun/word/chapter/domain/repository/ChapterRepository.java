@@ -2,9 +2,11 @@ package com.daun.word.chapter.domain.repository;
 
 import com.daun.word.chapter.domain.Chapter;
 import com.daun.word.chapter.domain.vo.ChapterWordMapping;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Mapper
 public interface ChapterRepository {
 
     /* 챕터 저장*/
