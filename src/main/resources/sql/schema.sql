@@ -81,4 +81,70 @@ create table chapter_word_mapping
     FOREIGN KEY (chapter_id) REFERENCES chapter (id)
 ) comment '챕터 단어 매핑';
 
+/* 22.08.22 회원-단어장 매핑 */
+create table member_workbook_mapping
+(
+    id int NOT NULL AUTO_INCREMENT PRIMARY KEY comment '회원 - 단어장 매핑 구분자(seq)',
+    member_id int not null comment '회원 구분자(seq)',
+    workbook_id int not null comment '단어장 구분자(seq)',
+    created_at datetime     not null default current_timestamp comment '데이터 생성일시',
+    updated_at datetime     not null default current_timestamp comment '데이터 수정일시',
+    FOREIGN KEY (member_id) REFERENCES member(id),
+    FOREIGN KEY (workbook_id) REFERENCES workbook(id)
+) comment '회원 별 단어장';
+
+/* 22.08.22 과제 */
+create table assignment
+(
+    id int not null AUTO_INCREMENT PRIMARY KEY comment '과제 구분자(seq)',
+    workbook_id int not null comment '단어장 구분자(seq)',
+    assign_from varchar(100) not null comment '과제를 만든 회원 email',
+    assign_to   varchar(100) not null comment '과제가 할당된 회원 email',
+    FOREIGN KEY (workbook_id) REFERENCES workbook(id),
+    FOREIGN KEY (assign_from) REFERENCES member(email),
+    FOREIGN KEY (assign_to) REFERENCES member(email)
+) comment '과제';
+
+/* 22.08.22 회원-단어장 매핑 */
+create table member_workbook_mapping
+(
+    id          int      NOT NULL AUTO_INCREMENT PRIMARY KEY comment '회원 - 단어장 매핑 구분자(seq)',
+    member_id   int      not null comment '회원 구분자(seq)',
+    workbook_id int      not null comment '단어장 구분자(seq)',
+    created_at  datetime not null default current_timestamp comment '데이터 생성일시',
+    updated_at  datetime not null default current_timestamp comment '데이터 수정일시',
+    FOREIGN KEY (member_id) REFERENCES member (id),
+    FOREIGN KEY (workbook_id) REFERENCES workbook (id)
+) comment '회원 단어장 매핑';
+
+/* 22.08.22 과제 */
+create table assignment
+(
+    id          int          not null AUTO_INCREMENT PRIMARY KEY comment '과제 구분자(seq)',
+    workbook_id int          not null comment '단어장 구분자(seq)',
+    assign_from varchar(100) not null comment '과제를 만든 회원 email',
+    assign_to   varchar(100) not null comment '과제가 할당된 회원 email',
+    FOREIGN KEY (workbook_id) REFERENCES workbook (id),
+    FOREIGN KEY (assign_from) REFERENCES member (email),
+    FOREIGN KEY (assign_to) REFERENCES member (email)
+) comment '과제';
+
+/* 22.08.22 과제 상세 정보 */
+create table assignment_detail
+(
+    id                int      not null AUTO_INCREMENT PRIMARY KEY comment '과제 상세정보 구분자(seq)',
+    assignment_id     int      not null comment '과제 구분자(seq)',
+    chapter_id        int      not null comment '챕터 구분자(seq)',
+    start_datetime    datetime not null comment '과제 시작일시',
+    end_datetime      datetime not null comment '과제 종료일시',
+    openYn            char(1)  not null default 'N' comment '과제 열람 여부',
+    open_datetime     datetime comment '과제 열람 일시',
+    completeYn        char(1)  not null default 'N' comment '과제 제출 여부',
+    complete_datetime datetime comment '과제 제출 일시',
+    quiz              text comment '문제 원문',
+    submission        text comment '과제 제출본',
+    FOREIGN KEY (assignment_id) REFERENCES assignment (id),
+    FOREIGN KEY (chapter_id) REFERENCES chapter (id)
+) comment '과제 상세 정보';
+
 
