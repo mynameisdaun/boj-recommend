@@ -12,6 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static com.daun.word.Fixture.Fixture.word;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -35,7 +37,7 @@ class WordServiceTest {
         //given
         WordSaveRequest request = new WordSaveRequest(word().getEnglish().getValue(), word().getKorean().getValue());
         given(wordRepository.findByEnglish(any(English.class)))
-                .willReturn(null);
+                .willReturn(Optional.empty());
         //when
         WordSaveResponse response = wordService.save(request);
         //then
@@ -54,7 +56,7 @@ class WordServiceTest {
         //given
         WordSaveRequest request = new WordSaveRequest(word().getEnglish().getValue(), word().getKorean().getValue());
         given(wordRepository.findByEnglish(word().getEnglish()))
-                .willReturn(word());
+                .willReturn(Optional.of(word()));
         //when&&then
         assertThatThrownBy(() -> {
             wordService.save(request);
