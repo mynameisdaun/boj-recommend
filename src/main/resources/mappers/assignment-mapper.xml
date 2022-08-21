@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.daun.word.assignment.domain.repository.AssignmentRepository">
 
-    <insert id="save" parameterType="com.daun.word.assignment.domain.Assignment" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="save" parameterType="com.daun.word.assignment.domain.Assignment" useGeneratedKeys="true" keyColumn="id"
+            keyProperty="id">
         INSERT INTO assignment
         (
         workbook_id,
@@ -13,15 +14,44 @@
         (
         #{assignment.workbookId},
         #{assignment.assignFrom.value},
-        #{assignment.assignTo.value},
+        #{assignment.assignTo.value}
         )
         <selectKey keyColumn="id,created_at,updated_at" keyProperty="id,createdAt,updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
             SELECT assignment.id,
-                   assignment.created_at,
-                   assignment.updated_at
-              FROM assignment
-             WHERE assignment.id = LAST_INSERT_ID();
+            assignment.created_at,
+            assignment.updated_at
+            FROM assignment
+            WHERE assignment.id = LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <insert id="saveDetail" parameterType="com.daun.word.assignment.domain.AssignmentDetail" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO assignment_detail
+        (
+        assignment_id,
+        chapter_id,
+        start_date_time,
+        end_date_time,
+        quiz
+        )
+        VALUES
+        (
+        #{detail.assignmentId},
+        #{detail.chapterId},
+        #{detail.startDateTime},
+        #{detail.endDateTime},
+        #{detail.quiz}
+        )
+        <selectKey keyColumn="id,open_yn,complete_yn,created_at,updated_at" keyProperty="id,openYn,completeYn,createdAt,updatedAt"
+                   resultType="java.util.HashMap" order="AFTER">
+            SELECT assignment_detail.id,
+                   assignment_detail.open_yn,
+                   assignment_detail.complete_yn,
+                   assignment_detail.created_at,
+                   assignment_detail.updated_at
+              FROM assignment_detail
+             WHERE assignment_detail.id = LAST_INSERT_ID();
         </selectKey>
     </insert>
 

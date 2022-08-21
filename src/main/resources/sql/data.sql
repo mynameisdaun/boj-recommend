@@ -1,16 +1,16 @@
 /* 회원*/
 
 INSERT INTO member (email, password, nickname, social_type)
-VALUES ('tester@weword.com', 'fake-password', '테스터', 'W');
+VALUES ('tester1@weword.com', 'fake-password', '테스터', 'W');
 
 INSERT INTO member(email, password, nickname, social_type)
-VALUES ('another-tester@weword.com', 'fake-password', '테스터2', 'W');
+VALUES ('tester2@weword.com', 'fake-password', '테스터2', 'W');
 
 /* 토큰 */
 INSERT INTO token (member_email, access_token, access_token_expired_date, refresh_token, refresh_token_expired_date,
                    member_social_type, social_access_token, social_access_token_expired_date, social_refresh_token,
                    social_refresh_token_expired_date)
-VALUES ('tester@weword.com',
+VALUES ('tester1@weword.com',
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjA5Nzc4MzEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.Bs9nDgglcyg_IQCcsLQVH48RW1t1-w8QYqkLJissNuU',
         '2022-08-20 15:43:51',
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjEwMzY1MTEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.uCNJxT-PuD2FNLZcplTULRqu1XO2YEWX_0--35quTGU',
@@ -80,6 +80,10 @@ INSERT INTO chapter_word_mapping (chapter_id, word_id)
 VALUES('3', '11');
 INSERT INTO chapter_word_mapping (chapter_id, word_id)
 VALUES('3', '12');
+
+/* 과제 */
+INSERT INTO assignment (workbook_id, assign_from, assign_to)
+VALUES('1', 'tester1@weword.com', 'tester2@weword.com');
 
 
 

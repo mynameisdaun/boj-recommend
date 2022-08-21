@@ -1,5 +1,6 @@
 package com.daun.word.Fixture;
 
+import com.daun.word.assignment.domain.Assignment;
 import com.daun.word.chapter.domain.Chapter;
 import com.daun.word.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.infra.kakao.dto.KakaoTokenResponse;
@@ -16,6 +17,7 @@ import com.daun.word.workbook.domain.WorkBook;
 import com.daun.word.workbook.domain.vo.Author;
 import com.daun.word.workbook.domain.vo.Description;
 import com.daun.word.workbook.domain.vo.Title;
+import org.springframework.expression.spel.ast.Assign;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,7 +30,7 @@ public class Fixture {
     private static Token token;
 
     public static Email email() {
-        return new Email("tester@weword.com");
+        return new Email("tester1@weword.com");
     }
 
     public static Nickname nickname() {
@@ -36,8 +38,13 @@ public class Fixture {
     }
 
     public static Member member() {
-        Member member = new Member(email(), "fake-password", nickname(), SocialType.W);
-        return member;
+        LocalDateTime now = LocalDateTime.now();
+        return new Member(1, new Email("tester1@weword.com"), "fake-password", nickname(), SocialType.W, now, now);
+    }
+
+    public static Member another_member() {
+        LocalDateTime now = LocalDateTime.now();
+        return new Member(2, new Email("tester2@weword.com"), "fake-password", nickname(), SocialType.W, now, now);
     }
 
     public static KakaoTokenResponse kakaoTokenResponse() {
@@ -93,5 +100,14 @@ public class Fixture {
 
     public static Chapter chapter() {
         return new Chapter(1, new Title("Day 1"), 1, new Words(new ArrayList<>(Arrays.asList(word()))));
+    }
+
+    public static Assignment assignment() {
+        return new Assignment(
+                Integer.valueOf(1),
+                workbook().getId(),
+                member().getEmail(),
+                another_member().getEmail()
+        );
     }
 }

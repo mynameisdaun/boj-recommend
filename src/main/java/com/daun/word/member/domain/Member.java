@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 
 import static com.daun.word.utils.StringUtils.isNullOrBlank;
 
-
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Getter
 @ToString
 @EqualsAndHashCode(exclude = {"id", "password", "createdAt", "updatedAt", "nickname"})
@@ -24,7 +24,6 @@ public class Member {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    //TODO: email , password VO , nickName vo 생성
     public Member(Email email, String password, Nickname nickname, SocialType socialType) {
         if (email == null || isNullOrBlank(password) || nickname == null || socialType == null) {
             throw new IllegalArgumentException("이메일, 비밀번호, 닉네임, 소셜타입은 빈 값이 올 수 없습니다!");
