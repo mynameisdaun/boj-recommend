@@ -21,13 +21,13 @@ CREATE TABLE token
     access_token_expired_date         datetime comment 'Api 액세스 토큰 만료일시',
     refresh_token                     varchar(255) comment 'Api 리프레쉬 토큰',
     refresh_token_expired_date        datetime comment 'Api 리프레쉬 토큰 만료일시',
-    member_social_type                char(1)  not null comment '회원가입 시 사용한 Social Portal, W: 자체회원, K: 카카오 / G: 구글 / N : 네이버',
+    member_social_type                char(1)             not null comment '회원가입 시 사용한 Social Portal, W: 자체회원, K: 카카오 / G: 구글 / N : 네이버',
     social_access_token               varchar(255) comment 'Social에서 발급 받은 액세스 토큰',
     social_access_token_expired_date  datetime comment 'Social 액세스 토큰 만료일시',
     social_refresh_token              varchar(255) comment 'Social에서 발급 받은 리프레쉬 토큰',
     social_refresh_token_expired_date datetime comment 'Social에서 발급 받은 리프레쉬 토큰 만료일시',
-    created_at                        datetime not null default current_timestamp comment '데이터 생성일시',
-    updated_at                        datetime not null default current_timestamp comment '데이터 수정일시',
+    created_at                        datetime            not null default current_timestamp comment '데이터 생성일시',
+    updated_at                        datetime            not null default current_timestamp comment '데이터 수정일시',
     PRIMARY KEY (member_email),
     FOREIGN KEY (member_email) REFERENCES member (email)
 ) comment '토큰';
@@ -71,39 +71,15 @@ CREATE TABLE word
 /* 22.08.18 챕터 단어 매핑 테이블 */
 create table chapter_word_mapping
 (
-    id         int          NOT NULL AUTO_INCREMENT PRIMARY KEY comment '챕터 단어 매핑 구분자(seq)',
-    chapter_id int          not null comment '챕터 구분자(seq)',
-    word_id    int          not null comment '단어 구분자(seq)',
-    english    varchar(100) not null comment '영어 표기',
-    created_at datetime     not null default current_timestamp comment '데이터 생성일시',
-    updated_at datetime     not null default current_timestamp comment '데이터 수정일시',
-    FOREIGN KEY (word_id)    REFERENCES word (id),
+    id         int      NOT NULL AUTO_INCREMENT PRIMARY KEY comment '챕터 단어 매핑 구분자(seq)',
+    chapter_id int      not null comment '챕터 구분자(seq)',
+    word_id    int      not null comment '단어 구분자(seq)',
+    created_at datetime not null default current_timestamp comment '데이터 생성일시',
+    updated_at datetime not null default current_timestamp comment '데이터 수정일시',
+    FOREIGN KEY (word_id) REFERENCES word (id),
     FOREIGN KEY (chapter_id) REFERENCES chapter (id)
 ) comment '챕터 단어 매핑';
 
-/* 22.08.22 회원-단어장 매핑 */
-create table member_workbook_mapping
-(
-    id int NOT NULL AUTO_INCREMENT PRIMARY KEY comment '회원 - 단어장 매핑 구분자(seq)',
-    member_id int not null comment '회원 구분자(seq)',
-    workbook_id int not null comment '단어장 구분자(seq)',
-    created_at datetime     not null default current_timestamp comment '데이터 생성일시',
-    updated_at datetime     not null default current_timestamp comment '데이터 수정일시',
-    FOREIGN KEY (member_id) REFERENCES member(id),
-    FOREIGN KEY (workbook_id) REFERENCES workbook(id)
-) comment '회원 별 단어장';
-
-/* 22.08.22 과제 */
-create table assignment
-(
-    id int not null AUTO_INCREMENT PRIMARY KEY comment '과제 구분자(seq)',
-    workbook_id int not null comment '단어장 구분자(seq)',
-    assign_from varchar(100) not null comment '과제를 만든 회원 email',
-    assign_to   varchar(100) not null comment '과제가 할당된 회원 email',
-    FOREIGN KEY (workbook_id) REFERENCES workbook(id),
-    FOREIGN KEY (assign_from) REFERENCES member(email),
-    FOREIGN KEY (assign_to) REFERENCES member(email)
-) comment '과제';
 
 /* 22.08.22 회원-단어장 매핑 */
 create table member_workbook_mapping
@@ -124,6 +100,8 @@ create table assignment
     workbook_id int          not null comment '단어장 구분자(seq)',
     assign_from varchar(100) not null comment '과제를 만든 회원 email',
     assign_to   varchar(100) not null comment '과제가 할당된 회원 email',
+    created_at  datetime     not null default current_timestamp comment '데이터 생성일시',
+    updated_at  datetime     not null default current_timestamp comment '데이터 수정일시',
     FOREIGN KEY (workbook_id) REFERENCES workbook (id),
     FOREIGN KEY (assign_from) REFERENCES member (email),
     FOREIGN KEY (assign_to) REFERENCES member (email)
@@ -137,14 +115,17 @@ create table assignment_detail
     chapter_id        int      not null comment '챕터 구분자(seq)',
     start_datetime    datetime not null comment '과제 시작일시',
     end_datetime      datetime not null comment '과제 종료일시',
-    openYn            char(1)  not null default 'N' comment '과제 열람 여부',
+    open_yn           char(1)  not null default 'N' comment '과제 열람 여부',
     open_datetime     datetime comment '과제 열람 일시',
-    completeYn        char(1)  not null default 'N' comment '과제 제출 여부',
+    complete_yn       char(1)  not null default 'N' comment '과제 제출 여부',
     complete_datetime datetime comment '과제 제출 일시',
     quiz              text comment '문제 원문',
     submission        text comment '과제 제출본',
+    created_at        datetime not null default current_timestamp comment '데이터 생성일시',
+    updated_at        datetime not null default current_timestamp comment '데이터 수정일시',
     FOREIGN KEY (assignment_id) REFERENCES assignment (id),
     FOREIGN KEY (chapter_id) REFERENCES chapter (id)
 ) comment '과제 상세 정보';
+
 
 

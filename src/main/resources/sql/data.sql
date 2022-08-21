@@ -20,9 +20,28 @@ VALUES ('tester@weword.com',
 /* 단어 */
 INSERT INTO word (english, korean)
 VALUES ('we', '우리');
-
 INSERT INTO word (english, korean)
 VALUES ('word', '단어');
+INSERT INTO word (english, korean)
+VALUES ('hi', '안녕');
+INSERT INTO word (english, korean)
+VALUES ('hello', '안녕하세요');
+INSERT INTO word (english, korean)
+VALUES ('name', '이름');
+INSERT INTO word (english, korean)
+VALUES ('you', '너');
+INSERT INTO word (english, korean)
+VALUES ('love', '사랑하다');
+INSERT INTO word (english, korean)
+VALUES ('get', '얻다');
+INSERT INTO word (english, korean)
+VALUES ('post', '게시하다');
+INSERT INTO word (english, korean)
+VALUES ('put', '놓다');
+INSERT INTO word (english, korean)
+VALUES ('delete', '삭제하다');
+INSERT INTO word (english, korean)
+VALUES ('option', '선택');
 
 /* 단어장 */
 INSERT INTO workbook (title, author, description, cover_image_url)
@@ -31,6 +50,36 @@ VALUES ('재밌는 단어장', '운영자', '아주 친절한 설명', 'https://
 /* 챕터 */
 INSERT INTO chapter (title, workbook_id)
 VALUES ('Day 1', '1');
+INSERT INTO chapter (title, workbook_id)
+VALUES ('Day 2', '1');
+INSERT INTO chapter (title, workbook_id)
+VALUES ('Day 3', '1');
+
+/* 챕터_단어_매핑 */
+INSERT INTO chapter_word_mapping (chapter_id, word_id)
+VALUES('1', '1');
+INSERT INTO chapter_word_mapping (chapter_id, word_id)
+VALUES('1', '2');
+INSERT INTO chapter_word_mapping (chapter_id, word_id)
+VALUES('1', '3');
+INSERT INTO chapter_word_mapping (chapter_id, word_id)
+VALUES('1', '4');
+INSERT INTO chapter_word_mapping (chapter_id, word_id)
+VALUES('2', '5');
+INSERT INTO chapter_word_mapping (chapter_id, word_id)
+VALUES('2', '6');
+INSERT INTO chapter_word_mapping (chapter_id, word_id)
+VALUES('2', '7');
+INSERT INTO chapter_word_mapping (chapter_id, word_id)
+VALUES('2', '8');
+INSERT INTO chapter_word_mapping (chapter_id, word_id)
+VALUES('3', '9');
+INSERT INTO chapter_word_mapping (chapter_id, word_id)
+VALUES('3', '10');
+INSERT INTO chapter_word_mapping (chapter_id, word_id)
+VALUES('3', '11');
+INSERT INTO chapter_word_mapping (chapter_id, word_id)
+VALUES('3', '12');
 
 
 
