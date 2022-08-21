@@ -28,14 +28,12 @@
         INSERT INTO chapter_word_mapping
         (
         chapter_id,
-        word_id,
-        english
+        word_id
         )
         VALUES
         (
         #{chapter.id},
-        #{word.id},
-        #{word.english.value}
+        #{word.id}
         )
         <selectKey keyColumn="id,created_at,updated_at" keyProperty="id,createdAt,updatedAt"
                    resultType="java.util.HashMap" order="AFTER">

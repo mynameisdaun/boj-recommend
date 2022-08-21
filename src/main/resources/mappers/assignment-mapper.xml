@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daun.word.assignment.domain.repository.AssignmentRepository">
+
+    <insert id="save" parameterType="com.daun.word.assignment.domain.Assignment" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO assignment
+        (
+        workbook_id,
+        assign_from,
+        assign_to
+        )
+        VALUES
+        (
+        #{assignment.workbookId},
+        #{assignment.assignFrom.value},
+        #{assignment.assignTo.value},
+        )
+        <selectKey keyColumn="id,created_at,updated_at" keyProperty="id,createdAt,updatedAt"
+                   resultType="java.util.HashMap" order="AFTER">
+            SELECT assignment.id,
+                   assignment.created_at,
+                   assignment.updated_at
+              FROM assignment
+             WHERE assignment.id = LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+</mapper>
