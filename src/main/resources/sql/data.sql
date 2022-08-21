@@ -6,6 +6,8 @@ VALUES ('tester1@weword.com', 'fake-password', '테스터', 'W');
 INSERT INTO member(email, password, nickname, social_type)
 VALUES ('tester2@weword.com', 'fake-password', '테스터2', 'W');
 
+INSERT INTO member(email, password, nickname, social_type)
+VALUES ('tester3@weword.com', 'fake-password', '테스터3', 'W');
 /* 토큰 */
 INSERT INTO token (member_email, access_token, access_token_expired_date, refresh_token, refresh_token_expired_date,
                    member_social_type, social_access_token, social_access_token_expired_date, social_refresh_token,

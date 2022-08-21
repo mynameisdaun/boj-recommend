@@ -29,7 +29,7 @@ class TokenRepositoryTest {
     @Test
     void findByEmail() throws Exception {
         //given&&when
-        Token token = tokenRepository.findByEmail(token().getMemberEmail())
+        Token token = tokenRepository.findByEmail(new Email("tester1@weword.com"))
                 .orElseThrow(NoSuchElementException::new);
         //when
         assertThat(token).isNotNull();
@@ -64,7 +64,7 @@ class TokenRepositoryTest {
     void save() throws Exception {
         //given
         Token token = new Token(
-                new Email("another-tester@weword.com"),
+                new Email("tester3@weword.com"),
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjA5Nzc4MzEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.Bs9nDgglcyg_IQCcsLQVH48RW1t1-w8QYqkLJissNuU",
                 LocalDateTime.parse("2022-08-20 15:43:51", formatter),
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjEwMzY1MTEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.uCNJxT-PuD2FNLZcplTULRqu1XO2YEWX_0--35quTGU",
@@ -90,7 +90,7 @@ class TokenRepositoryTest {
         LocalDateTime updatedSocialAccessExpiredDate = LocalDateTime.parse("2022-08-25 15:43:51", formatter);
         LocalDateTime updatedSocialRefreshExpiredDate = LocalDateTime.parse("2022-08-25 15:43:51", formatter);
         Token token = new Token(
-                token().getMemberEmail(),
+                new Email("tester1@weword.com"),
                 "new-access",
                 updatedAccessExpiredDate,
                 "new-refresh",
