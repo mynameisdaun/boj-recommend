@@ -10,9 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
 @Service
 @AllArgsConstructor
 public class MemberService {
@@ -35,6 +32,6 @@ public class MemberService {
         if(email == null || socialType == null) {
             throw new IllegalArgumentException("해당 조회를 위해서 이메일과 소셜 타입은 필수값 입니다.");
         }
-        return memberRepository.findMemberByEmailAndSocialType(email, socialType).orElse(null);
+        return memberRepository.findByEmailAndSocialType(email, socialType).orElse(null);
     }
 }

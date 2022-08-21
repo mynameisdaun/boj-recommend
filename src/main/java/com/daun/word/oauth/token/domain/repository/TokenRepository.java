@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Mapper
 @Repository
 public interface TokenRepository {
@@ -14,5 +16,5 @@ public interface TokenRepository {
     Integer save(@Param("token") Token token);
 
     /* 멤버 ID(구분값)으로 토큰 조회 */
-    TokenDTO getTokenByEmail(@Param("email") Email email);
+    Optional<Token> findByEmail(@Param("email") Email email);
 }

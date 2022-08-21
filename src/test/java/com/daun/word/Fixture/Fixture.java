@@ -13,6 +13,9 @@ import com.daun.word.word.domain.Word;
 import com.daun.word.word.domain.vo.English;
 import com.daun.word.word.domain.vo.Korean;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Fixture {
     public static String FAKE_KAKAO_REST_API_KEY = "fake-api-key";
     public static String FAKE_KAKAO_REDIRECT_URI = "fake-redirect-uri";
@@ -54,10 +57,19 @@ public class Fixture {
     }
 
     public static Token token() {
-        if (token == null) {
-            token = new TokenFactory(new JwtUtils("longerlongerlongerfakeaccesskeyas2ef2f2sc11212", "fakeafakakwefjwoef1d131e1diejffakerefreshkey", 6000L, 60000L)).generateToken(member(), kakaoTokenResponse());
-        }
-        return token;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return new Token(
+                new Email("tester@weword.com"),
+                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjA5Nzc4MzEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.Bs9nDgglcyg_IQCcsLQVH48RW1t1-w8QYqkLJissNuU",
+                LocalDateTime.parse("2022-08-20 15:43:51",formatter),
+                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjEwMzY1MTEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.uCNJxT-PuD2FNLZcplTULRqu1XO2YEWX_0--35quTGU",
+                LocalDateTime.parse("2022-08-21 08:01:51",formatter),
+                SocialType.valueOf("W"),
+                "7MP8EHWXFLzHxQsi1YNMXs3KVb1paQBpEPLwZb6QCj1zFwAAAYK54uKs",
+                LocalDateTime.parse("2022-08-20 15:13:51", formatter),
+                "oOdpDpTD3juuQy7ZVuEBnYkDH3cWJmM_lUie3eUcCj1zFwAAAYK54uKq",
+                LocalDateTime.parse("2022-10-19 15:13:50", formatter)
+        );
     }
 
     public static Word word() {

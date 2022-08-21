@@ -50,7 +50,7 @@ class MemberRepositoryTest {
     @Test
     void findByEmailAndSocialType() throws Exception {
         //given&&when
-        Member member = memberRepository.findMemberByEmailAndSocialType(member().getEmail(), member().getSocialType())
+        Member member = memberRepository.findByEmailAndSocialType(member().getEmail(), member().getSocialType())
                 .orElseThrow(NoSuchElementException::new);
         //then
         assertThat(member).isNotNull();
@@ -67,7 +67,7 @@ class MemberRepositoryTest {
     void findByEmailAndSocialType_no_exist_email() throws Exception {
         //given&&when&&then
         assertThatThrownBy(() -> {
-            memberRepository.findMemberByEmailAndSocialType(new Email("no-exist@weword.com"), SocialType.W)
+            memberRepository.findByEmailAndSocialType(new Email("no-exist@weword.com"), SocialType.W)
                     .orElseThrow(NoSuchElementException::new);
         }).isInstanceOf(NoSuchElementException.class);
     }
@@ -77,7 +77,7 @@ class MemberRepositoryTest {
     void findByEmailAndSocialType_wrong_social_type() throws Exception {
         //given&&when&&then
         assertThatThrownBy(() -> {
-            memberRepository.findMemberByEmailAndSocialType(member().getEmail(), SocialType.N)
+            memberRepository.findByEmailAndSocialType(member().getEmail(), SocialType.N)
                     .orElseThrow(NoSuchElementException::new);
         }).isInstanceOf(NoSuchElementException.class);
     }

@@ -18,38 +18,38 @@
         )
         VALUES
         (
-            #{email},
-            #{accessToken},
-            #{accessTokenExpiredDate},
-            #{refreshToken},
-            #{refreshTokenExpiredDate},
-            #{memberSocialType},
-            #{socialAccessToken},
-            #{socialAccessTokenExpiredDate},
-            #{socialRefreshToken},
-            #{socialRefreshTokenExpiredDate}
+            #{token.memberEmail.value},
+            #{token.accessToken},
+            #{token.accessTokenExpiredDate},
+            #{token.refreshToken},
+            #{token.refreshTokenExpiredDate},
+            #{token.memberSocialType},
+            #{token.socialAccessToken},
+            #{token.socialAccessTokenExpiredDate},
+            #{token.socialRefreshToken},
+            #{token.socialRefreshTokenExpiredDate}
         )
         ON DUPLICATE KEY UPDATE
-            access_token = #{accessToken},
-            access_token_expired_date = #{accessTokenExpiredDate},
-            refresh_token = #{refreshToken},
-            refresh_token_expired_date = #{refreshTokenExpiredDate},
-            member_social_type = #{memberSocialType},
-            social_access_token = #{socialAccessToken},
-            social_access_token_expired_date = #{socialAccessTokenExpiredDate},
-            social_refresh_token = #{socialRefreshToken},
-            social_refresh_token_expired_date = #{socialRefreshTokenExpiredDate},
+            access_token = #{token.accessToken},
+            access_token_expired_date = #{token.accessTokenExpiredDate},
+            refresh_token = #{token.refreshToken},
+            refresh_token_expired_date = #{token.refreshTokenExpiredDate},
+            member_social_type = #{token.memberSocialType},
+            social_access_token = #{token.socialAccessToken},
+            social_access_token_expired_date = #{token.socialAccessTokenExpiredDate},
+            social_refresh_token = #{token.socialRefreshToken},
+            social_refresh_token_expired_date = #{token.socialRefreshTokenExpiredDate},
             updated_at = SYSDATE()
         <selectKey keyColumn="createdAt,updatedAt" keyProperty="createdAt,updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
             SELECT created_at as createdAt,
                    updated_at as updatedAt
               FROM token
-             WHERE token.member_email =#{email}
+             WHERE token.member_email =#{token.memberEmail.value}
         </selectKey>
     </insert>
 
-    <select id="getTokenByEmail" resultType="com.daun.word.oauth.token.domain.Token">
+    <select id="findByEmail" resultType="com.daun.word.oauth.token.domain.Token">
         /* 멤버 ID(구분값)으로 토큰 조회 */
         SELECT member_email,
                access_token,
@@ -63,7 +63,7 @@
                social_refresh_token_expired_date,
                created_at,
                updated_at
-        FROM token
-        where token.member_email = #{email}
+          FROM token
+         where token.member_email = #{email.value}
     </select>
 </mapper>

@@ -37,9 +37,7 @@ public class TokenFactory {
                 socialAccessToken,
                 socialAccessTokenExpiredDate,
                 socialRefreshToken,
-                socialRefreshTokenExpiredDate,
-                null,
-                null
+                socialRefreshTokenExpiredDate
         );
     }
 

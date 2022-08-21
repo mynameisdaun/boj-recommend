@@ -14,6 +14,20 @@ INSERT INTO member
             'W'
            );
 
+INSERT INTO member
+(
+    email,
+    password,
+    nickname,
+    social_type
+)
+VALUES (
+           'another-tester@weword.com',
+           'fake-password',
+           '테스터2',
+           'W'
+       );
+
 /* 토큰 */
 INSERT INTO token
           (

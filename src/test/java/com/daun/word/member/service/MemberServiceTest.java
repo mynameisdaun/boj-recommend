@@ -74,7 +74,7 @@ class MemberServiceTest {
         //given, when
         memberService.findMemberByEmailAndSocialType(email(), SocialType.W);
         //then
-        verify(memberRepository, times(1)).findMemberByEmailAndSocialType(any(Email.class), any(SocialType.class));
+        verify(memberRepository, times(1)).findByEmailAndSocialType(any(Email.class), any(SocialType.class));
     }
 
     @DisplayName(value = "올바른 요청이 아니라면 회원을 등록할 수 없다")
