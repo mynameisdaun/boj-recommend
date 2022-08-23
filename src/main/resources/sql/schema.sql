@@ -1,6 +1,17 @@
-SET MODE MYSQL;
-
 /* 22.08.17 회원 테이블 */
+use test;
+
+drop table if exists assignment_detail;
+drop table if exists assignment;
+drop table if exists member_workbook_mapping;
+drop table if exists chapter_word_mapping;
+drop table if exists chapter;
+drop table if exists workbook;
+drop table if exists word;
+drop table if exists token;
+drop table if exists member;
+
+
 CREATE TABLE member
 (
     id          int auto_increment  not null comment '회원 구분자(seq)',
@@ -14,6 +25,7 @@ CREATE TABLE member
 ) comment '회원';
 
 /* 22.08.18 토큰 테이블 */
+
 CREATE TABLE token
 (
     member_email                      varchar(100) unique not null comment '회원 email',
@@ -33,6 +45,7 @@ CREATE TABLE token
 ) comment '토큰';
 
 /* 22.08.18 단어장 테이블 */
+
 CREATE TABLE workbook
 (
     id              int auto_increment not null comment '단어장 일련번호(seq)',
@@ -46,6 +59,7 @@ CREATE TABLE workbook
 ) comment '단어장';
 
 /* 22.08.18 챕터 테이블 */
+
 CREATE TABLE chapter
 (
     id          int auto_increment not null comment '챕터 일련번호(seq)',
@@ -58,6 +72,7 @@ CREATE TABLE chapter
 ) comment '챕터';
 
 /* 22.08.18 단어 테이블 */
+
 CREATE TABLE word
 (
     id         int auto_increment not null comment '아이디 일련번호(seq)',
@@ -69,6 +84,7 @@ CREATE TABLE word
 ) comment '단어';
 
 /* 22.08.18 챕터 단어 매핑 테이블 */
+
 create table chapter_word_mapping
 (
     id         int      NOT NULL AUTO_INCREMENT PRIMARY KEY comment '챕터 단어 매핑 구분자(seq)',
@@ -82,6 +98,7 @@ create table chapter_word_mapping
 
 
 /* 22.08.22 회원-단어장 매핑 */
+
 create table member_workbook_mapping
 (
     id          int      NOT NULL AUTO_INCREMENT PRIMARY KEY comment '회원 - 단어장 매핑 구분자(seq)',
@@ -94,6 +111,7 @@ create table member_workbook_mapping
 ) comment '회원 단어장 매핑';
 
 /* 22.08.22 과제 */
+
 create table assignment
 (
     id          int          not null AUTO_INCREMENT PRIMARY KEY comment '과제 구분자(seq)',
@@ -108,6 +126,7 @@ create table assignment
 ) comment '과제';
 
 /* 22.08.22 과제 상세 정보 */
+
 create table assignment_detail
 (
     id                int      not null AUTO_INCREMENT PRIMARY KEY comment '과제 상세정보 구분자(seq)',

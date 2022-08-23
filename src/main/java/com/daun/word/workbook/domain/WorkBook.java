@@ -5,12 +5,17 @@ import com.daun.word.workbook.domain.vo.Description;
 import com.daun.word.workbook.domain.vo.Title;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 
 @Getter
 @RequiredArgsConstructor
+@ToString
 public class WorkBook {
+    private final Logger logger = LoggerFactory.getLogger(WorkBook.class);
 
     private Integer id;
     private final Title title;

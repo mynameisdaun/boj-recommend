@@ -6,13 +6,31 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Mapper
 @Repository
 public interface AssignmentRepository {
 
     /* 과제 저장 */
-    int save(@Param("assignment") Assignment assignment);
+    Integer save(@Param("assignment") Assignment assignment);
 
-    int saveDetail(@Param("detail") AssignmentDetail assignmentDetail);
+    /* 과제 세부 내역 저장*/
+    Integer saveDetail(@Param("detail") AssignmentDetail assignmentDetail);
 
+    /* 과제 id로 과제 조회 */
+    Optional<Assignment> findAssignmentById(@Param("id") Integer id);
+
+    /* 과제 id로 과제 세부 내역 조회 */
+    List<AssignmentDetail> findDetailsById(@Param("id") Integer id);
+
+    /* 과제 상세 id로 과제 세부 내역 조회 */
+    Optional<AssignmentDetail> findDetailByDetailId(@Param("id") Integer id);
+
+    /* 과제 열람 */
+    int open(@Param("detail") AssignmentDetail detail);
+
+    /* 과제 완료*/
+    int complete(@Param("detail") AssignmentDetail detail);
 }

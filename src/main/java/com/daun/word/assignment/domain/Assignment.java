@@ -1,32 +1,74 @@
 package com.daun.word.assignment.domain;
 
+import com.daun.word.assignment.dto.AssignmentSaveRequest;
 import com.daun.word.member.domain.vo.Email;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
+import java.time.LocalDateTime;
+
+@Getter @ToString
 public class Assignment {
+    private final Logger logger = LoggerFactory.getLogger(Assignment.class);
 
     private Integer id;
-    private Integer workbookId;
-    //TODO: domain 방식이라면.. Member가 들어와야 할 것 같구만 .., 우선 진행해보자
     private Email assignFrom;
     private Email assignTo;
+    private Integer workbookId;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-    public Assignment(Integer workbookId, Email assignFrom, Email assignTo) {
-        this.workbookId = workbookId;
+    public static Assignment fromSaveRequest(AssignmentSaveRequest request) {
+        return new Assignment(request.getAssignFrom(), request.getAssignTo(), request.getWorkbookId());
+    }
+
+    public Assignment(Email assignFrom, Email assignTo, Integer workbookId) {
         this.assignFrom = assignFrom;
         this.assignTo = assignTo;
+        this.workbookId = workbookId;
     }
 
-    public void setAssignFrom(String assignFrom) {
+    public Assignment(Integer id, Email assignFrom, Email assignTo, Integer workbookId) {
+        this.id = id;
+        this.assignFrom = assignFrom;
+        this.assignTo = assignTo;
+        this.workbookId = workbookId;
+    }
+
+    public Assignment(Integer id, String assignFrom, String assignTo, Integer workbookId, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
         this.assignFrom = new Email(assignFrom);
+        this.assignTo = new Email(assignTo);
+        this.workbookId = workbookId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-    public void setAssignTo(String assignTo) {
-        this.assignTo = new Email(assignTo);
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Assignment that = (Assignment) o;
+
+        return logger != null ? logger.equals(that.logger) : that.logger == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return logger != null ? logger.hashCode() : 0;
     }
 }

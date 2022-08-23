@@ -1,6 +1,7 @@
 package com.daun.word.Fixture;
 
 import com.daun.word.assignment.domain.Assignment;
+import com.daun.word.assignment.domain.AssignmentDetail;
 import com.daun.word.chapter.domain.Chapter;
 import com.daun.word.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.infra.kakao.dto.KakaoTokenResponse;
@@ -17,7 +18,6 @@ import com.daun.word.workbook.domain.WorkBook;
 import com.daun.word.workbook.domain.vo.Author;
 import com.daun.word.workbook.domain.vo.Description;
 import com.daun.word.workbook.domain.vo.Title;
-import org.springframework.expression.spel.ast.Assign;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +28,7 @@ public class Fixture {
     public static String FAKE_KAKAO_REST_API_KEY = "fake-api-key";
     public static String FAKE_KAKAO_REDIRECT_URI = "fake-redirect-uri";
     private static Token token;
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public static Email email() {
         return new Email("tester1@weword.com");
@@ -70,7 +71,7 @@ public class Fixture {
     }
 
     public static Token token() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         return new Token(
                 new Email("tester1@weword.com"),
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjA5Nzc4MzEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.Bs9nDgglcyg_IQCcsLQVH48RW1t1-w8QYqkLJissNuU",
@@ -105,9 +106,68 @@ public class Fixture {
     public static Assignment assignment() {
         return new Assignment(
                 Integer.valueOf(1),
-                workbook().getId(),
                 member().getEmail(),
-                another_member().getEmail()
+                another_member().getEmail(),
+                workbook().getId()
         );
     }
+
+    public static AssignmentDetail assignmentDetail_complete() {
+        return new AssignmentDetail(
+                Integer.valueOf(1),
+                Integer.valueOf(1),
+                Integer.valueOf(1),
+                LocalDateTime.parse("2022-08-20 15:43:51", formatter),
+                LocalDateTime.parse("2023-08-21 15:43:51", formatter),
+                "Y",
+                LocalDateTime.parse("2022-08-21 15:43:51", formatter),
+                "Y",
+                LocalDateTime.parse("2022-08-21 16:43:51", formatter),
+                "fake-quiz",
+                "fake-submission",
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter),
+                LocalDateTime.parse("2022-08-21 16:43:51", formatter)
+        );
+    }
+
+    public static AssignmentDetail assignmentDetail_open_unComplete() {
+        return new AssignmentDetail(
+                Integer.valueOf(2),
+                Integer.valueOf(1),
+                Integer.valueOf(2),
+                LocalDateTime.parse("2022-08-20 15:43:51", formatter),
+                LocalDateTime.parse("2023-08-21 15:43:51", formatter),
+                "Y",
+                LocalDateTime.parse("2022-08-21 15:43:51", formatter),
+                "N",
+                null,
+                "fake-quiz",
+                null,
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter),
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter)
+        );
+    }
+
+    public static AssignmentDetail assignmentDetail_unOpen() {
+        return new AssignmentDetail(
+                Integer.valueOf(3),
+                Integer.valueOf(1),
+                Integer.valueOf(3),
+                LocalDateTime.parse("2022-08-20 15:43:51", formatter),
+                LocalDateTime.parse("2023-08-21 15:43:51", formatter),
+                "N",
+                null,
+                "N",
+                null,
+                "fake-quiz",
+                null,
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter),
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter)
+        );
+    }
+
 }
+
+
+
+

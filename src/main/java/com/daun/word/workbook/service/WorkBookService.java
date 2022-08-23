@@ -7,6 +7,8 @@ import com.daun.word.workbook.domain.repository.WorkBookRepository;
 import com.daun.word.workbook.dto.WorkBookSaveRequest;
 import com.daun.word.workbook.dto.WorkBookSaveResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 @Transactional
 @Service
 public class WorkBookService {
+    private final Logger logger = LoggerFactory.getLogger(WorkBookService.class);
 
     private final WorkBookRepository workBookRepository;
 
@@ -23,7 +26,9 @@ public class WorkBookService {
 
     public WorkBookSaveResponse save(WorkBookSaveRequest workBookSaveRequest) {
         WorkBook workBook = workBookSaveRequest.toWorkBook();
+        logger.info(workBook.toString());
         workBookRepository.save(workBook);
+        logger.info(workBook.toString());
         return new WorkBookSaveResponse(
                 workBook,
                 workBookSaveRequest.getChapters()

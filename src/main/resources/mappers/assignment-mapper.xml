@@ -2,8 +2,88 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.daun.word.assignment.domain.repository.AssignmentRepository">
 
+    <update id="open" parameterType="com.daun.word.assignment.domain.AssignmentDetail">
+        UPDATE assignment_detail
+           SET open_yn = 'Y',
+               open_date_time = current_timestamp,
+               updated_at = current_timestamp
+         WHERE id = #{detail.id}
+        <selectKey keyColumn="open_yn,open_date_time,updated_at"
+                   keyProperty="detail.openYn,detail.openDateTime,detail.updatedAt"
+                   resultType="java.util.HashMap" order="AFTER">
+            SELECT assignment_detail.open_yn,
+                   assignment_detail.open_date_time,
+                   assignment_detail.updated_at
+              FROM assignment_detail
+             WHERE assignment_detail.id = #{detail.id};
+        </selectKey>
+    </update>
+
+    <update id="complete" parameterType="com.daun.word.assignment.domain.AssignmentDetail">
+        UPDATE assignment_detail
+        SET assignment_detail.complete_yn = 'Y',
+        assignmnet_detail.complete_date_time = current_timestamp,
+        assignment_detail.submission = #{detail.submission},
+        assignment_detail.updated_at = current_timestamp
+        WHERE assignmenet_detail.id = #{detail.id}
+        <selectKey keyColumn="complete_yn,complete_date_time,submission"
+                   keyProperty="detail.completeYn,detail.completeDateTime,detail.submission,detail.updatedAt"
+                   resultType="java.util.HashMap" order="AFTER">
+            SELECT assignment_detail.complete_yn,
+            assignment_detail.complete_date_time,
+            assignment_detail.submission
+            FROM assignment_detail
+            WHERE assignment_detail = #{detail.id};
+        </selectKey>
+    </update>
+
+    <select id="findAssignmentById" resultType="com.daun.word.assignment.domain.Assignment">
+        SELECT assignment.id,
+               assignment.assign_from,
+               assignment.assign_to,
+               assignment.workbook_id,
+               assignment.created_at,
+               assignment.updated_at
+        FROM assignment
+        WHERE assignment.id = #{id};
+    </select>
+
+    <select id="findDetailByDetailId" resultType="com.daun.word.assignment.domain.AssignmentDetail">
+        SELECT assignment_detail.id,
+               assignment_detail.assignment_id,
+               assignment_detail.chapter_id,
+               assignment_detail.start_date_time,
+               assignment_detail.end_date_time,
+               assignment_detail.open_yn,
+               assignment_detail.complete_yn,
+               assignment_detail.complete_date_time,
+               assignment_detail.quiz,
+               assignment_detail.submission,
+               assignment_detail.created_at,
+               assignment_detail.updated_at
+          FROM assignment_detail
+         WHERE assignment_detail.id = #{id}
+    </select>
+
+    <select id="findDetailsById" resultType="com.daun.word.assignment.domain.AssignmentDetail">
+        SELECT assignment_detail.id,
+               assignment_detail.assignment_id,
+               assignment_detail.chapter_id,
+               assignment_detail.start_date_time,
+               assignment_detail.end_date_time,
+               assignment_detail.open_yn,
+               assignment_detail.complete_yn,
+               assignment_detail.complete_date_time,
+               assignment_detail.quiz,
+               assignment_detail.submission,
+               assignment_detail.created_at,
+               assignment_detail.updated_at
+        FROM assignment_detail
+        WHERE assignment_detail.assignment_id = #{id}
+    </select>
+
     <insert id="save" parameterType="com.daun.word.assignment.domain.Assignment" useGeneratedKeys="true" keyColumn="id"
-            keyProperty="id">
+            keyProperty="assignment.id">
         INSERT INTO assignment
         (
         workbook_id,
@@ -16,7 +96,8 @@
         #{assignment.assignFrom.value},
         #{assignment.assignTo.value}
         )
-        <selectKey keyColumn="id,created_at,updated_at" keyProperty="id,createdAt,updatedAt"
+        <selectKey keyColumn="id,created_at,updated_at"
+                   keyProperty="assignment.id,assignment.createdAt,assignment.updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
             SELECT assignment.id,
             assignment.created_at,
@@ -26,7 +107,8 @@
         </selectKey>
     </insert>
 
-    <insert id="saveDetail" parameterType="com.daun.word.assignment.domain.AssignmentDetail" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="saveDetail" parameterType="com.daun.word.assignment.domain.AssignmentDetail" useGeneratedKeys="true"
+            keyColumn="id" keyProperty="id">
         INSERT INTO assignment_detail
         (
         assignment_id,
@@ -43,15 +125,16 @@
         #{detail.endDateTime},
         #{detail.quiz}
         )
-        <selectKey keyColumn="id,open_yn,complete_yn,created_at,updated_at" keyProperty="id,openYn,completeYn,createdAt,updatedAt"
+        <selectKey keyColumn="id,open_yn,complete_yn,created_at,updated_at"
+                   keyProperty="id,openYn,completeYn,createdAt,updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
             SELECT assignment_detail.id,
-                   assignment_detail.open_yn,
-                   assignment_detail.complete_yn,
-                   assignment_detail.created_at,
-                   assignment_detail.updated_at
-              FROM assignment_detail
-             WHERE assignment_detail.id = LAST_INSERT_ID();
+            assignment_detail.open_yn,
+            assignment_detail.complete_yn,
+            assignment_detail.created_at,
+            assignment_detail.updated_at
+            FROM assignment_detail
+            WHERE assignment_detail.id = LAST_INSERT_ID();
         </selectKey>
     </insert>
 

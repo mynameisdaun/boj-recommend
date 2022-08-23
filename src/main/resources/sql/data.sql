@@ -27,7 +27,7 @@ VALUES ('word', '단어');
 INSERT INTO word (english, korean)
 VALUES ('hi', '안녕');
 INSERT INTO word (english, korean)
-VALUES ('hello', '안녕하세요');
+VALUES ('assignment', '안녕하세요');
 INSERT INTO word (english, korean)
 VALUES ('name', '이름');
 INSERT INTO word (english, korean)
@@ -59,33 +59,44 @@ VALUES ('Day 3', '1');
 
 /* 챕터_단어_매핑 */
 INSERT INTO chapter_word_mapping (chapter_id, word_id)
-VALUES('1', '1');
+VALUES ('1', '1');
 INSERT INTO chapter_word_mapping (chapter_id, word_id)
-VALUES('1', '2');
+VALUES ('1', '2');
 INSERT INTO chapter_word_mapping (chapter_id, word_id)
-VALUES('1', '3');
+VALUES ('1', '3');
 INSERT INTO chapter_word_mapping (chapter_id, word_id)
-VALUES('1', '4');
+VALUES ('1', '4');
 INSERT INTO chapter_word_mapping (chapter_id, word_id)
-VALUES('2', '5');
+VALUES ('2', '5');
 INSERT INTO chapter_word_mapping (chapter_id, word_id)
-VALUES('2', '6');
+VALUES ('2', '6');
 INSERT INTO chapter_word_mapping (chapter_id, word_id)
-VALUES('2', '7');
+VALUES ('2', '7');
 INSERT INTO chapter_word_mapping (chapter_id, word_id)
-VALUES('2', '8');
+VALUES ('2', '8');
 INSERT INTO chapter_word_mapping (chapter_id, word_id)
-VALUES('3', '9');
+VALUES ('3', '9');
 INSERT INTO chapter_word_mapping (chapter_id, word_id)
-VALUES('3', '10');
+VALUES ('3', '10');
 INSERT INTO chapter_word_mapping (chapter_id, word_id)
-VALUES('3', '11');
+VALUES ('3', '11');
 INSERT INTO chapter_word_mapping (chapter_id, word_id)
-VALUES('3', '12');
+VALUES ('3', '12');
 
 /* 과제 */
 INSERT INTO assignment (workbook_id, assign_from, assign_to)
-VALUES('1', 'tester1@weword.com', 'tester2@weword.com');
+VALUES ('1', 'tester1@weword.com', 'tester2@weword.com');
 
-
-
+/* 과제 상세 */
+/* TODO: quiz 가짜로 만들어둔것 다 고쳐야 한다*/
+/*open complete*/
+INSERT INTO assignment_detail(assignment_id, chapter_id, start_date_time, end_date_time, open_yn, open_date_time,
+                              complete_yn, complete_date_time, quiz, submission)
+VALUES (1, 1, '2022-08-20 15:43:51', '2023-08-21 15:43:51', 'Y', '2022-08-21 15:43:51', 'Y', '2022-08-21 16:43:51',
+        'fake-quiz', 'fake-submission');
+/*open un complete*/
+INSERT INTO assignment_detail(assignment_id, chapter_id, start_date_time, end_date_time, open_yn, open_date_time, quiz)
+VALUES (1, 2, '2022-08-20 15:43:51', '2023-08-21 15:43:51', 'Y', '2022-08-21 15:43:51', 'fake-quiz');
+/*un open complete*/
+INSERT INTO assignment_detail(assignment_id, chapter_id, start_date_time, end_date_time, quiz)
+VALUES (1, 3, '2022-08-20 15:43:51', '2023-08-21 15:43:51', 'fake-quiz');

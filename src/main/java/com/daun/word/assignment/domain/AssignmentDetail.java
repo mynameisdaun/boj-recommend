@@ -1,14 +1,14 @@
 package com.daun.word.assignment.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.daun.word.assignment.dto.AssignmentSaveRequest;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
+@Getter @Setter
+@ToString
 public class AssignmentDetail {
     private Integer id;  //과제 상세정보 구분자(seq)
     private Integer assignmentId; //과제 구분자(seq)
@@ -24,6 +24,10 @@ public class AssignmentDetail {
     private LocalDateTime createdAt; // 데이터 생성 일시
     private LocalDateTime updatedAt; // 데이터 수정 일시
 
+    public static AssignmentDetail fromSaveRequest(Integer assignmentId, AssignmentSaveRequest.AssignmentDetailSaveRequest request) {
+        return new AssignmentDetail(assignmentId, request.getChapterId(), request.getStartDateTime(), request.getEndDateTime(), request.getQuiz());
+    }
+
     public AssignmentDetail(Integer assignmentId, Integer chapterId, LocalDateTime startDateTime, LocalDateTime endDateTime, String quiz) {
         this.assignmentId = assignmentId;
         this.chapterId = chapterId;
@@ -31,4 +35,6 @@ public class AssignmentDetail {
         this.endDateTime = endDateTime;
         this.quiz = quiz;
     }
+
+
 }
