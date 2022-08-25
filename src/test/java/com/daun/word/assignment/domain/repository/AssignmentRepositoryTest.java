@@ -65,20 +65,6 @@ class AssignmentRepositoryTest {
         );
     }
 
-    @DisplayName(value = "과제를 열람한다")
-    @Test
-    void open() throws Exception {
-        //given
-        AssignmentDetail detail = Fixture.assignmentDetail_unOpen();
-        //when
-        assignmentRepository.open(detail);
-        //then
-        assertAll(
-                () -> assertThat(detail.getOpenYn()).isEqualTo("Y"),
-                () -> assertThat(detail.getOpenDateTime()).isNotNull()
-        );
-    }
-
     @DisplayName(value = "과제 id로 회원을 조회한다")
     @Test
     void findById() throws Exception {

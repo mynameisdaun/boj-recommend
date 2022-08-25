@@ -1,7 +1,9 @@
 package com.daun.word.assignment.domain.repository;
 
+import com.daun.word.Fixture.Fixture;
 import com.daun.word.assignment.domain.Assignment;
 import com.daun.word.assignment.domain.AssignmentDetail;
+import com.daun.word.member.domain.vo.Email;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.time.LocalDateTime;
@@ -11,28 +13,39 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.daun.word.Fixture.Fixture.*;
+
 public class FakeAssignmentRepository implements AssignmentRepository {
 
-    private final Map<Integer, Assignment> assignmentTable = new HashMap<>();
-    private final Map<Integer, AssignmentDetail> assignmentDetailTable = new HashMap<>();
-    private Integer assignmentSeq = 0;
-    private Integer assignmentDetailSeq = 0;
+    private final Map<Integer, Assignment> assignmentTable;
+    private final Map<Integer, AssignmentDetail> assignmentDetailTable;
+
+    /* init */
+    public FakeAssignmentRepository() {
+        LocalDateTime now = LocalDateTime.now();
+        this.assignmentTable = new HashMap<>();
+        this.assignmentDetailTable = new HashMap<>();
+        assignmentTable.put(assignment().getId(), assignment());
+        assignmentDetailTable.put(assignmentDetail_complete().getId(), assignmentDetail_complete());
+        assignmentDetailTable.put(assignmentDetail_open_unComplete().getId(), assignmentDetail_open_unComplete());
+        assignmentDetailTable.put(assignmentDetail_unOpen().getId(), assignmentDetail_unOpen());
+    }
 
     @Override
     public Integer save(Assignment assignment) {
-        assignmentTable.put(++assignmentSeq, assignment);
-        assignment.setId(assignmentSeq);
+        assignment.setId(assignmentTable.size());
         assignment.setCreatedAt(LocalDateTime.now());
         assignment.setUpdatedAt(LocalDateTime.now());
+        assignmentTable.put(assignmentTable.size(), assignment);
         return 1;
     }
 
     @Override
     public Integer saveDetail(AssignmentDetail assignmentDetail) {
-        assignmentDetailTable.put(++assignmentDetailSeq, assignmentDetail);
-        assignmentDetail.setId(assignmentDetailSeq);
+        assignmentDetail.setId(assignmentDetailTable.size());
         assignmentDetail.setCreatedAt(LocalDateTime.now());
         assignmentDetail.setUpdatedAt(LocalDateTime.now());
+        assignmentDetailTable.put(assignmentDetailTable.size(), assignmentDetail);
         return 1;
     }
 
@@ -50,28 +63,19 @@ public class FakeAssignmentRepository implements AssignmentRepository {
     }
 
     @Override
-    public int open(AssignmentDetail detail) {
-        assignmentDetailTable.get(detail.getId()).open();
-        return 1;
-    }
-
-    @Override
-    public int complete(AssignmentDetail detail) {
-        throw new NotImplementedException();
-    }
-
-    @Override
     public Optional<AssignmentDetail> findDetailByDetailId(Integer id) {
-        throw new NotImplementedException();
+        return Optional.of(assignmentDetailTable.get(id));
     }
 
     @Override
     public Integer update(Assignment assignment) {
-        return null;
+        assignmentTable.put(assignment.getId(), assignment);
+        return 1;
     }
 
     @Override
     public Integer updateDetail(AssignmentDetail assignmentDetail) {
-        return null;
+        assignmentDetailTable.put(assignmentDetail.getId(), assignmentDetail);
+        return 1;
     }
 }

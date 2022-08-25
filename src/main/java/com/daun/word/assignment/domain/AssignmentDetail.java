@@ -4,6 +4,9 @@ import com.daun.word.assignment.dto.AssignmentSaveRequest;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
+import static com.daun.word.utils.DateUtils.now;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,16 +40,19 @@ public class AssignmentDetail {
             throw new IllegalStateException("한번 열람한 과제는 다시 열람할 수 없습니다");
         }
         this.openYn = "Y";
+        this.openDateTime = now();
     }
 
-    public void complete() {
+    public void submission(String submission) {
         if(!this.isOpen()) {
             throw new IllegalStateException("열람하지 않은 과제는 제출할 수 없습니다.");
         }
         if(this.isComplete()) {
             throw new IllegalStateException("한번 제출한 과제는 다시 제출할 수 없습니다.");
         }
+        this.submission=submission;
         this.completeYn = "Y";
+        this.completeDateTime = now();
     }
 
     public static AssignmentDetail fromSaveRequest(Integer assignmentId, AssignmentSaveRequest.AssignmentDetailSaveRequest request) {

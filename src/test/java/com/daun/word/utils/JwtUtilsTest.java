@@ -28,7 +28,6 @@ class JwtUtilsTest {
         //given&&when
         String accessToken = jwtUtils.accessToken(email().getValue());
         //then
-        System.out.println(accessToken);
         assertThat(accessToken).isNotNull();
         assertThat(accessToken).isInstanceOf(String.class);
     }
@@ -39,7 +38,6 @@ class JwtUtilsTest {
         //given&&when
         String accessToken = jwtUtils.accessToken(email().getValue());
         //then
-        System.out.println(accessToken);
         assertThat(accessToken).isNotNull();
         assertThat(accessToken).isInstanceOf(String.class);
     }

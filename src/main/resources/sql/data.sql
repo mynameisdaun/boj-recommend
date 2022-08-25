@@ -97,6 +97,6 @@ VALUES (1, 1, '2022-08-20 15:43:51', '2023-08-21 15:43:51', 'Y', '2022-08-21 15:
 /*open un complete*/
 INSERT INTO assignment_detail(assignment_id, chapter_id, start_date_time, end_date_time, open_yn, open_date_time, quiz)
 VALUES (1, 2, '2022-08-20 15:43:51', '2023-08-21 15:43:51', 'Y', '2022-08-21 15:43:51', 'fake-quiz');
-/*un open complete*/
+/*un open un complete*/
 INSERT INTO assignment_detail(assignment_id, chapter_id, start_date_time, end_date_time, quiz)
 VALUES (1, 3, '2022-08-20 15:43:51', '2023-08-21 15:43:51', 'fake-quiz');

@@ -23,17 +23,23 @@ public class AssignmentService {
 
     private final AssignmentRepository assignmentRepository;
 
+    /* 과제를 열람한다 */
     public AssignmentDetailResponse open(Integer detailId) {
         AssignmentDetail detail = assignmentRepository.findDetailByDetailId(detailId)
                 .orElseThrow(NoSuchElementException::new);
         detail.open();
         assignmentRepository.updateDetail(detail);
         return new AssignmentDetailResponse(detail);
-    };
+    }
 
-    public AssignmentResponse complete(AssignmentRequest request) {
-        throw new NotImplementedException();
-    };
+    /* 과제를 제출한다 */
+    public AssignmentDetailResponse submission(SubmissionRequest request) {
+        AssignmentDetail detail = assignmentRepository.findDetailByDetailId(request.getId())
+                .orElseThrow(NoSuchElementException::new);
+        detail.submission(request.getSubmission());
+        assignmentRepository.updateDetail(detail);
+        return new AssignmentDetailResponse(detail);
+    }
 
     /* 과제를 등록한다 */
     public AssignmentSaveResponse save(AssignmentSaveRequest request) {

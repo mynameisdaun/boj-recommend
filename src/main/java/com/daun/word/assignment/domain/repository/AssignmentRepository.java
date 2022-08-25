@@ -34,9 +34,4 @@ public interface AssignmentRepository {
     /* 과제 상세 id로 과제 세부 내역 조회 */
     Optional<AssignmentDetail> findDetailByDetailId(@Param("id") Integer id);
 
-    /* 과제 열람 */
-    int open(@Param("detail") AssignmentDetail detail);
-
-    /* 과제 완료*/
-    int complete(@Param("detail") AssignmentDetail detail);
 }
