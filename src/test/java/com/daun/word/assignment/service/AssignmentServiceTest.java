@@ -24,6 +24,28 @@ class AssignmentServiceTest {
         assignmentService = new AssignmentService(new FakeAssignmentRepository());
     }
 
+    @DisplayName(value = "과제를 열람한다")
+    @Test
+    void open() throws Exception {
+        //given
+
+        //when
+
+        //then
+
+    }
+
+    @DisplayName(value = "이미 열람한 과제는 다시 열람할 수 없다, 과제 열람은 한번만 가능하다")
+    @Test
+    void open_already_opened() throws Exception {
+        //given
+
+        //when
+
+        //then
+
+    }
+
     @DisplayName(value = "과제를 저장한다")
     @Test
     void save() throws Exception {

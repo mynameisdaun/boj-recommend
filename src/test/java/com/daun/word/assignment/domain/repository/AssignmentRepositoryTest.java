@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import static com.daun.word.Fixture.Fixture.*;
@@ -26,8 +26,46 @@ class AssignmentRepositoryTest {
     @Autowired
     private AssignmentRepository assignmentRepository;
 
-    @DisplayName(value = "과제를 열람한다")
+    @DisplayName(value = "과제 정보를 업데이트한다")
+    @Test
+    void detailUpdate() throws Exception {
+        //given
+        AssignmentDetail detail = Fixture.assignmentDetail_unOpen();
+        LocalDateTime after100years = LocalDateTime.now().plusYears(100).truncatedTo(ChronoUnit.SECONDS);
+        LocalDateTime after101years = LocalDateTime.now().plusYears(101).truncatedTo(ChronoUnit.SECONDS);
+        LocalDateTime after102years = LocalDateTime.now().plusYears(102).truncatedTo(ChronoUnit.SECONDS);
+        LocalDateTime after105years = LocalDateTime.now().plusYears(105).truncatedTo(ChronoUnit.SECONDS);
+        AssignmentDetail updated = new AssignmentDetail(
+                detail.getId(),
+                detail.getAssignmentId(),
+                detail.getChapterId(),
+                after100years,
+                after105years,
+                "Y",
+                after101years,
+                "Y",
+                after102years,
+                "new-quizs",
+                "new-submission",
+                detail.getCreatedAt(),
+                detail.getUpdatedAt()
+        );
+        //when
+        assignmentRepository.updateDetail(updated);
+        //then
+        assertAll(
+                () -> assertThat(updated.getStartDateTime()).isEqualToIgnoringNanos(after100years),
+                () -> assertThat(updated.getEndDateTime()).isEqualToIgnoringNanos(after105years),
+                () -> assertThat(updated.getOpenYn()).isEqualTo("Y"),
+                () -> assertThat(updated.getOpenDateTime()).isEqualToIgnoringNanos(after101years),
+                () -> assertThat(updated.getCompleteYn()).isEqualTo("Y"),
+                () -> assertThat(updated.getCompleteDateTime()).isEqualToIgnoringNanos(after102years),
+                () -> assertThat(updated.getQuiz()).isEqualTo("new-quizs"),
+                () -> assertThat(updated.getSubmission()).isEqualTo("new-submission")
+        );
+    }
 
+    @DisplayName(value = "과제를 열람한다")
     @Test
     void open() throws Exception {
         //given

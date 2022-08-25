@@ -16,8 +16,14 @@ public interface AssignmentRepository {
     /* 과제 저장 */
     Integer save(@Param("assignment") Assignment assignment);
 
+    /* 과제 세부 내역 업데이트*/
+    Integer update(@Param("assignment") Assignment assignment);
+
     /* 과제 세부 내역 저장*/
     Integer saveDetail(@Param("detail") AssignmentDetail assignmentDetail);
+
+    /* 과제 세부 내역 업데이트*/
+    Integer updateDetail(@Param("detail") AssignmentDetail assignmentDetail);
 
     /* 과제 id로 과제 조회 */
     Optional<Assignment> findAssignmentById(@Param("id") Integer id);

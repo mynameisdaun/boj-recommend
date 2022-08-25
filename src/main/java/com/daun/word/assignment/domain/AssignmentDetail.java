@@ -24,6 +24,31 @@ public class AssignmentDetail {
     private LocalDateTime createdAt; // 데이터 생성 일시
     private LocalDateTime updatedAt; // 데이터 수정 일시
 
+    public boolean isOpen() {
+        return this.openYn.equals("Y");
+    }
+
+    public boolean isComplete() {
+        return this.completeYn.equals("Y");
+    }
+
+    public void open() {
+        if(this.isOpen()){
+            throw new IllegalStateException("한번 열람한 과제는 다시 열람할 수 없습니다");
+        }
+        this.openYn = "Y";
+    }
+
+    public void complete() {
+        if(!this.isOpen()) {
+            throw new IllegalStateException("열람하지 않은 과제는 제출할 수 없습니다.");
+        }
+        if(this.isComplete()) {
+            throw new IllegalStateException("한번 제출한 과제는 다시 제출할 수 없습니다.");
+        }
+        this.completeYn = "Y";
+    }
+
     public static AssignmentDetail fromSaveRequest(Integer assignmentId, AssignmentSaveRequest.AssignmentDetailSaveRequest request) {
         return new AssignmentDetail(assignmentId, request.getChapterId(), request.getStartDateTime(), request.getEndDateTime(), request.getQuiz());
     }
@@ -35,6 +60,4 @@ public class AssignmentDetail {
         this.endDateTime = endDateTime;
         this.quiz = quiz;
     }
-
-
 }

@@ -82,6 +82,36 @@
         WHERE assignment_detail.assignment_id = #{id}
     </select>
 
+    <update id="updateDetail" parameterType="com.daun.word.assignment.domain.AssignmentDetail">
+        UPDATE assignment_detail
+           SET start_date_time = #{detail.startDateTime},
+               end_date_time = #{detail.endDateTime},
+               open_yn = #{detail.openYn},
+               open_date_time = #{detail.openDateTime},
+               complete_yn = #{detail.completeYn},
+               complete_date_time = #{detail.completeDateTime},
+               quiz = #{detail.quiz},
+               submission = #{detail.submission},
+               updated_at = current_timestamp
+         WHERE id = #{detail.id}
+        <selectKey keyColumn="start_date_time,end_date_time,open_yn,open_date_time,complete_yn,complete_date_time,quiz,submission,updated_at"
+                   keyProperty="detail.startDateTime,detail.endDateTime,detail.openYn,detail.openDateTime,detail.completeYn,detail.completeDateTime,detail.quiz,detail.submission,detail.updatedAt"
+                   resultType="java.util.HashMap" order="AFTER">
+            SELECT assignment_detail.start_date_time,
+                   assignment_detail.end_date_time,
+                   assignment_detail.open_yn,
+                   assignment_detail.open_date_time,
+                   assignment_detail.complete_yn,
+                   assignment_detail.complete_date_time,
+                   assignment_detail.quiz,
+                   assignment_detail.submission,
+                   assignment_detail.created_at,
+                   assignment_detail.updated_at
+              FROM assignment_detail
+             WHERE assignment_detail.id = #{detail.id};
+        </selectKey>
+    </update>
+
     <insert id="save" parameterType="com.daun.word.assignment.domain.Assignment" useGeneratedKeys="true" keyColumn="id"
             keyProperty="assignment.id">
         INSERT INTO assignment

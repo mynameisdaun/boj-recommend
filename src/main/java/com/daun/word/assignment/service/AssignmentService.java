@@ -3,10 +3,7 @@ package com.daun.word.assignment.service;
 import com.daun.word.assignment.domain.Assignment;
 import com.daun.word.assignment.domain.AssignmentDetail;
 import com.daun.word.assignment.domain.repository.AssignmentRepository;
-import com.daun.word.assignment.dto.AssignmentRequest;
-import com.daun.word.assignment.dto.AssignmentResponse;
-import com.daun.word.assignment.dto.AssignmentSaveRequest;
-import com.daun.word.assignment.dto.AssignmentSaveResponse;
+import com.daun.word.assignment.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,14 +23,12 @@ public class AssignmentService {
 
     private final AssignmentRepository assignmentRepository;
 
-    public AssignmentResponse open(Integer detailId) {
+    public AssignmentDetailResponse open(Integer detailId) {
         AssignmentDetail detail = assignmentRepository.findDetailByDetailId(detailId)
                 .orElseThrow(NoSuchElementException::new);
-
-        logger.info("Before update {}",detail.toString());
-        assignmentRepository.open(detail);
-        logger.info("After update {}",detail.toString());
-        throw new NotImplementedException();
+        detail.open();
+        assignmentRepository.updateDetail(detail);
+        return new AssignmentDetailResponse(detail);
     };
 
     public AssignmentResponse complete(AssignmentRequest request) {

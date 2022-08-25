@@ -51,7 +51,8 @@ public class FakeAssignmentRepository implements AssignmentRepository {
 
     @Override
     public int open(AssignmentDetail detail) {
-        throw new NotImplementedException();
+        assignmentDetailTable.get(detail.getId()).open();
+        return 1;
     }
 
     @Override
@@ -62,5 +63,15 @@ public class FakeAssignmentRepository implements AssignmentRepository {
     @Override
     public Optional<AssignmentDetail> findDetailByDetailId(Integer id) {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public Integer update(Assignment assignment) {
+        return null;
+    }
+
+    @Override
+    public Integer updateDetail(AssignmentDetail assignmentDetail) {
+        return null;
     }
 }
