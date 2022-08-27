@@ -19,8 +19,9 @@ class KoreanTest {
                 Arguments.of("- 하다 할 수 있는"),
                 Arguments.of("단어"),
                 Arguments.of("english"),
-                Arguments.of("...에 반대하여")
-
+                Arguments.of("…에 반대하여"),
+                Arguments.of("~에 반대하여"),
+                Arguments.of(" - 에 반대하여")
         );
     }
 
@@ -42,7 +43,7 @@ class KoreanTest {
         //then
         assertThat(korean).isNotNull();
         assertAll(
-                () -> assertThat(korean.getValue()).isEqualTo(str)
+                () -> assertThat(korean.getValue()).isEqualTo(str.trim())
         );
     }
 
