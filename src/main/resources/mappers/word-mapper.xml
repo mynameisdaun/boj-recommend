@@ -2,16 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.daun.word.word.domain.repository.WordRepository">
     <insert id="save" parameterType="com.daun.word.word.domain.Word" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        /* 회원 생성 */
         INSERT INTO word
         (
         english,
-        korean
+        korean,
+        created_by
         )
         VALUES
         (
         #{english.value},
-        #{korean.value}
+        #{korean.value},
+        #{createdBy.value}
         )
         <selectKey keyColumn="id,created_at,updated_at" keyProperty="id,createdAt,updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
@@ -27,6 +28,7 @@
         SELECT word.id,
                word.english,
                word.korean,
+               word.created_by,
                word.created_at,
                word.updated_at
           FROM word
@@ -37,6 +39,7 @@
         SELECT word.id,
                word.english,
                word.korean,
+               word.created_by,
                word.created_at,
                word.updated_at
           FROM word
@@ -47,6 +50,7 @@
         SELECT word.id,
                word.english,
                word.korean,
+               word.created_by,
                word.created_at,
                word.updated_at
           FROM word

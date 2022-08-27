@@ -1,5 +1,4 @@
 /* 22.08.17 회원 테이블 */
-use test;
 
 drop table if exists assignment_detail;
 drop table if exists assignment;
@@ -76,8 +75,9 @@ CREATE TABLE chapter
 CREATE TABLE word
 (
     id         int auto_increment not null comment '아이디 일련번호(seq)',
-    english    varchar(100)       not null unique comment '영어 표기',
+    english    varchar(100)       not null comment '영어 표기',
     korean     varchar(100)       not null comment '한글 표기',
+    created_by varchar(100)       not null comment '생성자',
     created_at datetime           not null default current_timestamp comment '데이터 생성일시',
     updated_at datetime           not null default current_timestamp comment '데이터 수정일시',
     PRIMARY KEY (id)

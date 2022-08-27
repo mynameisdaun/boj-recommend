@@ -10,6 +10,7 @@ import static com.daun.word.utils.StringUtils.isNullOrBlank;
 @EqualsAndHashCode
 @ToString
 public class Title {
+
     private final String title;
 
     public Title(String title) {

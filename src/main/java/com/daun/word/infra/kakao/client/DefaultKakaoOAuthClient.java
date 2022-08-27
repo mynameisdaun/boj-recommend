@@ -53,7 +53,6 @@ public class DefaultKakaoOAuthClient implements KakaoOAuthClient {
                 HttpMethod.GET,
                 request,
                 KakaoProfileResponse.class);
-        logger.info(response.getBody().toString());
         return response.getBody();
     }
 }

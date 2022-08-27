@@ -26,10 +26,8 @@ public class WordService {
         if (wordRepository.findByEnglish(wordSaveRequest.getEnglish()).isPresent()) {
             throw new IllegalStateException("이미 저장되어 있는 단어입니다.");
         }
-        Word word = new Word(wordSaveRequest.getEnglish(), wordSaveRequest.getKorean());
-        logger.info(word.toString());
+        Word word = new Word(wordSaveRequest.getEnglish(), wordSaveRequest.getKorean(), wordSaveRequest.getCreatedBy());
         wordRepository.save(word);
-        logger.info(word.toString());
         return WordSaveResponse.fromWord(word);
     }
 

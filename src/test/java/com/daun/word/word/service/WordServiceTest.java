@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static com.daun.word.Fixture.Fixture.member;
 import static com.daun.word.Fixture.Fixture.word;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -35,7 +36,7 @@ class WordServiceTest {
     @Test
     void save() throws Exception {
         //given
-        WordSaveRequest request = new WordSaveRequest(word().getEnglish().getValue(), word().getKorean().getValue());
+        WordSaveRequest request = new WordSaveRequest(word().getEnglish().getValue(), word().getKorean().getValue(), member().getEmail().getValue());
         given(wordRepository.findByEnglish(any(English.class)))
                 .willReturn(Optional.empty());
         //when
@@ -54,7 +55,7 @@ class WordServiceTest {
     @Test
     void save_already_have() throws Exception {
         //given
-        WordSaveRequest request = new WordSaveRequest(word().getEnglish().getValue(), word().getKorean().getValue());
+        WordSaveRequest request = new WordSaveRequest(word().getEnglish().getValue(), word().getKorean().getValue(), member().getEmail().getValue());
         given(wordRepository.findByEnglish(word().getEnglish()))
                 .willReturn(Optional.of(word()));
         //when&&then

@@ -25,6 +25,8 @@ public class WorkBook {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+
+
     public WorkBook(Integer id, Title title, Author author, Description description, String coverImageUrl) {
         this.id = id;
         this.title = title;

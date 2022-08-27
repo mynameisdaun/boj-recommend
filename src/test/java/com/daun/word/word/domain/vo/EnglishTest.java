@@ -14,6 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class EnglishTest {
 
+    private static Stream<Arguments> valid() {
+        return Stream.of(
+                Arguments.of("english"),
+                Arguments.of("a.m."),
+                Arguments.of("hyper-text-markup-language")
+        );
+    }
+
     private static Stream<Arguments> invalid() {
         return Stream.of(
                 Arguments.of(" "),
@@ -25,14 +33,15 @@ class EnglishTest {
     }
 
     @DisplayName(value = "영문표기를 생성할 수 있다")
-    @Test
-    void create() throws Exception {
+    @MethodSource("valid")
+    @ParameterizedTest
+    void create(String str) throws Exception {
         //given&&when
-        English english = new English("word");
+        English english = new English(str);
         //then
         assertThat(english).isNotNull();
         assertAll(
-                () -> assertThat(english.getValue()).isEqualTo("word")
+                () -> assertThat(english.getValue()).isEqualTo(str.trim())
         );
     }
 

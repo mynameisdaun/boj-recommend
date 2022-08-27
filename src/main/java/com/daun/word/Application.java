@@ -1,5 +1,8 @@
 package com.daun.word;
 
+import com.daun.word.infra.excel.DefaultExcelClient;
+import com.daun.word.infra.excel.ExcelClient;
+import com.daun.word.infra.image.DefaultImageClient;
 import com.daun.word.infra.kakao.client.DefaultKakaoOAuthClient;
 import com.daun.word.infra.kakao.client.KakaoOAuthClient;
 import com.daun.word.utils.JwtUtils;
@@ -51,6 +54,16 @@ public class Application {
     @Bean
     public JwtUtils jwtUtils() {
         return new JwtUtils(accessKey, refreshKey, accessExpiresIn, refreshExpiresIn);
+    }
+
+    @Bean
+    public ExcelClient excelClient() {
+        return new DefaultExcelClient("/Users/jeongdaun/Desktop/word/src/main/resources/excel/");
+    }
+
+    @Bean
+    public DefaultImageClient imageClient() {
+        return new DefaultImageClient("/Users/jeongdaun/Desktop/word/src/main/resources/image/");
     }
 
 }

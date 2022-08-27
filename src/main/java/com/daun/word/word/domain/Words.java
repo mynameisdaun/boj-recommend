@@ -1,11 +1,13 @@
 package com.daun.word.word.domain;
 
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 @Getter
+@ToString
 public class Words {
 
     private final List<Word> words;

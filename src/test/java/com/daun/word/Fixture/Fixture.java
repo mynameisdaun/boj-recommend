@@ -87,7 +87,7 @@ public class Fixture {
     }
 
     public static Word word() {
-        return new Word(1, new English("word"), new Korean("단어"));
+        return new Word(1, new English("word"), new Korean("단어"), new Email("tester1@weword.com"));
     }
 
     public static WorkBook workbook() {

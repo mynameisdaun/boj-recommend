@@ -1,5 +1,6 @@
 package com.daun.word.word.domain.repository;
 
+import com.daun.word.member.domain.vo.Email;
 import com.daun.word.word.domain.Word;
 import com.daun.word.word.domain.vo.English;
 import com.daun.word.word.domain.vo.Korean;
@@ -28,7 +29,7 @@ class WordRepositoryTest {
     @Test
     void save() throws Exception {
         //given
-        Word word = new Word(new English("newWord"), new Korean("새로운단어"));
+        Word word = new Word(new English("newWord"), new Korean("새로운단어"), new Email("tester1@weword.com"));
         //when
         int saved = wordRepository.save(word);
         //then

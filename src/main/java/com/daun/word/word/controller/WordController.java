@@ -24,9 +24,7 @@ public class WordController {
 
     @GetMapping("/{english}")
     public ResponseEntity<?> findByEnglish(@PathVariable English english) {
-        logger.info(english.toString());
         Word word = wordService.findByEnglish(english);
-        logger.info(word.toString());
         return ResponseEntity.status(200).body(word);
     }
 

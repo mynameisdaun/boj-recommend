@@ -21,7 +21,12 @@ class KoreanTest {
                 Arguments.of("english"),
                 Arguments.of("…에 반대하여"),
                 Arguments.of("~에 반대하여"),
-                Arguments.of(" - 에 반대하여")
+                Arguments.of(" - 에 반대하여"),
+                Arguments.of("다만 홀로(혼자서)"),
+                Arguments.of("A.M. 오전"),
+                Arguments.of("나, 그리고 너"),
+                Arguments.of("10억"),
+                Arguments.of("나(=너)")
         );
     }
 
@@ -29,7 +34,6 @@ class KoreanTest {
         return Stream.of(
                 Arguments.of(" "),
                 Arguments.of(""),
-                Arguments.of("한국말1"),
                 Arguments.of("あいうえお")
         );
     }

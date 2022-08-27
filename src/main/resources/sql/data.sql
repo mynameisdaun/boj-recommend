@@ -20,30 +20,30 @@ VALUES ('tester1@weword.com',
         'oOdpDpTD3juuQy7ZVuEBnYkDH3cWJmM_lUie3eUcCj1zFwAAAYK54uKq', '2022-10-19 15:13:50');
 
 /* 단어 */
-INSERT INTO word (english, korean)
-VALUES ('we', '우리');
-INSERT INTO word (english, korean)
-VALUES ('word', '단어');
-INSERT INTO word (english, korean)
-VALUES ('hi', '안녕');
-INSERT INTO word (english, korean)
-VALUES ('assignment', '안녕하세요');
-INSERT INTO word (english, korean)
-VALUES ('name', '이름');
-INSERT INTO word (english, korean)
-VALUES ('you', '너');
-INSERT INTO word (english, korean)
-VALUES ('love', '사랑하다');
-INSERT INTO word (english, korean)
-VALUES ('get', '얻다');
-INSERT INTO word (english, korean)
-VALUES ('post', '게시하다');
-INSERT INTO word (english, korean)
-VALUES ('put', '놓다');
-INSERT INTO word (english, korean)
-VALUES ('delete', '삭제하다');
-INSERT INTO word (english, korean)
-VALUES ('option', '선택');
+INSERT INTO word (english, korean, created_by)
+VALUES ('we', '우리', 'tester1@weword.com');
+INSERT INTO word (english, korean, created_by)
+VALUES ('word', '단어', 'tester1@weword.com');
+INSERT INTO word (english, korean, created_by)
+VALUES ('hi', '안녕', 'tester1@weword.com');
+INSERT INTO word (english, korean, created_by)
+VALUES ('assignment', '안녕하세요', 'tester1@weword.com');
+INSERT INTO word (english, korean, created_by)
+VALUES ('name', '이름', 'tester1@weword.com');
+INSERT INTO word (english, korean, created_by)
+VALUES ('you', '너', 'tester1@weword.com');
+INSERT INTO word (english, korean, created_by)
+VALUES ('love', '사랑하다', 'tester1@weword.com');
+INSERT INTO word (english, korean, created_by)
+VALUES ('get', '얻다', 'tester1@weword.com');
+INSERT INTO word (english, korean, created_by)
+VALUES ('post', '게시하다', 'tester1@weword.com');
+INSERT INTO word (english, korean, created_by)
+VALUES ('put', '놓다', 'tester1@weword.com');
+INSERT INTO word (english, korean, created_by)
+VALUES ('delete', '삭제하다', 'tester1@weword.com');
+INSERT INTO word (english, korean, created_by)
+VALUES ('option', '선택', 'tester1@weword.com');
 
 /* 단어장 */
 INSERT INTO workbook (title, author, description, cover_image_url)
