@@ -6,8 +6,6 @@ import com.daun.word.workbook.domain.vo.Title;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 
@@ -15,17 +13,14 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @ToString
 public class WorkBook {
-    private final Logger logger = LoggerFactory.getLogger(WorkBook.class);
 
-    private Integer id;
     private final Title title;
     private final Author author;
     private final Description description;
     private final String coverImageUrl;
+    private Integer id;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-
 
     public WorkBook(Integer id, Title title, Author author, Description description, String coverImageUrl) {
         this.id = id;
@@ -48,5 +43,17 @@ public class WorkBook {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

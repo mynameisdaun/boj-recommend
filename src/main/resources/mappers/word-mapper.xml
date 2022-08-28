@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.daun.word.word.domain.repository.WordRepository">
-    <insert id="save" parameterType="com.daun.word.word.domain.Word" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="save" parameterType="com.daun.word.word.domain.Word" useGeneratedKeys="true" keyColumn="id"
+            keyProperty="id">
         INSERT INTO word
         (
         english,
@@ -17,10 +18,10 @@
         <selectKey keyColumn="id,created_at,updated_at" keyProperty="id,createdAt,updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
             SELECT word.id,
-                   word.created_at,
-                   word.updated_at
-              FROM word
-             where word.id = LAST_INSERT_ID();
+            word.created_at,
+            word.updated_at
+            FROM word
+            where word.id = LAST_INSERT_ID();
         </selectKey>
     </insert>
 
@@ -31,8 +32,8 @@
                word.created_by,
                word.created_at,
                word.updated_at
-          FROM word
-         WHERE word.english = #{english.value};
+        FROM word
+        WHERE word.english = #{english.value};
     </select>
 
     <select id="findByKorean" resultType="com.daun.word.word.domain.Word">
@@ -42,19 +43,19 @@
                word.created_by,
                word.created_at,
                word.updated_at
-          FROM word
-         WHERE word.korean = #{korean.value};
+        FROM word
+        WHERE word.korean = #{korean.value};
     </select>
 
     <select id="findByEnglishIn" resultType="com.daun.word.word.domain.Word">
         SELECT word.id,
-               word.english,
-               word.korean,
-               word.created_by,
-               word.created_at,
-               word.updated_at
-          FROM word
-         WHERE word.english IN
+        word.english,
+        word.korean,
+        word.created_by,
+        word.created_at,
+        word.updated_at
+        FROM word
+        WHERE word.english IN
         <foreach collection="englishes" item="english" separator="," open="(" close=")">
             #{english.value}
         </foreach>

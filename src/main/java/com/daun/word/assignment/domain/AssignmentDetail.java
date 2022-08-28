@@ -4,13 +4,13 @@ import com.daun.word.assignment.dto.AssignmentSaveRequest;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 import static com.daun.word.utils.DateUtils.now;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 public class AssignmentDetail {
     private Integer id;  //과제 상세정보 구분자(seq)
@@ -27,6 +27,18 @@ public class AssignmentDetail {
     private LocalDateTime createdAt; // 데이터 생성 일시
     private LocalDateTime updatedAt; // 데이터 수정 일시
 
+    public AssignmentDetail(Integer assignmentId, Integer chapterId, LocalDateTime startDateTime, LocalDateTime endDateTime, String quiz) {
+        this.assignmentId = assignmentId;
+        this.chapterId = chapterId;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.quiz = quiz;
+    }
+
+    public static AssignmentDetail fromSaveRequest(Integer assignmentId, AssignmentSaveRequest.AssignmentDetailSaveRequest request) {
+        return new AssignmentDetail(assignmentId, request.getChapterId(), request.getStartDateTime(), request.getEndDateTime(), request.getQuiz());
+    }
+
     public boolean isOpen() {
         return this.openYn.equals("Y");
     }
@@ -36,7 +48,7 @@ public class AssignmentDetail {
     }
 
     public void open() {
-        if(this.isOpen()){
+        if (this.isOpen()) {
             throw new IllegalStateException("한번 열람한 과제는 다시 열람할 수 없습니다");
         }
         this.openYn = "Y";
@@ -44,26 +56,14 @@ public class AssignmentDetail {
     }
 
     public void submission(String submission) {
-        if(!this.isOpen()) {
+        if (!this.isOpen()) {
             throw new IllegalStateException("열람하지 않은 과제는 제출할 수 없습니다.");
         }
-        if(this.isComplete()) {
+        if (this.isComplete()) {
             throw new IllegalStateException("한번 제출한 과제는 다시 제출할 수 없습니다.");
         }
-        this.submission=submission;
+        this.submission = submission;
         this.completeYn = "Y";
         this.completeDateTime = now();
-    }
-
-    public static AssignmentDetail fromSaveRequest(Integer assignmentId, AssignmentSaveRequest.AssignmentDetailSaveRequest request) {
-        return new AssignmentDetail(assignmentId, request.getChapterId(), request.getStartDateTime(), request.getEndDateTime(), request.getQuiz());
-    }
-
-    public AssignmentDetail(Integer assignmentId, Integer chapterId, LocalDateTime startDateTime, LocalDateTime endDateTime, String quiz) {
-        this.assignmentId = assignmentId;
-        this.chapterId = chapterId;
-        this.startDateTime = startDateTime;
-        this.endDateTime = endDateTime;
-        this.quiz = quiz;
     }
 }

@@ -12,7 +12,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.daun.word.Fixture.Fixture.*;
+import static com.daun.word.Fixture.Fixture.assignmentDetail_open_unComplete;
+import static com.daun.word.Fixture.Fixture.assignmentDetail_unOpen;
 import static com.daun.word.assignment.dto.AssignmentSaveRequest.AssignmentDetailSaveRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

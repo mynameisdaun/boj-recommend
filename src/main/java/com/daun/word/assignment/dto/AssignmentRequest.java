@@ -7,6 +7,7 @@ import javax.validation.constraints.Positive;
 
 @Data
 public class AssignmentRequest {
-    @NotNull @Positive
+    @NotNull
+    @Positive
     private Integer assignmentId;
 }

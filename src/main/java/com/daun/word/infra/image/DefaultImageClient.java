@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 @RequiredArgsConstructor
-public class DefaultImageClient implements ImageClient{
-    private Logger logger = LoggerFactory.getLogger(DefaultImageClient.class);
+public class DefaultImageClient implements ImageClient {
     private final String dir;
+    private final Logger logger = LoggerFactory.getLogger(DefaultImageClient.class);
 
     @Override
     public String writeFromMultipartFile(MultipartFile file) throws IOException {

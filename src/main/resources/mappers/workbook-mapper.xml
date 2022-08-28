@@ -21,10 +21,10 @@
         <selectKey keyColumn="id,created_at,updated_at" keyProperty="id,createdAt,updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
             SELECT workbook.id,
-                   workbook.created_at,
-                   workbook.updated_at
-              FROM workbook
-             WHERE workbook.id = LAST_INSERT_ID();
+            workbook.created_at,
+            workbook.updated_at
+            FROM workbook
+            WHERE workbook.id = LAST_INSERT_ID();
         </selectKey>
     </insert>
 

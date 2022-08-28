@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +18,8 @@ import java.util.NoSuchElementException;
 @Transactional
 @Service
 public class AssignmentService {
-    private Logger logger = LoggerFactory.getLogger(AssignmentService.class);
-
     private final AssignmentRepository assignmentRepository;
+    private final Logger logger = LoggerFactory.getLogger(AssignmentService.class);
 
     /* 과제를 열람한다 */
     public AssignmentDetailResponse open(Integer detailId) {

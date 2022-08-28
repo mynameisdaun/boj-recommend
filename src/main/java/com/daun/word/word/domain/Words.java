@@ -22,4 +22,8 @@ public class Words {
     public void forEach(Consumer<? super Word> action) {
         this.words.forEach(action);
     }
+
+    public int size() {
+        return this.getWords().size();
+    }
 }

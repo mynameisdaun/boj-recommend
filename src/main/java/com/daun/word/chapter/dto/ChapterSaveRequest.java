@@ -3,6 +3,7 @@ package com.daun.word.chapter.dto;
 import com.daun.word.word.domain.Word;
 import com.daun.word.workbook.domain.vo.Title;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,8 +25,25 @@ public class ChapterSaveRequest {
     }
 
     public ChapterSaveRequest(Map.Entry<Title, List<Word>> entry) {
-        this.title= entry.getKey();
+        this.title = entry.getKey();
         this.words = entry.getValue();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ChapterSaveRequest that = (ChapterSaveRequest) o;
+
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        return words != null ? words.equals(that.words) : that.words == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (words != null ? words.hashCode() : 0);
+        return result;
+    }
 }

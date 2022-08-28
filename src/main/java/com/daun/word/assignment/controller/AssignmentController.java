@@ -3,8 +3,6 @@ package com.daun.word.assignment.controller;
 import com.daun.word.assignment.dto.AssignmentRequest;
 import com.daun.word.assignment.dto.AssignmentSaveRequest;
 import com.daun.word.assignment.service.AssignmentService;
-import com.daun.word.word.domain.Word;
-import com.daun.word.word.domain.vo.English;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +22,13 @@ public class AssignmentController {
     }
 
     @GetMapping("/{assignmentId}")
-    public ResponseEntity<?> find (@PathVariable AssignmentRequest request) {
+    public ResponseEntity<?> find(@PathVariable AssignmentRequest request) {
         return ResponseEntity.status(200).body(assignmentService.findById(request));
     }
 
     @PutMapping("/{assignmentId}/open/{detailId}")
-    public ResponseEntity<?> open (
-            @PathVariable("assignmentId") Integer assignmentId, @PathVariable("detailId") Integer detailId ) {
+    public ResponseEntity<?> open(
+            @PathVariable("assignmentId") Integer assignmentId, @PathVariable("detailId") Integer detailId) {
         return ResponseEntity.status(200).body(assignmentService.open(detailId));
     }
 

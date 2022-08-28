@@ -17,14 +17,15 @@
         <selectKey keyColumn="id,created_at,updated_at" keyProperty="id,createdAt,updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
             SELECT chapter.id,
-                   chapter.created_at,
-                   chapter.updated_at
-              FROM chapter
-             WHERE chapter.id = LAST_INSERT_ID();
+            chapter.created_at,
+            chapter.updated_at
+            FROM chapter
+            WHERE chapter.id = LAST_INSERT_ID();
         </selectKey>
     </insert>
 
-    <insert id="saveChapterWordMapping" parameterType="com.daun.word.chapter.domain.vo.ChapterWordMapping" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="saveChapterWordMapping" parameterType="com.daun.word.chapter.domain.vo.ChapterWordMapping"
+            useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO chapter_word_mapping
         (
         chapter_id,
@@ -38,10 +39,10 @@
         <selectKey keyColumn="id,created_at,updated_at" keyProperty="id,createdAt,updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
             SELECT chapter_word_mapping.id,
-                   chapter_word_mapping.created_at,
-                   chapter_word_mapping.updated_at
-              FROM chapter_word_mapping
-             WHERE chapter_word_mapping.id = LAST_INSERT_ID();
+            chapter_word_mapping.created_at,
+            chapter_word_mapping.updated_at
+            FROM chapter_word_mapping
+            WHERE chapter_word_mapping.id = LAST_INSERT_ID();
         </selectKey>
     </insert>
 

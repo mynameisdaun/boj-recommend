@@ -5,19 +5,13 @@ import com.daun.word.chapter.domain.repository.ChapterRepository;
 import com.daun.word.chapter.domain.vo.ChapterWordMapping;
 import com.daun.word.chapter.dto.ChapterSaveRequest;
 import com.daun.word.chapter.dto.ChapterSaveResponse;
-import com.daun.word.word.domain.Word;
 import com.daun.word.word.domain.Words;
 import com.daun.word.word.domain.repository.WordRepository;
-import com.daun.word.word.domain.vo.English;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional

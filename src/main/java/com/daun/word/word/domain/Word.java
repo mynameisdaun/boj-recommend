@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 @ToString
 public class Word {
 
-    private Integer id;                 // 단어 일련번호(seq)
     private final English english;             // 영어 표기
     private final Korean korean;              // 한글 표기
     private final Email createdBy;
+    private Integer id;                 // 단어 일련번호(seq)
     private LocalDateTime createdAt;    // 생성 일시
     private LocalDateTime updatedAt;    // 최종 수정 일시
 
@@ -36,6 +36,18 @@ public class Word {
         this.korean = new Korean(korean);
         this.createdBy = new Email(createdBy);
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

@@ -15,4 +15,16 @@ public class ChapterWordMapping {
     private Integer id;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

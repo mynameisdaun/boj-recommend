@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 
 @Getter
 public class Chapter {
-    private Integer id;
     private final Title title;
     private final Integer workBookId;
     private final Words words;
+    private Integer id;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -26,5 +26,17 @@ public class Chapter {
         this.title = title;
         this.workBookId = workBookId;
         this.words = words;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

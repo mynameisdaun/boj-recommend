@@ -111,7 +111,7 @@ class AssignmentRepositoryTest {
     void save_assignment_detail() throws Exception {
         //given
         LocalDateTime now = LocalDateTime.now();
-        AssignmentDetail detail = new AssignmentDetail(assignment().getId(),chapter().getId(),now, now.plusDays(1),"temp-quiz");
+        AssignmentDetail detail = new AssignmentDetail(assignment().getId(), chapter().getId(), now, now.plusDays(1), "temp-quiz");
         //when
         int saved = assignmentRepository.saveDetail(detail);
         //then

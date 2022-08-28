@@ -28,7 +28,7 @@ class ChapterRepositoryTest {
     @Test
     void save_chapter() throws Exception {
         //given
-        Words words = new Words(new ArrayList<>(Arrays.asList(word())));
+        Words words = new Words(new ArrayList<>(Arrays.asList(word_1())));
         Chapter chapter = new Chapter(workbook().getId(), new Title("day 1"), words);
         //when
         int saved = chapterRepository.save(chapter);
@@ -41,7 +41,7 @@ class ChapterRepositoryTest {
     void saveChapterWordMapping() throws Exception {
         //given
         Chapter chapter = chapter();
-        Word word = word();
+        Word word = word_1();
         //when
         int saved = chapterRepository.saveChapterWordMapping(new ChapterWordMapping(chapter, word));
         //then

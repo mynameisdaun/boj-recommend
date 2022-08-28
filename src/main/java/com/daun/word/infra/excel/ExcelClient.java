@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public interface ExcelClient {
 
-    public void read(String filePath) throws IOException;
+    void read(String filePath) throws IOException;
 
-    public String writeFromMultipartFile(MultipartFile file) throws IOException;
+    String writeFromMultipartFile(MultipartFile file) throws IOException;
 }

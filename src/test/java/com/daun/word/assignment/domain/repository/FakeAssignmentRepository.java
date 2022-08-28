@@ -1,10 +1,7 @@
 package com.daun.word.assignment.domain.repository;
 
-import com.daun.word.Fixture.Fixture;
 import com.daun.word.assignment.domain.Assignment;
 import com.daun.word.assignment.domain.AssignmentDetail;
-import com.daun.word.member.domain.vo.Email;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;

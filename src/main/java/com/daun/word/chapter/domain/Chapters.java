@@ -15,7 +15,7 @@ public class Chapters {
     private List<Chapter> chapters;
 
     public Chapters(List<Chapter> chapters) {
-        if(chapters == null || chapters.isEmpty()) {
+        if (chapters == null || chapters.isEmpty()) {
             throw new IllegalArgumentException("챕터는 하나 이상이어야 합니다");
         }
         this.chapters = chapters;

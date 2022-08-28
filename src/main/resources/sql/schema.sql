@@ -129,19 +129,19 @@ create table assignment
 
 create table assignment_detail
 (
-    id                int      not null AUTO_INCREMENT PRIMARY KEY comment '과제 상세정보 구분자(seq)',
-    assignment_id     int      not null comment '과제 구분자(seq)',
-    chapter_id        int      not null comment '챕터 구분자(seq)',
+    id                 int      not null AUTO_INCREMENT PRIMARY KEY comment '과제 상세정보 구분자(seq)',
+    assignment_id      int      not null comment '과제 구분자(seq)',
+    chapter_id         int      not null comment '챕터 구분자(seq)',
     start_date_time    datetime not null comment '과제 시작일시',
     end_date_time      datetime not null comment '과제 종료일시',
-    open_yn           char(1)  not null default 'N' comment '과제 열람 여부',
+    open_yn            char(1)  not null default 'N' comment '과제 열람 여부',
     open_date_time     datetime comment '과제 열람 일시',
-    complete_yn       char(1)  not null default 'N' comment '과제 제출 여부',
+    complete_yn        char(1)  not null default 'N' comment '과제 제출 여부',
     complete_date_time datetime comment '과제 제출 일시',
-    quiz              text comment '문제 원문',
-    submission        text comment '과제 제출본',
-    created_at        datetime not null default current_timestamp comment '데이터 생성일시',
-    updated_at        datetime not null default current_timestamp comment '데이터 수정일시',
+    quiz               text comment '문제 원문',
+    submission         text comment '과제 제출본',
+    created_at         datetime not null default current_timestamp comment '데이터 생성일시',
+    updated_at         datetime not null default current_timestamp comment '데이터 수정일시',
     FOREIGN KEY (assignment_id) REFERENCES assignment (id),
     FOREIGN KEY (chapter_id) REFERENCES chapter (id)
 ) comment '과제 상세 정보';

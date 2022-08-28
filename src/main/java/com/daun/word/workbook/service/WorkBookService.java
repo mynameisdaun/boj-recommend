@@ -68,14 +68,15 @@ public class WorkBookService {
         for (int rowIndex = 1; rowIndex < sheet.getPhysicalNumberOfRows(); rowIndex++) {
             XSSFRow row = sheet.getRow(rowIndex);
             if (row != null) {
-                Title chapterName  = new Title(row.getCell(1).getStringCellValue());
-                English english    = new English(row.getCell(2).getStringCellValue());
-                Korean korean      = new Korean(row.getCell(3).getStringCellValue());
+                Title chapterName = new Title(row.getCell(1).getStringCellValue());
+                English english = new English(row.getCell(2).getStringCellValue());
+                Korean korean = new Korean(row.getCell(3).getStringCellValue());
                 List<Word> list = map.getOrDefault(chapterName, new ArrayList<Word>());
                 list.add(new Word(english, korean, request.getCreatedBy()));
                 map.put(chapterName, list);
             }
         }
+
         return save(new WorkBookSaveRequest(
                 request.getTitle(),
                 request.getAuthor(),

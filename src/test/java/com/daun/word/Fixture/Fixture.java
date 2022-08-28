@@ -3,6 +3,7 @@ package com.daun.word.Fixture;
 import com.daun.word.assignment.domain.Assignment;
 import com.daun.word.assignment.domain.AssignmentDetail;
 import com.daun.word.chapter.domain.Chapter;
+import com.daun.word.chapter.domain.vo.ChapterWordMapping;
 import com.daun.word.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.infra.kakao.dto.KakaoTokenResponse;
 import com.daun.word.member.domain.Member;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Fixture {
     public static String FAKE_KAKAO_REST_API_KEY = "fake-api-key";
@@ -86,8 +88,24 @@ public class Fixture {
         );
     }
 
-    public static Word word() {
+    public static Word word_1() {
+        return new Word(1, new English("we"), new Korean("우리"), new Email("tester1@weword.com"));
+    }
+
+    public static Word word_2() {
         return new Word(1, new English("word"), new Korean("단어"), new Email("tester1@weword.com"));
+    }
+
+    public static Word word_3() {
+        return new Word(1, new English("hi"), new Korean("안녕"), new Email("tester1@weword.com"));
+    }
+
+    public static List<Word> words() {
+        List<Word> words = new ArrayList<>();
+        words.add(word_1());
+        words.add(word_2());
+        words.add(word_3());
+        return words;
     }
 
     public static WorkBook workbook() {
@@ -100,7 +118,19 @@ public class Fixture {
     }
 
     public static Chapter chapter() {
-        return new Chapter(1, new Title("Day 1"), 1, new Words(new ArrayList<>(Arrays.asList(word()))));
+        return new Chapter(1, new Title("Day 1"), 1, new Words(new ArrayList<>(Arrays.asList(word_1()))));
+    }
+
+    public static ChapterWordMapping chapterWordMapping_1() {
+        return new ChapterWordMapping(chapter(), word_1());
+    }
+
+    public static ChapterWordMapping chapterWordMapping_2() {
+        return new ChapterWordMapping(chapter(), word_2());
+    }
+
+    public static ChapterWordMapping chapterWordMapping_3() {
+        return new ChapterWordMapping(chapter(), word_3());
     }
 
     public static Assignment assignment() {

@@ -2,26 +2,24 @@ package com.daun.word.assignment.domain;
 
 import com.daun.word.assignment.dto.AssignmentSaveRequest;
 import com.daun.word.member.domain.vo.Email;
-import lombok.*;
+import lombok.Getter;
+import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 
-@Getter @ToString
+@Getter
+@ToString
 public class Assignment {
     private final Logger logger = LoggerFactory.getLogger(Assignment.class);
 
     private Integer id;
-    private Email assignFrom;
-    private Email assignTo;
-    private Integer workbookId;
+    private final Email assignFrom;
+    private final Email assignTo;
+    private final Integer workbookId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    public static Assignment fromSaveRequest(AssignmentSaveRequest request) {
-        return new Assignment(request.getAssignFrom(), request.getAssignTo(), request.getWorkbookId());
-    }
 
     public Assignment(Email assignFrom, Email assignTo, Integer workbookId) {
         this.assignFrom = assignFrom;
@@ -43,6 +41,10 @@ public class Assignment {
         this.workbookId = workbookId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public static Assignment fromSaveRequest(AssignmentSaveRequest request) {
+        return new Assignment(request.getAssignFrom(), request.getAssignTo(), request.getWorkbookId());
     }
 
     public void setId(Integer id) {
