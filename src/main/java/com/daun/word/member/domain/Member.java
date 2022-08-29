@@ -4,8 +4,12 @@ import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
 import com.daun.word.member.domain.vo.SocialType;
 import lombok.*;
+import org.apache.poi.ss.formula.eval.NotImplementedException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 import static com.daun.word.utils.StringUtils.isNullOrBlank;
 
@@ -14,7 +18,7 @@ import static com.daun.word.utils.StringUtils.isNullOrBlank;
 @Getter
 @ToString
 @EqualsAndHashCode(exclude = {"id", "password", "createdAt", "updatedAt", "nickname"})
-public class Member {
+public class Member implements UserDetails {
     private Integer id;
     private Email email;
     @ToString.Exclude
@@ -23,6 +27,7 @@ public class Member {
     private SocialType socialType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    //TODO: member Role 설정하기?
 
     public Member(Email email, String password, Nickname nickname, SocialType socialType) {
         if (email == null || isNullOrBlank(password) || nickname == null || socialType == null) {
@@ -40,5 +45,35 @@ public class Member {
 
     public void setNickname(String nickname) {
         this.nickname = new Nickname(nickname);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        throw new NotImplementedException("");
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email.getValue();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

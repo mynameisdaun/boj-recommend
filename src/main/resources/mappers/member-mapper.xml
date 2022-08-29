@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.daun.word.member.domain.repository.MemberRepository">
 
+    <select id="findByEmail" resultType="com.daun.word.member.domain.Member">
+        /* email로 회원 조회 */
+        SELECT member.id          as id,
+               member.email       as email,
+               member.nickname    as nickname,
+               member.social_type as socialType,
+               member.created_at  as createdAt,
+               member.updated_at  as updatedAt
+          FROM member
+         WHERE member.email = #{email.value}
+    </select>
+
     <select id="findByEmailAndSocialType" resultType="com.daun.word.member.domain.Member">
         /* email, Social Type으로 회원 조회 */
         SELECT member.id          as id,
@@ -10,10 +22,11 @@
                member.social_type as socialType,
                member.created_at  as createdAt,
                member.updated_at  as updatedAt
-        FROM member
-        WHERE member.email = #{email.value}
-          AND member.social_type = #{socialType}
+          FROM member
+         WHERE member.email = #{email.value}
+           AND member.social_type = #{socialType}
     </select>
+
     <insert id="register" parameterType="com.daun.word.member.domain.Member" useGeneratedKeys="true" keyColumn="id"
             keyProperty="id">
         /* 회원 생성 */

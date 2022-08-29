@@ -17,5 +17,9 @@ public interface MemberRepository {
     int register(@Param("member") Member request);
 
     /* Email, Social Type 으로 회원 조회하기 */
+    Optional<Member> findByEmail(@Param("email") Email email);
+
+    /* Email, Social Type 으로 회원 조회하기 */
+    //TODO: 안쓰는 코드
     Optional<Member> findByEmailAndSocialType(@Param("email") Email email, @Param("socialType") SocialType socialType);
 }

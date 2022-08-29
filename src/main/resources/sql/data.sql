@@ -27,7 +27,7 @@ VALUES ('word', '단어', 'tester1@weword.com');
 INSERT INTO word (english, korean, created_by)
 VALUES ('hi', '안녕', 'tester1@weword.com');
 INSERT INTO word (english, korean, created_by)
-VALUES ('assignment', '안녕하세요', 'tester1@weword.com');
+VALUES ('assignment', '과제', 'tester1@weword.com');
 INSERT INTO word (english, korean, created_by)
 VALUES ('name', '이름', 'tester1@weword.com');
 INSERT INTO word (english, korean, created_by)

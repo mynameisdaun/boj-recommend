@@ -6,16 +6,28 @@ import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.member.dto.RegisterRequest;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
+@Slf4j
 @Service
 @AllArgsConstructor
-public class MemberService {
-    private final Logger logger = LoggerFactory.getLogger(MemberService.class);
-
+public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
+
+    /* security 에서 사용하는 username은 사실 email 을 의미한다. */
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return memberRepository.findByEmail(new Email(username))
+                .orElseThrow(NoSuchElementException::new);
+    }
 
     /* 회원 가입 */
     public Member register(RegisterRequest request) {
@@ -37,4 +49,5 @@ public class MemberService {
         }
         return memberRepository.findByEmailAndSocialType(email, socialType).orElse(null);
     }
+
 }

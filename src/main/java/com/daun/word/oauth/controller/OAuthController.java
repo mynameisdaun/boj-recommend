@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/oauth")
+@RequestMapping("/auth")
 public class OAuthController {
 
     private final OAuthService oAuthService;

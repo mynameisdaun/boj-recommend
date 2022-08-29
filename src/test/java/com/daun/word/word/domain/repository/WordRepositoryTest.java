@@ -1,5 +1,6 @@
 package com.daun.word.word.domain.repository;
 
+import com.daun.word.commons.Id;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.word.domain.Word;
 import com.daun.word.word.domain.vo.English;
@@ -77,6 +78,23 @@ class WordRepositoryTest {
         );
     }
 
+    @DisplayName(value = "단어 아이디들로 단어들을 조회한다")
+    @Test
+    void findByIdIn() throws Exception {
+        //given
+        List<Id<Word, Integer>> finds = new ArrayList<Id<Word, Integer>>();
+        finds.add(Id.of(Word.class, 1));
+        finds.add(Id.of(Word.class, 2));
+        finds.add(Id.of(Word.class, 3));
+        //when
+        List<Word> words = wordRepository.findByIdIn(finds);
+        //then
+        assertThat(words).isNotNull();
+        assertAll(
+                () -> assertThat(words.size()).isEqualTo(3)
+        );
+    }
+
     @DisplayName(value = "저장되지 않는 영어단어를 조회할 수는 없다")
     @Test
     void findByEnglishIn_no_exist() throws Exception {
@@ -90,5 +108,14 @@ class WordRepositoryTest {
         assertAll(
                 () -> assertThat(words.isEmpty()).isTrue()
         );
+    }
+
+    @DisplayName(value = "단어 총 갯수를 조회한다")
+    @Test
+    void count() throws Exception {
+        //given&&when
+        int count = wordRepository.count();
+        //then
+        assertThat(count).isEqualTo(12);
     }
 }

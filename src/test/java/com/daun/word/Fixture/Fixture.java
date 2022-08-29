@@ -93,11 +93,23 @@ public class Fixture {
     }
 
     public static Word word_2() {
-        return new Word(1, new English("word"), new Korean("단어"), new Email("tester1@weword.com"));
+        return new Word(2, new English("word"), new Korean("단어"), new Email("tester1@weword.com"));
     }
 
     public static Word word_3() {
-        return new Word(1, new English("hi"), new Korean("안녕"), new Email("tester1@weword.com"));
+        return new Word(3, new English("hi"), new Korean("안녕"), new Email("tester1@weword.com"));
+    }
+
+    public static Word word_4() {
+        return new Word(4, new English("assignment"), new Korean("과제"), new Email("tester1@weword.com"));
+    }
+
+    public static Word word_5() {
+        return new Word(5, new English("name"), new Korean("이름"), new Email("tester1@weword.com"));
+    }
+
+    public static Word word_6() {
+        return new Word(6, new English("you"), new Korean("너"), new Email("tester1@weword.com"));
     }
 
     public static List<Word> words() {
