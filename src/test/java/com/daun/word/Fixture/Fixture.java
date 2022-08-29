@@ -4,6 +4,7 @@ import com.daun.word.assignment.domain.Assignment;
 import com.daun.word.assignment.domain.AssignmentDetail;
 import com.daun.word.chapter.domain.Chapter;
 import com.daun.word.chapter.domain.vo.ChapterWordMapping;
+import com.daun.word.commons.Id;
 import com.daun.word.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.infra.kakao.dto.KakaoTokenResponse;
 import com.daun.word.member.domain.Member;
@@ -11,6 +12,9 @@ import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
 import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.oauth.token.domain.Token;
+import com.daun.word.quiz.domain.Quiz;
+import com.daun.word.quiz.domain.vo.QuizStatus;
+import com.daun.word.quiz.domain.vo.QuizType;
 import com.daun.word.word.domain.Word;
 import com.daun.word.word.domain.Words;
 import com.daun.word.word.domain.vo.English;
@@ -31,6 +35,7 @@ public class Fixture {
     public static String FAKE_KAKAO_REDIRECT_URI = "fake-redirect-uri";
     private static Token token;
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
 
     public static Email email() {
         return new Email("tester1@weword.com");
@@ -89,27 +94,39 @@ public class Fixture {
     }
 
     public static Word word_1() {
-        return new Word(1, new English("we"), new Korean("우리"), new Email("tester1@weword.com"));
+        return new Word(
+                1,
+                new English("we"),
+                new Korean("우리"),
+                new Email("tester1@weword.com"),
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter),
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter)
+        );
     }
 
     public static Word word_2() {
-        return new Word(2, new English("word"), new Korean("단어"), new Email("tester1@weword.com"));
+        return new Word(2, new English("word"), new Korean("단어"), new Email("tester1@weword.com"), LocalDateTime.parse("2022-08-19 16:43:51", formatter),
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter));
     }
 
     public static Word word_3() {
-        return new Word(3, new English("hi"), new Korean("안녕"), new Email("tester1@weword.com"));
+        return new Word(3, new English("hi"), new Korean("안녕"), new Email("tester1@weword.com"), LocalDateTime.parse("2022-08-19 16:43:51", formatter),
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter));
     }
 
     public static Word word_4() {
-        return new Word(4, new English("assignment"), new Korean("과제"), new Email("tester1@weword.com"));
+        return new Word(4, new English("assignment"), new Korean("과제"), new Email("tester1@weword.com"), LocalDateTime.parse("2022-08-19 16:43:51", formatter),
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter));
     }
 
     public static Word word_5() {
-        return new Word(5, new English("name"), new Korean("이름"), new Email("tester1@weword.com"));
+        return new Word(5, new English("name"), new Korean("이름"), new Email("tester1@weword.com"), LocalDateTime.parse("2022-08-19 16:43:51", formatter),
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter));
     }
 
     public static Word word_6() {
-        return new Word(6, new English("you"), new Korean("너"), new Email("tester1@weword.com"));
+        return new Word(6, new English("you"), new Korean("너"), new Email("tester1@weword.com"), LocalDateTime.parse("2022-08-19 16:43:51", formatter),
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter));
     }
 
     public static List<Word> words() {
@@ -165,8 +182,6 @@ public class Fixture {
                 LocalDateTime.parse("2022-08-21 15:43:51", formatter),
                 "Y",
                 LocalDateTime.parse("2022-08-21 16:43:51", formatter),
-                "fake-quiz",
-                "fake-submission",
                 LocalDateTime.parse("2022-08-19 16:43:51", formatter),
                 LocalDateTime.parse("2022-08-21 16:43:51", formatter)
         );
@@ -182,8 +197,6 @@ public class Fixture {
                 "Y",
                 LocalDateTime.parse("2022-08-21 15:43:51", formatter),
                 "N",
-                null,
-                "fake-quiz",
                 null,
                 LocalDateTime.parse("2022-08-19 16:43:51", formatter),
                 LocalDateTime.parse("2022-08-19 16:43:51", formatter)
@@ -201,12 +214,53 @@ public class Fixture {
                 null,
                 "N",
                 null,
-                "fake-quiz",
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter),
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter)
+        );
+    }
+
+    public static Quiz quiz_un_submitted() {
+        return new Quiz(
+                1,
+                Id.of(Chapter.class, 1),
+                word_1(),
+                new ArrayList<Word>(Arrays.asList(word_1(), word_2(), word_3(), word_4())),
+                QuizType.M,
+                QuizStatus.UN_SUBMITTED,
                 null,
                 LocalDateTime.parse("2022-08-19 16:43:51", formatter),
                 LocalDateTime.parse("2022-08-19 16:43:51", formatter)
         );
     }
+
+    public static Quiz quiz_correct() {
+        return new Quiz(
+                2,
+                Id.of(Chapter.class, 1),
+                word_2(),
+                new ArrayList<Word>(Arrays.asList(word_1(), word_2(), word_3(), word_4())),
+                QuizType.M,
+                QuizStatus.CORRECT,
+                word_2(),
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter),
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter)
+        );
+    }
+
+    public static Quiz quiz_un_correct() {
+        return new Quiz(
+                3,
+                Id.of(Chapter.class, 1),
+                word_3(),
+                new ArrayList<Word>(Arrays.asList(word_1(), word_2(), word_3(), word_4())),
+                QuizType.M,
+                QuizStatus.UN_CORRECT,
+                word_1(),
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter),
+                LocalDateTime.parse("2022-08-19 16:43:51", formatter)
+        );
+    }
+
 
 }
 

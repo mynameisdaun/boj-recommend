@@ -1,5 +1,6 @@
 /* 22.08.17 회원 테이블 */
 
+drop table if exists quiz;
 drop table if exists assignment_detail;
 drop table if exists assignment;
 drop table if exists member_workbook_mapping;
@@ -83,7 +84,7 @@ CREATE TABLE word
     PRIMARY KEY (id)
 ) comment '단어';
 
-/* 22.08.18 챕터 단어 매핑 테이블 */
+/*22.08.18 챕터 단어 매핑 테이블*/
 
 create table chapter_word_mapping
 (
@@ -138,13 +139,26 @@ create table assignment_detail
     open_date_time     datetime comment '과제 열람 일시',
     complete_yn        char(1)  not null default 'N' comment '과제 제출 여부',
     complete_date_time datetime comment '과제 제출 일시',
-    quiz               text comment '문제 원문',
-    submission         text comment '과제 제출본',
     created_at         datetime not null default current_timestamp comment '데이터 생성일시',
     updated_at         datetime not null default current_timestamp comment '데이터 수정일시',
     FOREIGN KEY (assignment_id) REFERENCES assignment (id),
     FOREIGN KEY (chapter_id) REFERENCES chapter (id)
 ) comment '과제 상세 정보';
+
+create table quiz
+(
+    id          int auto_increment primary key not null comment '퀴즈 구분자(seq)',
+    chapter_id  int                not null comment '챕터 id',
+    word_id     int                not null comment '단어 id',
+    options     text               not null comment '선택지 (구분자,)',
+    quiz_type   varchar(50)        not null comment '퀴즈 타입',
+    quiz_status varchar(50)        not null comment '퀴즈 제출 상태',
+    submission  varchar(100)                comment '제출',
+    created_at  datetime           not null default current_timestamp comment '데이터 생성일시',
+    updated_at  datetime           not null default current_timestamp comment '데이터 수정일시',
+    FOREIGN KEY (word_id) REFERENCES word (id),
+    FOREIGN KEY (chapter_id) REFERENCES chapter (id)
+) comment '퀴즈';
 
 
 

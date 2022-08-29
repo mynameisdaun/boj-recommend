@@ -25,7 +25,7 @@ public class Id<R, V> {
         return new Id<>(reference, value);
     }
 
-    public V value() {
+    public V getValue() {
         return value;
     }
 

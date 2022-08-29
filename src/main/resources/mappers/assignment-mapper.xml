@@ -22,8 +22,6 @@
                assignment_detail.open_yn,
                assignment_detail.complete_yn,
                assignment_detail.complete_date_time,
-               assignment_detail.quiz,
-               assignment_detail.submission,
                assignment_detail.created_at,
                assignment_detail.updated_at
         FROM assignment_detail
@@ -39,8 +37,6 @@
                assignment_detail.open_yn,
                assignment_detail.complete_yn,
                assignment_detail.complete_date_time,
-               assignment_detail.quiz,
-               assignment_detail.submission,
                assignment_detail.created_at,
                assignment_detail.updated_at
         FROM assignment_detail
@@ -55,13 +51,11 @@
         open_date_time = #{detail.openDateTime},
         complete_yn = #{detail.completeYn},
         complete_date_time = #{detail.completeDateTime},
-        quiz = #{detail.quiz},
-        submission = #{detail.submission},
         updated_at = current_timestamp
         WHERE id = #{detail.id}
         <selectKey
-                keyColumn="start_date_time,end_date_time,open_yn,open_date_time,complete_yn,complete_date_time,quiz,submission,updated_at"
-                keyProperty="detail.startDateTime,detail.endDateTime,detail.openYn,detail.openDateTime,detail.completeYn,detail.completeDateTime,detail.quiz,detail.submission,detail.updatedAt"
+                keyColumn="start_date_time,end_date_time,open_yn,open_date_time,complete_yn,complete_date_time,updated_at"
+                keyProperty="detail.startDateTime,detail.endDateTime,detail.openYn,detail.openDateTime,detail.completeYn,detail.completeDateTime,detail.updatedAt"
                 resultType="java.util.HashMap" order="AFTER">
             SELECT assignment_detail.start_date_time,
             assignment_detail.end_date_time,
@@ -69,8 +63,6 @@
             assignment_detail.open_date_time,
             assignment_detail.complete_yn,
             assignment_detail.complete_date_time,
-            assignment_detail.quiz,
-            assignment_detail.submission,
             assignment_detail.created_at,
             assignment_detail.updated_at
             FROM assignment_detail
@@ -110,16 +102,14 @@
         assignment_id,
         chapter_id,
         start_date_time,
-        end_date_time,
-        quiz
+        end_date_time
         )
         VALUES
         (
         #{detail.assignmentId},
         #{detail.chapterId},
         #{detail.startDateTime},
-        #{detail.endDateTime},
-        #{detail.quiz}
+        #{detail.endDateTime}
         )
         <selectKey keyColumn="id,open_yn,complete_yn,created_at,updated_at"
                    keyProperty="id,openYn,completeYn,createdAt,updatedAt"

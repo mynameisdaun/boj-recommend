@@ -1,5 +1,6 @@
 package com.daun.word.quiz.domain;
 
+import com.daun.word.chapter.domain.Chapter;
 import com.daun.word.commons.Id;
 import com.daun.word.quiz.domain.vo.QuizStatus;
 import com.daun.word.quiz.domain.vo.QuizType;
@@ -22,23 +23,22 @@ public class QuizFactory {
     private final int numberOfMultipleChoice = 4;
 
     @Transactional
-    public Quiz generateMultipleChoiceQuiz(Word word) {
-        List<Word> options = createOptions(word, wordRepository.count());
-        return new Quiz(word, options, QuizType.M, QuizStatus.UN_SUBMITTED);
+    public Quiz generateMultipleChoiceQuiz(Word word, Id<Chapter, Integer> chapterId) {
+        List<Word> options = createAutoOptions(word, wordRepository.count());
+        return new Quiz(chapterId, word, options, QuizType.M);
     }
 
-    @Transactional(readOnly = true)
-    public List<Word> createOptions(Word word, int max) {
-        return wordRepository.findByIdIn(createOptionIds(word, max));
+    private List<Word> createAutoOptions(Word word, int max) {
+        return wordRepository.findByIdIn(createAutoOptionIds(word, max));
     }
 
-    private List<Id<Word, Integer>> createOptionIds(Word word, int max) {
+    private List<Id<Word, Integer>> createAutoOptionIds(Word word, int max) {
         List<Id<Word, Integer>> options = new ArrayList<>();
         options.add(Id.of(Word.class, word.getId()));
 
         while (options.size() < numberOfMultipleChoice) {
             Integer number = new Random().nextInt(max) + 1;
-            if (!word.getId().equals(number)) {
+            if (!word.getId().equals(number)&&!options.contains(Id.of(Word.class, number))) {
                 options.add(Id.of(Word.class, number));
             }
         }

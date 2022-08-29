@@ -45,8 +45,6 @@ class AssignmentRepositoryTest {
                 after101years,
                 "Y",
                 after102years,
-                "new-quizs",
-                "new-submission",
                 detail.getCreatedAt(),
                 detail.getUpdatedAt()
         );
@@ -59,9 +57,7 @@ class AssignmentRepositoryTest {
                 () -> assertThat(updated.getOpenYn()).isEqualTo("Y"),
                 () -> assertThat(updated.getOpenDateTime()).isEqualToIgnoringNanos(after101years),
                 () -> assertThat(updated.getCompleteYn()).isEqualTo("Y"),
-                () -> assertThat(updated.getCompleteDateTime()).isEqualToIgnoringNanos(after102years),
-                () -> assertThat(updated.getQuiz()).isEqualTo("new-quizs"),
-                () -> assertThat(updated.getSubmission()).isEqualTo("new-submission")
+                () -> assertThat(updated.getCompleteDateTime()).isEqualToIgnoringNanos(after102years)
         );
     }
 
@@ -111,7 +107,7 @@ class AssignmentRepositoryTest {
     void save_assignment_detail() throws Exception {
         //given
         LocalDateTime now = LocalDateTime.now();
-        AssignmentDetail detail = new AssignmentDetail(assignment().getId(), chapter().getId(), now, now.plusDays(1), "temp-quiz");
+        AssignmentDetail detail = new AssignmentDetail(assignment().getId(), chapter().getId(), now, now.plusDays(1));
         //when
         int saved = assignmentRepository.saveDetail(detail);
         //then

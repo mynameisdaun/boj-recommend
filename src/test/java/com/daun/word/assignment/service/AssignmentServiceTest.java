@@ -40,7 +40,6 @@ class AssignmentServiceTest {
         //then
         assertThat(response).isNotNull();
         assertAll(
-                () -> assertThat(response.getDetail().getSubmission()).isEqualTo(submission),
                 () -> assertThat(response.getDetail().getCompleteYn()).isEqualTo("Y"),
                 () -> assertThat(response.getDetail().getCompleteDateTime()).isNotNull()
         );

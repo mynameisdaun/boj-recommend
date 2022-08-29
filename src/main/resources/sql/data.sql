@@ -8,6 +8,7 @@ VALUES ('tester2@weword.com', 'fake-password', '테스터2', 'W');
 
 INSERT INTO member(email, password, nickname, social_type)
 VALUES ('tester3@weword.com', 'fake-password', '테스터3', 'W');
+
 /* 토큰 */
 INSERT INTO token (member_email, access_token, access_token_expired_date, refresh_token, refresh_token_expired_date,
                    member_social_type, social_access_token, social_access_token_expired_date, social_refresh_token,
@@ -91,12 +92,23 @@ VALUES ('1', 'tester1@weword.com', 'tester2@weword.com');
 /* TODO: quiz 가짜로 만들어둔것 다 고쳐야 한다*/
 /*open complete*/
 INSERT INTO assignment_detail(assignment_id, chapter_id, start_date_time, end_date_time, open_yn, open_date_time,
-                              complete_yn, complete_date_time, quiz, submission)
-VALUES (1, 1, '2022-08-20 15:43:51', '2023-08-21 15:43:51', 'Y', '2022-08-21 15:43:51', 'Y', '2022-08-21 16:43:51',
-        'fake-quiz', 'fake-submission');
+                              complete_yn, complete_date_time)
+VALUES (1, 1, '2022-08-20 15:43:51', '2023-08-21 15:43:51', 'Y', '2022-08-21 15:43:51', 'Y', '2022-08-21 16:43:51');
 /*open un complete*/
-INSERT INTO assignment_detail(assignment_id, chapter_id, start_date_time, end_date_time, open_yn, open_date_time, quiz)
-VALUES (1, 2, '2022-08-20 15:43:51', '2023-08-21 15:43:51', 'Y', '2022-08-21 15:43:51', 'fake-quiz');
+INSERT INTO assignment_detail(assignment_id, chapter_id, start_date_time, end_date_time, open_yn, open_date_time)
+VALUES (1, 2, '2022-08-20 15:43:51', '2023-08-21 15:43:51', 'Y', '2022-08-21 15:43:51');
 /*un open un complete*/
-INSERT INTO assignment_detail(assignment_id, chapter_id, start_date_time, end_date_time, quiz)
-VALUES (1, 3, '2022-08-20 15:43:51', '2023-08-21 15:43:51', 'fake-quiz');
+INSERT INTO assignment_detail(assignment_id, chapter_id, start_date_time, end_date_time)
+VALUES (1, 3, '2022-08-20 15:43:51', '2023-08-21 15:43:51');
+
+/* un submitted*/
+INSERT INTO quiz(chapter_id, word_id, options, quiz_type, quiz_status)
+VALUES (1, 1, '1,2,3,4', 'M', 'UN_SUBMITTED');
+
+/* CORRECT */
+INSERT INTO quiz(chapter_id, word_id, options, quiz_type, quiz_status, submission)
+VALUES (1, 2, '1,2,3,4', 'M', 'CORRECT', 2);
+
+/* UN_CORRECT */
+INSERT INTO quiz(chapter_id, word_id, options, quiz_type, quiz_status, submission)
+VALUES (1, 3, '1,2,3,4', 'M', 'UN_CORRECT', 1);

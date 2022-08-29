@@ -22,21 +22,18 @@ public class AssignmentDetail {
     private LocalDateTime openDateTime; // 과제 열람 일시
     private String completeYn; // 과제 제출 여부
     private LocalDateTime completeDateTime; // 과제 제출 일시
-    private String quiz; // 문제 원문
-    private String submission; // 과제 제출본
     private LocalDateTime createdAt; // 데이터 생성 일시
     private LocalDateTime updatedAt; // 데이터 수정 일시
 
-    public AssignmentDetail(Integer assignmentId, Integer chapterId, LocalDateTime startDateTime, LocalDateTime endDateTime, String quiz) {
+    public AssignmentDetail(Integer assignmentId, Integer chapterId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         this.assignmentId = assignmentId;
         this.chapterId = chapterId;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
-        this.quiz = quiz;
     }
 
     public static AssignmentDetail fromSaveRequest(Integer assignmentId, AssignmentSaveRequest.AssignmentDetailSaveRequest request) {
-        return new AssignmentDetail(assignmentId, request.getChapterId(), request.getStartDateTime(), request.getEndDateTime(), request.getQuiz());
+        return new AssignmentDetail(assignmentId, request.getChapterId(), request.getStartDateTime(), request.getEndDateTime());
     }
 
     public boolean isOpen() {
@@ -62,7 +59,6 @@ public class AssignmentDetail {
         if (this.isComplete()) {
             throw new IllegalStateException("한번 제출한 과제는 다시 제출할 수 없습니다.");
         }
-        this.submission = submission;
         this.completeYn = "Y";
         this.completeDateTime = now();
     }

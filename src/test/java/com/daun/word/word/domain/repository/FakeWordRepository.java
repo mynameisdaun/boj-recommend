@@ -62,7 +62,7 @@ public class FakeWordRepository implements WordRepository {
     public List<Word> findByIdIn(List<Id<Word, Integer>> ids) {
         return wordTable.entrySet()
                 .stream()
-                .filter(w->ids.stream().map(Id::value).collect(Collectors.toList()).contains(w.getKey()))
+                .filter(w->ids.stream().map(Id::getValue).collect(Collectors.toList()).contains(w.getKey()))
                 .map(w->w.getValue())
                 .collect(Collectors.toList());
     }

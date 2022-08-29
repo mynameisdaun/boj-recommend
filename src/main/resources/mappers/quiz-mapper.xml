@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daun.word.quiz.domain.repository.QuizRepository">
+
+    <resultMap id="quizMap" type="com.daun.word.quiz.domain.Quiz">
+        <id column="id" property="id"/>
+        <result column="chapter_id" property="chapterId"/>
+        <result column="quiz_type" property="quizType" />
+        <result column="quiz_status" property="quizStatus" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="createdAt" />
+        <association column="word_id" property="word" javaType="com.daun.word.word.domain.Word" select="findWord"/>
+        <association column="submission" property="submission" javaType="com.daun.word.word.domain.Word" select="findWord"/>
+        <collection column="options" property="options" javaType="List" ofType="com.daun.word.word.domain.Word" select="findOptions" />
+    </resultMap>
+
+    <select id="findById" resultMap="quizMap">
+        select id,
+               chapter_id,
+               word_id,
+               options,
+               quiz_type,
+               quiz_status,
+               submission,
+               created_at,
+               updated_at
+         from quiz
+        where id = #{id.value}
+    </select>
+
+    <insert id="save" parameterType="com.daun.word.quiz.domain.Quiz" useGeneratedKeys="true" keyColumn="id"
+            keyProperty="id">
+        INSERT INTO quiz
+        (
+        chapter_id,
+        word_id,
+        options,
+        quiz_type,
+        quiz_status,
+        submission
+        )
+        VALUES
+        (
+        #{quiz.chapterId.value},
+        #{quiz.word.id},
+        #{quiz.stringOption},
+        #{quiz.quizType.name},
+        #{quiz.quizStatus.name},
+        #{quiz.submission}
+        )
+        <selectKey keyColumn="id,created_at,updated_at" keyProperty="quiz.id,quiz.createdAt,quiz.updatedAt"
+                   resultType="java.util.HashMap" order="AFTER">
+            SELECT quiz.id,
+            quiz.created_at,
+            quiz.updated_at
+            FROM quiz
+            WHERE quiz.id = LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.daun.word.quiz.domain.Quiz">
+        UPDATE quiz
+        SET word_id = #{quiz.word.id},
+        chapter_id = #{quiz.chapterId.value},
+        options = #{quiz.stringOption},
+        quiz_type = #{quiz.quizType.name},
+        quiz_status = #{quiz.quizStatus.name},
+        submission = #{quiz.submission.id},
+        updated_at = current_timestamp
+        where id = #{quiz.id}
+        <selectKey keyColumn="id,updated_at" keyProperty="quiz.id,quiz.updatedAt" resultType="java.util.HashMap"
+                   order="AFTER">
+            SELECT id,
+            updated_at
+            FROM quiz
+            WHERE id = #{quiz.id};
+        </selectKey>
+    </update>
+
+    <select id="findOptions" resultType="com.daun.word.word.domain.Word">
+        SELECT  word.id,
+                word.english,
+                word.korean,
+                word.created_by,
+                word.created_at,
+                word.updated_at
+          FROM  word
+         where  word.id IN ( ${options} )
+    </select>
+
+    <select id="findWord" resultType="com.daun.word.word.domain.Word">
+        SELECT  word.id,
+                word.english,
+                word.korean,
+                word.created_by,
+                word.created_at,
+                word.updated_at
+          FROM  word
+         where  word.id = ${id}
+    </select>
+
+</mapper>
