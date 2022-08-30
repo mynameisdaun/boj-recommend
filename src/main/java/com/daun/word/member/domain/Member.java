@@ -1,15 +1,14 @@
 package com.daun.word.member.domain;
 
+import com.daun.word.commons.Id;
+import com.daun.word.config.security.Jwt;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
 import com.daun.word.member.domain.vo.SocialType;
 import lombok.*;
-import org.apache.poi.ss.formula.eval.NotImplementedException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.Optional;
 
 import static com.daun.word.utils.StringUtils.isNullOrBlank;
 
@@ -18,16 +17,17 @@ import static com.daun.word.utils.StringUtils.isNullOrBlank;
 @Getter
 @ToString
 @EqualsAndHashCode(exclude = {"id", "password", "createdAt", "updatedAt", "nickname"})
-public class Member implements UserDetails {
+public class Member {
     private Integer id;
     private Email email;
     @ToString.Exclude
     private String password;
     private Nickname nickname;
     private SocialType socialType;
+    private int loginCount;
+    private LocalDateTime lastLoginAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    //TODO: member Role 설정하기?
 
     public Member(Email email, String password, Nickname nickname, SocialType socialType) {
         if (email == null || isNullOrBlank(password) || nickname == null || socialType == null) {
@@ -39,6 +39,16 @@ public class Member implements UserDetails {
         this.socialType = socialType;
     }
 
+    /* api token 발급 */
+    public String newToken(Jwt jwt, String[] roles) {
+        Jwt.Claims claims = Jwt.Claims.of(Id.of(Member.class, id), nickname, email, roles);
+        return jwt.newToken(claims);
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public void setEmail(String email) {
         this.email = new Email(email);
     }
@@ -47,33 +57,7 @@ public class Member implements UserDetails {
         this.nickname = new Nickname(nickname);
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        throw new NotImplementedException("");
-    }
-
-    @Override
-    public String getUsername() {
-        return this.email.getValue();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public Optional<LocalDateTime> getLastLoginAt() {
+        return Optional.ofNullable(lastLoginAt);
     }
 }

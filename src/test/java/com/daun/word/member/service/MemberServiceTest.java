@@ -1,44 +1,38 @@
 package com.daun.word.member.service;
 
+import com.daun.word.Fixture.Fixture;
 import com.daun.word.member.domain.Member;
-import com.daun.word.member.domain.repository.MemberRepository;
-import com.daun.word.member.domain.vo.Email;
+import com.daun.word.member.domain.repository.FakeMemberRepository;
 import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.member.dto.RegisterRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
+import static com.daun.word.Fixture.Fixture.*;
 import static com.daun.word.Fixture.Fixture.email;
 import static com.daun.word.Fixture.Fixture.nickname;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
-    @InjectMocks
-    MemberService memberService;
 
-    @Mock
-    MemberRepository memberRepository;
+    private MemberService memberService;
 
+    @BeforeEach
+    public void SetUp() {
+        memberService = new MemberService(new FakeMemberRepository());
+    }
 
     @DisplayName(value = "회원을 등록할 수 있다")
     @Test
-    void register_success() throws Exception {
+    void save() throws Exception {
         //given
         RegisterRequest request = new RegisterRequest(nickname(), email(), SocialType.K);
         //when
         Member registered = memberService.register(request);
         //then
-        verify(memberRepository, times(1)).register(any(Member.class));
         assertThat(registered).isNotNull();
         assertAll(
                 () -> assertThat(registered).isEqualTo(new Member(email(), "fake-password", nickname(), SocialType.K)),
@@ -60,9 +54,17 @@ class MemberServiceTest {
     @DisplayName(value = "이메일과 소셜타입으로 회원을 조회할 수 있다")
     @Test
     void findMemberByEmailAndSocialType_success() throws Exception {
-        //given, when
-        memberService.findByEmail(email());
+        //given&&when
+        Member member = memberService.findByEmail(member().getEmail());
         //then
-        verify(memberRepository, times(1)).findByEmail(any(Email.class));
+        assertThat(member).isNotNull();
+        assertAll(
+                () -> assertThat(member.getId()).isEqualTo(member().getId()),
+                () -> assertThat(member.getEmail()).isEqualTo(member().getEmail()),
+                () -> assertThat(member.getNickname()).isEqualTo(member().getNickname()),
+                () -> assertThat(member.getSocialType()).isEqualTo(member().getSocialType()),
+                () -> assertThat(member.getLastLoginAt()).isEqualTo(member().getLastLoginAt()),
+                () -> assertThat(member.getLoginCount()).isEqualTo(member().getLoginCount())
+        );
     }
 }

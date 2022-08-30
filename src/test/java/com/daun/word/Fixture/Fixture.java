@@ -47,12 +47,13 @@ public class Fixture {
 
     public static Member member() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(1, new Email("tester1@weword.com"), "fake-password", nickname(), SocialType.W, now, now);
+        return new Member(1, new Email("tester1@weword.com"), "fake-password", nickname(), SocialType.W, 1, LocalDateTime.parse("2022-08-20 15:43:51", formatter),
+                LocalDateTime.parse("2022-08-20 15:43:51", formatter), LocalDateTime.parse("2022-08-20 15:43:51", formatter));
     }
 
     public static Member another_member() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(2, new Email("tester2@weword.com"), "fake-password", nickname(), SocialType.W, now, now);
+        return new Member(2, new Email("tester2@weword.com"), "fake-password", nickname(), SocialType.W, 1, LocalDateTime.parse("2022-08-20 15:43:51", formatter), LocalDateTime.parse("2022-08-20 15:43:51", formatter), LocalDateTime.parse("2022-08-20 15:43:51", formatter));
     }
 
     public static KakaoTokenResponse kakaoTokenResponse() {

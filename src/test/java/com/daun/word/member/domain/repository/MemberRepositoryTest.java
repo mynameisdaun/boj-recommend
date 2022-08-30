@@ -30,7 +30,7 @@ class MemberRepositoryTest {
         //given
         Member member = new Member(new Email("new-member@weword.com"), "fake-password", new Nickname("new-member"), SocialType.W);
         //when
-        int success = memberRepository.register(member);
+        int success = memberRepository.save(member);
         //then
         assertThat(success).isEqualTo(1);
     }
@@ -42,7 +42,7 @@ class MemberRepositoryTest {
         Member member = new Member(member().getEmail(), "fake-password", new Nickname("new-member"), SocialType.W);
         //when&&then
         assertThatThrownBy(() -> {
-            memberRepository.register(member);
+            memberRepository.save(member);
         }).isInstanceOf(DuplicateKeyException.class);
     }
 

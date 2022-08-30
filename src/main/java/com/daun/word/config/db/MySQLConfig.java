@@ -1,4 +1,4 @@
-package com.daun.word.config;
+package com.daun.word.config.db;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;

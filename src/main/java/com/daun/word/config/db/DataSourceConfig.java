@@ -1,4 +1,4 @@
-package com.daun.word.config;
+package com.daun.word.config.db;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;

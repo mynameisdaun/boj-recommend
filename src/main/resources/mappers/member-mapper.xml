@@ -14,9 +14,8 @@
         WHERE member.email = #{email.value}
     </select>
 
-    <insert id="register" parameterType="com.daun.word.member.domain.Member" useGeneratedKeys="true" keyColumn="id"
+    <insert id="save" parameterType="com.daun.word.member.domain.Member" useGeneratedKeys="true" keyColumn="id"
             keyProperty="id">
-        /* 회원 생성 */
         INSERT INTO member
         (
         email,
