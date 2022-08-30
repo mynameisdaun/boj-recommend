@@ -148,14 +148,14 @@ create table assignment_detail
 create table quiz
 (
     id          int auto_increment primary key not null comment '퀴즈 구분자(seq)',
-    chapter_id  int                not null comment '챕터 id',
-    word_id     int                not null comment '단어 id',
-    options     text               not null comment '선택지 (구분자,)',
-    quiz_type   varchar(50)        not null comment '퀴즈 타입',
-    quiz_status varchar(50)        not null comment '퀴즈 제출 상태',
-    submission  varchar(100)                comment '제출',
-    created_at  datetime           not null default current_timestamp comment '데이터 생성일시',
-    updated_at  datetime           not null default current_timestamp comment '데이터 수정일시',
+    chapter_id  int                            not null comment '챕터 id',
+    word_id     int                            not null comment '단어 id',
+    options     text                           not null comment '선택지 (구분자,)',
+    quiz_type   varchar(50)                    not null comment '퀴즈 타입',
+    quiz_status varchar(50)                    not null comment '퀴즈 제출 상태',
+    submission  varchar(100) comment '제출',
+    created_at  datetime                       not null default current_timestamp comment '데이터 생성일시',
+    updated_at  datetime                       not null default current_timestamp comment '데이터 수정일시',
     FOREIGN KEY (word_id) REFERENCES word (id),
     FOREIGN KEY (chapter_id) REFERENCES chapter (id)
 ) comment '퀴즈';

@@ -8,14 +8,9 @@ import com.daun.word.member.dto.RegisterRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.stream.Stream;
 
 import static com.daun.word.Fixture.Fixture.email;
 import static com.daun.word.Fixture.Fixture.nickname;
@@ -34,12 +29,6 @@ class MemberServiceTest {
     @Mock
     MemberRepository memberRepository;
 
-    private static Stream<Arguments> invalid_findByEmailAndSocialType() {
-        return Stream.of(
-                Arguments.of(null, SocialType.K),
-                Arguments.of(email(), null)
-        );
-    }
 
     @DisplayName(value = "회원을 등록할 수 있다")
     @Test
@@ -72,19 +61,8 @@ class MemberServiceTest {
     @Test
     void findMemberByEmailAndSocialType_success() throws Exception {
         //given, when
-        memberService.findMemberByEmailAndSocialType(email(), SocialType.W);
+        memberService.findByEmail(email());
         //then
-        verify(memberRepository, times(1)).findByEmailAndSocialType(any(Email.class), any(SocialType.class));
+        verify(memberRepository, times(1)).findByEmail(any(Email.class));
     }
-
-    @DisplayName(value = "올바른 요청이 아니라면 회원을 등록할 수 없다")
-    @MethodSource("invalid_findByEmailAndSocialType")
-    @ParameterizedTest
-    void findMemberByEmailAndSocialType_fail(Email email, SocialType socialType) throws Exception {
-        //given&&when&&then
-        assertThatThrownBy(() -> {
-            memberService.findMemberByEmailAndSocialType(email, socialType);
-        }).isInstanceOf(IllegalArgumentException.class);
-    }
-
 }

@@ -4,7 +4,6 @@ import com.daun.word.infra.kakao.client.KakaoOAuthClient;
 import com.daun.word.infra.kakao.dto.KakaoTokenResponse;
 import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.vo.Email;
-import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.member.dto.RegisterRequest;
 import com.daun.word.member.service.MemberService;
 import com.daun.word.oauth.dto.LoginResponse;
@@ -50,7 +49,7 @@ class OAuthServiceTest {
                 .willReturn(kakaoTokenResponse());
         given(kakaoOAuthClient.profile(any(String.class)))
                 .willReturn(kakaoProfileResponse());
-        given(memberService.findMemberByEmailAndSocialType(any(Email.class), any(SocialType.class)))
+        given(memberService.findByEmail(any(Email.class)))
                 .willReturn(member());
         given(tokenService.createToken(member(), kakaoTokenResponse()))
                 .willReturn(token);
@@ -59,7 +58,7 @@ class OAuthServiceTest {
         //then
         verify(kakaoOAuthClient, times(1)).token(any(), any(), any());
         verify(kakaoOAuthClient, times(1)).profile(any(String.class));
-        verify(memberService, times(1)).findMemberByEmailAndSocialType(any(Email.class), any(SocialType.class));
+        verify(memberService, times(1)).findByEmail(any(Email.class));
         verify(memberService, times(0)).register(any(RegisterRequest.class));
         verify(tokenService, times(1)).createToken(any(Member.class), any(KakaoTokenResponse.class));
         assertThat(loginResponse).isNotNull();
@@ -78,7 +77,7 @@ class OAuthServiceTest {
                 .willReturn(kakaoTokenResponse());
         given(kakaoOAuthClient.profile(any(String.class)))
                 .willReturn(kakaoProfileResponse());
-        given(memberService.findMemberByEmailAndSocialType(any(Email.class), any(SocialType.class)))
+        given(memberService.findByEmail(any(Email.class)))
                 .willReturn(null);
         given(memberService.register(any(RegisterRequest.class)))
                 .willReturn(member());
@@ -89,7 +88,7 @@ class OAuthServiceTest {
         //then
         verify(kakaoOAuthClient, times(1)).token(any(), any(), any());
         verify(kakaoOAuthClient, times(1)).profile(any(String.class));
-        verify(memberService, times(1)).findMemberByEmailAndSocialType(any(Email.class), any(SocialType.class));
+        verify(memberService, times(1)).findByEmail(any(Email.class));
         verify(memberService, times(1)).register(any(RegisterRequest.class));
         verify(tokenService, times(1)).createToken(any(Member.class), any(KakaoTokenResponse.class));
         assertThat(loginResponse).isNotNull();

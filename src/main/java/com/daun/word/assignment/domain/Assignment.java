@@ -13,11 +13,10 @@ import java.time.LocalDateTime;
 @ToString
 public class Assignment {
     private final Logger logger = LoggerFactory.getLogger(Assignment.class);
-
-    private Integer id;
     private final Email assignFrom;
     private final Email assignTo;
     private final Integer workbookId;
+    private Integer id;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

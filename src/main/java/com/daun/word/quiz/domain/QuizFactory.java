@@ -2,7 +2,6 @@ package com.daun.word.quiz.domain;
 
 import com.daun.word.chapter.domain.Chapter;
 import com.daun.word.commons.Id;
-import com.daun.word.quiz.domain.vo.QuizStatus;
 import com.daun.word.quiz.domain.vo.QuizType;
 import com.daun.word.word.domain.Word;
 import com.daun.word.word.domain.repository.WordRepository;
@@ -38,7 +37,7 @@ public class QuizFactory {
 
         while (options.size() < numberOfMultipleChoice) {
             Integer number = new Random().nextInt(max) + 1;
-            if (!word.getId().equals(number)&&!options.contains(Id.of(Word.class, number))) {
+            if (!word.getId().equals(number) && !options.contains(Id.of(Word.class, number))) {
                 options.add(Id.of(Word.class, number));
             }
         }

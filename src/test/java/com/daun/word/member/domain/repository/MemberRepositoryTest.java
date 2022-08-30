@@ -16,7 +16,6 @@ import java.util.NoSuchElementException;
 import static com.daun.word.Fixture.Fixture.member;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -48,39 +47,15 @@ class MemberRepositoryTest {
     }
 
 
-    @DisplayName(value = "이메일과 소셜타입으로 회원을 조회한다")
-    @Test
-    void findByEmailAndSocialType() throws Exception {
-        //given&&when
-        Member member = memberRepository.findByEmailAndSocialType(member().getEmail(), member().getSocialType())
-                .orElseThrow(NoSuchElementException::new);
-        //then
-        assertThat(member).isNotNull();
-        assertAll(
-                () -> assertThat(member).isEqualTo(member()),
-                () -> assertThat(member.getEmail()).isEqualTo(member.getEmail()),
-                () -> assertThat(member.getNickname()).isEqualTo(member.getNickname()),
-                () -> assertThat(member.getSocialType()).isEqualTo(member.getSocialType())
-        );
-    }
-
     @DisplayName(value = "존재하지 않는 이메일로 회원을 조회할 수 없다")
     @Test
     void findByEmailAndSocialType_no_exist_email() throws Exception {
         //given&&when&&then
         assertThatThrownBy(() -> {
-            memberRepository.findByEmailAndSocialType(new Email("no-exist@weword.com"), SocialType.W)
+            memberRepository.findByEmail(new Email("no-exist@weword.com"))
                     .orElseThrow(NoSuchElementException::new);
         }).isInstanceOf(NoSuchElementException.class);
     }
 
-    @DisplayName(value = "존재하는 이메일이라도, 소셜 타입이 다르다면 회원을 조회할 수 없다")
-    @Test
-    void findByEmailAndSocialType_wrong_social_type() throws Exception {
-        //given&&when&&then
-        assertThatThrownBy(() -> {
-            memberRepository.findByEmailAndSocialType(member().getEmail(), SocialType.N)
-                    .orElseThrow(NoSuchElementException::new);
-        }).isInstanceOf(NoSuchElementException.class);
-    }
+
 }

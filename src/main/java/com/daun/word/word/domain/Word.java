@@ -3,7 +3,10 @@ package com.daun.word.word.domain;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.word.domain.vo.English;
 import com.daun.word.word.domain.vo.Korean;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -13,10 +16,10 @@ import java.time.LocalDateTime;
 @ToString
 public class Word {
 
-    private Integer id;                 // 단어 일련번호(seq)
     private final English english;             // 영어 표기
     private final Korean korean;              // 한글 표기
     private final Email createdBy;
+    private Integer id;                 // 단어 일련번호(seq)
     private LocalDateTime createdAt;    // 생성 일시
     private LocalDateTime updatedAt;    // 최종 수정 일시
 
@@ -55,18 +58,11 @@ public class Word {
 
         Word word = (Word) o;
 
-        if (id != null ? !id.equals(word.id) : word.id != null) return false;
-        if (english != null ? !english.equals(word.english) : word.english != null) return false;
-        if (korean != null ? !korean.equals(word.korean) : word.korean != null) return false;
-        return createdBy != null ? createdBy.equals(word.createdBy) : word.createdBy == null;
+        return id != null ? id.equals(word.id) : word.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (english != null ? english.hashCode() : 0);
-        result = 31 * result + (korean != null ? korean.hashCode() : 0);
-        result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

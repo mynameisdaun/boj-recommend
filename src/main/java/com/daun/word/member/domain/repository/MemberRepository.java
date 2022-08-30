@@ -2,7 +2,6 @@ package com.daun.word.member.domain.repository;
 
 import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.vo.Email;
-import com.daun.word.member.domain.vo.SocialType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -18,8 +17,4 @@ public interface MemberRepository {
 
     /* Email, Social Type 으로 회원 조회하기 */
     Optional<Member> findByEmail(@Param("email") Email email);
-
-    /* Email, Social Type 으로 회원 조회하기 */
-    //TODO: 안쓰는 코드
-    Optional<Member> findByEmailAndSocialType(@Param("email") Email email, @Param("socialType") SocialType socialType);
 }

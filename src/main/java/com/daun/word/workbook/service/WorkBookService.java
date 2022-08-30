@@ -14,11 +14,10 @@ import com.daun.word.workbook.dto.WorkBookExcelSaveRequest;
 import com.daun.word.workbook.dto.WorkBookSaveRequest;
 import com.daun.word.workbook.dto.WorkBookSaveResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,11 +29,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
-@Transactional
 @Service
 public class WorkBookService {
-    private final Logger logger = LoggerFactory.getLogger(WorkBookService.class);
 
     private final WorkBookRepository workBookRepository;
 
@@ -44,6 +42,7 @@ public class WorkBookService {
 
     private final ImageClient imageClient;
 
+    @Transactional
     public WorkBookSaveResponse save(WorkBookSaveRequest workBookSaveRequest) {
         WorkBook workBook = workBookSaveRequest.toWorkBook();
         workBookRepository.save(workBook);
@@ -54,7 +53,6 @@ public class WorkBookService {
                         .map(req -> chapterService.save(new ChapterSaveRequest(workBook.getId(), req.getTitle(), req.getWords())))
                         .collect(Collectors.toList()));
     }
-
 
     //TODO: 엑셀 파일 유효성 검사
     //TODO: 첫행 유효성 검사 (chapter Id, chapter Name, english, korean 순서);

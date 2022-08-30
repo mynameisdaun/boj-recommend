@@ -67,6 +67,6 @@
 
     <select id="count" resultType="java.lang.Integer">
         SELECT count(*)
-          FROM word
+        FROM word
     </select>
 </mapper>

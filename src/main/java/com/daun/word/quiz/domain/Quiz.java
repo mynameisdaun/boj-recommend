@@ -44,10 +44,14 @@ public final class Quiz {
         this.quizStatus = QuizStatus.UN_SUBMITTED;
     }
 
+    private Quiz(Integer id, Integer chapterId, Integer word, String options, String quizType, String quizStatus, String submission, LocalDateTime createdAt, LocalDateTime updatedAt) {
+
+    }
+
     /* 정답 여부 */
     public boolean isCorrect() {
         checkArgument(submission != null, "답안이 제출되기 전에는 채점할 수 없습니다.");
-        return word == submission;
+        return word.equals(submission);
     }
 
     public void submit(Word submission) {
@@ -70,6 +74,10 @@ public final class Quiz {
                 .collect(Collectors.joining(","));
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     /* For mybatis */
     private void setChapterId(Integer id) {
         this.chapterId = Id.of(Chapter.class, id);
@@ -81,11 +89,6 @@ public final class Quiz {
 
     private void setQuizType(String quizType) {
         this.quizType = QuizType.valueOf(quizType);
-    }
-
-
-    private Quiz(Integer id, Integer chapterId, Integer word, String options, String quizType, String quizStatus, String submission, LocalDateTime createdAt, LocalDateTime updatedAt) {
-
     }
 }
 

@@ -39,7 +39,7 @@ public class FakeWordRepository implements WordRepository {
     public Optional<Word> findByEnglish(English english) {
         return wordTable.entrySet()
                 .stream()
-                .map(w->w.getValue())
+                .map(w -> w.getValue())
                 .filter(w -> w.getEnglish().equals(english))
                 .findFirst();
     }
@@ -48,8 +48,8 @@ public class FakeWordRepository implements WordRepository {
     public List<Word> findByEnglishIn(List<English> englishes) {
         return wordTable.entrySet()
                 .stream()
-                .map(w->w.getValue())
-                .filter(w->englishes.contains(w.getEnglish()))
+                .map(w -> w.getValue())
+                .filter(w -> englishes.contains(w.getEnglish()))
                 .collect(Collectors.toList());
     }
 
@@ -62,8 +62,8 @@ public class FakeWordRepository implements WordRepository {
     public List<Word> findByIdIn(List<Id<Word, Integer>> ids) {
         return wordTable.entrySet()
                 .stream()
-                .filter(w->ids.stream().map(Id::getValue).collect(Collectors.toList()).contains(w.getKey()))
-                .map(w->w.getValue())
+                .filter(w -> ids.stream().map(Id::getValue).collect(Collectors.toList()).contains(w.getKey()))
+                .map(w -> w.getValue())
                 .collect(Collectors.toList());
     }
 }

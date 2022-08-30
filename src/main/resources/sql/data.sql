@@ -89,7 +89,6 @@ INSERT INTO assignment (workbook_id, assign_from, assign_to)
 VALUES ('1', 'tester1@weword.com', 'tester2@weword.com');
 
 /* 과제 상세 */
-/* TODO: quiz 가짜로 만들어둔것 다 고쳐야 한다*/
 /*open complete*/
 INSERT INTO assignment_detail(assignment_id, chapter_id, start_date_time, end_date_time, open_yn, open_date_time,
                               complete_yn, complete_date_time)

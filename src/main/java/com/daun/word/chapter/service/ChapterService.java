@@ -5,31 +5,45 @@ import com.daun.word.chapter.domain.repository.ChapterRepository;
 import com.daun.word.chapter.domain.vo.ChapterWordMapping;
 import com.daun.word.chapter.dto.ChapterSaveRequest;
 import com.daun.word.chapter.dto.ChapterSaveResponse;
+import com.daun.word.commons.Id;
+import com.daun.word.quiz.dto.QuizResponse;
+import com.daun.word.quiz.dto.QuizSaveRequest;
+import com.daun.word.quiz.service.QuizService;
 import com.daun.word.word.domain.Words;
 import com.daun.word.word.domain.repository.WordRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
 @RequiredArgsConstructor
-@Transactional
 @Service
 public class ChapterService {
-    private final Logger logger = LoggerFactory.getLogger(ChapterService.class);
+
+    private final QuizService quizService;
+
     private final ChapterRepository chapterRepository;
 
     private final WordRepository wordRepository;
 
+    //TODO: 만약 이미 존재하는 단어라면 ?
+    //TODO: chapter -> word -mapping 꼭 해야하는건지 고민해봐야 된다.
+    @Transactional
     public ChapterSaveResponse save(ChapterSaveRequest request) {
         request.getWords().forEach(wordRepository::save);
         Words words = new Words(request.getWords());
         Chapter chapter = new Chapter(request.getWorkBookId(), request.getTitle(), words);
         chapterRepository.save(chapter);
+        List<QuizResponse> quizs = new ArrayList<>();
+
         words.forEach(word -> {
+            quizs.add(quizService.save(new QuizSaveRequest(Id.of(Chapter.class, chapter.getId()), word)));
             chapterRepository.saveChapterWordMapping(new ChapterWordMapping(chapter, word));
         });
-        return new ChapterSaveResponse(chapter.getTitle(), words);
+        return new ChapterSaveResponse(chapter.getTitle(), words, quizs);
     }
 }

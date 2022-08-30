@@ -5,7 +5,6 @@ import com.daun.word.commons.Id;
 import com.daun.word.quiz.domain.Quiz;
 import com.daun.word.quiz.domain.QuizFactory;
 import com.daun.word.quiz.domain.vo.QuizStatus;
-import com.daun.word.word.domain.Word;
 import com.daun.word.word.domain.repository.FakeWordRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +13,6 @@ import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import static com.daun.word.Fixture.Fixture.*;
@@ -89,14 +87,4 @@ class QuizRepositoryTest {
         );
     }
 
-    @DisplayName(value = "옵션들을 찾는다")
-    @Test
-    void findOptions() throws Exception {
-        //given&&when
-        List<Word> options = quizRepository.findOptions("1,2,3,4");
-        //then
-        System.out.println(options);
-        assertThat(options).isNotNull();
-        assertThat(options.size()).isEqualTo(4);
-    }
 }
