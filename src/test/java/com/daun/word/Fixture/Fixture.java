@@ -11,7 +11,7 @@ import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
 import com.daun.word.member.domain.vo.SocialType;
-import com.daun.word.oauth.token.domain.Token;
+import com.daun.word.auth.token.domain.Token;
 import com.daun.word.quiz.domain.Quiz;
 import com.daun.word.quiz.domain.vo.QuizStatus;
 import com.daun.word.quiz.domain.vo.QuizType;

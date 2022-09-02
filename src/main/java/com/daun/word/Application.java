@@ -13,8 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootApplication
 @Slf4j
+@SpringBootApplication
 public class Application {
 
     @Value("${OAuth.jwt.access.key}")

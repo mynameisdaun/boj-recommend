@@ -1,8 +1,8 @@
-package com.daun.word.oauth.token.domain.repository;
+package com.daun.word.auth.token.domain.repository;
 
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.SocialType;
-import com.daun.word.oauth.token.domain.Token;
+import com.daun.word.auth.token.domain.Token;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;

@@ -1,4 +1,4 @@
-package com.daun.word.oauth.service;
+package com.daun.word.auth.service;
 
 import com.daun.word.infra.kakao.client.KakaoOAuthClient;
 import com.daun.word.infra.kakao.dto.KakaoProfileResponse;
@@ -7,9 +7,9 @@ import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.member.dto.RegisterRequest;
 import com.daun.word.member.service.MemberService;
-import com.daun.word.oauth.dto.LoginResponse;
-import com.daun.word.oauth.token.domain.Token;
-import com.daun.word.oauth.token.service.TokenService;
+import com.daun.word.auth.dto.LoginResponse;
+import com.daun.word.auth.token.domain.Token;
+import com.daun.word.auth.token.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

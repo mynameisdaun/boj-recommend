@@ -1,4 +1,4 @@
-package com.daun.word.oauth.token.dto;
+package com.daun.word.auth.token.dto;
 
 import lombok.Data;
 

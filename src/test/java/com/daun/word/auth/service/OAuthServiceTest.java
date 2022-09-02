@@ -1,4 +1,4 @@
-package com.daun.word.oauth.service;
+package com.daun.word.auth.service;
 
 import com.daun.word.infra.kakao.client.KakaoOAuthClient;
 import com.daun.word.infra.kakao.dto.KakaoTokenResponse;
@@ -6,9 +6,9 @@ import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.dto.RegisterRequest;
 import com.daun.word.member.service.MemberService;
-import com.daun.word.oauth.dto.LoginResponse;
-import com.daun.word.oauth.token.domain.Token;
-import com.daun.word.oauth.token.service.TokenService;
+import com.daun.word.auth.dto.LoginResponse;
+import com.daun.word.auth.token.domain.Token;
+import com.daun.word.auth.token.service.TokenService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

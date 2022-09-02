@@ -1,10 +1,10 @@
-package com.daun.word.oauth.token.service;
+package com.daun.word.auth.token.service;
 
 import com.daun.word.infra.kakao.dto.SocialTokenResponse;
 import com.daun.word.member.domain.Member;
-import com.daun.word.oauth.token.domain.Token;
-import com.daun.word.oauth.token.domain.TokenFactory;
-import com.daun.word.oauth.token.domain.repository.TokenRepository;
+import com.daun.word.auth.token.domain.Token;
+import com.daun.word.auth.token.domain.TokenFactory;
+import com.daun.word.auth.token.domain.repository.TokenRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

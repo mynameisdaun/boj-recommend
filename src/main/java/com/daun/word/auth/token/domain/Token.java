@@ -1,4 +1,4 @@
-package com.daun.word.oauth.token.domain;
+package com.daun.word.auth.token.domain;
 
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.SocialType;

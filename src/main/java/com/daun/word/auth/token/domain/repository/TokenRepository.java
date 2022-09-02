@@ -1,7 +1,7 @@
-package com.daun.word.oauth.token.domain.repository;
+package com.daun.word.auth.token.domain.repository;
 
 import com.daun.word.member.domain.vo.Email;
-import com.daun.word.oauth.token.domain.Token;
+import com.daun.word.auth.token.domain.Token;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

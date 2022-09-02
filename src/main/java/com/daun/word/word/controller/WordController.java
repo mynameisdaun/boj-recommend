@@ -28,4 +28,5 @@ public class WordController {
         return ResponseEntity.status(200).body(word);
     }
 
+
 }

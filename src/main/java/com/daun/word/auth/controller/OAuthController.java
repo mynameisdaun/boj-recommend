@@ -1,6 +1,6 @@
-package com.daun.word.oauth.controller;
+package com.daun.word.auth.controller;
 
-import com.daun.word.oauth.service.OAuthService;
+import com.daun.word.auth.service.OAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
