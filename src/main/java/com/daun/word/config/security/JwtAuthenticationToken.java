@@ -1,5 +1,6 @@
 package com.daun.word.config.security;
 
+import com.daun.word.auth.dto.AuthenticationRequest;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 

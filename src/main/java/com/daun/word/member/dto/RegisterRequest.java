@@ -2,27 +2,26 @@ package com.daun.word.member.dto;
 
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
+import com.daun.word.member.domain.vo.Password;
 import com.daun.word.member.domain.vo.SocialType;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import java.util.UUID;
+import static com.google.common.base.Preconditions.checkArgument;
 
-@Getter
-@Setter
+@Data
 public class RegisterRequest {
-    private Nickname nickname;
-    private String password;
     private Email email;
+    private Password password;
+    private Nickname nickname;
     private SocialType socialType;
-
-
-    public RegisterRequest(Nickname nickname, Email email, SocialType socialType) {
-        if (nickname == null || email == null || socialType == null) {
-            throw new IllegalArgumentException("닉네임, 이메일, 소셜타입은 회원가입하기 위한 필수 조건입니다.");
-        }
+    
+    public RegisterRequest(Email email, Password password, Nickname nickname, SocialType socialType) {
+        checkArgument(email != null, "이메일은 회원가입하기 위한 필수 조건입니다");
+        checkArgument(password != null, "이메일은 회원가입하기 위한 필수 조건입니다");
+        checkArgument(nickname != null, "이메일은 회원가입하기 위한 필수 조건입니다");
+        checkArgument(socialType != null, "이메일은 회원가입하기 위한 필수 조건입니다");
         this.nickname = nickname;
-        this.password = UUID.randomUUID().toString();
+        this.password = password;
         this.email = email;
         this.socialType = socialType;
     }

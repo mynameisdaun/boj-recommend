@@ -4,13 +4,16 @@ import com.daun.word.commons.Id;
 import com.daun.word.config.security.Jwt;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
+import com.daun.word.member.domain.vo.Password;
 import com.daun.word.member.domain.vo.SocialType;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static com.daun.word.utils.StringUtils.isNullOrBlank;
+import static java.time.LocalDateTime.now;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -45,6 +48,17 @@ public class Member {
         return jwt.newToken(claims);
     }
 
+    public void login(PasswordEncoder passwordEncoder, Password password) {
+        if(!passwordEncoder.matches(password.getValue(), this.password)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public void afterLoginSuccess() {
+        this.loginCount++;
+        this.lastLoginAt = now();
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -57,7 +71,4 @@ public class Member {
         this.nickname = new Nickname(nickname);
     }
 
-    public Optional<LocalDateTime> getLastLoginAt() {
-        return Optional.ofNullable(lastLoginAt);
-    }
 }

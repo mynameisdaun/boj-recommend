@@ -4,6 +4,7 @@ import com.daun.word.infra.kakao.client.KakaoOAuthClient;
 import com.daun.word.infra.kakao.dto.KakaoTokenResponse;
 import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.vo.Email;
+import com.daun.word.member.dto.MemberDTO;
 import com.daun.word.member.dto.RegisterRequest;
 import com.daun.word.member.service.MemberService;
 import com.daun.word.auth.dto.LoginResponse;
@@ -25,10 +26,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class OAuthServiceTest {
+class AuthServiceTest {
 
     @InjectMocks
-    private OAuthService oAuthService;
+    private AuthService AuthService;
 
     @Mock
     private MemberService memberService;
@@ -54,7 +55,7 @@ class OAuthServiceTest {
         given(tokenService.createToken(member(), kakaoTokenResponse()))
                 .willReturn(token);
         //when
-        LoginResponse loginResponse = oAuthService.kakaoLogin("fake-auth-code");
+        LoginResponse loginResponse = AuthService.kakaoLogin("fake-auth-code");
         //then
         verify(kakaoOAuthClient, times(1)).token(any(), any(), any());
         verify(kakaoOAuthClient, times(1)).profile(any(String.class));
@@ -63,8 +64,7 @@ class OAuthServiceTest {
         verify(tokenService, times(1)).createToken(any(Member.class), any(KakaoTokenResponse.class));
         assertThat(loginResponse).isNotNull();
         assertAll(
-                () -> assertThat(loginResponse.getMember()).isEqualTo(member()),
-                () -> assertThat(loginResponse.getToken()).isEqualTo(token)
+                () -> assertThat(loginResponse.getMember()).isEqualTo(member())
         );
     }
 
@@ -80,11 +80,11 @@ class OAuthServiceTest {
         given(memberService.findByEmail(any(Email.class)))
                 .willReturn(null);
         given(memberService.register(any(RegisterRequest.class)))
-                .willReturn(member());
+                .willReturn(new MemberDTO(member()));
         given(tokenService.createToken(member(), kakaoTokenResponse()))
                 .willReturn(token);
         //when
-        LoginResponse loginResponse = oAuthService.kakaoLogin("fake-auth-code");
+        LoginResponse loginResponse = AuthService.kakaoLogin("fake-auth-code");
         //then
         verify(kakaoOAuthClient, times(1)).token(any(), any(), any());
         verify(kakaoOAuthClient, times(1)).profile(any(String.class));
@@ -93,9 +93,7 @@ class OAuthServiceTest {
         verify(tokenService, times(1)).createToken(any(Member.class), any(KakaoTokenResponse.class));
         assertThat(loginResponse).isNotNull();
         assertAll(
-                () -> assertThat(loginResponse.getMember()).isEqualTo(member()),
-                () -> assertThat(loginResponse.getToken()).isEqualTo(token)
+                () -> assertThat(loginResponse.getMember()).isEqualTo(member())
         );
     }
-
 }

@@ -2,6 +2,7 @@ package com.daun.word.member.domain.repository;
 
 import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.vo.Email;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,5 +36,10 @@ public class FakeMemberRepository implements MemberRepository {
                 .map(w->w.getValue())
                 .findFirst();
 
+    }
+
+    @Override
+    public int update(Member member) {
+        throw new NotImplementedException();
     }
 }

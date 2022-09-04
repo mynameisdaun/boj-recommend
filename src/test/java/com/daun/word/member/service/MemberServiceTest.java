@@ -4,10 +4,12 @@ import com.daun.word.Fixture.Fixture;
 import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.repository.FakeMemberRepository;
 import com.daun.word.member.domain.vo.SocialType;
+import com.daun.word.member.dto.MemberDTO;
 import com.daun.word.member.dto.RegisterRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static com.daun.word.Fixture.Fixture.*;
 import static com.daun.word.Fixture.Fixture.email;
@@ -22,16 +24,16 @@ class MemberServiceTest {
 
     @BeforeEach
     public void SetUp() {
-        memberService = new MemberService(new FakeMemberRepository());
+        memberService = new MemberService(new FakeMemberRepository(), new BCryptPasswordEncoder());
     }
 
     @DisplayName(value = "회원을 등록할 수 있다")
     @Test
     void save() throws Exception {
         //given
-        RegisterRequest request = new RegisterRequest(nickname(), email(), SocialType.K);
+        RegisterRequest request = new RegisterRequest(email(), password(), nickname(), SocialType.K);
         //when
-        Member registered = memberService.register(request);
+        MemberDTO registered = memberService.register(request);
         //then
         assertThat(registered).isNotNull();
         assertAll(

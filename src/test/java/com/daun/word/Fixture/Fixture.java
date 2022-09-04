@@ -10,6 +10,7 @@ import com.daun.word.infra.kakao.dto.KakaoTokenResponse;
 import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
+import com.daun.word.member.domain.vo.Password;
 import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.auth.token.domain.Token;
 import com.daun.word.quiz.domain.Quiz;
@@ -41,14 +42,27 @@ public class Fixture {
         return new Email("tester1@weword.com");
     }
 
+    public static Password password() {
+        return new Password("imTester9!");
+    }
+
     public static Nickname nickname() {
         return new Nickname("테스터");
     }
 
     public static Member member() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(1, new Email("tester1@weword.com"), "fake-password", nickname(), SocialType.W, 1, LocalDateTime.parse("2022-08-20 15:43:51", formatter),
-                LocalDateTime.parse("2022-08-20 15:43:51", formatter), LocalDateTime.parse("2022-08-20 15:43:51", formatter));
+        return new Member(
+                1,
+                new Email("tester1@weword.com"),
+                "fake-password",
+                nickname(),
+                SocialType.W,
+                1,
+                LocalDateTime.parse("2022-08-20 15:43:51", formatter),
+                LocalDateTime.parse("2022-08-20 15:43:51", formatter),
+                LocalDateTime.parse("2022-08-20 15:43:51", formatter)
+        );
     }
 
     public static Member another_member() {

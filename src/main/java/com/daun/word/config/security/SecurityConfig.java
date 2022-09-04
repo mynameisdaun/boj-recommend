@@ -116,7 +116,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers("/word/**").permitAll()
+                .antMatchers("/word/**").hasRole(Role.USER.name())
                 .antMatchers("/workbook/**").hasRole(Role.USER.name())
                 .accessDecisionManager(accessDecisionManager())
             .anyRequest().permitAll()
