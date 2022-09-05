@@ -26,6 +26,7 @@ public class Token {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+
     public Token(Email memberEmail, String accessToken, LocalDateTime accessTokenExpiredDate, String refreshToken, LocalDateTime refreshTokenExpiredDate, SocialType memberSocialType, String socialAccessToken, LocalDateTime socialAccessTokenExpiredDate, String socialRefreshToken, LocalDateTime socialRefreshTokenExpiredDate) {
         this.memberEmail = memberEmail;
         this.accessToken = accessToken;
@@ -54,35 +55,11 @@ public class Token {
 
         Token token = (Token) o;
 
-        if (memberEmail != null ? !memberEmail.equals(token.memberEmail) : token.memberEmail != null) return false;
-        if (accessToken != null ? !accessToken.equals(token.accessToken) : token.accessToken != null) return false;
-        if (accessTokenExpiredDate != null ? !accessTokenExpiredDate.equals(token.accessTokenExpiredDate) : token.accessTokenExpiredDate != null)
-            return false;
-        if (refreshToken != null ? !refreshToken.equals(token.refreshToken) : token.refreshToken != null) return false;
-        if (refreshTokenExpiredDate != null ? !refreshTokenExpiredDate.equals(token.refreshTokenExpiredDate) : token.refreshTokenExpiredDate != null)
-            return false;
-        if (memberSocialType != token.memberSocialType) return false;
-        if (socialAccessToken != null ? !socialAccessToken.equals(token.socialAccessToken) : token.socialAccessToken != null)
-            return false;
-        if (socialAccessTokenExpiredDate != null ? !socialAccessTokenExpiredDate.equals(token.socialAccessTokenExpiredDate) : token.socialAccessTokenExpiredDate != null)
-            return false;
-        if (socialRefreshToken != null ? !socialRefreshToken.equals(token.socialRefreshToken) : token.socialRefreshToken != null)
-            return false;
-        return socialRefreshTokenExpiredDate != null ? socialRefreshTokenExpiredDate.equals(token.socialRefreshTokenExpiredDate) : token.socialRefreshTokenExpiredDate == null;
+        return memberEmail != null ? memberEmail.equals(token.memberEmail) : token.memberEmail == null;
     }
 
     @Override
     public int hashCode() {
-        int result = memberEmail != null ? memberEmail.hashCode() : 0;
-        result = 31 * result + (accessToken != null ? accessToken.hashCode() : 0);
-        result = 31 * result + (accessTokenExpiredDate != null ? accessTokenExpiredDate.hashCode() : 0);
-        result = 31 * result + (refreshToken != null ? refreshToken.hashCode() : 0);
-        result = 31 * result + (refreshTokenExpiredDate != null ? refreshTokenExpiredDate.hashCode() : 0);
-        result = 31 * result + (memberSocialType != null ? memberSocialType.hashCode() : 0);
-        result = 31 * result + (socialAccessToken != null ? socialAccessToken.hashCode() : 0);
-        result = 31 * result + (socialAccessTokenExpiredDate != null ? socialAccessTokenExpiredDate.hashCode() : 0);
-        result = 31 * result + (socialRefreshToken != null ? socialRefreshToken.hashCode() : 0);
-        result = 31 * result + (socialRefreshTokenExpiredDate != null ? socialRefreshTokenExpiredDate.hashCode() : 0);
-        return result;
+        return memberEmail != null ? memberEmail.hashCode() : 0;
     }
 }

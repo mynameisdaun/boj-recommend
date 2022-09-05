@@ -4,6 +4,7 @@ import com.daun.word.commons.Id;
 import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
+import com.daun.word.member.domain.vo.SocialType;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -19,13 +20,16 @@ public class JwtAuthentication {
 
     public final Nickname nickname;
 
-    public JwtAuthentication(Id<Member, Integer> id, Nickname nickname, Email email) {
+    private final SocialType socialType;
+
+    public JwtAuthentication(Id<Member, Integer> id, Email email, Nickname nickname, SocialType socialType) {
         checkArgument(id != null, "id must be provided.");
         checkArgument(nickname != null, "name must be provided.");
         checkArgument(email != null, "email must be provided.");
         this.id=id;
         this.nickname=nickname;
         this.email = email;
+        this.socialType = socialType;
     }
 
 }

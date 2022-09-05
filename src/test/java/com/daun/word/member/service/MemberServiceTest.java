@@ -1,46 +1,66 @@
 package com.daun.word.member.service;
 
-import com.daun.word.Fixture.Fixture;
+import com.daun.word.auth.dto.AuthenticationRequest;
+import com.daun.word.auth.dto.AuthenticationResponse;
+import com.daun.word.auth.token.dto.TokenDTO;
+import com.daun.word.auth.token.service.TokenService;
 import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.repository.FakeMemberRepository;
+import com.daun.word.member.domain.vo.Email;
+import com.daun.word.member.domain.vo.Nickname;
+import com.daun.word.member.domain.vo.Password;
 import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.member.dto.MemberDTO;
 import com.daun.word.member.dto.RegisterRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.NoSuchElementException;
 
 import static com.daun.word.Fixture.Fixture.*;
-import static com.daun.word.Fixture.Fixture.email;
-import static com.daun.word.Fixture.Fixture.nickname;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 
+
+@ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
 
+    @InjectMocks
     private MemberService memberService;
 
+    @Mock
+    private TokenService tokenService;
+
+    private PasswordEncoder encoder;
     @BeforeEach
     public void SetUp() {
-        memberService = new MemberService(new FakeMemberRepository(), new BCryptPasswordEncoder());
+        encoder = new BCryptPasswordEncoder();
+        memberService = new MemberService(tokenService, new FakeMemberRepository(), encoder);
     }
 
     @DisplayName(value = "회원을 등록할 수 있다")
     @Test
-    void save() throws Exception {
+    void register() throws Exception {
         //given
-        RegisterRequest request = new RegisterRequest(email(), password(), nickname(), SocialType.K);
+        RegisterRequest request = new RegisterRequest(new Email("iwantNewMember@weword.com"), new Password("iWantBeNew@9"), new Nickname("songTTubi"), SocialType.W);
         //when
-        MemberDTO registered = memberService.register(request);
+        MemberDTO response = memberService.register(request);
         //then
-        assertThat(registered).isNotNull();
+        assertThat(response).isNotNull();
         assertAll(
-                () -> assertThat(registered).isEqualTo(new Member(email(), "fake-password", nickname(), SocialType.K)),
-                () -> assertThat(registered.getEmail()).isEqualTo(email()),
-                () -> assertThat(registered.getNickname()).isEqualTo(nickname()),
-                () -> assertThat(registered.getSocialType()).isEqualTo(SocialType.K)
+                () -> assertThat(response.getEmail()).isEqualTo(new Email("iwantNewMember@weword.com")),
+                () -> assertThat(response.getNickname()).isEqualTo(new Nickname("songTTubi")),
+                () -> assertThat(response.getSocialType()).isEqualTo(SocialType.W)
         );
     }
 
@@ -53,9 +73,50 @@ class MemberServiceTest {
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName(value = "이메일과 소셜타입으로 회원을 조회할 수 있다")
+    @DisplayName(value = "로그인을 할 수 있다")
     @Test
-    void findMemberByEmailAndSocialType_success() throws Exception {
+    void login() throws Exception {
+        //given
+        AuthenticationRequest request = new AuthenticationRequest(member().getEmail(), password(), member().getSocialType());
+        given(tokenService.saveTokenFor(any(Member.class))).willReturn(new TokenDTO(token()));
+        //when
+        AuthenticationResponse response = memberService.login(request);
+        //then
+        assertThat(response).isNotNull();
+        assertAll(
+                () -> assertThat(response.getAccessToken()).isEqualTo(token().getAccessToken()),
+                () -> assertThat(response.getRefreshToken()).isEqualTo(token().getRefreshToken()),
+                () -> assertThat(response.getEmail()).isEqualTo(member().getEmail()),
+                () -> assertThat(response.getNickname()).isEqualTo(member().getNickname()),
+                () -> assertThat(response.getSocialType()).isEqualTo(member().getSocialType())
+        );
+    }
+
+    @DisplayName(value = "존재하지 않는 이메일로 로그인 요청할 수 없다")
+    @Test
+    void login_fail_no_exist_email() throws Exception {
+        //given
+        AuthenticationRequest request = new AuthenticationRequest(new Email("no-exist@weword.com"), password(), member().getSocialType());
+        //when&&then
+        assertThatThrownBy(() -> memberService.login(request) )
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("존재하지 않는 이메일 입니다.");
+    }
+
+    @DisplayName(value = "잘못된 비밀번호로 로그인 할 수 없다")
+    @Test
+    void login_wrong_pwd() throws Exception {
+        //given
+        AuthenticationRequest request = new AuthenticationRequest(member().getEmail(), new Password("wrongPwd1!"), member().getSocialType());
+        //when&&then
+        assertThatThrownBy(() -> memberService.login(request) )
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("비밀번호가 틀립니다.");
+    }
+
+    @DisplayName(value = "이메일로 회원을 조회할 수 있다")
+    @Test
+    void findByEmail() throws Exception {
         //given&&when
         Member member = memberService.findByEmail(member().getEmail());
         //then
@@ -68,5 +129,15 @@ class MemberServiceTest {
                 () -> assertThat(member.getLastLoginAt()).isEqualTo(member().getLastLoginAt()),
                 () -> assertThat(member.getLoginCount()).isEqualTo(member().getLoginCount())
         );
+    }
+
+    @DisplayName(value = "존재하지 않는 이메일로 로그인 요청할 수 없다")
+    @Test
+    void findByEmail_no_exist() throws Exception {
+
+        //given&&when&&then
+        assertThatThrownBy(() -> memberService.findByEmail(new Email("noexist@wewor.com")))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("존재하지 않는 이메일 입니다.");
     }
 }

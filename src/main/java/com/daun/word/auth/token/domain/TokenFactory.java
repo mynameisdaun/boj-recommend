@@ -17,8 +17,30 @@ public class TokenFactory {
 
     private final Jwt jwt;
 
-    public Token generateToken(Member member, SocialTokenResponse socialTokenResponse) {
-        String accessToken = member.newToken(jwt, new String[]{Role.USER.name()});
+    //TODO: role
+    public Token token(Member member) {
+        String accessToken = member.accessToken(jwt, new String[]{Role.USER.name()});
+        LocalDateTime accessTokenExpiredDate = LocalDateTime.now().plusSeconds(jwt.getExpirySeconds());
+        String refreshToken = UUID.randomUUID().toString();
+        LocalDateTime refreshTokenExpiredDate = LocalDateTime.now().plusWeeks(1L);
+        SocialType memberSocialType = SocialType.valueOf(member.getSocialType().name());
+
+        return new Token(
+                member.getEmail(),
+                accessToken,
+                accessTokenExpiredDate,
+                refreshToken,
+                refreshTokenExpiredDate,
+                memberSocialType,
+                null,
+                null,
+                null,
+                null
+        );
+    }
+
+    public Token tokenWithSocial(Member member, SocialTokenResponse socialTokenResponse) {
+        String accessToken = member.accessToken(jwt, new String[]{Role.USER.name()});
         LocalDateTime accessTokenExpiredDate = LocalDateTime.now().plusSeconds(jwt.getExpirySeconds());
         String refreshToken = UUID.randomUUID().toString();
         LocalDateTime refreshTokenExpiredDate = LocalDateTime.now().plusWeeks(1L);

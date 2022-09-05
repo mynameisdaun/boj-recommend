@@ -1,6 +1,9 @@
 package com.daun.word.member.dto;
 
 import com.daun.word.member.domain.Member;
+import com.daun.word.member.domain.vo.Email;
+import com.daun.word.member.domain.vo.Nickname;
+import com.daun.word.member.domain.vo.SocialType;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -8,9 +11,9 @@ import java.time.LocalDateTime;
 @Data
 public class MemberDTO {
     private Integer id;
-    private String email;
-    private String nickname;
-    private String socialType;
+    private Email email;
+    private Nickname nickname;
+    private SocialType socialType;
     private int loginCount;
     private LocalDateTime lastLoginAt;
     private LocalDateTime createdAt;
@@ -18,9 +21,9 @@ public class MemberDTO {
 
     public MemberDTO (Member member) {
         this.id = member.getId();
-        this.email = member.getEmail().getValue();
-        this.nickname = member.getNickname().getValue();
-        this.socialType = member.getSocialType().name();
+        this.email = member.getEmail();
+        this.nickname = member.getNickname();
+        this.socialType = member.getSocialType();
         this.loginCount = member.getLoginCount();
         this.lastLoginAt = member.getLastLoginAt();
         this.createdAt = member.getCreatedAt();

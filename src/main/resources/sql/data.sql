@@ -1,13 +1,13 @@
 /* 회원*/
 
 INSERT INTO member (email, password, nickname, social_type)
-VALUES ('tester1@weword.com', 'fake-password', '테스터', 'W');
+VALUES ('tester1@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터', 'W');
 
 INSERT INTO member(email, password, nickname, social_type)
-VALUES ('tester2@weword.com', 'fake-password', '테스터2', 'W');
+VALUES ('tester2@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터2', 'W');
 
 INSERT INTO member(email, password, nickname, social_type)
-VALUES ('tester3@weword.com', 'fake-password', '테스터3', 'W');
+VALUES ('tester3@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터3', 'W');
 
 /* 토큰 */
 INSERT INTO token (member_email, access_token, access_token_expired_date, refresh_token, refresh_token_expired_date,

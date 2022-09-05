@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.dao.DuplicateKeyException;
 
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 import static com.daun.word.Fixture.Fixture.member;
@@ -33,6 +34,18 @@ class MemberRepositoryTest {
         int success = memberRepository.save(member);
         //then
         assertThat(success).isEqualTo(1);
+    }
+
+    @DisplayName(value = "회원 정보를 업데이트 할 수 있다")
+    @Test
+    void update() throws Exception {
+        //given
+        Member member = member();
+        LocalDateTime before = member.getUpdatedAt();
+        //when
+        memberRepository.update(member);
+        //then
+        assertThat(member.getUpdatedAt()).isAfter(before);
     }
 
     @DisplayName(value = "이미 존재하는 이메일로는 회원을 등록할 수 없다")

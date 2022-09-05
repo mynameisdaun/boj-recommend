@@ -10,6 +10,7 @@ import com.daun.word.commons.Id;
 import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
+import com.daun.word.member.domain.vo.SocialType;
 import lombok.Getter;
 
 import java.util.Date;
@@ -68,6 +69,7 @@ public final class Jwt {
         Id<Member, Integer> memberId;
         Nickname nickname;
         Email email;
+        SocialType socialType;
         String[] roles;
         Date iat;
         Date exp;
@@ -85,6 +87,10 @@ public final class Jwt {
             Claim email = decodedJWT.getClaim("email");
             if (!email.isNull())
                 this.email = new Email(email.asString());
+            Claim socialType = decodedJWT.getClaim("socialType");
+            if(!socialType.isNull()) {
+                this.socialType = SocialType.valueOf(socialType.asString());
+            }
             Claim roles = decodedJWT.getClaim("roles");
             if (!roles.isNull())
                 this.roles = roles.asArray(String.class);
@@ -92,11 +98,12 @@ public final class Jwt {
             this.exp = decodedJWT.getExpiresAt();
         }
 
-        public static Claims of(Id<Member, Integer> memberId, Nickname nickname, Email email, String[] roles) {
+        public static Claims of(Id<Member, Integer> memberId, Email email, Nickname nickname, SocialType socialType, String[] roles) {
             Claims claims = new Claims();
             claims.memberId = memberId;
-            claims.nickname = nickname;
             claims.email = email;
+            claims.nickname = nickname;
+            claims.socialType = socialType;
             claims.roles = roles;
             return claims;
         }

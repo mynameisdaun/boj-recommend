@@ -40,6 +40,7 @@ public class FakeMemberRepository implements MemberRepository {
 
     @Override
     public int update(Member member) {
-        throw new NotImplementedException();
+        memberTable.put(member.getId(), member);
+        return 1;
     }
 }

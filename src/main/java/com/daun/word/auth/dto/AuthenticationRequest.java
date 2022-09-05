@@ -2,22 +2,26 @@ package com.daun.word.auth.dto;
 
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Password;
+import com.daun.word.member.domain.vo.SocialType;
 import lombok.Data;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Data
 public class AuthenticationRequest {
 
-    private Email email;
+    private final Email email;
 
-    private Password password;
+    private final Password password;
 
-    public AuthenticationRequest(String principal, String credentials) {
-        checkArgument(isNotEmpty(principal), "email 주소는 필수 값 입니다.");
-        checkArgument(isNotEmpty(credentials), "password는 필수 값 입니다.");
-        this.email = new Email(principal);
-        this.password = new Password(credentials);
+    private final SocialType socialType;
+
+    public AuthenticationRequest(Email email, Password password, SocialType socialType) {
+        checkArgument(email != null, "이메일 주소는 필수 값 입니다.");
+        checkArgument(password != null, "비밀번호는 필수 값 입니다.");
+        checkArgument(socialType != null, "소셜타입은 필수 값 입니다.");
+        this.email = email;
+        this.password = password;
+        this.socialType = socialType;
     }
 }

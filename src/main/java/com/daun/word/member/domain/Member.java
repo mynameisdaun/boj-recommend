@@ -10,7 +10,6 @@ import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static com.daun.word.utils.StringUtils.isNullOrBlank;
 import static java.time.LocalDateTime.now;
@@ -43,31 +42,33 @@ public class Member {
     }
 
     /* api token 발급 */
-    public String newToken(Jwt jwt, String[] roles) {
-        Jwt.Claims claims = Jwt.Claims.of(Id.of(Member.class, id), nickname, email, roles);
+    public String accessToken(Jwt jwt, String[] roles) {
+        Jwt.Claims claims = Jwt.Claims.of(Id.of(Member.class, id), email, nickname, socialType, roles);
         return jwt.newToken(claims);
     }
 
+    /* 로그인 */
     public void login(PasswordEncoder passwordEncoder, Password password) {
         if(!passwordEncoder.matches(password.getValue(), this.password)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("비밀번호가 틀립니다.");
         }
     }
 
+    /* 로그인 성공 후 */
     public void afterLoginSuccess() {
         this.loginCount++;
         this.lastLoginAt = now();
     }
 
+
+    /* FOR MY BATIS*/
     public void setId(Integer id) {
         this.id = id;
     }
-
-    public void setEmail(String email) {
+    private void setEmail(String email) {
         this.email = new Email(email);
     }
-
-    public void setNickname(String nickname) {
+    private void setNickname(String nickname) {
         this.nickname = new Nickname(nickname);
     }
 

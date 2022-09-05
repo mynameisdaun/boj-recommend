@@ -42,14 +42,14 @@
 
     <update id="update" parameterType="com.daun.word.member.domain.Member">
         UPDATE member
-          SET email = #{member.email.value},
-              password = #{member.password.value},
-              nickname = #{member.nickname.value},
-              social_type = #{member.socialType.name},
-              login_count = #{member.loginCount},
-              last_login_at = #{member.lastLoginAt},
-              updated_at = current_timestamp
-        WHERE id = #{member.id}
+           SET email = #{member.email.value},
+               password = #{member.password},
+               nickname = #{member.nickname.value},
+               social_type = #{member.socialType.name},
+               login_count = #{member.loginCount},
+               last_login_at = #{member.lastLoginAt},
+               updated_at = current_timestamp
+         WHERE id = #{member.id}
         <selectKey
                 keyColumn="id,updated_at"
                 keyProperty="member.id,member.updatedAt"

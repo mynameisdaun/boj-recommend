@@ -4,6 +4,7 @@ import com.daun.word.commons.Id;
 import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
+import com.daun.word.member.domain.vo.SocialType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,7 +29,6 @@ import java.util.regex.Pattern;
 
 import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -40,6 +40,7 @@ public class JwtAuthenticationTokenFilter extends GenericFilterBean {
 
     private final Jwt jwt;
 
+    //TODO: filter 수정사항!
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
@@ -58,12 +59,13 @@ public class JwtAuthenticationTokenFilter extends GenericFilterBean {
                     Id<Member, Integer> userId = claims.memberId;
                     Nickname nickname = claims.nickname;
                     Email email = claims.email;
+                    SocialType socialType = claims.socialType;
 
                     List<GrantedAuthority> authorities = obtainAuthorities(claims);
 
                     if (nonNull(userId) && nonNull(nickname) && nonNull(email) && authorities.size() > 0) {
                         JwtAuthenticationToken authentication =
-                                new JwtAuthenticationToken(new JwtAuthentication(userId, nickname, email), null, authorities);
+                                new JwtAuthenticationToken(new JwtAuthentication(userId, email, nickname, socialType), null, socialType, authorities);
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }

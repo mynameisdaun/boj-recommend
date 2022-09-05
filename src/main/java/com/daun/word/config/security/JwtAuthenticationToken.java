@@ -1,35 +1,41 @@
 package com.daun.word.config.security;
 
 import com.daun.word.auth.dto.AuthenticationRequest;
+import com.daun.word.member.domain.vo.Email;
+import com.daun.word.member.domain.vo.Password;
+import com.daun.word.member.domain.vo.SocialType;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
+
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     private final Object principal;
 
-    private String credentials;
+    private Password credentials;
 
-    public JwtAuthenticationToken(String principal, String credentials) {
+    private SocialType socialType;
+
+    public JwtAuthenticationToken(Email principal, Password credentials, SocialType socialType) {
         super(null);
         super.setAuthenticated(false);
-
         this.principal = principal;
         this.credentials = credentials;
+        this.socialType = socialType;
     }
 
-    public JwtAuthenticationToken( Object principal, String credentials, Collection<? extends GrantedAuthority> authorities) {
+    public JwtAuthenticationToken(Object principal, Password credentials, SocialType socialType, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         super.setAuthenticated(true);
-
         this.principal = principal;
         this.credentials = credentials;
+        this.socialType = socialType;
     }
 
-    AuthenticationRequest authenticationRequest() {
-        return new AuthenticationRequest(String.valueOf(principal), credentials);
+    public AuthenticationRequest authenticationRequest() {
+        return new AuthenticationRequest((Email) this.principal, this.credentials, this.socialType);
     }
 
     @Override
@@ -53,5 +59,9 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     public void eraseCredentials() {
         super.eraseCredentials();
         credentials = null;
+    }
+
+    public SocialType getSocialType() {
+        return socialType;
     }
 }
