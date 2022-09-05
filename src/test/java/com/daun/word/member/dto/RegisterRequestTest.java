@@ -32,7 +32,7 @@ class RegisterRequestTest {
     @Test
     void create() throws Exception {
         //given,when
-        RegisterRequest request = new RegisterRequest(email(), password(), nickname(), SocialType.K);
+        RegisterRequest request = new RegisterRequest(email().getValue(), password().getValue(), nickname().getValue(), SocialType.K.name());
         //then
         assertThat(request).isNotNull();
         assertAll(
@@ -49,7 +49,7 @@ class RegisterRequestTest {
     void create_fail(Email email, Password password, Nickname nickname, SocialType socialType) throws Exception {
         //given&&when&&then
         assertThatThrownBy(() -> {
-            new RegisterRequest(email, password, nickname, socialType);
+            new RegisterRequest(email.getValue(), password.getValue(), nickname.getValue(), socialType.name());
         }).isInstanceOf(IllegalArgumentException.class);
     }
 

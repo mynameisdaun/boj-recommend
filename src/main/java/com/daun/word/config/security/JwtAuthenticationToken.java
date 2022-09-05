@@ -35,7 +35,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     }
 
     public AuthenticationRequest authenticationRequest() {
-        return new AuthenticationRequest((Email) this.principal, this.credentials, this.socialType);
+        return new AuthenticationRequest(((Email) this.principal).getValue(), this.credentials.getValue(), this.socialType.name());
     }
 
     @Override

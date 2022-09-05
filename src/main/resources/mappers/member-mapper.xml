@@ -30,7 +30,7 @@
         #{member.nickname.value},
         #{member.socialType.name}
         )
-        <selectKey keyColumn="id,created_at,updated_at" keyProperty="id,createdAt,updatedAt"
+        <selectKey keyColumn="id,created_at,updated_at" keyProperty="member.id,member.createdAt,member.updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
             SELECT member.id,
             member.created_at,

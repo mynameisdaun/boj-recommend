@@ -2,6 +2,7 @@ package com.daun.word.member.domain.repository;
 
 import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.vo.Email;
+import org.springframework.dao.DuplicateKeyException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
@@ -23,6 +24,9 @@ public class FakeMemberRepository implements MemberRepository {
 
     @Override
     public int save(Member request) {
+        if(memberTable.entrySet().stream().map(v->v.getValue().getEmail()).filter(email->email.equals(request.getEmail())).count()>0) {
+            throw new DuplicateKeyException("");
+        };
         memberTable.put(memberTable.size()+1, request);
         request.setId(memberTable.size());
         return 0;

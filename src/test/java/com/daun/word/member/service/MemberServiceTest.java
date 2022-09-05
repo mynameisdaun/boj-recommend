@@ -8,7 +8,6 @@ import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.repository.FakeMemberRepository;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
-import com.daun.word.member.domain.vo.Password;
 import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.member.dto.MemberDTO;
 import com.daun.word.member.dto.RegisterRequest;
@@ -19,6 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -52,7 +52,7 @@ class MemberServiceTest {
     @Test
     void register() throws Exception {
         //given
-        RegisterRequest request = new RegisterRequest(new Email("iwantNewMember@weword.com"), new Password("iWantBeNew@9"), new Nickname("songTTubi"), SocialType.W);
+        RegisterRequest request = new RegisterRequest("iwantNewMember@weword.com", "iWantBeNew@9", "songTTubi", "W");
         //when
         MemberDTO response = memberService.register(request);
         //then
@@ -73,11 +73,22 @@ class MemberServiceTest {
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
+    @DisplayName(value = "중복된 이메일로 회원을 등록할 수 없다")
+    @Test
+    void register_fail_exist_email() throws Exception {
+        //given
+        RegisterRequest request = new RegisterRequest(member().getEmail().getValue(), "iWantBeNew@9", "songTTubi", "W");
+        //when&&then
+        assertThatThrownBy(() -> {
+            memberService.register(request);
+        }).isInstanceOf(DuplicateKeyException.class);
+    }
+
     @DisplayName(value = "로그인을 할 수 있다")
     @Test
     void login() throws Exception {
         //given
-        AuthenticationRequest request = new AuthenticationRequest(member().getEmail(), password(), member().getSocialType());
+        AuthenticationRequest request = new AuthenticationRequest(member().getEmail().getValue(), password().getValue(), member().getSocialType().name());
         given(tokenService.saveTokenFor(any(Member.class))).willReturn(new TokenDTO(token()));
         //when
         AuthenticationResponse response = memberService.login(request);
@@ -96,7 +107,7 @@ class MemberServiceTest {
     @Test
     void login_fail_no_exist_email() throws Exception {
         //given
-        AuthenticationRequest request = new AuthenticationRequest(new Email("no-exist@weword.com"), password(), member().getSocialType());
+        AuthenticationRequest request = new AuthenticationRequest("no-exist@weword.com", password().getValue(), member().getSocialType().name());
         //when&&then
         assertThatThrownBy(() -> memberService.login(request) )
                 .isInstanceOf(NoSuchElementException.class)
@@ -107,7 +118,7 @@ class MemberServiceTest {
     @Test
     void login_wrong_pwd() throws Exception {
         //given
-        AuthenticationRequest request = new AuthenticationRequest(member().getEmail(), new Password("wrongPwd1!"), member().getSocialType());
+        AuthenticationRequest request = new AuthenticationRequest(member().getEmail().getValue(), "wrongPwd1!", member().getSocialType().name());
         //when&&then
         assertThatThrownBy(() -> memberService.login(request) )
                 .isInstanceOf(IllegalArgumentException.class)
