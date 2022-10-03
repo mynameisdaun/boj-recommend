@@ -2,6 +2,7 @@ package com.daun.word.infra.kakao.client;
 
 import com.daun.word.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.infra.kakao.dto.KakaoTokenResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
@@ -11,9 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import static com.daun.word.utils.StringUtils.isNullOrBlank;
 
 @Service
+@Slf4j
 public class DefaultKakaoOAuthClient implements KakaoOAuthClient {
-    //TODO: 해피케이스만 존재한다, 안 해피한 케이스도 생각해서 추가해야 한다
-    private final Logger logger = LoggerFactory.getLogger(DefaultKakaoOAuthClient.class);
 
     private final RestTemplate restTemplate;
 

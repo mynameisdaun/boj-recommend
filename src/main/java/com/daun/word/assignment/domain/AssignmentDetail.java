@@ -1,6 +1,6 @@
 package com.daun.word.assignment.domain;
 
-import com.daun.word.assignment.dto.AssignmentSaveRequest;
+import com.daun.word.assignment.dto.d_AssignmentSaveRequest;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -32,7 +32,7 @@ public class AssignmentDetail {
         this.endDateTime = endDateTime;
     }
 
-    public static AssignmentDetail fromSaveRequest(Integer assignmentId, AssignmentSaveRequest.AssignmentDetailSaveRequest request) {
+    public static AssignmentDetail fromSaveRequest(Integer assignmentId, d_AssignmentSaveRequest.AssignmentDetailSaveRequest request) {
         return new AssignmentDetail(assignmentId, request.getChapterId(), request.getStartDateTime(), request.getEndDateTime());
     }
 

@@ -11,7 +11,6 @@ import java.util.Optional;
 @Repository
 @Mapper
 public interface QuizRepository {
-
     /* 퀴즈를 저장한다 */
     int save(@Param("quiz") Quiz quiz);
 
@@ -20,5 +19,4 @@ public interface QuizRepository {
 
     /* id로 퀴즈를 조회한다. */
     Optional<Quiz> findById(@Param("id") Id<Quiz, Integer> id);
-
 }

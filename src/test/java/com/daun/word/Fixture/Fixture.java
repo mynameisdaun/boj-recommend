@@ -2,9 +2,13 @@ package com.daun.word.Fixture;
 
 import com.daun.word.assignment.domain.Assignment;
 import com.daun.word.assignment.domain.AssignmentDetail;
+import com.daun.word.assignment.domain.PAssignment;
+import com.daun.word.auth.token.domain.Token;
 import com.daun.word.chapter.domain.Chapter;
 import com.daun.word.chapter.domain.vo.ChapterWordMapping;
 import com.daun.word.global.Id;
+import com.daun.word.global.vo.Title;
+import com.daun.word.global.vo.URL;
 import com.daun.word.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.infra.kakao.dto.KakaoTokenResponse;
 import com.daun.word.member.domain.Member;
@@ -12,7 +16,9 @@ import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
 import com.daun.word.member.domain.vo.Password;
 import com.daun.word.member.domain.vo.SocialType;
-import com.daun.word.auth.token.domain.Token;
+import com.daun.word.problem.domain.Problem;
+import com.daun.word.problem.domain.vo.Tag;
+import com.daun.word.problem.domain.vo.Tier;
 import com.daun.word.quiz.domain.Quiz;
 import com.daun.word.quiz.domain.vo.QuizStatus;
 import com.daun.word.quiz.domain.vo.QuizType;
@@ -23,7 +29,6 @@ import com.daun.word.word.domain.vo.Korean;
 import com.daun.word.workbook.domain.WorkBook;
 import com.daun.word.workbook.domain.vo.Author;
 import com.daun.word.workbook.domain.vo.Description;
-import com.daun.word.global.vo.Title;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -276,7 +281,17 @@ public class Fixture {
         );
     }
 
+    public static Tag tag() {
+        return new Tag(1, "key", new Title("example"), LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+    }
 
+    public static Problem problem() {
+        return new Problem(16120, new Title("PPAP"), new URL("https://www.acmicpc.net/problem/16120"), new Tier(12), Arrays.asList(tag()), LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+    }
+
+    public static PAssignment p_assignment() {
+        return new PAssignment(1, problem(), member().getEmail(), another_member().getEmail(), LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter), "N", null, "N", null, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+    }
 }
 
 

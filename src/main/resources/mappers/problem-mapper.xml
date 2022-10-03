@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daun.word.problem.domain.repository.ProblemRepository">
+
+    <insert id="save" parameterType="com.daun.word.problem.domain.Problem" useGeneratedKeys="true" keyColumn="id"
+            keyProperty="problem.id">
+        INSERT INTO problem
+        (
+        id,
+        title,
+        url,
+        tier
+        )
+        VALUES
+        (
+        #{problem.id},
+        #{problem.title.value},
+        #{problem.url.value},
+        #{problem.tier.value}
+        )
+        ON DUPLICATE KEY UPDATE
+        title = #{problem.title.value},
+        url = #{problem.url.value},
+        tier = #{problem.tier.value}
+        <selectKey keyColumn="created_at,updated_at"
+                   keyProperty="problem.createdAt,problem.updatedAt"
+                   resultType="java.util.HashMap" order="AFTER">
+            SELECT
+            p.created_at,
+            p.updated_at
+            FROM problem p
+            where p.id = #{problem.id};
+        </selectKey>
+    </insert>
+
+    <insert id="saveTag" parameterType="com.daun.word.problem.domain.vo.Tag" useGeneratedKeys="true" keyColumn="id"
+            keyProperty="tag.id">
+        INSERT INTO tag
+        (
+        id,
+        tag_key,
+        title
+        )
+        VALUES
+        (
+        #{tag.id},
+        #{tag.key},
+        #{tag.title.value}
+        )
+        ON DUPLICATE KEY UPDATE
+        tag_key = #{tag.key},
+        title = #{tag.title.value}
+        <selectKey keyColumn="created_at,updated_at"
+                   keyProperty="tag.createdAt,tag.updatedAt"
+                   resultType="java.util.HashMap" order="AFTER">
+            SELECT
+            t.created_at,
+            t.updated_at
+            FROM tag t
+            where t.id = #{tag.id};
+        </selectKey>
+
+    </insert>
+
+    <insert id="saveProblemTag">
+        INSERT INTO problem_tag
+        (problem_id,
+         tag_id)
+        VALUES (#{problemId.value},
+                #{tagId.value})
+    </insert>
+</mapper>

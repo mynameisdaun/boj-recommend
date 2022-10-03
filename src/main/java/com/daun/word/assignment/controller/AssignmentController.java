@@ -1,8 +1,11 @@
 package com.daun.word.assignment.controller;
 
+import com.daun.word.assignment.domain.PAssignment;
 import com.daun.word.assignment.dto.AssignmentRequest;
 import com.daun.word.assignment.dto.AssignmentSaveRequest;
+import com.daun.word.assignment.dto.d_AssignmentSaveRequest;
 import com.daun.word.assignment.service.AssignmentService;
+import com.daun.word.global.Id;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +26,24 @@ public class AssignmentController {
 
     @GetMapping("/{assignmentId}")
     public ResponseEntity<?> find(@PathVariable AssignmentRequest request) {
-        return ResponseEntity.status(200).body(assignmentService.findById(request));
+        return ResponseEntity.status(200)
+                .body(assignmentService.findById(Id.of(PAssignment.class, request.getAssignmentId())));
     }
 
-    @PutMapping("/{assignmentId}/open/{detailId}")
+    @PostMapping("/d")
+    public ResponseEntity<?> save_d(@Valid @RequestBody d_AssignmentSaveRequest request) {
+        return ResponseEntity.status(201).body(assignmentService.save_d(request));
+    }
+
+    @GetMapping("/d/{assignmentId}")
+    public ResponseEntity<?> find_d(@PathVariable AssignmentRequest request) {
+        return ResponseEntity.status(200).body(assignmentService.findById_d(request));
+    }
+
+    @PutMapping("/d/{assignmentId}/open/{detailId}")
     public ResponseEntity<?> open(
             @PathVariable("assignmentId") Integer assignmentId, @PathVariable("detailId") Integer detailId) {
-        return ResponseEntity.status(200).body(assignmentService.open(detailId));
+        return ResponseEntity.status(200).body(assignmentService.open_d(detailId));
     }
 
 }

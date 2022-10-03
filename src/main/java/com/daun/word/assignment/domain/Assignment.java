@@ -1,6 +1,6 @@
 package com.daun.word.assignment.domain;
 
-import com.daun.word.assignment.dto.AssignmentSaveRequest;
+import com.daun.word.assignment.dto.d_AssignmentSaveRequest;
 import com.daun.word.member.domain.vo.Email;
 import lombok.Getter;
 import lombok.ToString;
@@ -39,7 +39,7 @@ public class Assignment {
         this.updatedAt = updatedAt;
     }
 
-    public static Assignment fromSaveRequest(AssignmentSaveRequest request) {
+    public static Assignment fromSaveRequest(d_AssignmentSaveRequest request) {
         return new Assignment(request.getAssignFrom(), request.getAssignTo(), request.getWorkbookId());
     }
 

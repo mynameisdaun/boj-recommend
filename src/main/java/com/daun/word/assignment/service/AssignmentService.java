@@ -2,12 +2,15 @@ package com.daun.word.assignment.service;
 
 import com.daun.word.assignment.domain.Assignment;
 import com.daun.word.assignment.domain.AssignmentDetail;
+import com.daun.word.assignment.domain.PAssignment;
 import com.daun.word.assignment.domain.repository.AssignmentRepository;
+import com.daun.word.assignment.domain.repository.PAssignmentRepository;
 import com.daun.word.assignment.dto.*;
+import com.daun.word.global.Id;
+import com.daun.word.problem.service.ProblemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.poi.ss.formula.eval.NotImplementedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,43 +23,62 @@ import java.util.NoSuchElementException;
 @Service
 @Slf4j
 public class AssignmentService {
-    private final AssignmentRepository assignmentRepository;
+    private final AssignmentRepository deprecated;
 
-    /* 과제를 열람한다 */
-    public AssignmentDetailResponse open(Integer detailId) {
-        AssignmentDetail detail = assignmentRepository.findDetailByDetailId(detailId)
+    private final PAssignmentRepository assignmentRepository;
+
+    private final ProblemService problemService;
+
+    public PAssignment findById(Id<PAssignment, Integer> id) {
+        return assignmentRepository.findById(id).orElseThrow(NoSuchElementException::new);
+    }
+
+    public PAssignment save(AssignmentSaveRequest request) {
+        PAssignment assignment = new PAssignment(problemService.findById(request.getProblemId()), request.getAssignFrom(), request.getAssignTo(), request.getStartDateTime(), request.getEndDateTime());
+        assignmentRepository.save(assignment);
+        return assignment;
+    }
+
+    //TODO: update 관리
+    public PAssignment update(AssignmentSaveRequest request) {
+        throw new NotImplementedException("아직구현안했다!");
+    }
+
+    /* deprecated */
+    public AssignmentDetailResponse open_d(Integer detailId) {
+        AssignmentDetail detail = deprecated.findDetailByDetailId(detailId)
                 .orElseThrow(NoSuchElementException::new);
         detail.open();
-        assignmentRepository.updateDetail(detail);
+        deprecated.updateDetail(detail);
         return new AssignmentDetailResponse(detail);
     }
 
-    /* 과제를 제출한다 */
-    public AssignmentDetailResponse submission(SubmissionRequest request) {
-        AssignmentDetail detail = assignmentRepository.findDetailByDetailId(request.getId())
+    /* deprecated */
+    public AssignmentDetailResponse submission_d(SubmissionRequest request) {
+        AssignmentDetail detail = deprecated.findDetailByDetailId(request.getId())
                 .orElseThrow(NoSuchElementException::new);
         detail.submission(request.getSubmission());
-        assignmentRepository.updateDetail(detail);
+        deprecated.updateDetail(detail);
         return new AssignmentDetailResponse(detail);
     }
 
-    /* 과제를 등록한다 */
-    public AssignmentSaveResponse save(AssignmentSaveRequest request) {
+    /* deprecated */
+    public AssignmentSaveResponse save_d(d_AssignmentSaveRequest request) {
         Assignment assignment = Assignment.fromSaveRequest(request);
-        assignmentRepository.save(assignment);
+        deprecated.saved(assignment);
         List<AssignmentDetail> details = new ArrayList<>();
         request.getDetails().forEach(req -> {
             AssignmentDetail detail = AssignmentDetail.fromSaveRequest(assignment.getId(), req);
-            assignmentRepository.saveDetail(detail);
+            deprecated.saveDetail(detail);
             details.add(detail);
         });
         return new AssignmentSaveResponse(assignment, details);
     }
 
-    /* 과제 id로 과제를 찾는다 */
-    public AssignmentResponse findById(AssignmentRequest request) {
+    /* deprecated */
+    public AssignmentResponse findById_d(AssignmentRequest request) {
         return new AssignmentResponse(
-                assignmentRepository.findAssignmentById(request.getAssignmentId())
+                deprecated.findAssignmentById(request.getAssignmentId())
                         .orElseThrow(NoSuchElementException::new)
         );
     }

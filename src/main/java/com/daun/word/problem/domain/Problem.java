@@ -1,14 +1,17 @@
-package com.daun.word.problem.domain.repository;
+package com.daun.word.problem.domain;
 
 import com.daun.word.global.vo.Title;
 import com.daun.word.global.vo.URL;
-import com.daun.word.problem.domain.repository.vo.Tag;
-import com.daun.word.problem.domain.repository.vo.Tier;
+import com.daun.word.infra.solvedac.dto.SolvedAcProblemResponse;
+import com.daun.word.problem.domain.vo.Tag;
+import com.daun.word.problem.domain.vo.Tier;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -22,6 +25,19 @@ public class Problem {
     private final URL url;
     private final Tier tier;
     private final List<Tag> tags;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    public Problem (SolvedAcProblemResponse response) {
+        this.id = response.getProblemId();
+        this.title = new Title(response.getTitleKo());
+        this.url = new URL("https://www.acmicpc.net/problem/" + response.getProblemId());
+        this.tier = new Tier(response.getLevel());
+        this.tags = new ArrayList<>();
+        for (SolvedAcProblemResponse.Tag tag : response.getTags()) {
+            this.tags.add(new Tag(tag));
+        }
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,8 +1,9 @@
 package com.daun.word.assignment.service;
 
 import com.daun.word.assignment.domain.repository.FakeAssignmentRepository;
+import com.daun.word.assignment.domain.repository.PAssignmentRepository;
 import com.daun.word.assignment.dto.AssignmentDetailResponse;
-import com.daun.word.assignment.dto.AssignmentSaveRequest;
+import com.daun.word.assignment.dto.d_AssignmentSaveRequest;
 import com.daun.word.assignment.dto.AssignmentSaveResponse;
 import com.daun.word.assignment.dto.SubmissionRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +15,7 @@ import java.util.List;
 
 import static com.daun.word.Fixture.Fixture.assignmentDetail_open_unComplete;
 import static com.daun.word.Fixture.Fixture.assignmentDetail_unOpen;
-import static com.daun.word.assignment.dto.AssignmentSaveRequest.AssignmentDetailSaveRequest;
+import static com.daun.word.assignment.dto.d_AssignmentSaveRequest.AssignmentDetailSaveRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -26,7 +27,7 @@ class AssignmentServiceTest {
 
     @BeforeEach
     public void setUp() {
-        assignmentService = new AssignmentService(new FakeAssignmentRepository());
+        assignmentService = new AssignmentService(new FakeAssignmentRepository(), null, null);
     }
 
     @DisplayName(value = "과제를 제출한다")
@@ -36,7 +37,7 @@ class AssignmentServiceTest {
         String submission = "fake-submission";
         SubmissionRequest request = new SubmissionRequest(assignmentDetail_open_unComplete().getId(), submission);
         //when
-        AssignmentDetailResponse response = assignmentService.submission(request);
+        AssignmentDetailResponse response = assignmentService.submission_d(request);
         //then
         assertThat(response).isNotNull();
         assertAll(
@@ -52,7 +53,7 @@ class AssignmentServiceTest {
         String submission = "fake-submission";
         SubmissionRequest request = new SubmissionRequest(assignmentDetail_open_unComplete().getAssignmentId(), submission);
         //when&&then
-        assertThatThrownBy(() -> assignmentService.submission(request))
+        assertThatThrownBy(() -> assignmentService.submission_d(request))
                 .isInstanceOf(IllegalStateException.class);
     }
 
@@ -63,7 +64,7 @@ class AssignmentServiceTest {
         String submission = "fake-submission";
         SubmissionRequest request = new SubmissionRequest(assignmentDetail_unOpen().getAssignmentId(), submission);
         //when&&then
-        assertThatThrownBy(() -> assignmentService.submission(request))
+        assertThatThrownBy(() -> assignmentService.submission_d(request))
                 .isInstanceOf(IllegalStateException.class);
     }
 
@@ -71,7 +72,7 @@ class AssignmentServiceTest {
     @Test
     void open() throws Exception {
         //given&&when
-        AssignmentDetailResponse response = assignmentService.open(assignmentDetail_unOpen().getId());
+        AssignmentDetailResponse response = assignmentService.open_d(assignmentDetail_unOpen().getId());
         //then
         assertThat(response).isNotNull();
         assertAll(
@@ -84,7 +85,7 @@ class AssignmentServiceTest {
     @Test
     void open_already_opened() throws Exception {
         //given&&when&&then
-        assertThatThrownBy(() -> assignmentService.open(assignmentDetail_open_unComplete().getId()))
+        assertThatThrownBy(() -> assignmentService.open_d(assignmentDetail_open_unComplete().getId()))
                 .isInstanceOf(IllegalStateException.class);
     }
 
@@ -95,13 +96,13 @@ class AssignmentServiceTest {
         List<AssignmentDetailSaveRequest> details = new ArrayList<>();
         details.add(new AssignmentDetailSaveRequest(Integer.valueOf(1), "2024-08-20 15:43:51", "2024-08-20 15:43:51", "tmp-quizs"));
         details.add(new AssignmentDetailSaveRequest(Integer.valueOf(2), "2024-08-20 15:43:51", "2024-08-20 15:43:51", "tmp-quizs"));
-        AssignmentSaveRequest request = new AssignmentSaveRequest(
+        d_AssignmentSaveRequest request = new d_AssignmentSaveRequest(
                 Integer.valueOf(1),
                 "tester1@weword.com",
                 "tester2@weword.com",
                 details);
         //when
-        AssignmentSaveResponse save = assignmentService.save(request);
+        AssignmentSaveResponse save = assignmentService.save_d(request);
         //then
         assertThat(save).isNotNull();
         assertAll(

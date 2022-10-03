@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daun.word.assignment.domain.repository.PAssignmentRepository">
+
+    <resultMap id="tagMap" type="com.daun.word.problem.domain.vo.Tag">
+        <constructor>
+            <idArg column="id" name="id"/>
+            <arg column="tag_key" name="key" javaType="String"/>
+            <arg column="title" name="title" javaType="com.daun.word.global.vo.Title"
+                 typeHandler="com.daun.word.global.vo.TitleTypeHandler"/>
+            <arg column="created_at" name="createdAt" javaType="java.time.LocalDateTime"/>
+            <arg column="updated_at" name="updatedAt" javaType="java.time.LocalDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="problemMap" type="com.daun.word.problem.domain.Problem">
+        <constructor>
+            <idArg column="id" name="id"/>
+            <arg column="title" name="title" javaType="com.daun.word.global.vo.Title"
+                 typeHandler="com.daun.word.global.vo.TitleTypeHandler"/>
+            <arg column="url" name="url" javaType="com.daun.word.global.vo.URL"
+                 typeHandler="com.daun.word.global.vo.URLTypeHandler"/>
+            <arg column="tier" name="tier" javaType="com.daun.word.problem.domain.vo.Tier"
+                 typeHandler="com.daun.word.problem.domain.vo.TierTypeHandler"/>
+            <arg column="id" name="tags" javaType="java.util.List" select="findTags"/>
+            <arg column="created_at" name="createdAt" javaType="java.time.LocalDateTime"/>
+            <arg column="updated_at" name="updatedAt" javaType="java.time.LocalDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="assignmentMap" type="com.daun.word.assignment.domain.PAssignment">
+        <constructor>
+            <idArg column="id" name="id" javaType="int"/>
+            <arg column="problem_id" name="problem" javaType="com.daun.word.problem.domain.Problem"
+                 select="findProblem"/>
+            <arg column="assign_from" name="assignFrom" javaType="com.daun.word.member.domain.vo.Email"
+                 typeHandler="com.daun.word.member.domain.vo.EmailTypeHandler"/>
+            <arg column="assign_to" name="assignTo" javaType="com.daun.word.member.domain.vo.Email"
+                 typeHandler="com.daun.word.member.domain.vo.EmailTypeHandler"/>
+            <arg column="start_date_time" name="startDateTime" javaType="java.time.LocalDateTime"/>
+            <arg column="end_date_time" name="endDateTime" javaType="java.time.LocalDateTime"/>
+            <arg column="open_yn" name="openYn" javaType="String"/>
+            <arg column="open_date_time" name="openDateTime" javaType="java.time.LocalDateTime"/>
+            <arg column="complete_yn" name="completeYn" javaType="String"/>
+            <arg column="complete_date_time" name="completeDateTime" javaType="java.time.LocalDateTime"/>
+            <arg column="created_at" name="createdAt" javaType="java.time.LocalDateTime"/>
+            <arg column="updated_at" name="updatedAt" javaType="java.time.LocalDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <select id="findTags" resultMap="tagMap">
+        /* quiz > findTags only for mybatis resultMap */
+        SELECT t.id,
+               t.tag_key,
+               t.title,
+               t.created_at,
+               t.updated_at
+        FROM problem_tag pt
+                 left join problem p on pt.problem_id = p.id
+                 left join tag t on pt.tag_id = t.id
+        where p.id = ${problem_id}
+    </select>
+
+    <select id="findProblem" resultMap="problemMap">
+        /* quiz > findWord only for mybatis resultMap */
+        SELECT p.id,
+               p.title,
+               p.url,
+               p.tier,
+               p.created_at,
+               p.updated_at
+        FROM problem p
+        where p.id = ${problem_id}
+    </select>
+
+    <select id="findById" resultMap="assignmentMap">
+        select a.id                 as id,
+               a.assign_from        as assign_from,
+               a.assign_to          as assign_to,
+               a.start_date_time    as start_date_time,
+               a.end_date_time      as end_date_time,
+               a.open_yn            as open_yn,
+               a.open_date_time     as open_date_time,
+               a.complete_yn        as complete_yn,
+               a.complete_date_time as complete_date_time,
+               a.created_at         as created_at,
+               a.updated_at         as updated_at,
+               p.id                 as problem_id,
+               p.title              as problem_title,
+               p.url                as problem_url,
+               p.tier               as problem_tier,
+               p.created_at         as problem_created_at,
+               p.updated_at         as problem_updated_at,
+               t.id                 as tag_id,
+               t.title              as tag_title,
+               t.created_at         as tag_created_at,
+               t.updated_at         as tag_updated_at
+        from p_assignment as a
+                 left join problem p on a.problem_id = p.id
+                 left join problem_tag pt on p.id = pt.problem_id
+                 left join tag t on pt.tag_id = t.id
+        where a.id = #{id.value};
+    </select>
+
+    <insert id="save" parameterType="com.daun.word.assignment.domain.PAssignment" useGeneratedKeys="true" keyColumn="id" keyProperty="assignment.id">
+        INSERT INTO p_assignment
+        (
+        problem_id,
+        assign_from,
+        assign_to,
+        start_date_time,
+        end_date_time
+        )
+        VALUES (
+        #{assignment.probleㄴm.id},
+        #{assignment.assignFrom.value},
+        #{assignment.assignTo.value},
+        #{assignment.startDateTime},
+        #{assignment.endDateTime}
+        )
+        <selectKey keyColumn="id,created_at,updated_at"
+                   keyProperty="assignment.id,assignment.createdAt,assignment.updatedAt"
+                   resultType="java.util.HashMap" order="AFTER">
+            SELECT assignment.id,
+            assignment.created_at,
+            assignment.updated_at
+            FROM p_assignment as assignment
+            WHERE assignment.id = LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+
+</mapper>

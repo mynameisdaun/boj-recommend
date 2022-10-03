@@ -97,7 +97,7 @@ class AssignmentRepositoryTest {
         //given
         Assignment assignment = new Assignment(member().getEmail(), another_member().getEmail(), workbook().getId());
         //when
-        int saved = assignmentRepository.save(assignment);
+        int saved = assignmentRepository.saved(assignment);
         //then
         assertThat(saved).isEqualTo(1);
     }

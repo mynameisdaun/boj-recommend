@@ -29,7 +29,7 @@ public class FakeAssignmentRepository implements AssignmentRepository {
     }
 
     @Override
-    public Integer save(Assignment assignment) {
+    public Integer saved(Assignment assignment) {
         assignment.setId(assignmentTable.size());
         assignment.setCreatedAt(LocalDateTime.now());
         assignment.setUpdatedAt(LocalDateTime.now());

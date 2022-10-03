@@ -5,6 +5,8 @@ import com.daun.word.infra.excel.ExcelClient;
 import com.daun.word.infra.image.DefaultImageClient;
 import com.daun.word.infra.kakao.client.DefaultKakaoOAuthClient;
 import com.daun.word.infra.kakao.client.KakaoOAuthClient;
+import com.daun.word.infra.solvedac.DefaultSolvedAcClient;
+import com.daun.word.infra.solvedac.SolvedAcClient;
 import com.daun.word.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +42,11 @@ public class Application {
     @Bean
     public KakaoOAuthClient kakaoOAuthClient() {
         return new DefaultKakaoOAuthClient(restTemplate());
+    }
+
+    @Bean
+    public SolvedAcClient solvedAcClient() {
+        return new DefaultSolvedAcClient(restTemplate());
     }
 
     @Bean

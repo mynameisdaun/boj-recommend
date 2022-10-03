@@ -1,5 +1,8 @@
 /* 22.08.17 회원 테이블 */
-
+drop table if exists p_assignment;
+drop table if exists problem_tag;
+drop table if exists problem;
+drop table if exists tag;
 drop table if exists quiz;
 drop table if exists assignment_detail;
 drop table if exists assignment;
@@ -165,24 +168,22 @@ create table quiz
 /* 22.10.03 문제 */
 create table problem
 (
-    id         int          not null comment '문제 번호',
+    id         int          primary key not null comment '문제 번호',
     title      varchar(100) not null comment '영어 표기',
     url        varchar(300) not null comment '문제 url',
     tier       int comment '문제 티어',
     created_at datetime     not null default current_timestamp comment '데이터 생성일시',
-    updated_at datetime     not null default current_timestamp comment '데이터 수정일시',
-    primary key (id)
+    updated_at datetime     not null default current_timestamp comment '데이터 수정일시'
 ) comment '문제';
 
 /* 22.10.03 태그 */
 create table tag
 (
-    id         int comment '태그 번호',
-    problem_id int comment '문제 번호',
+    id         int          primary key not null comment '태그 번호',
+    tag_key    varchar(100) not null comment '태그 key',
     title      varchar(100) not null comment '태그 이름',
     created_at datetime     not null default current_timestamp comment '데이터 생성일시',
-    updated_at datetime     not null default current_timestamp comment '데이터 수정일시',
-    primary key (id)
+    updated_at datetime     not null default current_timestamp comment '데이터 수정일시'
 ) comment '태그';
 
 /* 22.10.03 문제_태그 */
@@ -209,8 +210,7 @@ create table p_assignment
     complete_date_time datetime comment '과제 제출 일시',
     created_at         datetime     not null default current_timestamp comment '데이터 생성일시',
     updated_at         datetime     not null default current_timestamp comment '데이터 수정일시',
-    FOREIGN KEY (problem_id
-        ) REFERENCES problem (id),
+    FOREIGN KEY (problem_id) REFERENCES problem (id),
     FOREIGN KEY (assign_from) REFERENCES member (email),
     FOREIGN KEY (assign_to) REFERENCES member (email)
 ) comment '과제 상세 정보';
