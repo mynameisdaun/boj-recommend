@@ -2,7 +2,7 @@ package com.daun.word.workbook.domain;
 
 import com.daun.word.workbook.domain.vo.Author;
 import com.daun.word.workbook.domain.vo.Description;
-import com.daun.word.workbook.domain.vo.Title;
+import com.daun.word.global.vo.Title;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;

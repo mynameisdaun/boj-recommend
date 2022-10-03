@@ -1,6 +1,6 @@
 package com.daun.word.quiz.dto;
 
-import com.daun.word.commons.Id;
+import com.daun.word.global.Id;
 import com.daun.word.quiz.domain.Quiz;
 import com.daun.word.word.domain.Word;
 import lombok.Data;

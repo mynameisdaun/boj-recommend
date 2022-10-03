@@ -11,13 +11,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {
@@ -32,12 +31,11 @@ public class AuthController {
             JwtAuthenticationToken authToken = new JwtAuthenticationToken(request.getEmail(), request.getPassword(), request.getSocialType());
             Authentication authentication = authenticationManager.authenticate(authToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.info("details: {}", authentication.getDetails());
-            ResponseEntity.ok(authentication.getDetails());
+            return ResponseEntity.status(HttpStatus.OK).body(authentication.getDetails());
         } catch (AuthenticationException e) {
-            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
-        return null;
     }
 
     @GetMapping("/kakao/callback")

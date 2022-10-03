@@ -3,7 +3,7 @@ package com.daun.word.workbook.domain.repository;
 import com.daun.word.workbook.domain.WorkBook;
 import com.daun.word.workbook.domain.vo.Author;
 import com.daun.word.workbook.domain.vo.Description;
-import com.daun.word.workbook.domain.vo.Title;
+import com.daun.word.global.vo.Title;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;

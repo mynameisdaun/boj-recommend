@@ -4,19 +4,16 @@ import com.daun.word.assignment.dto.AssignmentSaveRequest;
 import com.daun.word.member.domain.vo.Email;
 import lombok.Getter;
 import lombok.ToString;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 
 @Getter
 @ToString
 public class Assignment {
-    private final Logger logger = LoggerFactory.getLogger(Assignment.class);
+    private Integer id;
     private final Email assignFrom;
     private final Email assignTo;
     private final Integer workbookId;
-    private Integer id;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -56,20 +53,5 @@ public class Assignment {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Assignment that = (Assignment) o;
-
-        return logger != null ? logger.equals(that.logger) : that.logger == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return logger != null ? logger.hashCode() : 0;
     }
 }

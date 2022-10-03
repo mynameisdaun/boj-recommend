@@ -1,6 +1,6 @@
 package com.daun.word.quiz.domain.repository;
 
-import com.daun.word.commons.Id;
+import com.daun.word.global.Id;
 import com.daun.word.quiz.domain.Quiz;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

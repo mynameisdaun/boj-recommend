@@ -2,7 +2,12 @@ package com.daun.word.config.security;
 
 import com.daun.word.auth.dto.AuthenticationRequest;
 import com.daun.word.auth.dto.AuthenticationResponse;
+import com.daun.word.global.Id;
+import com.daun.word.member.domain.Member;
+import com.daun.word.member.domain.vo.Email;
+import com.daun.word.member.domain.vo.Nickname;
 import com.daun.word.member.domain.vo.Role;
+import com.daun.word.member.domain.vo.SocialType;
 import com.daun.word.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -45,9 +50,14 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                     // JwtAuthenticationToken.principal 부분에는 JwtAuthentication 인스턴스가 set 된다.
                     // 로그인 완료 전 JwtAuthenticationToken.principal 부분은 Email 인스턴스가 set 되어 있었다.
                     new JwtAuthenticationToken(
-                            new JwtAuthentication(response.getId(), response.getEmail(), response.getNickname(), response.getSocialType()),
+                            new JwtAuthentication(
+                                    Id.of(Member.class, response.getId()),
+                                    new Email(response.getEmail()),
+                                    new Nickname(response.getNickname()),
+                                    SocialType.valueOf(response.getSocialType())
+                            ),
                             null,
-                            response.getSocialType(),
+                            SocialType.valueOf(response.getSocialType()),
                             createAuthorityList(Role.USER.name()));
             authenticated.setDetails(response);
             return authenticated;

@@ -1,4 +1,4 @@
-package com.daun.word.commons;
+package com.daun.word.global;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;

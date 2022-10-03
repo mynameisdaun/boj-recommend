@@ -4,7 +4,7 @@ import com.daun.word.assignment.domain.Assignment;
 import com.daun.word.assignment.domain.AssignmentDetail;
 import com.daun.word.chapter.domain.Chapter;
 import com.daun.word.chapter.domain.vo.ChapterWordMapping;
-import com.daun.word.commons.Id;
+import com.daun.word.global.Id;
 import com.daun.word.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.infra.kakao.dto.KakaoTokenResponse;
 import com.daun.word.member.domain.Member;
@@ -23,7 +23,7 @@ import com.daun.word.word.domain.vo.Korean;
 import com.daun.word.workbook.domain.WorkBook;
 import com.daun.word.workbook.domain.vo.Author;
 import com.daun.word.workbook.domain.vo.Description;
-import com.daun.word.workbook.domain.vo.Title;
+import com.daun.word.global.vo.Title;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

@@ -1,6 +1,6 @@
 package com.daun.word.word.domain.repository;
 
-import com.daun.word.commons.Id;
+import com.daun.word.global.Id;
 import com.daun.word.word.domain.Word;
 import com.daun.word.word.domain.vo.English;
 

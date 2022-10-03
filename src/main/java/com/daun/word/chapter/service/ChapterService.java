@@ -5,7 +5,7 @@ import com.daun.word.chapter.domain.repository.ChapterRepository;
 import com.daun.word.chapter.domain.vo.ChapterWordMapping;
 import com.daun.word.chapter.dto.ChapterSaveRequest;
 import com.daun.word.chapter.dto.ChapterSaveResponse;
-import com.daun.word.commons.Id;
+import com.daun.word.global.Id;
 import com.daun.word.quiz.dto.QuizResponse;
 import com.daun.word.quiz.dto.QuizSaveRequest;
 import com.daun.word.quiz.service.QuizService;

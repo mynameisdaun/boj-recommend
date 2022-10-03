@@ -9,7 +9,7 @@ import com.daun.word.word.domain.vo.English;
 import com.daun.word.word.domain.vo.Korean;
 import com.daun.word.workbook.domain.WorkBook;
 import com.daun.word.workbook.domain.repository.WorkBookRepository;
-import com.daun.word.workbook.domain.vo.Title;
+import com.daun.word.global.vo.Title;
 import com.daun.word.workbook.dto.WorkBookExcelSaveRequest;
 import com.daun.word.workbook.dto.WorkBookSaveRequest;
 import com.daun.word.workbook.dto.WorkBookSaveResponse;

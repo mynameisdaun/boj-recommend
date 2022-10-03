@@ -5,7 +5,7 @@ import com.daun.word.member.domain.vo.Email;
 import com.daun.word.workbook.domain.WorkBook;
 import com.daun.word.workbook.domain.vo.Author;
 import com.daun.word.workbook.domain.vo.Description;
-import com.daun.word.workbook.domain.vo.Title;
+import com.daun.word.global.vo.Title;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

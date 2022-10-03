@@ -12,7 +12,7 @@ import com.daun.word.word.domain.Words;
 import com.daun.word.workbook.domain.repository.FakeWorkBookRepository;
 import com.daun.word.workbook.domain.vo.Author;
 import com.daun.word.workbook.domain.vo.Description;
-import com.daun.word.workbook.domain.vo.Title;
+import com.daun.word.global.vo.Title;
 import com.daun.word.workbook.dto.WorkBookSaveRequest;
 import com.daun.word.workbook.dto.WorkBookSaveResponse;
 import org.junit.jupiter.api.BeforeEach;

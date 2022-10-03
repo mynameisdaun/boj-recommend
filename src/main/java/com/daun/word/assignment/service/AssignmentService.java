@@ -5,6 +5,7 @@ import com.daun.word.assignment.domain.AssignmentDetail;
 import com.daun.word.assignment.domain.repository.AssignmentRepository;
 import com.daun.word.assignment.dto.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,9 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 @Transactional
 @Service
+@Slf4j
 public class AssignmentService {
     private final AssignmentRepository assignmentRepository;
-    private final Logger logger = LoggerFactory.getLogger(AssignmentService.class);
 
     /* 과제를 열람한다 */
     public AssignmentDetailResponse open(Integer detailId) {

@@ -1,12 +1,13 @@
 package com.daun.word.member.domain;
 
-import com.daun.word.commons.Id;
+import com.daun.word.global.Id;
 import com.daun.word.config.security.Jwt;
 import com.daun.word.member.domain.vo.Email;
 import com.daun.word.member.domain.vo.Nickname;
 import com.daun.word.member.domain.vo.Password;
 import com.daun.word.member.domain.vo.SocialType;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import static java.time.LocalDateTime.now;
 @AllArgsConstructor
 @Getter
 @ToString
+@Slf4j
 @EqualsAndHashCode(exclude = {"id", "password", "createdAt", "updatedAt", "nickname"})
 public class Member {
     private Integer id;
@@ -49,6 +51,8 @@ public class Member {
 
     /* 로그인 */
     public void login(PasswordEncoder passwordEncoder, Password password) {
+        log.info("요청패스워드: {}", password);
+        log.info("나의비밀번호: {}", this.password);
         if(!passwordEncoder.matches(password.getValue(), this.password)) {
             throw new IllegalArgumentException("비밀번호가 틀립니다.");
         }

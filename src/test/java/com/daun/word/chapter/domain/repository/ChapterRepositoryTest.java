@@ -4,7 +4,7 @@ import com.daun.word.chapter.domain.Chapter;
 import com.daun.word.chapter.domain.vo.ChapterWordMapping;
 import com.daun.word.word.domain.Word;
 import com.daun.word.word.domain.Words;
-import com.daun.word.workbook.domain.vo.Title;
+import com.daun.word.global.vo.Title;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;

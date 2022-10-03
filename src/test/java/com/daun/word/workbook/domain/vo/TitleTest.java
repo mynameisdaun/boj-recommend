@@ -1,5 +1,6 @@
 package com.daun.word.workbook.domain.vo;
 
+import com.daun.word.global.vo.Title;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

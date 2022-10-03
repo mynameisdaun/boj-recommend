@@ -6,6 +6,7 @@
         /* email로 회원 조회 */
         SELECT member.id          as id,
                member.email       as email,
+               member.password    as password,
                member.nickname    as nickname,
                member.social_type as socialType,
                member.created_at  as createdAt,

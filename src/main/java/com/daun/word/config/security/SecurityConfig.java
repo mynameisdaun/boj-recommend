@@ -1,6 +1,6 @@
 package com.daun.word.config.security;
 
-import com.daun.word.commons.Id;
+import com.daun.word.global.Id;
 import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.vo.Role;
 import org.springframework.context.annotation.Bean;

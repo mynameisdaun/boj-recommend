@@ -1,7 +1,7 @@
 package com.daun.word.quiz.domain;
 
 import com.daun.word.chapter.domain.Chapter;
-import com.daun.word.commons.Id;
+import com.daun.word.global.Id;
 import com.daun.word.quiz.domain.vo.QuizType;
 import com.daun.word.word.domain.Word;
 import com.daun.word.word.domain.repository.WordRepository;

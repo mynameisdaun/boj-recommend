@@ -2,11 +2,8 @@ package com.daun.word.member.service;
 
 import com.daun.word.auth.dto.AuthenticationRequest;
 import com.daun.word.auth.dto.AuthenticationResponse;
-import com.daun.word.auth.token.domain.Token;
-import com.daun.word.auth.token.domain.TokenFactory;
 import com.daun.word.auth.token.dto.TokenDTO;
 import com.daun.word.auth.token.service.TokenService;
-import com.daun.word.commons.Id;
 import com.daun.word.member.domain.Member;
 import com.daun.word.member.domain.repository.MemberRepository;
 import com.daun.word.member.domain.vo.Email;
@@ -60,12 +57,12 @@ public class MemberService {
         memberRepository.update(member);
 
         return new AuthenticationResponse(
+                member.getId(),
+                member.getEmail().getValue(),
+                member.getNickname().getValue(),
+                member.getSocialType().name(),
                 token.getAccessToken(),
-                token.getRefreshToken(),
-                Id.of(Member.class, member.getId()),
-                member.getEmail(),
-                member.getNickname(),
-                member.getSocialType()
+                token.getRefreshToken()
         );
     }
 

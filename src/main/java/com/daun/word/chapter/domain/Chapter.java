@@ -1,7 +1,7 @@
 package com.daun.word.chapter.domain;
 
 import com.daun.word.word.domain.Words;
-import com.daun.word.workbook.domain.vo.Title;
+import com.daun.word.global.vo.Title;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

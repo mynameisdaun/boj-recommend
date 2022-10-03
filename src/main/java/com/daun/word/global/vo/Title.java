@@ -1,4 +1,4 @@
-package com.daun.word.workbook.domain.vo;
+package com.daun.word.global.vo;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
