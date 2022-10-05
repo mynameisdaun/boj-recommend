@@ -102,9 +102,13 @@
         where a.id = #{id.value};
     </select>
 
-    <insert id="save" parameterType="com.daun.word.domain.assignment.domain.PAssignment" useGeneratedKeys="true" keyColumn="id" keyProperty="assignment.id">
+    <insert id="save" parameterType="com.daun.word.domain.assignment.domain.PAssignment" useGeneratedKeys="true"
+            keyColumn="id" keyProperty="assignment.id">
         INSERT INTO p_assignment
         (
+        <if test="assignment.id != null">
+            id,
+        </if>
         problem_id,
         assign_from,
         assign_to,
@@ -112,21 +116,45 @@
         end_date_time
         )
         VALUES (
-        #{assignment.probleㄴm.id},
-        #{assignment.assignFrom.value},
-        #{assignment.assignTo.value},
-        #{assignment.startDateTime},
-        #{assignment.endDateTime}
+        <if test="assignment.id != null">
+            #{assignment.id},
+        </if>
+            #{assignment.problem.id},
+            #{assignment.assignFrom.value},
+            #{assignment.assignTo.value},
+            #{assignment.startDateTime},
+            #{assignment.endDateTime}
         )
-        <selectKey keyColumn="id,created_at,updated_at"
-                   keyProperty="assignment.id,assignment.createdAt,assignment.updatedAt"
+        ON DUPLICATE KEY
+        UPDATE
+        problem_id = #{assignment.problem.id},
+        assign_from = #{assignment.assignFrom.value},
+        assign_to = #{assignment.assignTo.value},
+        start_date_time = #{assignment.startDateTime},
+        end_date_time = #{assignment.endDateTime},
+        open_yn = #{assignment.openYn},
+        open_date_time = #{assignment.openDateTime},
+        complete_yn = #{assignment.completeYn},
+        complete_date_time = #{assignment.completeDateTime},
+        updated_at = sysdate()
+        <selectKey keyColumn="id,open_yn,open_date_time,complete_yn,complete_date_time,created_at,updated_at"
+                   keyProperty="assignment.id,assignment.openYn,assignment.openDateTime,assignment.completeYn,assignment.completeDateTime,assignment.createdAt,assignment.updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
             SELECT assignment.id,
+            assignment.open_yn,
+            assignment.open_date_time,
+            assignment.complete_yn,
+            assignment.complete_date_time,
             assignment.created_at,
             assignment.updated_at
             FROM p_assignment as assignment
-            WHERE assignment.id = LAST_INSERT_ID();
+            WHERE assignment.id =
+            <if test="assignment.id != null">
+                #{assignment.id}
+            </if>
+            <if test="assignment.id == null">
+                LAST_INSERT_ID()
+            </if>
         </selectKey>
     </insert>
-
 </mapper>

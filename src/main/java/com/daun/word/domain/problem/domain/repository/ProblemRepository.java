@@ -25,5 +25,5 @@ public interface ProblemRepository {
     int update(@Param("problem") Problem problem);
 
     /* 아이디로 문제를 조회한다 */
-    Optional<Problem> findById(@Param("id") Id<Problem, Integer> id);
+    Optional<Problem> findById(@Param("problemId") Id<Problem, Integer> id);
 }

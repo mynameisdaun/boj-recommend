@@ -6,8 +6,10 @@ import com.daun.word.domain.assignment.domain.PAssignment;
 import com.daun.word.domain.assignment.domain.repository.AssignmentRepository;
 import com.daun.word.domain.assignment.domain.repository.PAssignmentRepository;
 import com.daun.word.domain.assignment.dto.*;
-import com.daun.word.global.Id;
+import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.service.ProblemService;
+import com.daun.word.global.Id;
+import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.formula.eval.NotImplementedException;
@@ -18,28 +20,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@RequiredArgsConstructor
-@Transactional
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class AssignmentService {
+
     private final AssignmentRepository deprecated;
 
     private final PAssignmentRepository assignmentRepository;
 
     private final ProblemService problemService;
 
+    private final SolvedAcClient solvedAcClient;
+
+    @Transactional
     public PAssignment findById(Id<PAssignment, Integer> id) {
-        return assignmentRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        PAssignment pAssignment = assignmentRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        if (!pAssignment.isComplete()) {
+            boolean solved = solvedAcClient.checkAssignment(pAssignment.getAssignTo(), Id.of(Problem.class, pAssignment.getProblem().getId()));
+            log.error("solved: {}", solved);
+            if (solved) {
+                pAssignment.complete();
+                log.error("after complete: {}", pAssignment);
+                assignmentRepository.save(pAssignment);
+                log.error("after save: {}", pAssignment);
+            }
+        }
+        log.error("assignment: {}", pAssignment);
+        return pAssignment;
     }
 
+    @Transactional
     public PAssignment save(AssignmentSaveRequest request) {
         PAssignment assignment = new PAssignment(problemService.findById(request.getProblemId()), request.getAssignFrom(), request.getAssignTo(), request.getStartDateTime(), request.getEndDateTime());
         assignmentRepository.save(assignment);
         return assignment;
     }
 
+
     //TODO: update 관리
+    @Transactional
     public PAssignment update(AssignmentSaveRequest request) {
         throw new NotImplementedException("아직구현안했다!");
     }

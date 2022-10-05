@@ -38,7 +38,7 @@ class PAssignmentRepositoryTest {
                 () -> assertThat(assignment.get().getProblem().getTags()).isNotNull(),
                 () -> assertThat(assignment.get().getProblem().getTags().size()).isOne(),
                 () -> assertThat(assignment.get().getAssignFrom()).isEqualTo(new Email("tester1@weword.com")),
-                () -> assertThat(assignment.get().getAssignTo()).isEqualTo(new Email("tester2@weword.com"))
+                () -> assertThat(assignment.get().getAssignTo()).isEqualTo(new Email("daun9870jung"))
         );
     }
 

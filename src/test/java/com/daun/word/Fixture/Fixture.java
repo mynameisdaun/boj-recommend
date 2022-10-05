@@ -72,7 +72,7 @@ public class Fixture {
 
     public static Member another_member() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(2, new Email("tester2@weword.com"), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", nickname(), SocialType.W, 1, LocalDateTime.parse("2022-08-20 15:43:51", formatter), LocalDateTime.parse("2022-08-20 15:43:51", formatter), LocalDateTime.parse("2022-08-20 15:43:51", formatter));
+        return new Member(2, new Email("daun9870jung"), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", nickname(), SocialType.W, 1, LocalDateTime.parse("2022-08-20 15:43:51", formatter), LocalDateTime.parse("2022-08-20 15:43:51", formatter), LocalDateTime.parse("2022-08-20 15:43:51", formatter));
     }
 
     public static KakaoTokenResponse kakaoTokenResponse() {

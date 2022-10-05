@@ -73,7 +73,7 @@ class AssignmentRepositoryTest {
         assertAll(
                 () -> assertThat(assignment.get().getId()).isEqualTo(Integer.valueOf(1)),
                 () -> assertThat(assignment.get().getAssignFrom()).isEqualTo(new Email("tester1@weword.com")),
-                () -> assertThat(assignment.get().getAssignTo()).isEqualTo(new Email("tester2@weword.com"))
+                () -> assertThat(assignment.get().getAssignTo()).isEqualTo(new Email("daun9870jung"))
         );
     }
 

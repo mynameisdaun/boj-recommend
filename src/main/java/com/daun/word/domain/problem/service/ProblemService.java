@@ -17,7 +17,7 @@ public class ProblemService {
 
     private final SolvedAcClient solvedAcClient;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Problem findById(Id<Problem, Integer> id) {
         return problemRepository.findById(id)
                 .orElse(save(solvedAcClient.findById(id)));

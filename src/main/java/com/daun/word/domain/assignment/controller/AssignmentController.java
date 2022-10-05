@@ -25,9 +25,9 @@ public class AssignmentController {
     }
 
     @GetMapping("/{assignmentId}")
-    public ResponseEntity<?> find(@PathVariable AssignmentRequest request) {
+    public ResponseEntity<?> findById(@PathVariable Integer assignmentId) {
         return ResponseEntity.status(200)
-                .body(assignmentService.findById(Id.of(PAssignment.class, request.getAssignmentId())));
+                .body(assignmentService.findById(Id.of(PAssignment.class, assignmentId)));
     }
 
     @PostMapping("/d")

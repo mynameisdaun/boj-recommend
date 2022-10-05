@@ -4,7 +4,7 @@ INSERT INTO member (email, password, nickname, social_type)
 VALUES ('tester1@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터', 'W');
 
 INSERT INTO member(email, password, nickname, social_type)
-VALUES ('tester2@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터2', 'W');
+VALUES ('daun9870jung', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터2', 'W');
 
 INSERT INTO member(email, password, nickname, social_type)
 VALUES ('tester3@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터3', 'W');
@@ -86,7 +86,7 @@ VALUES ('3', '12');
 
 /* 과제 */
 INSERT INTO assignment (workbook_id, assign_from, assign_to)
-VALUES ('1', 'tester1@weword.com', 'tester2@weword.com');
+VALUES ('1', 'tester1@weword.com', 'daun9870jung');
 
 /* 과제 상세 */
 /*open complete*/
@@ -119,4 +119,4 @@ values (16120, 'PPAP', 'https://www.acmicpc.net/problem/16120', 12);
 insert into problem_tag(problem_id, tag_id)
 values (16120, 1);
 insert into p_assignment(problem_id, assign_from, assign_to, start_date_time, end_date_time)
-values (16120, 'tester1@weword.com', 'tester2@weword.com', sysdate(), sysdate());
+values (16120, 'tester1@weword.com', 'daun9870jung', sysdate(), sysdate());

@@ -5,12 +5,14 @@ import com.daun.word.domain.problem.domain.Problem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Getter
+@ToString
 public class PAssignment {
     private Integer id; // 과제 구분자
     private Problem problem;
@@ -31,5 +33,32 @@ public class PAssignment {
         this.assignTo = assignTo;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
+    }
+
+    public boolean isComplete() {
+        return this.completeYn.equals("Y");
+    }
+
+    public void complete() {
+        if (isComplete()) {
+            throw new IllegalStateException("이미 완료한 과제는 다시 완료할 수 없습니다");
+        }
+        this.completeYn = "Y";
+        this.completeDateTime = LocalDateTime.now();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PAssignment that = (PAssignment) o;
+
+        return id != null ? id.equals(that.id) : that.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

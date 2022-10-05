@@ -2,9 +2,9 @@ package com.daun.word.domain.assignment.service;
 
 import com.daun.word.domain.assignment.domain.repository.FakeAssignmentRepository;
 import com.daun.word.domain.assignment.dto.AssignmentDetailResponse;
-import com.daun.word.domain.assignment.dto.d_AssignmentSaveRequest;
 import com.daun.word.domain.assignment.dto.AssignmentSaveResponse;
 import com.daun.word.domain.assignment.dto.SubmissionRequest;
+import com.daun.word.domain.assignment.dto.d_AssignmentSaveRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ class AssignmentServiceTest {
 
     @BeforeEach
     public void setUp() {
-        assignmentService = new AssignmentService(new FakeAssignmentRepository(), null, null);
+        assignmentService = new AssignmentService(new FakeAssignmentRepository(), null, null, null);
     }
 
     @DisplayName(value = "과제를 제출한다")
@@ -98,7 +98,7 @@ class AssignmentServiceTest {
         d_AssignmentSaveRequest request = new d_AssignmentSaveRequest(
                 Integer.valueOf(1),
                 "tester1@weword.com",
-                "tester2@weword.com",
+                "daun9870jung",
                 details);
         //when
         AssignmentSaveResponse save = assignmentService.save_d(request);
