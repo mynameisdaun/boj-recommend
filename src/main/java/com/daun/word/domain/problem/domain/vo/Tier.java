@@ -1,24 +1,29 @@
 package com.daun.word.domain.problem.domain.vo;
 
-import com.google.common.base.Preconditions;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@EqualsAndHashCode
 @ToString
-public class Tier {
+public enum Tier {
 
-    private final Integer tier;
+    UNRATED(0, "UNRATED"),
+    BRONZE_5(1, "BRONZE_5"),
+    BRONZE_4(2, "BRONZE_4"),
+    BRONZE_3(3, "BRONZE_3"),
+    BRONZE_2(4, "BRONZE_2"),
+    BRONZE_1(5, "BRONZE_1"),
+    SILVER_5(6, "SILVER_5"),
+    SILVER_4(6, "SILVER_5"),
 
-    public Tier(int tier) {
-        Preconditions.checkArgument(tier > 0, "올바르지 않은 티어 숫자 입니다");
-        this.tier = tier;
-    }
+    ;
 
-    public Integer getValue() {
-        return this.tier;
+    private int level;
+    private String rate;
+
+    Tier(int level, String rate) {
+        this.level = level;
+        this.rate = rate;
     }
 }
 

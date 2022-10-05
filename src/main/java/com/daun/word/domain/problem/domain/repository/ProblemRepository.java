@@ -1,5 +1,6 @@
 package com.daun.word.domain.problem.domain.repository;
 
+import com.daun.word.domain.problem.domain.vo.Tier;
 import com.daun.word.global.Id;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.vo.Tag;
@@ -7,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -23,6 +25,8 @@ public interface ProblemRepository {
 
     /* 문제 업데이트 */
     int update(@Param("problem") Problem problem);
+
+    List<Problem> findByTierBetween(@Param("get") Tier get, @Param("let") Tier tier);
 
     /* 아이디로 문제를 조회한다 */
     Optional<Problem> findById(@Param("problemId") Id<Problem, Integer> id);
