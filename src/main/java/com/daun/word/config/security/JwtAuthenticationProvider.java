@@ -1,14 +1,14 @@
 package com.daun.word.config.security;
 
-import com.daun.word.auth.dto.AuthenticationRequest;
-import com.daun.word.auth.dto.AuthenticationResponse;
+import com.daun.word.global.auth.dto.AuthenticationRequest;
+import com.daun.word.global.auth.dto.AuthenticationResponse;
 import com.daun.word.global.Id;
-import com.daun.word.member.domain.Member;
-import com.daun.word.member.domain.vo.Email;
-import com.daun.word.member.domain.vo.Nickname;
-import com.daun.word.member.domain.vo.Role;
-import com.daun.word.member.domain.vo.SocialType;
-import com.daun.word.member.service.MemberService;
+import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.member.domain.vo.Email;
+import com.daun.word.domain.member.domain.vo.Nickname;
+import com.daun.word.domain.member.domain.vo.Role;
+import com.daun.word.domain.member.domain.vo.SocialType;
+import com.daun.word.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.authentication.AuthenticationProvider;

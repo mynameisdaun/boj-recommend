@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.daun.word.quiz.domain.repository.QuizRepository">
+<mapper namespace="com.daun.word.domain.quiz.domain.repository.QuizRepository">
 
-    <resultMap id="quizMap" type="com.daun.word.quiz.domain.Quiz">
+    <resultMap id="quizMap" type="com.daun.word.domain.quiz.domain.Quiz">
         <id column="id" property="id"/>
         <result column="chapter_id" property="chapterId"/>
         <result column="quiz_type" property="quizType"/>
         <result column="quiz_status" property="quizStatus"/>
         <result column="created_at" property="createdAt"/>
         <result column="updated_at" property="createdAt"/>
-        <association column="word_id" property="word" javaType="com.daun.word.word.domain.Word" select="findWord"/>
-        <association column="submission" property="submission" javaType="com.daun.word.word.domain.Word"
+        <association column="word_id" property="word" javaType="com.daun.word.domain.word.domain.Word" select="findWord"/>
+        <association column="submission" property="submission" javaType="com.daun.word.domain.word.domain.Word"
                      select="findWord"/>
-        <collection column="options" property="options" javaType="List" ofType="com.daun.word.word.domain.Word"
+        <collection column="options" property="options" javaType="List" ofType="com.daun.word.domain.word.domain.Word"
                     select="findOptions"/>
     </resultMap>
 
@@ -31,7 +31,7 @@
         where id = #{id.value}
     </select>
 
-    <insert id="save" parameterType="com.daun.word.quiz.domain.Quiz" useGeneratedKeys="true" keyColumn="id"
+    <insert id="save" parameterType="com.daun.word.domain.quiz.domain.Quiz" useGeneratedKeys="true" keyColumn="id"
             keyProperty="id">
         /* quiz > save */
         INSERT INTO quiz
@@ -62,7 +62,7 @@
         </selectKey>
     </insert>
 
-    <update id="update" parameterType="com.daun.word.quiz.domain.Quiz">
+    <update id="update" parameterType="com.daun.word.domain.quiz.domain.Quiz">
         /* quiz > update */
         UPDATE quiz
         SET word_id = #{quiz.word.id},
@@ -82,7 +82,7 @@
         </selectKey>
     </update>
 
-    <select id="findOptions" resultType="com.daun.word.word.domain.Word">
+    <select id="findOptions" resultType="com.daun.word.domain.word.domain.Word">
         /* quiz > findOptions only for mybatis resultMap */
         SELECT word.id,
                word.english,
@@ -94,7 +94,7 @@
         where word.id IN (${options})
     </select>
 
-    <select id="findWord" resultType="com.daun.word.word.domain.Word">
+    <select id="findWord" resultType="com.daun.word.domain.word.domain.Word">
         /* quiz > findWord only for mybatis resultMap */
         SELECT word.id,
                word.english,

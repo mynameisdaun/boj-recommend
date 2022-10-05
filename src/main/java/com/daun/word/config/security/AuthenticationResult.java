@@ -1,6 +1,6 @@
 package com.daun.word.config.security;
 
-import com.daun.word.member.domain.Member;
+import com.daun.word.domain.member.domain.Member;
 import lombok.Data;
 
 import static com.google.common.base.Preconditions.checkArgument;

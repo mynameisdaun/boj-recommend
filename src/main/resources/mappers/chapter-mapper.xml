@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.daun.word.chapter.domain.repository.ChapterRepository">
+<mapper namespace="com.daun.word.domain.chapter.domain.repository.ChapterRepository">
 
-    <insert id="save" parameterType="com.daun.word.chapter.domain.Chapter" useGeneratedKeys="true" keyColumn="id"
+    <insert id="save" parameterType="com.daun.word.domain.chapter.domain.Chapter" useGeneratedKeys="true" keyColumn="id"
             keyProperty="id">
         INSERT INTO chapter
         (
@@ -24,7 +24,7 @@
         </selectKey>
     </insert>
 
-    <insert id="saveChapterWordMapping" parameterType="com.daun.word.chapter.domain.vo.ChapterWordMapping"
+    <insert id="saveChapterWordMapping" parameterType="com.daun.word.domain.chapter.domain.vo.ChapterWordMapping"
             useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO chapter_word_mapping
         (

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.daun.word.assignment.domain.repository.AssignmentRepository">
+<mapper namespace="com.daun.word.domain.assignment.domain.repository.AssignmentRepository">
 
-    <select id="findAssignmentById" resultType="com.daun.word.assignment.domain.Assignment">
+    <select id="findAssignmentById" resultType="com.daun.word.domain.assignment.domain.Assignment">
         SELECT assignment.id,
                assignment.assign_from,
                assignment.assign_to,
@@ -13,7 +13,7 @@
         WHERE assignment.id = #{id};
     </select>
 
-    <select id="findDetailByDetailId" resultType="com.daun.word.assignment.domain.AssignmentDetail">
+    <select id="findDetailByDetailId" resultType="com.daun.word.domain.assignment.domain.AssignmentDetail">
         SELECT assignment_detail.id,
                assignment_detail.assignment_id,
                assignment_detail.chapter_id,
@@ -28,7 +28,7 @@
         WHERE assignment_detail.id = #{id}
     </select>
 
-    <select id="findDetailsById" resultType="com.daun.word.assignment.domain.AssignmentDetail">
+    <select id="findDetailsById" resultType="com.daun.word.domain.assignment.domain.AssignmentDetail">
         SELECT assignment_detail.id,
                assignment_detail.assignment_id,
                assignment_detail.chapter_id,
@@ -43,7 +43,7 @@
         WHERE assignment_detail.assignment_id = #{id}
     </select>
 
-    <update id="updateDetail" parameterType="com.daun.word.assignment.domain.AssignmentDetail">
+    <update id="updateDetail" parameterType="com.daun.word.domain.assignment.domain.AssignmentDetail">
         UPDATE assignment_detail
         SET start_date_time = #{detail.startDateTime},
         end_date_time = #{detail.endDateTime},
@@ -70,7 +70,7 @@
         </selectKey>
     </update>
 
-    <insert id="save" parameterType="com.daun.word.assignment.domain.Assignment" useGeneratedKeys="true" keyColumn="id"
+    <insert id="save" parameterType="com.daun.word.domain.assignment.domain.Assignment" useGeneratedKeys="true" keyColumn="id"
             keyProperty="assignment.id">
         INSERT INTO assignment
         (
@@ -95,7 +95,7 @@
         </selectKey>
     </insert>
 
-    <insert id="saveDetail" parameterType="com.daun.word.assignment.domain.AssignmentDetail" useGeneratedKeys="true"
+    <insert id="saveDetail" parameterType="com.daun.word.domain.assignment.domain.AssignmentDetail" useGeneratedKeys="true"
             keyColumn="id" keyProperty="id">
         INSERT INTO assignment_detail
         (

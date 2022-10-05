@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import static com.daun.word.utils.StringUtils.isNullOrBlank;
+import static com.daun.word.global.utils.StringUtils.isNullOrBlank;
 
 @Getter
 @EqualsAndHashCode

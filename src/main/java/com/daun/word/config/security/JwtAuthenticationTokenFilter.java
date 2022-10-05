@@ -1,10 +1,10 @@
 package com.daun.word.config.security;
 
 import com.daun.word.global.Id;
-import com.daun.word.member.domain.Member;
-import com.daun.word.member.domain.vo.Email;
-import com.daun.word.member.domain.vo.Nickname;
-import com.daun.word.member.domain.vo.SocialType;
+import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.member.domain.vo.Email;
+import com.daun.word.domain.member.domain.vo.Nickname;
+import com.daun.word.domain.member.domain.vo.SocialType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;

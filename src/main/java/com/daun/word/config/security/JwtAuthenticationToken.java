@@ -1,10 +1,9 @@
 package com.daun.word.config.security;
 
-import com.daun.word.auth.dto.AuthenticationRequest;
-import com.daun.word.member.domain.vo.Email;
-import com.daun.word.member.domain.vo.Password;
-import com.daun.word.member.domain.vo.SocialType;
-import lombok.Data;
+import com.daun.word.global.auth.dto.AuthenticationRequest;
+import com.daun.word.domain.member.domain.vo.Email;
+import com.daun.word.domain.member.domain.vo.Password;
+import com.daun.word.domain.member.domain.vo.SocialType;
 import lombok.ToString;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

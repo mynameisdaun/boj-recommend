@@ -7,10 +7,10 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.daun.word.global.Id;
-import com.daun.word.member.domain.Member;
-import com.daun.word.member.domain.vo.Email;
-import com.daun.word.member.domain.vo.Nickname;
-import com.daun.word.member.domain.vo.SocialType;
+import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.member.domain.vo.Email;
+import com.daun.word.domain.member.domain.vo.Nickname;
+import com.daun.word.domain.member.domain.vo.SocialType;
 import lombok.Getter;
 
 import java.util.Date;

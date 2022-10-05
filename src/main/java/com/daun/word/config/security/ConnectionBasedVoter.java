@@ -1,7 +1,7 @@
 package com.daun.word.config.security;
 
 import com.daun.word.global.Id;
-import com.daun.word.member.domain.Member;
+import com.daun.word.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;

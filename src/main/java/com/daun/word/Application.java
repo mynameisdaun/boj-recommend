@@ -1,13 +1,13 @@
 package com.daun.word;
 
-import com.daun.word.infra.excel.DefaultExcelClient;
-import com.daun.word.infra.excel.ExcelClient;
-import com.daun.word.infra.image.DefaultImageClient;
-import com.daun.word.infra.kakao.client.DefaultKakaoOAuthClient;
-import com.daun.word.infra.kakao.client.KakaoOAuthClient;
-import com.daun.word.infra.solvedac.DefaultSolvedAcClient;
-import com.daun.word.infra.solvedac.SolvedAcClient;
-import com.daun.word.utils.JwtUtils;
+import com.daun.word.global.infra.excel.DefaultExcelClient;
+import com.daun.word.global.infra.excel.ExcelClient;
+import com.daun.word.global.infra.image.DefaultImageClient;
+import com.daun.word.global.infra.kakao.client.DefaultKakaoOAuthClient;
+import com.daun.word.global.infra.kakao.client.KakaoOAuthClient;
+import com.daun.word.global.infra.solvedac.DefaultSolvedAcClient;
+import com.daun.word.global.infra.solvedac.SolvedAcClient;
+import com.daun.word.global.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
