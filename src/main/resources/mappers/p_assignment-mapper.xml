@@ -49,7 +49,6 @@
     </resultMap>
 
     <select id="findTags" resultMap="tagMap">
-        /* quiz > findTags only for mybatis resultMap */
         SELECT t.id,
                t.tag_key,
                t.title,
@@ -58,11 +57,10 @@
         FROM problem_tag pt
                  left join problem p on pt.problem_id = p.id
                  left join tag t on pt.tag_id = t.id
-        where p.id = ${problem_id}
+        where p.id = ${id}
     </select>
 
     <select id="findProblem" resultMap="problemMap">
-        /* quiz > findWord only for mybatis resultMap */
         SELECT p.id,
                p.title,
                p.url,
@@ -90,15 +88,9 @@
                p.url                as problem_url,
                p.tier               as problem_tier,
                p.created_at         as problem_created_at,
-               p.updated_at         as problem_updated_at,
-               t.id                 as tag_id,
-               t.title              as tag_title,
-               t.created_at         as tag_created_at,
-               t.updated_at         as tag_updated_at
+               p.updated_at         as problem_updated_at
         from p_assignment as a
                  left join problem p on a.problem_id = p.id
-                 left join problem_tag pt on p.id = pt.problem_id
-                 left join tag t on pt.tag_id = t.id
         where a.id = #{id.value};
     </select>
 
@@ -119,11 +111,11 @@
         <if test="assignment.id != null">
             #{assignment.id},
         </if>
-            #{assignment.problem.id},
-            #{assignment.assignFrom.value},
-            #{assignment.assignTo.value},
-            #{assignment.startDateTime},
-            #{assignment.endDateTime}
+        #{assignment.problem.id},
+        #{assignment.assignFrom.value},
+        #{assignment.assignTo.value},
+        #{assignment.startDateTime},
+        #{assignment.endDateTime}
         )
         ON DUPLICATE KEY
         UPDATE

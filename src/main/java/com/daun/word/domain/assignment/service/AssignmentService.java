@@ -12,7 +12,6 @@ import com.daun.word.global.Id;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.eval.NotImplementedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,15 +37,11 @@ public class AssignmentService {
         PAssignment pAssignment = assignmentRepository.findById(id).orElseThrow(NoSuchElementException::new);
         if (!pAssignment.isComplete()) {
             boolean solved = solvedAcClient.checkAssignment(pAssignment.getAssignTo(), Id.of(Problem.class, pAssignment.getProblem().getId()));
-            log.error("solved: {}", solved);
             if (solved) {
                 pAssignment.complete();
-                log.error("after complete: {}", pAssignment);
                 assignmentRepository.save(pAssignment);
-                log.error("after save: {}", pAssignment);
             }
         }
-        log.error("assignment: {}", pAssignment);
         return pAssignment;
     }
 
@@ -55,13 +50,6 @@ public class AssignmentService {
         PAssignment assignment = new PAssignment(problemService.findById(request.getProblemId()), request.getAssignFrom(), request.getAssignTo(), request.getStartDateTime(), request.getEndDateTime());
         assignmentRepository.save(assignment);
         return assignment;
-    }
-
-
-    //TODO: update 관리
-    @Transactional
-    public PAssignment update(AssignmentSaveRequest request) {
-        throw new NotImplementedException("아직구현안했다!");
     }
 
     /* deprecated */

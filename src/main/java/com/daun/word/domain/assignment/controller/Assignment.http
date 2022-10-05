@@ -10,8 +10,20 @@ Content-Type: application/json
   "endDateTime": "2022-10-06T05:47:08.644"
 }
 
+### 1-1 과제 작성(미완료)
+POST http://localhost:8080/assignment
+Content-Type: application/json
+
+{
+  "problemId": "15683",
+  "assignFrom": "tester1@weword.com",
+  "assignTo": "daun9870jung",
+  "startDateTime": "2022-10-05T05:47:08.644",
+  "endDateTime": "2022-10-06T05:47:08.644"
+}
+
 ### 2. 과제 확인
-GET http://localhost:8080/assignment/1
+GET http://localhost:8080/assignment/2
 
 
 
