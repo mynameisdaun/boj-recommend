@@ -14,7 +14,7 @@ public class TierTypeHandler implements TypeHandler<Tier> {
 
     @Override
     public void setParameter(PreparedStatement ps, int i, Tier parameter, JdbcType jdbcType) throws SQLException {
-        ps.setInt(i, parameter.getValue());
+        ps.setInt(i, parameter.getLevel());
     }
 
     @Override
