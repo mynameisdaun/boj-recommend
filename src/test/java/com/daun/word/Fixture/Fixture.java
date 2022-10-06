@@ -18,7 +18,7 @@ import com.daun.word.domain.member.domain.vo.Password;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.vo.Tag;
-import com.daun.word.domain.problem.domain.vo.Tier;
+import com.daun.word.global.vo.Tier;
 import com.daun.word.domain.quiz.domain.Quiz;
 import com.daun.word.domain.quiz.domain.vo.QuizStatus;
 import com.daun.word.domain.quiz.domain.vo.QuizType;

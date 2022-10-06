@@ -1,4 +1,4 @@
-package com.daun.word.domain.problem.domain.vo;
+package com.daun.word.global.vo;
 
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;

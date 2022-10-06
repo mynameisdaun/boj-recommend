@@ -1,14 +1,11 @@
 package com.daun.word.domain.problem.domain;
 
+import com.daun.word.domain.problem.domain.vo.Tag;
+import com.daun.word.global.infra.solvedac.dto.SolvedAcProblemResponse;
+import com.daun.word.global.vo.Tier;
 import com.daun.word.global.vo.Title;
 import com.daun.word.global.vo.URL;
-import com.daun.word.global.infra.solvedac.dto.SolvedAcProblemResponse;
-import com.daun.word.domain.problem.domain.vo.Tag;
-import com.daun.word.domain.problem.domain.vo.Tier;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,15 +22,17 @@ public class Problem {
     private final URL url;
     private final Tier tier;
     private final List<Tag> tags;
+    private final int acceptedUserCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Problem (SolvedAcProblemResponse response) {
+    public Problem(SolvedAcProblemResponse response) {
         this.id = response.getProblemId();
         this.title = new Title(response.getTitleKo());
         this.url = new URL("https://www.acmicpc.net/problem/" + response.getProblemId());
         this.tier = new Tier(response.getLevel());
         this.tags = new ArrayList<>();
+        this.acceptedUserCount = response.getAcceptedUserCount();
         for (SolvedAcProblemResponse.Tag tag : response.getTags()) {
             this.tags.add(new Tag(tag));
         }

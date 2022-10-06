@@ -1,4 +1,4 @@
-/* 22.08.17 회원 테이블 */
+drop table if exists recommend_history;
 drop table if exists p_assignment;
 drop table if exists problem_tag;
 drop table if exists problem;
@@ -14,7 +14,7 @@ drop table if exists word;
 drop table if exists token;
 drop table if exists member;
 
-
+/* 22.08.17 회원 테이블 */
 CREATE TABLE member
 (
     id            int auto_increment  not null comment '회원 구분자(seq)',
@@ -168,22 +168,24 @@ create table quiz
 /* 22.10.03 문제 */
 create table problem
 (
-    id         int          primary key not null comment '문제 번호',
-    title      varchar(100) not null comment '영어 표기',
-    url        varchar(300) not null comment '문제 url',
-    tier       int comment '문제 티어',
-    created_at datetime     not null default current_timestamp comment '데이터 생성일시',
-    updated_at datetime     not null default current_timestamp comment '데이터 수정일시'
+    id                  int primary key not null comment '문제 번호',
+    title               varchar(100)    not null comment '영어 표기',
+    url                 varchar(300)    not null comment '문제 url',
+    tier                int comment '문제 티어',
+    accepted_user_count int comment '푼 사람 수(BOJ 기준)',
+    recommended_count   int                      default 0 comment '추천 된 횟수',
+    created_at          datetime        not null default current_timestamp comment '데이터 생성일시',
+    updated_at          datetime        not null default current_timestamp comment '데이터 수정일시'
 ) comment '문제';
 
 /* 22.10.03 태그 */
 create table tag
 (
-    id         int          primary key not null comment '태그 번호',
-    tag_key    varchar(100) not null comment '태그 key',
-    title      varchar(100) not null comment '태그 이름',
-    created_at datetime     not null default current_timestamp comment '데이터 생성일시',
-    updated_at datetime     not null default current_timestamp comment '데이터 수정일시'
+    id         int primary key not null comment '태그 번호',
+    tag_key    varchar(100)    not null comment '태그 key',
+    title      varchar(100)    not null comment '태그 이름',
+    created_at datetime        not null default current_timestamp comment '데이터 생성일시',
+    updated_at datetime        not null default current_timestamp comment '데이터 수정일시'
 ) comment '태그';
 
 /* 22.10.03 문제_태그 */
@@ -196,10 +198,11 @@ create table problem_tag
     FOREIGN KEY (tag_id) REFERENCES tag (id)
 ) comment '문제_태그';
 
+/* 22.10.03 과제 */
 create table p_assignment
 (
     id                 int          not null AUTO_INCREMENT PRIMARY KEY comment '과제 구분자(seq)',
-    problem_id         int          not null comment '문제 구분자(seq)',
+    problem_id         int          not null comment '문제 id',
     assign_from        varchar(100) not null comment '과제를 만든 회원 email',
     assign_to          varchar(100) not null comment '과제가 할당된 회원 email',
     start_date_time    datetime     not null comment '과제 시작 시간',
@@ -214,6 +217,19 @@ create table p_assignment
     FOREIGN KEY (assign_from) REFERENCES member (email),
     FOREIGN KEY (assign_to) REFERENCES member (email)
 ) comment '과제 상세 정보';
+
+/* 22.10.06 문제 추천 이력*/
+create table recommend_history
+(
+    id           int          not null auto_increment comment '문제 추천 이력 history',
+    problem_id   int          not null comment '문제 id',
+    member_email varchar(100) not null comment '회원 email',
+    created_at   datetime     not null default current_timestamp comment '데이터 생성일시',
+    updated_at   datetime     not null default current_timestamp comment '데이터 수정일시',
+    PRIMARY KEY (id),
+    FOREIGN KEY (problem_id) REFERENCES problem (id),
+    FOREIGN KEY (email) REFERENCES member (email)
+);
 
 
 

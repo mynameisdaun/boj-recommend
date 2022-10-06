@@ -6,6 +6,8 @@ import com.daun.word.domain.assignment.domain.PAssignment;
 import com.daun.word.domain.assignment.domain.repository.AssignmentRepository;
 import com.daun.word.domain.assignment.domain.repository.PAssignmentRepository;
 import com.daun.word.domain.assignment.dto.*;
+import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.member.service.MemberService;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.service.ProblemService;
 import com.daun.word.global.Id;
@@ -24,6 +26,8 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class AssignmentService {
 
+    private final MemberService memberService;
+
     private final AssignmentRepository deprecated;
 
     private final PAssignmentRepository assignmentRepository;
@@ -35,8 +39,9 @@ public class AssignmentService {
     @Transactional
     public PAssignment findById(Id<PAssignment, Integer> id) {
         PAssignment pAssignment = assignmentRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        Member assignTo = memberService.findByEmail(pAssignment.getAssignTo());
         if (!pAssignment.isComplete()) {
-            boolean solved = solvedAcClient.checkAssignment(pAssignment.getAssignTo(), Id.of(Problem.class, pAssignment.getProblem().getId()));
+            boolean solved = solvedAcClient.checkAssignment(assignTo, Id.of(Problem.class, pAssignment.getProblem().getId()));
             if (solved) {
                 pAssignment.complete();
                 assignmentRepository.save(pAssignment);

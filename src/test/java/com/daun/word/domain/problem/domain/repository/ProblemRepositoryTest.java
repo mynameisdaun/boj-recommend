@@ -5,7 +5,7 @@ import com.daun.word.global.vo.Title;
 import com.daun.word.global.vo.URL;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.vo.Tag;
-import com.daun.word.domain.problem.domain.vo.Tier;
+import com.daun.word.global.vo.Tier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;

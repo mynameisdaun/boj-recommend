@@ -115,7 +115,7 @@ VALUES (1, 3, '1,2,3,4', 'M', 'UN_CORRECT', 1);
 insert into tag (id, tag_key, title)
 values (1, 'key', 'example');
 insert into problem (id, title, url, tier)
-values (16120, 'PPAP', 'https://www.acmicpc.net/problem/16120', 12);
+values (16120, 'PPAP', 'https://www.acmicpc.net/problem/16120', 12, 1324);
 insert into problem_tag(problem_id, tag_id)
 values (16120, 1);
 insert into p_assignment(problem_id, assign_from, assign_to, start_date_time, end_date_time)

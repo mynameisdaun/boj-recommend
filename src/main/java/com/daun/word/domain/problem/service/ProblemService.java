@@ -5,10 +5,18 @@ import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.repository.ProblemRepository;
 import com.daun.word.domain.problem.domain.vo.Tag;
 import com.daun.word.global.Id;
+import com.daun.word.global.constant.Constants;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
+import com.daun.word.global.vo.Tier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.daun.word.global.constant.Constants.searchSize;
 
 @Service
 @RequiredArgsConstructor
@@ -19,14 +27,33 @@ public class ProblemService {
     private final SolvedAcClient solvedAcClient;
 
     @Transactional
-    public Problem recommend(Member member) {
+    public List<Problem> recommend(Member member) {
         //회원의 약점 찾기
-        //TODO: Gold 문제만 풉니다.
-
-        //회원이 풀었나 확인해보기
-        return null;
+        Tier tier = solvedAcClient.findMemberTier(member);
+        int offset = 0;
+        List<Problem> recommended = new ArrayList<>();
+        while (true && offset < 10) {
+            List<Problem> problems = problemRepository.findByTierBetweenOrderBySolvedCountDesc(tier.minus(-4), tier.plus(1), offset, searchSize);
+            List<Problem> solved = solvedAcClient.checkProblemsSolved(member, problems.stream()
+                    .map(p -> Id.of(Problem.class, p.getId()))
+                    .collect(Collectors.toList()));
+            if (solved.isEmpty()) {
+                offset++;
+                continue;
+            }
+            recommended.addAll(problems.stream().filter(p -> !solved.contains(p))
+                    .collect(Collectors.toList()));
+            if (recommended.size() < 3) {
+                offset++;
+                continue;
+            }
+            break;
+        }
+        if(recommended.isEmpty()) throw new IllegalStateException("추천 문제를 찾을 수 없습니다.");
+        return recommended.stream()
+                .limit(Constants.recommendProblemSize)
+                .collect(Collectors.toList());
     }
-
 
     @Transactional
     public Problem findById(Id<Problem, Integer> id) {

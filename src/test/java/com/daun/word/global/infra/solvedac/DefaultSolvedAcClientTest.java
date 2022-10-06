@@ -4,7 +4,7 @@ import com.daun.word.global.Id;
 import com.daun.word.global.vo.Title;
 import com.daun.word.global.vo.URL;
 import com.daun.word.domain.problem.domain.Problem;
-import com.daun.word.domain.problem.domain.vo.Tier;
+import com.daun.word.global.vo.Tier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

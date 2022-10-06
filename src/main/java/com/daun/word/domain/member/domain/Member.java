@@ -1,11 +1,12 @@
 package com.daun.word.domain.member.domain;
 
-import com.daun.word.global.Id;
 import com.daun.word.config.security.Jwt;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.Nickname;
 import com.daun.word.domain.member.domain.vo.Password;
 import com.daun.word.domain.member.domain.vo.SocialType;
+import com.daun.word.global.Id;
+import com.daun.word.global.vo.Tier;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,13 +21,13 @@ import static java.time.LocalDateTime.now;
 @Getter
 @ToString
 @Slf4j
-@EqualsAndHashCode(exclude = {"id", "password", "createdAt", "updatedAt", "nickname"})
 public class Member {
     private Integer id;
     private Email email;
     @ToString.Exclude
     private String password;
     private Nickname nickname;
+    private Tier tier;
     private SocialType socialType;
     private int loginCount;
     private LocalDateTime lastLoginAt;
@@ -53,7 +54,7 @@ public class Member {
     public void login(PasswordEncoder passwordEncoder, Password password) {
         log.info("요청패스워드: {}", password);
         log.info("나의비밀번호: {}", this.password);
-        if(!passwordEncoder.matches(password.getValue(), this.password)) {
+        if (!passwordEncoder.matches(password.getValue(), this.password)) {
             throw new IllegalArgumentException("비밀번호가 틀립니다.");
         }
     }
@@ -63,17 +64,4 @@ public class Member {
         this.loginCount++;
         this.lastLoginAt = now();
     }
-
-
-    /* FOR MY BATIS*/
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    private void setEmail(String email) {
-        this.email = new Email(email);
-    }
-    private void setNickname(String nickname) {
-        this.nickname = new Nickname(nickname);
-    }
-
 }

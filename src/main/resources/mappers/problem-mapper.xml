@@ -9,8 +9,9 @@
                  typeHandler="com.daun.word.global.vo.TitleTypeHandler"/>
             <arg column="url" name="url" javaType="com.daun.word.global.vo.URL"
                  typeHandler="com.daun.word.global.vo.URLTypeHandler"/>
-            <arg column="tier" name="tier" javaType="com.daun.word.domain.problem.domain.vo.Tier"
-                 typeHandler="com.daun.word.domain.problem.domain.vo.TierTypeHandler"/>
+            <arg column="tier" name="tier" javaType="com.daun.word.global.vo.Tier"
+                 typeHandler="com.daun.word.global.vo.TierTypeHandler"/>
+            <arg column="accepted_user_count" name="acceptedUserCount" javaType="int"/>
             <arg column="id" name="tags" javaType="java.util.List" select="findTags"/>
             <arg column="created_at" name="createdAt" javaType="java.time.LocalDateTime"/>
             <arg column="updated_at" name="updatedAt" javaType="java.time.LocalDateTime"/>
@@ -33,10 +34,28 @@
                p.title,
                p.url,
                p.tier,
+               p.accepted_user_count,
                p.created_at,
                p.updated_at
         FROM problem p
         where p.id = ${problemId.value}
+    </select>
+
+    <select id="findByTierBetweenOrderBySolvedCountDesc" resultMap="problemMap">
+        SELECT p.id,
+               p.title,
+               p.url,
+               p.tier,
+               p.accepted_user_count,
+               p.created_at,
+               p.updated_at
+        FROM problem p
+        <![CDATA[
+        where p.tier >= ${goe.level}
+          and ${loe.level} >= p.tier
+        ]]>
+          order by p.accepted_user_count desc
+        limit #{size} offset #{start}
     </select>
 
     <select id="findTags" resultMap="tagMap">
@@ -58,19 +77,22 @@
         id,
         title,
         url,
-        tier
+        tier,
+        accepted_user_count
         )
         VALUES
         (
         #{problem.id},
         #{problem.title.value},
         #{problem.url.value},
-        #{problem.tier.value}
+        #{problem.tier.value},
+        #{problem.acceptedUserCount}
         )
         ON DUPLICATE KEY UPDATE
         title = #{problem.title.value},
         url = #{problem.url.value},
-        tier = #{problem.tier.value}
+        tier = #{problem.tier.value},
+        accepted_user_count = #{problem.acceptedUserCount}
         <selectKey keyColumn="created_at,updated_at"
                    keyProperty="problem.createdAt,problem.updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
