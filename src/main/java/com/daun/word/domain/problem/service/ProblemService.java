@@ -28,28 +28,27 @@ public class ProblemService {
 
     @Transactional
     public List<Problem> recommend(Member member) {
-        //회원의 약점 찾기
         Tier tier = solvedAcClient.findMemberTier(member);
         int offset = 0;
         List<Problem> recommended = new ArrayList<>();
-        while (true && offset < 10) {
+        while (true && offset < 3000) {
             List<Problem> problems = problemRepository.findByTierBetweenOrderBySolvedCountDesc(tier.minus(-4), tier.plus(1), offset, searchSize);
             List<Problem> solved = solvedAcClient.checkProblemsSolved(member, problems.stream()
                     .map(p -> Id.of(Problem.class, p.getId()))
                     .collect(Collectors.toList()));
             if (solved.isEmpty()) {
-                offset++;
+                offset+=searchSize;
                 continue;
             }
             recommended.addAll(problems.stream().filter(p -> !solved.contains(p))
                     .collect(Collectors.toList()));
             if (recommended.size() < 3) {
-                offset++;
+                offset+=searchSize;
                 continue;
             }
             break;
         }
-        if(recommended.isEmpty()) throw new IllegalStateException("추천 문제를 찾을 수 없습니다.");
+        if (recommended.isEmpty()) throw new IllegalStateException("추천 문제를 찾을 수 없습니다.");
         return recommended.stream()
                 .limit(Constants.recommendProblemSize)
                 .collect(Collectors.toList());

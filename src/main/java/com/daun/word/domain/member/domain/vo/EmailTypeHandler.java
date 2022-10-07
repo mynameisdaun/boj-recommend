@@ -1,5 +1,6 @@
 package com.daun.word.domain.member.domain.vo;
 
+import org.apache.ibatis.type.Alias;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
 import org.apache.ibatis.type.TypeHandler;

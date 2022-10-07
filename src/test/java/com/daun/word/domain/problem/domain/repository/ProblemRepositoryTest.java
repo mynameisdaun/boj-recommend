@@ -1,11 +1,11 @@
 package com.daun.word.domain.problem.domain.repository;
 
-import com.daun.word.global.Id;
-import com.daun.word.global.vo.Title;
-import com.daun.word.global.vo.URL;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.vo.Tag;
+import com.daun.word.global.Id;
 import com.daun.word.global.vo.Tier;
+import com.daun.word.global.vo.Title;
+import com.daun.word.global.vo.URL;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 import static com.daun.word.Fixture.Fixture.problem;
 import static com.daun.word.Fixture.Fixture.tag;
@@ -24,6 +25,19 @@ class ProblemRepositoryTest {
 
     @Autowired
     private ProblemRepository problemRepository;
+
+
+    @DisplayName(value = "아이디로 문제를 조회한다")
+    @Test
+    void findById() throws Exception {
+        //given
+        Id<Problem, Integer> id = Id.of(Problem.class, 16120);
+        //when
+        Problem problem = problemRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        //then
+        assertThat(problem).isNotNull();
+        assertThat(problem.getId()).isEqualTo(16120);
+    }
 
     @DisplayName(value = "태그를 저장한다")
     @Test
@@ -54,7 +68,7 @@ class ProblemRepositoryTest {
     @Test
     void save() throws Exception {
         //given
-        Problem problem = new Problem(2800, new Title("괄호 제거"), new URL("https://www.acmicpc.net/problem/2800"), new Tier(11), Arrays.asList(tag()));
+        Problem problem = new Problem(2800, new Title("괄호 제거"), new URL("https://www.acmicpc.net/problem/2800"), new Tier(11), Arrays.asList(tag()), 1173);
         //when
         int saved = problemRepository.save(problem);
         //then

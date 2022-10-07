@@ -3,14 +3,8 @@ package com.daun.word.Fixture;
 import com.daun.word.domain.assignment.domain.Assignment;
 import com.daun.word.domain.assignment.domain.AssignmentDetail;
 import com.daun.word.domain.assignment.domain.PAssignment;
-import com.daun.word.global.auth.token.domain.Token;
 import com.daun.word.domain.chapter.domain.Chapter;
 import com.daun.word.domain.chapter.domain.vo.ChapterWordMapping;
-import com.daun.word.global.Id;
-import com.daun.word.global.vo.Title;
-import com.daun.word.global.vo.URL;
-import com.daun.word.global.infra.kakao.dto.KakaoProfileResponse;
-import com.daun.word.global.infra.kakao.dto.KakaoTokenResponse;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.Nickname;
@@ -18,7 +12,6 @@ import com.daun.word.domain.member.domain.vo.Password;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.vo.Tag;
-import com.daun.word.global.vo.Tier;
 import com.daun.word.domain.quiz.domain.Quiz;
 import com.daun.word.domain.quiz.domain.vo.QuizStatus;
 import com.daun.word.domain.quiz.domain.vo.QuizType;
@@ -29,6 +22,13 @@ import com.daun.word.domain.word.domain.vo.Korean;
 import com.daun.word.domain.workbook.domain.WorkBook;
 import com.daun.word.domain.workbook.domain.vo.Author;
 import com.daun.word.domain.workbook.domain.vo.Description;
+import com.daun.word.global.Id;
+import com.daun.word.global.auth.token.domain.Token;
+import com.daun.word.global.infra.kakao.dto.KakaoProfileResponse;
+import com.daun.word.global.infra.kakao.dto.KakaoTokenResponse;
+import com.daun.word.global.vo.Tier;
+import com.daun.word.global.vo.Title;
+import com.daun.word.global.vo.URL;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -62,6 +62,7 @@ public class Fixture {
                 new Email("tester1@weword.com"),
                 "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS",
                 nickname(),
+                new Tier(15),
                 SocialType.W,
                 1,
                 LocalDateTime.parse("2022-08-20 15:43:51", formatter),
@@ -72,7 +73,7 @@ public class Fixture {
 
     public static Member another_member() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(2, new Email("daun9870jung"), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", nickname(), SocialType.W, 1, LocalDateTime.parse("2022-08-20 15:43:51", formatter), LocalDateTime.parse("2022-08-20 15:43:51", formatter), LocalDateTime.parse("2022-08-20 15:43:51", formatter));
+        return new Member(2, new Email("daun9870jung"), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", nickname(), new Tier(15), SocialType.W, 1, LocalDateTime.parse("2022-08-20 15:43:51", formatter), LocalDateTime.parse("2022-08-20 15:43:51", formatter), LocalDateTime.parse("2022-08-20 15:43:51", formatter));
     }
 
     public static KakaoTokenResponse kakaoTokenResponse() {
@@ -286,7 +287,7 @@ public class Fixture {
     }
 
     public static Problem problem() {
-        return new Problem(16120, new Title("PPAP"), new URL("https://www.acmicpc.net/problem/16120"), new Tier(12), Arrays.asList(tag()), LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+        return new Problem(16120, new Title("PPAP"), new URL("https://www.acmicpc.net/problem/16120"), new Tier(12), Arrays.asList(tag()), 0, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
     }
 
     public static PAssignment p_assignment() {

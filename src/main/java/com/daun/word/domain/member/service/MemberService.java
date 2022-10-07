@@ -54,7 +54,7 @@ public class MemberService {
         member.login(passwordEncoder, request.getPassword());
         member.afterLoginSuccess();
         TokenDTO token = tokenService.saveTokenFor(member);
-        memberRepository.update(member);
+        memberRepository.save(member);
 
         return new AuthenticationResponse(
                 member.getId(),

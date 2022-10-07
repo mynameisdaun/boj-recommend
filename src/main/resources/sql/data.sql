@@ -1,13 +1,13 @@
 /* 회원*/
 
-INSERT INTO member (email, password, nickname, social_type)
-VALUES ('tester1@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터', 'W');
+INSERT INTO member (email, password, nickname, tier, social_type)
+VALUES ('tester1@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터', 15, 'W');
 
-INSERT INTO member(email, password, nickname, social_type)
-VALUES ('daun9870jung', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터2', 'W');
+INSERT INTO member(email, password, nickname, tier, social_type)
+VALUES ('daun9870jung', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터2', 15, 'W');
 
-INSERT INTO member(email, password, nickname, social_type)
-VALUES ('tester3@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터3', 'W');
+INSERT INTO member(email, password, nickname, tier, social_type)
+VALUES ('tester3@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터3', 15, 'W');
 
 /* 토큰 */
 INSERT INTO token (member_email, access_token, access_token_expired_date, refresh_token, refresh_token_expired_date,
@@ -114,9 +114,12 @@ VALUES (1, 3, '1,2,3,4', 'M', 'UN_CORRECT', 1);
 
 insert into tag (id, tag_key, title)
 values (1, 'key', 'example');
-insert into problem (id, title, url, tier)
+insert into problem (id, title, url, tier, accepted_user_count)
 values (16120, 'PPAP', 'https://www.acmicpc.net/problem/16120', 12, 1324);
 insert into problem_tag(problem_id, tag_id)
 values (16120, 1);
 insert into p_assignment(problem_id, assign_from, assign_to, start_date_time, end_date_time)
 values (16120, 'tester1@weword.com', 'daun9870jung', sysdate(), sysdate());
+
+insert into recommend(problem_id, email)
+values (16120, 'daun9870jung');

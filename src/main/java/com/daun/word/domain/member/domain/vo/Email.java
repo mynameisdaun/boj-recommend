@@ -3,13 +3,14 @@ package com.daun.word.domain.member.domain.vo;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
-import java.util.regex.Pattern;
 
 @Getter
 @EqualsAndHashCode
 @ToString
+@Alias("Email")
 public class Email implements Serializable {
     private final String email;
 

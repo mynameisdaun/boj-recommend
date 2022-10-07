@@ -12,12 +12,7 @@ import java.util.Optional;
 @Mapper
 public interface MemberRepository {
 
-    /* 회원 가입 */
-    int save (@Param("member") Member member);
+    int save(@Param("member") Member member);
 
-    /* 회원 정보 업데이트 */
-    int update(@Param("member") Member member);
-
-    /* Email, Social Type 으로 회원 조회하기 */
     Optional<Member> findByEmail(@Param("email") Email email);
 }

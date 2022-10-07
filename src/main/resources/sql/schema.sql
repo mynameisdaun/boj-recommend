@@ -1,4 +1,4 @@
-drop table if exists recommend_history;
+drop table if exists recommend;
 drop table if exists p_assignment;
 drop table if exists problem_tag;
 drop table if exists problem;
@@ -21,8 +21,9 @@ CREATE TABLE member
     email         varchar(100) unique not null comment '회원 email',
     password      varchar(100) comment '회원 비밀번호 추후 수정 22.08.16',
     nickname      varchar(20)         not null comment '회원 닉네임',
+    tier          int                 not null comment '회원 백준 티어',
     social_type   char(1)             not null comment '회원가입 시 사용한 Social Portal, W: 자체회원, K: 카카오 / G: 구글 / N : 네이버',
-    login_count   int                 not null default 1,
+    login_count   int                 not null default 0,
     last_login_at datetime            not null default current_timestamp comment '마지막 로그인 일시',
     created_at    datetime            not null default current_timestamp comment '데이터 생성일시',
     updated_at    datetime            not null default current_timestamp comment '데이터 수정일시',
@@ -30,7 +31,6 @@ CREATE TABLE member
 ) comment '회원';
 
 /* 22.08.18 토큰 테이블 */
-
 CREATE TABLE token
 (
     member_email                      varchar(100) unique not null comment '회원 email',
@@ -218,14 +218,17 @@ create table p_assignment
     FOREIGN KEY (assign_to) REFERENCES member (email)
 ) comment '과제 상세 정보';
 
-/* 22.10.06 문제 추천 이력*/
-create table recommend_history
+/* 22.10.06 문제 추천 */
+create table recommend
 (
-    id           int          not null auto_increment comment '문제 추천 이력 history',
-    problem_id   int          not null comment '문제 id',
-    member_email varchar(100) not null comment '회원 email',
-    created_at   datetime     not null default current_timestamp comment '데이터 생성일시',
-    updated_at   datetime     not null default current_timestamp comment '데이터 수정일시',
+    id                int          not null auto_increment comment '문제 추천 이력 history',
+    problem_id        int          not null comment '문제 id',
+    email      varchar(100) not null comment '회원 email',
+    recommended_count int          not null default 0 comment '문제가 회원에게 추천된 횟수',
+    choose_yn         varchar(1)   not null default 'N' comment '회원 선택 여부',
+    choose_date_time  datetime     not null default current_timestamp comment '선택 일시',
+    created_at        datetime     not null default current_timestamp comment '데이터 생성일시',
+    updated_at        datetime     not null default current_timestamp comment '데이터 수정일시',
     PRIMARY KEY (id),
     FOREIGN KEY (problem_id) REFERENCES problem (id),
     FOREIGN KEY (email) REFERENCES member (email)

@@ -13,10 +13,12 @@ import org.springframework.dao.DuplicateKeyException;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static com.daun.word.Fixture.Fixture.member;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -43,7 +45,7 @@ class MemberRepositoryTest {
         Member member = member();
         LocalDateTime before = member.getUpdatedAt();
         //when
-        memberRepository.update(member);
+        memberRepository.save(member);
         //then
         assertThat(member.getUpdatedAt()).isAfter(before);
     }
@@ -70,5 +72,17 @@ class MemberRepositoryTest {
         }).isInstanceOf(NoSuchElementException.class);
     }
 
-
+    @DisplayName(value = "이메일로 회원을 조회한다")
+    @Test
+    void findByEmail() throws Exception {
+        //given
+        Email email = new Email("daun9870jung");
+        //when
+        Member member = memberRepository.findByEmail(email).orElseThrow(NoSuchElementException::new);
+        //then
+        assertThat(member).isNotNull();
+        assertAll(
+                () -> assertThat(member.getEmail()).isEqualTo(email)
+        );
+    }
 }

@@ -2,23 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.daun.word.domain.member.domain.repository.MemberRepository">
 
-    <select id="findByEmail" resultType="com.daun.word.domain.member.domain.Member">
+    <resultMap id="memberMap" type="Member">
+        <constructor>
+            <idArg column="id" name="id"/>
+            <arg column="email" name="email" javaType="Email"/>
+            <arg column="password" name="password"/>
+            <arg column="nickname" name="nickname" javaType="Nickname"/>
+            <arg column="tier" name="tier" javaType="Tier"/>
+            <arg column="social_type" name="socialType" javaType="SocialType"/>
+            <arg column="login_count" name="loginCount"/>
+            <arg column="last_login_at" name="lastLoginAt" javaType="LocalDateTime"/>
+            <arg column="created_at" name="createdAt" javaType="LocalDateTime"/>
+            <arg column="updated_at" name="updatedAt" javaType="LocalDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <select id="findByEmail" resultMap="memberMap">
         /* email로 회원 조회 */
-        SELECT member.id          as id,
-               member.email       as email,
-               member.password    as password,
-               member.nickname    as nickname,
-               member.social_type as socialType,
-               member.created_at  as createdAt,
-               member.updated_at  as updatedAt
-        FROM member
-        WHERE member.email = #{email.value}
+        SELECT m.id,
+               m.email,
+               m.password,
+               m.nickname,
+               m.tier,
+               m.social_type,
+               m.login_count,
+               m.last_login_at,
+               m.created_at,
+               m.updated_at
+        FROM member m
+        WHERE m.email = #{email}
     </select>
 
-    <insert id="save" parameterType="com.daun.word.domain.member.domain.Member" useGeneratedKeys="true" keyColumn="id"
-            keyProperty="id">
+    <insert id="save" parameterType="Member" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO member
         (
+        <if test="member.id != null">
+            id,
+        </if>
         email,
         password,
         nickname,
@@ -26,39 +46,47 @@
         )
         VALUES
         (
-        #{member.email.value},
+        <if test="member.id != null">
+            #{member.id},
+        </if>
+        #{member.email},
         #{member.password},
-        #{member.nickname.value},
-        #{member.socialType.name}
+        #{member.nickname},
+        #{member.socialType}
         )
-        <selectKey keyColumn="id,created_at,updated_at" keyProperty="member.id,member.createdAt,member.updatedAt"
-                   resultType="java.util.HashMap" order="AFTER">
-            SELECT member.id,
-            member.created_at,
-            member.updated_at
-            FROM member
-            where member.id = LAST_INSERT_ID();
+        ON DUPLICATE KEY
+        UPDATE
+        email = #{member.email},
+        password = #{member.password},
+        nickname = #{member.nickname},
+        tier = #{member.tier},
+        social_type = #{member.socialType},
+        login_count = #{member.loginCount},
+        last_login_at = #{member.lastLoginAt},
+        updated_at = sysdate()
+        <selectKey
+                keyColumn="id,email,password,nickname,tier,social_type,login_count,last_login_at,created_at,updated_at"
+                keyProperty="member.id,member.email,member.password,member.nickname,member.tier,member.socialType,member.loginCount,member.lastLoginAt,member.createdAt,member.updatedAt"
+                resultType="java.util.HashMap" order="AFTER">
+            SELECT
+            m.id,
+            m.email,
+            m.password,
+            m.nickname,
+            m.tier,
+            m.social_type,
+            m.login_count,
+            m.last_login_at,
+            m.created_at,
+            m.updated_at
+            FROM member m
+            where member.id =
+            <if test="member.id != null">
+                #{member.id}
+            </if>
+            <if test="member.id == null">
+                LAST_INSERT_ID()
+            </if>
         </selectKey>
     </insert>
-
-    <update id="update" parameterType="com.daun.word.domain.member.domain.Member">
-        UPDATE member
-           SET email = #{member.email.value},
-               password = #{member.password},
-               nickname = #{member.nickname.value},
-               social_type = #{member.socialType.name},
-               login_count = #{member.loginCount},
-               last_login_at = #{member.lastLoginAt},
-               updated_at = current_timestamp
-         WHERE id = #{member.id}
-        <selectKey
-                keyColumn="id,updated_at"
-                keyProperty="member.id,member.updatedAt"
-                resultType="java.util.HashMap" order="AFTER">
-           select member.id,
-                  member.updated_at
-            from  member
-            WHERE id = #{member.id}
-        </selectKey>
-    </update>
 </mapper>

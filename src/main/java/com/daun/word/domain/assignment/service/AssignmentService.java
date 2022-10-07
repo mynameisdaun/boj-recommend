@@ -28,13 +28,13 @@ public class AssignmentService {
 
     private final MemberService memberService;
 
-    private final AssignmentRepository deprecated;
-
     private final PAssignmentRepository assignmentRepository;
 
     private final ProblemService problemService;
 
     private final SolvedAcClient solvedAcClient;
+
+    private final AssignmentRepository deprecated;
 
     @Transactional
     public PAssignment findById(Id<PAssignment, Integer> id) {

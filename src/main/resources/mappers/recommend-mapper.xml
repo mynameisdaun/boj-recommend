@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daun.word.domain.recommend.domain.repository.RecommendRepository">
+
+    <resultMap id="recommendMap" type="Recommend">
+        <constructor>
+            <idArg column="id" name="id"/>
+            <arg column="problem_id" name="problem" javaType="Problem"
+                 select="com.daun.word.domain.problem.domain.repository.ProblemRepository.findById"/>
+            <arg column="email" name="member" javaType="Member"
+                 select="com.daun.word.domain.member.domain.repository.MemberRepository.findByEmail"/>
+            <arg column="recommended_count" name="recommendedCount"/>
+            <arg column="choose_yn" name="chooseYn" javaType="String"/>
+            <arg column="choose_date_time" name="chooseDateTime" javaType="LocalDateTime"/>
+            <arg column="created_at" name="createdAt" javaType="LocalDateTime"/>
+            <arg column="updated_at" name="updatedAt" javaType="LocalDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <select id="findById" resultMap="recommendMap">
+        select r.id,
+               r.problem_id,
+               r.email,
+               r.recommended_count,
+               r.choose_yn,
+               r.choose_date_time,
+               r.created_at,
+               r.updated_at
+        from recommend r
+        where r.id = #{recommendId.value}
+    </select>
+
+    <select id="findByMemberAndProblem" resultMap="recommendMap">
+        select r.id,
+               r.problem_id,
+               r.email,
+               r.recommended_count,
+               r.choose_yn,
+               r.choose_date_time,
+               r.created_at,
+               r.updated_at
+        from recommend r
+        where r.email = #{member.email}
+          and r.problem_id = #{problem.id.value}
+    </select>
+</mapper>

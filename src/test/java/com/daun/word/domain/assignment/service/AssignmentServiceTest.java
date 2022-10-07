@@ -26,7 +26,8 @@ class AssignmentServiceTest {
 
     @BeforeEach
     public void setUp() {
-        assignmentService = new AssignmentService(new FakeAssignmentRepository(), null, null, null);
+        //TODO: a lot of to do
+        assignmentService = new AssignmentService(null, null, null, null, null);
     }
 
     @DisplayName(value = "과제를 제출한다")

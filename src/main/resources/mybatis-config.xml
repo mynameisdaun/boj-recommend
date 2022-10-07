@@ -5,4 +5,24 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
         <setting name="callSettersOnNulls" value="true"/>
     </settings>
+    <typeAliases>
+        <typeAlias type="java.time.LocalDateTime" alias="LocalDateTime"/>
+        <typeAlias type="java.util.List" alias="List"/>
+        <package name="com.daun.word"/>
+    </typeAliases>
+    <typeHandlers>
+        <typeHandler handler="com.daun.word.domain.member.domain.vo.EmailTypeHandler"
+                     javaType="com.daun.word.domain.member.domain.vo.Email"/>
+        <typeHandler handler="com.daun.word.domain.member.domain.vo.SocialTypeHandler"
+                     javaType="com.daun.word.domain.member.domain.vo.SocialType"/>
+        <typeHandler handler="com.daun.word.domain.member.domain.vo.NicknameTypeHandler"
+                     javaType="com.daun.word.domain.member.domain.vo.Nickname"/>
+        <typeHandler handler="com.daun.word.global.vo.TierTypeHandler"
+                     javaType="com.daun.word.global.vo.Tier"/>
+        <typeHandler handler="com.daun.word.global.vo.TitleTypeHandler"
+                     javaType="com.daun.word.global.vo.Title"/>
+        <typeHandler handler="com.daun.word.global.vo.URLTypeHandler"
+                     javaType="com.daun.word.global.vo.URL"/>
+        <package name="com.daun.word"/>
+    </typeHandlers>
 </configuration>

@@ -2,74 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.daun.word.domain.assignment.domain.repository.PAssignmentRepository">
 
-    <resultMap id="tagMap" type="com.daun.word.domain.problem.domain.vo.Tag">
-        <constructor>
-            <idArg column="id" name="id"/>
-            <arg column="tag_key" name="key" javaType="String"/>
-            <arg column="title" name="title" javaType="com.daun.word.global.vo.Title"
-                 typeHandler="com.daun.word.global.vo.TitleTypeHandler"/>
-            <arg column="created_at" name="createdAt" javaType="java.time.LocalDateTime"/>
-            <arg column="updated_at" name="updatedAt" javaType="java.time.LocalDateTime"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="problemMap" type="com.daun.word.domain.problem.domain.Problem">
-        <constructor>
-            <idArg column="id" name="id"/>
-            <arg column="title" name="title" javaType="com.daun.word.global.vo.Title"
-                 typeHandler="com.daun.word.global.vo.TitleTypeHandler"/>
-            <arg column="url" name="url" javaType="com.daun.word.global.vo.URL"
-                 typeHandler="com.daun.word.global.vo.URLTypeHandler"/>
-            <arg column="tier" name="tier" javaType="com.daun.word.global.vo.Tier"
-                 typeHandler="com.daun.word.global.vo.TierTypeHandler"/>
-            <arg column="id" name="tags" javaType="java.util.List" select="findTags"/>
-            <arg column="created_at" name="createdAt" javaType="java.time.LocalDateTime"/>
-            <arg column="updated_at" name="updatedAt" javaType="java.time.LocalDateTime"/>
-        </constructor>
-    </resultMap>
-
-    <resultMap id="assignmentMap" type="com.daun.word.domain.assignment.domain.PAssignment">
+    <resultMap id="assignmentMap" type="PAssignment">
         <constructor>
             <idArg column="id" name="id" javaType="int"/>
-            <arg column="problem_id" name="problem" javaType="com.daun.word.domain.problem.domain.Problem"
-                 select="findProblem"/>
-            <arg column="assign_from" name="assignFrom" javaType="com.daun.word.domain.member.domain.vo.Email"
-                 typeHandler="com.daun.word.domain.member.domain.vo.EmailTypeHandler"/>
-            <arg column="assign_to" name="assignTo" javaType="com.daun.word.domain.member.domain.vo.Email"
-                 typeHandler="com.daun.word.domain.member.domain.vo.EmailTypeHandler"/>
-            <arg column="start_date_time" name="startDateTime" javaType="java.time.LocalDateTime"/>
-            <arg column="end_date_time" name="endDateTime" javaType="java.time.LocalDateTime"/>
+            <arg column="problem_id" name="problem" javaType="Problem"
+                 resultMap="com.daun.word.domain.problem.domain.repository.ProblemRepository.problemMap"/>
+            <arg column="assign_from" name="assignFrom" javaType="Email"/>
+            <arg column="assign_to" name="assignTo" javaType="Email"/>
+            <arg column="start_date_time" name="startDateTime" javaType="LocalDateTime"/>
+            <arg column="end_date_time" name="endDateTime" javaType="LocalDateTime"/>
             <arg column="open_yn" name="openYn" javaType="String"/>
-            <arg column="open_date_time" name="openDateTime" javaType="java.time.LocalDateTime"/>
+            <arg column="open_date_time" name="openDateTime" javaType="LocalDateTime"/>
             <arg column="complete_yn" name="completeYn" javaType="String"/>
-            <arg column="complete_date_time" name="completeDateTime" javaType="java.time.LocalDateTime"/>
-            <arg column="created_at" name="createdAt" javaType="java.time.LocalDateTime"/>
-            <arg column="updated_at" name="updatedAt" javaType="java.time.LocalDateTime"/>
+            <arg column="complete_date_time" name="completeDateTime" javaType="LocalDateTime"/>
+            <arg column="created_at" name="createdAt" javaType="LocalDateTime"/>
+            <arg column="updated_at" name="updatedAt" javaType="LocalDateTime"/>
         </constructor>
     </resultMap>
-
-    <select id="findTags" resultMap="tagMap">
-        SELECT t.id,
-               t.tag_key,
-               t.title,
-               t.created_at,
-               t.updated_at
-        FROM problem_tag pt
-                 left join problem p on pt.problem_id = p.id
-                 left join tag t on pt.tag_id = t.id
-        where p.id = ${id}
-    </select>
-
-    <select id="findProblem" resultMap="problemMap">
-        SELECT p.id,
-               p.title,
-               p.url,
-               p.tier,
-               p.created_at,
-               p.updated_at
-        FROM problem p
-        where p.id = ${problem_id}
-    </select>
 
     <select id="findById" resultMap="assignmentMap">
         select a.id                 as id,
@@ -112,16 +61,16 @@
             #{assignment.id},
         </if>
         #{assignment.problem.id},
-        #{assignment.assignFrom.value},
-        #{assignment.assignTo.value},
+        #{assignment.assignFrom},
+        #{assignment.assignTo},
         #{assignment.startDateTime},
         #{assignment.endDateTime}
         )
         ON DUPLICATE KEY
         UPDATE
         problem_id = #{assignment.problem.id},
-        assign_from = #{assignment.assignFrom.value},
-        assign_to = #{assignment.assignTo.value},
+        assign_from = #{assignment.assignFrom},
+        assign_to = #{assignment.assignTo},
         start_date_time = #{assignment.startDateTime},
         end_date_time = #{assignment.endDateTime},
         open_yn = #{assignment.openYn},

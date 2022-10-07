@@ -7,8 +7,10 @@ import com.daun.word.domain.member.domain.vo.Password;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.global.Id;
 import com.daun.word.global.vo.Tier;
-import lombok.*;
-import lombok.extern.slf4j.Slf4j;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+import org.apache.ibatis.type.Alias;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
@@ -16,23 +18,22 @@ import java.time.LocalDateTime;
 import static com.daun.word.global.utils.StringUtils.isNullOrBlank;
 import static java.time.LocalDateTime.now;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 @ToString
-@Slf4j
 public class Member {
+
     private Integer id;
     private Email email;
-    @ToString.Exclude
     private String password;
     private Nickname nickname;
     private Tier tier;
     private SocialType socialType;
-    private int loginCount;
+    private Integer loginCount;
     private LocalDateTime lastLoginAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
 
     public Member(Email email, String password, Nickname nickname, SocialType socialType) {
         if (email == null || isNullOrBlank(password) || nickname == null || socialType == null) {
@@ -52,8 +53,6 @@ public class Member {
 
     /* 로그인 */
     public void login(PasswordEncoder passwordEncoder, Password password) {
-        log.info("요청패스워드: {}", password);
-        log.info("나의비밀번호: {}", this.password);
         if (!passwordEncoder.matches(password.getValue(), this.password)) {
             throw new IllegalArgumentException("비밀번호가 틀립니다.");
         }
@@ -63,5 +62,9 @@ public class Member {
     public void afterLoginSuccess() {
         this.loginCount++;
         this.lastLoginAt = now();
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
