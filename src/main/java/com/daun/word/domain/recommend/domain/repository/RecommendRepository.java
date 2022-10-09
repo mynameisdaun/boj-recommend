@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,4 +20,6 @@ public interface RecommendRepository {
     Optional<Recommend> findById(@Param("recommendId") Id<Recommend, Integer> recommendId);
 
     Optional<Recommend> findByMemberAndProblem(@Param("member") Member member, @Param("problem") Problem problem);
+
+    List<Recommend> findByMemberAndProblems(@Param("member") Member member, @Param("problems") List<Problem> problems);
 }

@@ -9,8 +9,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 
 import java.util.NoSuchElementException;
 
-import static com.daun.word.Fixture.Fixture.another_member;
-import static com.daun.word.Fixture.Fixture.problem;
+import static com.daun.word.Fixture.Fixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -20,6 +19,17 @@ class RecommendRepositoryTest {
 
     @Autowired
     private RecommendRepository recommendRepository;
+
+    @DisplayName(value = "추천을 저장한다")
+    @Test
+    void save() throws Exception {
+        //given
+        Recommend recommend = new Recommend(problem(), member());
+        //when
+        int save = recommendRepository.save(recommend);
+        //then
+        assertThat(save).isOne();
+    }
 
     @DisplayName(value = "회원과 문제 번호로 추천 조회")
     @Test

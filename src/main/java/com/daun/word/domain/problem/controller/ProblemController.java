@@ -2,8 +2,6 @@ package com.daun.word.domain.problem.controller;
 
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.service.ProblemService;
-import com.daun.word.domain.word.domain.Word;
-import com.daun.word.domain.word.domain.vo.English;
 import com.daun.word.global.Id;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -34,6 +34,18 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
+    public static void wait(int ms)
+    {
+        try
+        {
+            Thread.sleep(ms);
+        }
+        catch(InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();

@@ -26,18 +26,19 @@ class ProblemRepositoryTest {
     @Autowired
     private ProblemRepository problemRepository;
 
-
-    @DisplayName(value = "아이디로 문제를 조회한다")
+    @DisplayName(value = "문제를 저장한다")
     @Test
-    void findById() throws Exception {
+    void save() throws Exception {
         //given
-        Id<Problem, Integer> id = Id.of(Problem.class, 16120);
+        Problem problem = new Problem(2800, new Title("괄호 제거"), new URL("https://www.acmicpc.net/problem/2800"), new Tier(11), Arrays.asList(tag()), 1173, 0);
         //when
-        Problem problem = problemRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        int saved = problemRepository.save(problem);
         //then
-        assertThat(problem).isNotNull();
-        assertThat(problem.getId()).isEqualTo(16120);
+        assertThat(saved).isOne();
+        assertThat(problem.getCreatedAt()).isNotNull();
+        assertThat(problem.getUpdatedAt()).isNotNull();
     }
+
 
     @DisplayName(value = "태그를 저장한다")
     @Test
@@ -64,17 +65,27 @@ class ProblemRepositoryTest {
     }
 
 
-    @DisplayName(value = "문제를 저장한다")
+    @DisplayName(value = "아이디로 문제를 조회한다")
     @Test
-    void save() throws Exception {
+    void findById() throws Exception {
         //given
-        Problem problem = new Problem(2800, new Title("괄호 제거"), new URL("https://www.acmicpc.net/problem/2800"), new Tier(11), Arrays.asList(tag()), 1173);
+        Id<Problem, Integer> id = Id.of(Problem.class, 16120);
         //when
-        int saved = problemRepository.save(problem);
+        Problem problem = problemRepository.findById(id).orElseThrow(NoSuchElementException::new);
         //then
-        assertThat(saved).isOne();
-        assertThat(problem.getCreatedAt()).isNotNull();
-        assertThat(problem.getUpdatedAt()).isNotNull();
+        assertThat(problem).isNotNull();
+        assertThat(problem.getId()).isEqualTo(16120);
+    }
+
+    @DisplayName(value = "티어로 문제를 조회한다")
+    @Test
+    void findByTierBetweenOrderBySolvedCountDesc() throws Exception {
+        //given
+
+        //when
+
+        //then
+
     }
 
 }

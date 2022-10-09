@@ -13,7 +13,12 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +28,8 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
     private final RestTemplate restTemplate;
     private final String BASE = "https://solved.ac/api/v3";
 
+
+    /* id로 문제 조회 */
     @Override
     public Problem findById(Id<Problem, Integer> id) {
         StringBuilder url = new StringBuilder(BASE)
@@ -39,26 +46,109 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
         return new Problem(response.getBody());
     }
 
+    /* id 리스트로 문제들 조회*/
     @Override
-    public boolean checkAssignment(Member assignTo, Id<Problem, Integer> id) {
-        StringBuilder url = new StringBuilder(BASE)
-                .append("/search/problem?query=")
-                .append("s@")
-                .append(assignTo.getEmail().getValue())
-                .append(" ")
-                .append(id.getValue());
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity request = new HttpEntity(headers);
-        ResponseEntity<ProblemSearchResponse> response = restTemplate.exchange(
-                url.toString(),
-                HttpMethod.GET,
-                request,
-                ProblemSearchResponse.class);
-        for (ProblemSearchResponse.Item item : response.getBody().getItems()) {
-            if (item.getProblemId() == id.getValue()) return true;
+    public List<Problem> findByIdsIn(List<Id<Problem, Integer>> lists) {
+        int start = 0;
+        List<Problem> resp = new ArrayList<>();
+        while (true) {
+            List<Id<Problem, Integer>> ids = lists.subList(start, Math.min(start + 100, lists.size()));
+            StringBuilder url = new StringBuilder(BASE)
+                    .append("/problem/lookup?problemIds=")
+                    .append(ids.stream().map(id -> String.valueOf(id.getValue())).collect(Collectors.joining(",")));
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            HttpEntity request = new HttpEntity(headers);
+            log.info("{}", ids.size());
+            log.info(url.toString());
+            SolvedAcProblemResponse[] response = restTemplate.exchange(
+                    url.toString(),
+                    HttpMethod.GET,
+                    request,
+                    SolvedAcProblemResponse[].class).getBody();
+            resp.addAll(stream(response).map(Problem::new).collect(toList()));
+            start += 100;
+            if (resp.size() == lists.size()) break;
         }
-        return false;
+        return resp;
+    }
+
+    /* 문제 리스트 중에서, 회원이 풀지 않은 문제만 반환하기 */
+    @Override
+    public List<Problem> unSolvedProblemsByMember(Member assignTo, List<Problem> problems) {
+        List<Id<Problem, Integer>> solved = new ArrayList<>();
+        int page = 1;
+        int total = 0;
+        int cnt = 0;
+        Tier max = new Tier(0);
+        Tier min = new Tier(30);
+        for (Problem p : problems) {
+            max = p.getTier().getLevel() > max.getLevel() ? p.getTier() : max;
+            min = p.getTier().getLevel() < max.getLevel() ? p.getTier() : min;
+        }
+        while (true) {
+            StringBuilder url = new StringBuilder(BASE)
+                    .append("/search/problem?query=")
+                    .append("s@").append(assignTo.getEmail().getValue())
+                    .append(" *").append(min.getRate()).append("..").append(max.getRate())
+                    .append("&page=").append(page);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity request = new HttpEntity(headers);
+            ProblemSearchResponse response = restTemplate.exchange(
+                    url.toString(),
+                    HttpMethod.GET,
+                    request,
+                    ProblemSearchResponse.class).getBody();
+            total = response.getCount();
+            cnt += response.getItems().length;
+            solved.addAll(stream(response.getItems()).map(i -> Id.of(Problem.class, i.getProblemId())).collect(toList()));
+            if (cnt < total) {
+                page++;
+                continue;
+            }
+            break;
+        }
+        return problems.stream()
+                .filter(p -> !solved.contains(Id.of(Problem.class, p.getId())))
+                .collect(toList());
+    }
+
+    @Override
+    public List<Problem> manualProblemUpdate() {
+        List<Problem> allProblems = new ArrayList<>();
+        for (int i = 1; i <= 30; i++) {
+            log.info("\n ###### {} 번째 가져오는 중입니다!", i);
+            int page = 1;
+            int cnt = 0;
+            List<Id<Problem, Integer>> ids = new ArrayList<>();
+            while (true) {
+                Tier tier = new Tier(i);
+                StringBuilder url = new StringBuilder(BASE)
+                        .append("/search/problem?query=")
+                        .append("*")
+                        .append(tier.getRate())
+                        .append("..")
+                        .append(tier.getRate())
+                        .append("&")
+                        .append("page=")
+                        .append(page);
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                ProblemSearchResponse response = restTemplate.exchange(url.toString(), HttpMethod.GET, new HttpEntity(headers), ProblemSearchResponse.class).getBody();
+                cnt = response.getCount();
+                ids.addAll(stream(response.getItems()).map(r -> Id.of(Problem.class, r.problemId)).collect(toList()));
+                if (ids.size() < cnt) {
+                    page++;
+                    continue;
+                }
+                break;
+            }
+            List<Problem> byIdsIn = findByIdsIn(ids);
+            allProblems.addAll(byIdsIn);
+        }
+        log.info("\n ##########################################\n\n{}\n\nallProblemsSize: {}", allProblems, allProblems.size());
+        return allProblems;
     }
 
     @Override
@@ -74,11 +164,6 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
                 HttpMethod.GET,
                 request,
                 UserSearchResponse.class).getBody().getTier());
-    }
-
-    @Override
-    public List<Problem> checkProblemsSolved(Member member, List<Id<Problem, Integer>> ids) {
-        return null;
     }
 
     @Data

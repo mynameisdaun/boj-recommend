@@ -26,33 +26,6 @@ public class ProblemService {
 
     private final SolvedAcClient solvedAcClient;
 
-    @Transactional
-    public List<Problem> recommend(Member member) {
-        Tier tier = solvedAcClient.findMemberTier(member);
-        int offset = 0;
-        List<Problem> recommended = new ArrayList<>();
-        while (true && offset < 3000) {
-            List<Problem> problems = problemRepository.findByTierBetweenOrderBySolvedCountDesc(tier.minus(-4), tier.plus(1), offset, searchSize);
-            List<Problem> solved = solvedAcClient.checkProblemsSolved(member, problems.stream()
-                    .map(p -> Id.of(Problem.class, p.getId()))
-                    .collect(Collectors.toList()));
-            if (solved.isEmpty()) {
-                offset+=searchSize;
-                continue;
-            }
-            recommended.addAll(problems.stream().filter(p -> !solved.contains(p))
-                    .collect(Collectors.toList()));
-            if (recommended.size() < 3) {
-                offset+=searchSize;
-                continue;
-            }
-            break;
-        }
-        if (recommended.isEmpty()) throw new IllegalStateException("추천 문제를 찾을 수 없습니다.");
-        return recommended.stream()
-                .limit(Constants.recommendProblemSize)
-                .collect(Collectors.toList());
-    }
 
     @Transactional
     public Problem findById(Id<Problem, Integer> id) {

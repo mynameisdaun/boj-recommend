@@ -27,7 +27,6 @@ public class FakeMemberRepository implements MemberRepository {
             throw new DuplicateKeyException("");
         };
         memberTable.put(memberTable.size()+1, request);
-        request.setId(memberTable.size());
         return 0;
     }
 
@@ -39,11 +38,5 @@ public class FakeMemberRepository implements MemberRepository {
                 .map(w->w.getValue())
                 .findFirst();
 
-    }
-
-    @Override
-    public int update(Member member) {
-        memberTable.put(member.getId(), member);
-        return 1;
     }
 }

@@ -17,6 +17,54 @@
         </constructor>
     </resultMap>
 
+    <insert id="save" parameterType="Recommend" useGeneratedKeys="true" keyColumn="id" keyProperty="recommend.id">
+        insert into recommend
+        (
+        problem_id,
+        email
+        <if test="recommend.id != null">
+            ,id
+            ,recommended_count
+            ,choose_yn
+            ,choose_date_time
+        </if>
+        )
+        values
+        (
+        #{recommend.problem.id},
+        #{recommend.member.email}
+        <if test="recommend.id != null">
+            ,#{recommend.id}
+            ,#{recommend.recommendedCount}
+            ,#{recommend.chooseYn}
+            ,#{recommend.chooseDateTime}
+        </if>
+        )
+        on duplicate key update
+        problem_id = #{recommend.problem.id},
+        email = #{recommend.member.email},
+        recommended_count = #{recommend.recommendedCount},
+        choose_yn = #{recommend.chooseYn},
+        choose_date_time = #{recommend.chooseDateTime},
+        updated_at = sysdate()
+        <selectKey keyColumn="id,created_at,updated_at"
+                   keyProperty="recommend.id,recommend.createdAt,recommend.updatedAt"
+                   resultType="java.util.HashMap" order="AFTER">
+            select
+            r.id,
+            r.created_at,
+            r.updated_at
+            from recommend as r
+            WHERE r.id =
+            <if test="recommend.id != null">
+                #{recommend.id}
+            </if>
+            <if test="recommend.id == null">
+                LAST_INSERT_ID()
+            </if>
+        </selectKey>
+    </insert>
+
     <select id="findById" resultMap="recommendMap">
         select r.id,
                r.problem_id,
@@ -26,7 +74,7 @@
                r.choose_date_time,
                r.created_at,
                r.updated_at
-        from recommend r
+        from recommend as r
         where r.id = #{recommendId.value}
     </select>
 
@@ -39,8 +87,26 @@
                r.choose_date_time,
                r.created_at,
                r.updated_at
-        from recommend r
+        from recommend as r
         where r.email = #{member.email}
           and r.problem_id = #{problem.id.value}
+    </select>
+
+    <select id="findByMemberAndProblems" resultMap="recommendMap">
+        select
+        r.id,
+        r.problem_id,
+        r.email,
+        r.recommended_count,
+        r.choose_yn,
+        r.choose_date_time,
+        r.created_at,
+        r.updated_at
+        from recommend as r
+        where r.email = #{member.email}
+        and r.problem_id in
+        <foreach item="problem" collection="problems" open="(" separator="," close=")">
+            #{problem.id}
+        </foreach>
     </select>
 </mapper>

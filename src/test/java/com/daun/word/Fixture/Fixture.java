@@ -1,10 +1,6 @@
 package com.daun.word.Fixture;
 
 import com.daun.word.domain.assignment.domain.Assignment;
-import com.daun.word.domain.assignment.domain.AssignmentDetail;
-import com.daun.word.domain.assignment.domain.PAssignment;
-import com.daun.word.domain.chapter.domain.Chapter;
-import com.daun.word.domain.chapter.domain.vo.ChapterWordMapping;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.Nickname;
@@ -12,17 +8,6 @@ import com.daun.word.domain.member.domain.vo.Password;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.vo.Tag;
-import com.daun.word.domain.quiz.domain.Quiz;
-import com.daun.word.domain.quiz.domain.vo.QuizStatus;
-import com.daun.word.domain.quiz.domain.vo.QuizType;
-import com.daun.word.domain.word.domain.Word;
-import com.daun.word.domain.word.domain.Words;
-import com.daun.word.domain.word.domain.vo.English;
-import com.daun.word.domain.word.domain.vo.Korean;
-import com.daun.word.domain.workbook.domain.WorkBook;
-import com.daun.word.domain.workbook.domain.vo.Author;
-import com.daun.word.domain.workbook.domain.vo.Description;
-import com.daun.word.global.Id;
 import com.daun.word.global.auth.token.domain.Token;
 import com.daun.word.global.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.global.infra.kakao.dto.KakaoTokenResponse;
@@ -32,9 +17,7 @@ import com.daun.word.global.vo.URL;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Fixture {
     public static String FAKE_KAKAO_REST_API_KEY = "fake-api-key";
@@ -114,184 +97,16 @@ public class Fixture {
         );
     }
 
-    public static Word word_1() {
-        return new Word(
-                1,
-                new English("we"),
-                new Korean("우리"),
-                new Email("tester1@weword.com"),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter)
-        );
-    }
-
-    public static Word word_2() {
-        return new Word(2, new English("word"), new Korean("단어"), new Email("tester1@weword.com"), LocalDateTime.parse("2022-08-19 16:43:51", formatter),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter));
-    }
-
-    public static Word word_3() {
-        return new Word(3, new English("hi"), new Korean("안녕"), new Email("tester1@weword.com"), LocalDateTime.parse("2022-08-19 16:43:51", formatter),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter));
-    }
-
-    public static Word word_4() {
-        return new Word(4, new English("assignment"), new Korean("과제"), new Email("tester1@weword.com"), LocalDateTime.parse("2022-08-19 16:43:51", formatter),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter));
-    }
-
-    public static Word word_5() {
-        return new Word(5, new English("name"), new Korean("이름"), new Email("tester1@weword.com"), LocalDateTime.parse("2022-08-19 16:43:51", formatter),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter));
-    }
-
-    public static Word word_6() {
-        return new Word(6, new English("you"), new Korean("너"), new Email("tester1@weword.com"), LocalDateTime.parse("2022-08-19 16:43:51", formatter),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter));
-    }
-
-    public static List<Word> words() {
-        List<Word> words = new ArrayList<>();
-        words.add(word_1());
-        words.add(word_2());
-        words.add(word_3());
-        return words;
-    }
-
-    public static WorkBook workbook() {
-        return new WorkBook(
-                Integer.valueOf(1),
-                new Title("재밌는 단어장"),
-                new Author("운영자"),
-                new Description("아주 친절한 설명"),
-                "https://weword.com/fake-image");
-    }
-
-    public static Chapter chapter() {
-        return new Chapter(1, new Title("Day 1"), 1, new Words(new ArrayList<>(Arrays.asList(word_1()))));
-    }
-
-    public static ChapterWordMapping chapterWordMapping_1() {
-        return new ChapterWordMapping(chapter(), word_1());
-    }
-
-    public static ChapterWordMapping chapterWordMapping_2() {
-        return new ChapterWordMapping(chapter(), word_2());
-    }
-
-    public static ChapterWordMapping chapterWordMapping_3() {
-        return new ChapterWordMapping(chapter(), word_3());
-    }
-
-    public static Assignment assignment() {
-        return new Assignment(
-                Integer.valueOf(1),
-                member().getEmail(),
-                another_member().getEmail(),
-                workbook().getId()
-        );
-    }
-
-    public static AssignmentDetail assignmentDetail_complete() {
-        return new AssignmentDetail(
-                Integer.valueOf(1),
-                Integer.valueOf(1),
-                Integer.valueOf(1),
-                LocalDateTime.parse("2022-08-20 15:43:51", formatter),
-                LocalDateTime.parse("2023-08-21 15:43:51", formatter),
-                "Y",
-                LocalDateTime.parse("2022-08-21 15:43:51", formatter),
-                "Y",
-                LocalDateTime.parse("2022-08-21 16:43:51", formatter),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter),
-                LocalDateTime.parse("2022-08-21 16:43:51", formatter)
-        );
-    }
-
-    public static AssignmentDetail assignmentDetail_open_unComplete() {
-        return new AssignmentDetail(
-                Integer.valueOf(2),
-                Integer.valueOf(1),
-                Integer.valueOf(2),
-                LocalDateTime.parse("2022-08-20 15:43:51", formatter),
-                LocalDateTime.parse("2023-08-21 15:43:51", formatter),
-                "Y",
-                LocalDateTime.parse("2022-08-21 15:43:51", formatter),
-                "N",
-                null,
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter)
-        );
-    }
-
-    public static AssignmentDetail assignmentDetail_unOpen() {
-        return new AssignmentDetail(
-                Integer.valueOf(3),
-                Integer.valueOf(1),
-                Integer.valueOf(3),
-                LocalDateTime.parse("2022-08-20 15:43:51", formatter),
-                LocalDateTime.parse("2023-08-21 15:43:51", formatter),
-                "N",
-                null,
-                "N",
-                null,
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter)
-        );
-    }
-
-    public static Quiz quiz_un_submitted() {
-        return new Quiz(
-                1,
-                Id.of(Chapter.class, 1),
-                word_1(),
-                new ArrayList<Word>(Arrays.asList(word_1(), word_2(), word_3(), word_4())),
-                QuizType.M,
-                QuizStatus.UN_SUBMITTED,
-                null,
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter)
-        );
-    }
-
-    public static Quiz quiz_correct() {
-        return new Quiz(
-                2,
-                Id.of(Chapter.class, 1),
-                word_2(),
-                new ArrayList<Word>(Arrays.asList(word_1(), word_2(), word_3(), word_4())),
-                QuizType.M,
-                QuizStatus.CORRECT,
-                word_2(),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter)
-        );
-    }
-
-    public static Quiz quiz_un_correct() {
-        return new Quiz(
-                3,
-                Id.of(Chapter.class, 1),
-                word_3(),
-                new ArrayList<Word>(Arrays.asList(word_1(), word_2(), word_3(), word_4())),
-                QuizType.M,
-                QuizStatus.UN_CORRECT,
-                word_1(),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter),
-                LocalDateTime.parse("2022-08-19 16:43:51", formatter)
-        );
-    }
-
     public static Tag tag() {
         return new Tag(1, "key", new Title("example"), LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
     }
 
     public static Problem problem() {
-        return new Problem(16120, new Title("PPAP"), new URL("https://www.acmicpc.net/problem/16120"), new Tier(12), Arrays.asList(tag()), 0, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+        return new Problem(16120, new Title("PPAP"), new URL("https://www.acmicpc.net/problem/16120"), new Tier(12), Arrays.asList(tag()), 0, 0, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
     }
 
-    public static PAssignment p_assignment() {
-        return new PAssignment(1, problem(), member().getEmail(), another_member().getEmail(), LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter), "N", null, "N", null, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+    public static Assignment assignment() {
+        return new Assignment(1, problem(), member().getEmail(), another_member().getEmail(), LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter), "N", null, "N", null, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
     }
 }
 

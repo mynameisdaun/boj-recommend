@@ -9,6 +9,7 @@ import com.daun.word.domain.member.domain.repository.MemberRepository;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.dto.MemberDTO;
 import com.daun.word.domain.member.dto.RegisterRequest;
+import com.daun.word.global.vo.Tier;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,6 +40,7 @@ public class MemberService {
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword().getValue()),
                 request.getNickname(),
+                new Tier(29),
                 request.getSocialType()
         );
         memberRepository.save(member);

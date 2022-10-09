@@ -1,57 +1,64 @@
 package com.daun.word.domain.assignment.domain;
 
-import com.daun.word.domain.assignment.dto.d_AssignmentSaveRequest;
 import com.daun.word.domain.member.domain.vo.Email;
+import com.daun.word.domain.problem.domain.Problem;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 @ToString
 public class Assignment {
-    private Integer id;
-    private final Email assignFrom;
-    private final Email assignTo;
-    private final Integer workbookId;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Integer id; // 과제 구분자
+    private Problem problem;
+    private Email assignFrom; // 과제 만든 회원
+    private Email assignTo; // 과제 할당된 회원
+    private LocalDateTime startDateTime; // 과제 시작 일시
+    private LocalDateTime endDateTime; // 과제 종료 일시
+    private String openYn; // 과제 열람 여부
+    private LocalDateTime openDateTime; // 과제 열람 일시
+    private String completeYn; // 과제 제출 여부
+    private LocalDateTime completeDateTime; // 과제 제출 일시
+    private LocalDateTime createdAt; // 데이터 생성 일시
+    private LocalDateTime updatedAt; // 데이터 수정 일시
 
-    public Assignment(Email assignFrom, Email assignTo, Integer workbookId) {
+    public Assignment(Problem problem, Email assignFrom, Email assignTo, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        this.problem = problem;
         this.assignFrom = assignFrom;
         this.assignTo = assignTo;
-        this.workbookId = workbookId;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
     }
 
-    public Assignment(Integer id, Email assignFrom, Email assignTo, Integer workbookId) {
-        this.id = id;
-        this.assignFrom = assignFrom;
-        this.assignTo = assignTo;
-        this.workbookId = workbookId;
+    public boolean isComplete() {
+        return this.completeYn.equals("Y");
     }
 
-    public Assignment(Integer id, String assignFrom, String assignTo, Integer workbookId, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
-        this.assignFrom = new Email(assignFrom);
-        this.assignTo = new Email(assignTo);
-        this.workbookId = workbookId;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    public void complete() {
+        if (isComplete()) {
+            throw new IllegalStateException("이미 완료한 과제는 다시 완료할 수 없습니다");
+        }
+        this.completeYn = "Y";
+        this.completeDateTime = LocalDateTime.now();
     }
 
-    public static Assignment fromSaveRequest(d_AssignmentSaveRequest request) {
-        return new Assignment(request.getAssignFrom(), request.getAssignTo(), request.getWorkbookId());
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Assignment that = (Assignment) o;
+
+        return id != null ? id.equals(that.id) : that.id == null;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

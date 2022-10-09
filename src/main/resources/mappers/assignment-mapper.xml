@@ -2,126 +2,95 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.daun.word.domain.assignment.domain.repository.AssignmentRepository">
 
-    <select id="findAssignmentById" resultType="com.daun.word.domain.assignment.domain.Assignment">
-        SELECT assignment.id,
-               assignment.assign_from,
-               assignment.assign_to,
-               assignment.workbook_id,
-               assignment.created_at,
-               assignment.updated_at
-        FROM assignment
-        WHERE assignment.id = #{id};
+    <resultMap id="assignmentMap" type="Assignment">
+        <constructor>
+            <idArg column="id" name="id" javaType="int"/>
+            <arg column="problem_id" name="problem" javaType="Problem"
+                 select="com.daun.word.domain.problem.domain.repository.ProblemRepository.findById"/>
+            <arg column="assign_from" name="assignFrom" javaType="Email"/>
+            <arg column="assign_to" name="assignTo" javaType="Email"/>
+            <arg column="start_date_time" name="startDateTime" javaType="LocalDateTime"/>
+            <arg column="end_date_time" name="endDateTime" javaType="LocalDateTime"/>
+            <arg column="open_yn" name="openYn" javaType="String"/>
+            <arg column="open_date_time" name="openDateTime" javaType="LocalDateTime"/>
+            <arg column="complete_yn" name="completeYn" javaType="String"/>
+            <arg column="complete_date_time" name="completeDateTime" javaType="LocalDateTime"/>
+            <arg column="created_at" name="createdAt" javaType="LocalDateTime"/>
+            <arg column="updated_at" name="updatedAt" javaType="LocalDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <select id="findById" resultMap="assignmentMap">
+        select a.id                ,
+               a.assign_from       ,
+               a.assign_to         ,
+               a.start_date_time   ,
+               a.end_date_time     ,
+               a.open_yn           ,
+               a.open_date_time    ,
+               a.complete_yn       ,
+               a.complete_date_time,
+               a.created_at        ,
+               a.updated_at        ,
+               p.id                 as problem_id
+        from assignment as a
+                 left join problem p on a.problem_id = p.id
+        where a.id = #{id.value};
     </select>
 
-    <select id="findDetailByDetailId" resultType="com.daun.word.domain.assignment.domain.AssignmentDetail">
-        SELECT assignment_detail.id,
-               assignment_detail.assignment_id,
-               assignment_detail.chapter_id,
-               assignment_detail.start_date_time,
-               assignment_detail.end_date_time,
-               assignment_detail.open_yn,
-               assignment_detail.complete_yn,
-               assignment_detail.complete_date_time,
-               assignment_detail.created_at,
-               assignment_detail.updated_at
-        FROM assignment_detail
-        WHERE assignment_detail.id = #{id}
-    </select>
-
-    <select id="findDetailsById" resultType="com.daun.word.domain.assignment.domain.AssignmentDetail">
-        SELECT assignment_detail.id,
-               assignment_detail.assignment_id,
-               assignment_detail.chapter_id,
-               assignment_detail.start_date_time,
-               assignment_detail.end_date_time,
-               assignment_detail.open_yn,
-               assignment_detail.complete_yn,
-               assignment_detail.complete_date_time,
-               assignment_detail.created_at,
-               assignment_detail.updated_at
-        FROM assignment_detail
-        WHERE assignment_detail.assignment_id = #{id}
-    </select>
-
-    <update id="updateDetail" parameterType="com.daun.word.domain.assignment.domain.AssignmentDetail">
-        UPDATE assignment_detail
-        SET start_date_time = #{detail.startDateTime},
-        end_date_time = #{detail.endDateTime},
-        open_yn = #{detail.openYn},
-        open_date_time = #{detail.openDateTime},
-        complete_yn = #{detail.completeYn},
-        complete_date_time = #{detail.completeDateTime},
-        updated_at = current_timestamp
-        WHERE id = #{detail.id}
-        <selectKey
-                keyColumn="start_date_time,end_date_time,open_yn,open_date_time,complete_yn,complete_date_time,updated_at"
-                keyProperty="detail.startDateTime,detail.endDateTime,detail.openYn,detail.openDateTime,detail.completeYn,detail.completeDateTime,detail.updatedAt"
-                resultType="java.util.HashMap" order="AFTER">
-            SELECT assignment_detail.start_date_time,
-            assignment_detail.end_date_time,
-            assignment_detail.open_yn,
-            assignment_detail.open_date_time,
-            assignment_detail.complete_yn,
-            assignment_detail.complete_date_time,
-            assignment_detail.created_at,
-            assignment_detail.updated_at
-            FROM assignment_detail
-            WHERE assignment_detail.id = #{detail.id};
-        </selectKey>
-    </update>
-
-    <insert id="save" parameterType="com.daun.word.domain.assignment.domain.Assignment" useGeneratedKeys="true" keyColumn="id"
-            keyProperty="assignment.id">
+    <insert id="save" parameterType="Assignment" useGeneratedKeys="true"
+            keyColumn="id" keyProperty="assignment.id">
         INSERT INTO assignment
         (
-        workbook_id,
+        <if test="assignment.id != null">
+            id,
+        </if>
+        problem_id,
         assign_from,
-        assign_to
-        )
-        VALUES
-        (
-        #{assignment.workbookId},
-        #{assignment.assignFrom.value},
-        #{assignment.assignTo.value}
-        )
-        <selectKey keyColumn="id,created_at,updated_at"
-                   keyProperty="assignment.id,assignment.createdAt,assignment.updatedAt"
-                   resultType="java.util.HashMap" order="AFTER">
-            SELECT assignment.id,
-            assignment.created_at,
-            assignment.updated_at
-            FROM assignment
-            WHERE assignment.id = LAST_INSERT_ID();
-        </selectKey>
-    </insert>
-
-    <insert id="saveDetail" parameterType="com.daun.word.domain.assignment.domain.AssignmentDetail" useGeneratedKeys="true"
-            keyColumn="id" keyProperty="id">
-        INSERT INTO assignment_detail
-        (
-        assignment_id,
-        chapter_id,
+        assign_to,
         start_date_time,
         end_date_time
         )
-        VALUES
-        (
-        #{detail.assignmentId},
-        #{detail.chapterId},
-        #{detail.startDateTime},
-        #{detail.endDateTime}
+        VALUES (
+        <if test="assignment.id != null">
+            #{assignment.id},
+        </if>
+        #{assignment.problem.id},
+        #{assignment.assignFrom},
+        #{assignment.assignTo},
+        #{assignment.startDateTime},
+        #{assignment.endDateTime}
         )
-        <selectKey keyColumn="id,open_yn,complete_yn,created_at,updated_at"
-                   keyProperty="id,openYn,completeYn,createdAt,updatedAt"
+        ON DUPLICATE KEY
+        UPDATE
+        problem_id = #{assignment.problem.id},
+        assign_from = #{assignment.assignFrom},
+        assign_to = #{assignment.assignTo},
+        start_date_time = #{assignment.startDateTime},
+        end_date_time = #{assignment.endDateTime},
+        open_yn = #{assignment.openYn},
+        open_date_time = #{assignment.openDateTime},
+        complete_yn = #{assignment.completeYn},
+        complete_date_time = #{assignment.completeDateTime},
+        updated_at = sysdate()
+        <selectKey keyColumn="id,open_yn,open_date_time,complete_yn,complete_date_time,created_at,updated_at"
+                   keyProperty="assignment.id,assignment.openYn,assignment.openDateTime,assignment.completeYn,assignment.completeDateTime,assignment.createdAt,assignment.updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
-            SELECT assignment_detail.id,
-            assignment_detail.open_yn,
-            assignment_detail.complete_yn,
-            assignment_detail.created_at,
-            assignment_detail.updated_at
-            FROM assignment_detail
-            WHERE assignment_detail.id = LAST_INSERT_ID();
+            SELECT assignment.id,
+            assignment.open_yn,
+            assignment.open_date_time,
+            assignment.complete_yn,
+            assignment.complete_date_time,
+            assignment.created_at,
+            assignment.updated_at
+            FROM assignment as assignment
+            WHERE assignment.id =
+            <if test="assignment.id != null">
+                #{assignment.id}
+            </if>
+            <if test="assignment.id == null">
+                LAST_INSERT_ID()
+            </if>
         </selectKey>
     </insert>
-
 </mapper>

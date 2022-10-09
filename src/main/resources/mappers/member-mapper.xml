@@ -42,6 +42,7 @@
         email,
         password,
         nickname,
+        tier,
         social_type
         )
         VALUES
@@ -52,6 +53,7 @@
         #{member.email},
         #{member.password},
         #{member.nickname},
+        #{member.tier},
         #{member.socialType}
         )
         ON DUPLICATE KEY
@@ -65,22 +67,15 @@
         last_login_at = #{member.lastLoginAt},
         updated_at = sysdate()
         <selectKey
-                keyColumn="id,email,password,nickname,tier,social_type,login_count,last_login_at,created_at,updated_at"
-                keyProperty="member.id,member.email,member.password,member.nickname,member.tier,member.socialType,member.loginCount,member.lastLoginAt,member.createdAt,member.updatedAt"
+                keyColumn="id,created_at,updated_at"
+                keyProperty="member.id,member.createdAt,member.updatedAt"
                 resultType="java.util.HashMap" order="AFTER">
             SELECT
             m.id,
-            m.email,
-            m.password,
-            m.nickname,
-            m.tier,
-            m.social_type,
-            m.login_count,
-            m.last_login_at,
             m.created_at,
             m.updated_at
             FROM member m
-            where member.id =
+            where m.id =
             <if test="member.id != null">
                 #{member.id}
             </if>

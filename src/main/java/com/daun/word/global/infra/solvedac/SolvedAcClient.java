@@ -14,7 +14,10 @@ public interface SolvedAcClient {
 
     Problem findById(Id<Problem, Integer> id);
 
-    boolean checkAssignment(Member member, Id<Problem, Integer> id);
+    List<Problem> findByIdsIn(List<Id<Problem, Integer>> ids);
 
-    List<Problem> checkProblemsSolved(Member member, List<Id<Problem, Integer>> ids);
+    /* 문제 리스트 중에서, 회원이 풀지 않은 문제만 반환하기 */
+    List<Problem> unSolvedProblemsByMember(Member assignTo, List<Problem> Problem);
+
+    List<Problem> manualProblemUpdate();
 }

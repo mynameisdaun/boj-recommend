@@ -5,7 +5,10 @@ import com.daun.word.global.infra.solvedac.dto.SolvedAcProblemResponse;
 import com.daun.word.global.vo.Tier;
 import com.daun.word.global.vo.Title;
 import com.daun.word.global.vo.URL;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ public class Problem {
     private final Tier tier;
     private final List<Tag> tags;
     private final int acceptedUserCount;
+    private final int recommendedCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -33,6 +37,7 @@ public class Problem {
         this.tier = new Tier(response.getLevel());
         this.tags = new ArrayList<>();
         this.acceptedUserCount = response.getAcceptedUserCount();
+        this.recommendedCount = 0;
         for (SolvedAcProblemResponse.Tag tag : response.getTags()) {
             this.tags.add(new Tag(tag));
         }

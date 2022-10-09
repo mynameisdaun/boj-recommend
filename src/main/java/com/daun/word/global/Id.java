@@ -33,14 +33,18 @@ public class Id<R, V> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Id<?, ?> id = (Id<?, ?>) o;
-        return Objects.equals(reference, id.reference) &&
-                Objects.equals(value, id.value);
+
+        if (reference != null ? !reference.equals(id.reference) : id.reference != null) return false;
+        return value != null ? value.equals(id.value) : id.value == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reference, value);
+        int result = reference != null ? reference.hashCode() : 0;
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        return result;
     }
 
     @Override

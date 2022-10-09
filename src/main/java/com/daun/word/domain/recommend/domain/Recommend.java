@@ -23,6 +23,11 @@ public class Recommend {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    public void choose() {
+        this.chooseYn = "Y";
+        this.chooseDateTime = LocalDateTime.now();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

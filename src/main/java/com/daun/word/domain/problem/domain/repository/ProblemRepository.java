@@ -14,6 +14,7 @@ import java.util.Optional;
 @Repository
 @Mapper
 public interface ProblemRepository {
+
     /* 문제 저장 */
     int save(@Param("problem") Problem problem);
 
@@ -23,12 +24,9 @@ public interface ProblemRepository {
     /* 문제_태그 매핑 저장 */
     int saveProblemTag(@Param("problemId") Id<Problem, Integer> problemId, @Param("tagId") Id<Tag, Integer> tagId);
 
-    /* 문제 업데이트 */
-    int update(@Param("problem") Problem problem);
-
-    /* 티어로 문제 조회 */
-    List<Problem> findByTierBetweenOrderBySolvedCountDesc (@Param("goe") Tier goe, @Param("loe") Tier loe, @Param("start") int page, @Param("size") int size);
-
     /* 아이디로 문제를 조회한다 */
     Optional<Problem> findById(@Param("problemId") Id<Problem, Integer> id);
+
+    /* 티어로 문제 조회 */
+    List<Problem> findByTierBetweenOrderBySolvedCountDesc(@Param("goe") Tier goe, @Param("loe") Tier loe, @Param("offset") int offset, @Param("limit") int limit);
 }

@@ -1,8 +1,5 @@
 package com.daun.word.domain.member.dto;
 
-import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.member.domain.vo.Nickname;
-import com.daun.word.domain.member.domain.vo.Password;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,10 +18,10 @@ class RegisterRequestTest {
 
     private static Stream<Arguments> inValid() {
         return Stream.of(
-                Arguments.of(null, password(), nickname(), SocialType.K),
-                Arguments.of(email(), null, nickname(), SocialType.K),
-                Arguments.of(email(), password(), null, SocialType.K),
-                Arguments.of(email(), password(), password(), null)
+                Arguments.of(null, password().getValue(), nickname().getValue(), SocialType.K.name()),
+                Arguments.of(email().getValue(), null, nickname().getValue(), SocialType.K.name()),
+                Arguments.of(email().getValue(), password().getValue(), null, SocialType.K.name()),
+                Arguments.of(email().getValue(), password().getValue(), password().getValue(), null)
         );
     }
 
@@ -46,10 +43,10 @@ class RegisterRequestTest {
     @DisplayName(value = "회원가입을 위해서는 이메일, 닉네임, 소셜타입이 필수적으로 제공되어야 한다")
     @MethodSource("inValid")
     @ParameterizedTest
-    void create_fail(Email email, Password password, Nickname nickname, SocialType socialType) throws Exception {
+    void create_fail(String email, String password, String nickname, String socialType) throws Exception {
         //given&&when&&then
         assertThatThrownBy(() -> {
-            new RegisterRequest(email.getValue(), password.getValue(), nickname.getValue(), socialType.name());
+            new RegisterRequest(email, password, nickname, socialType);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 

@@ -10,6 +10,7 @@
             <arg column="tier" name="tier" javaType="Tier"/>
             <arg column="id" name="tags" javaType="List" select="findTags"/>
             <arg column="accepted_user_count" name="acceptedUserCount"/>
+            <arg column="recommended_count" name="recommendedCount"/>
             <arg column="created_at" name="createdAt" javaType="LocalDateTime"/>
             <arg column="updated_at" name="updatedAt" javaType="LocalDateTime"/>
         </constructor>
@@ -31,6 +32,7 @@
                p.url,
                p.tier,
                p.accepted_user_count,
+               p.recommended_count,
                p.created_at,
                p.updated_at
         FROM problem p
@@ -43,6 +45,7 @@
                p.url,
                p.tier,
                p.accepted_user_count,
+               p.recommended_count,
                p.created_at,
                p.updated_at
         FROM problem p
@@ -51,7 +54,7 @@
           and ${loe.level} >= p.tier
         ]]>
           order by p.accepted_user_count desc
-        limit #{size} offset #{start}
+        limit #{limit} offset #{offset}
     </select>
 
     <select id="findTags" resultMap="tagMap">
@@ -73,7 +76,8 @@
         title,
         url,
         tier,
-        accepted_user_count
+        accepted_user_count,
+        recommended_count
         )
         VALUES
         (
@@ -81,20 +85,19 @@
         #{problem.title},
         #{problem.url},
         #{problem.tier},
-        #{problem.acceptedUserCount}
+        #{problem.acceptedUserCount},
+        #{problem.recommendedCount}
         )
         ON DUPLICATE KEY UPDATE
         title = #{problem.title},
         url = #{problem.url},
         tier = #{problem.tier},
-        accepted_user_count = #{problem.acceptedUserCount}
-        <selectKey keyColumn="title,url,tier,created_at,updated_at"
-                   keyProperty="problem.title,problem.url,problem.tier,problem.createdAt,problem.updatedAt"
+        accepted_user_count = #{problem.acceptedUserCount},
+        recommended_count = #{problem.recommendedCount}
+        <selectKey keyColumn="created_at,updated_at"
+                   keyProperty="problem.createdAt,problem.updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
             SELECT
-            p.title,
-            p.url,
-            p.tier,
             p.created_at,
             p.updated_at
             FROM problem p
@@ -131,9 +134,13 @@
 
     <insert id="saveProblemTag">
         INSERT INTO problem_tag
-        (problem_id,
+        (pk,
+         problem_id,
          tag_id)
-        VALUES (#{problemId.value},
+        VALUES (CONCAT(#{problemId.value}, '-', #{tagId.value}),
+                #{problemId.value},
                 #{tagId.value})
+        ON DUPLICATE KEY UPDATE problem_id = #{problemId.value},
+                                tag_id     = #{tagId.value}
     </insert>
 </mapper>

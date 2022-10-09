@@ -1,5 +1,6 @@
 package com.daun.word.global.vo;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -8,6 +9,7 @@ import java.util.Map;
 
 @Getter
 @ToString
+@EqualsAndHashCode
 public final class Tier {
 
     private static final Map<Integer, String> level_rate = new HashMap<>();
