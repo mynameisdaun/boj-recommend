@@ -2,7 +2,7 @@ package com.daun.word.domain.member.domain;
 
 import com.daun.word.config.security.Jwt;
 import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.member.domain.vo.Nickname;
+import com.daun.word.global.vo.Name;
 import com.daun.word.domain.member.domain.vo.Password;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.global.Id;
@@ -10,7 +10,6 @@ import com.daun.word.global.vo.Tier;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 import static java.time.LocalDateTime.now;
@@ -25,7 +24,7 @@ public final class Member {
     private Integer id;
     private final Email email;
     private final String password;
-    private final Nickname nickname;
+    private final Name name;
     private final Tier tier;
 
     private final SocialType socialType;
@@ -36,7 +35,7 @@ public final class Member {
 
     /* api token 발급 */
     public String accessToken(Jwt jwt, String[] roles) {
-        Jwt.Claims claims = Jwt.Claims.of(Id.of(Member.class, id), email, nickname, socialType, roles);
+        Jwt.Claims claims = Jwt.Claims.of(Id.of(Member.class, id), email, name, socialType, roles);
         return jwt.newToken(claims);
     }
 

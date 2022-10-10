@@ -1,7 +1,10 @@
 package com.daun.word.domain.assignment.domain;
 
-import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.problem.domain.Problem;
+import com.daun.word.domain.assignment.dto.AssignmentRequest;
+import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.recommend.domain.Recommend;
+import com.daun.word.domain.study.domain.Study;
+import com.daun.word.global.vo.YesNo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,36 +18,35 @@ import java.time.LocalDateTime;
 @ToString
 public class Assignment {
     private Integer id; // 과제 구분자
-    private Problem problem;
-    private Email assignFrom; // 과제 만든 회원
-    private Email assignTo; // 과제 할당된 회원
-    private LocalDateTime startDateTime; // 과제 시작 일시
-    private LocalDateTime endDateTime; // 과제 종료 일시
-    private String openYn; // 과제 열람 여부
-    private LocalDateTime openDateTime; // 과제 열람 일시
-    private String completeYn; // 과제 제출 여부
-    private LocalDateTime completeDateTime; // 과제 제출 일시
+    private final Study study;
+    private final Recommend recommend;
+    private final Member assignTo; // 과제 할당된 회원
+    private final LocalDateTime startDateTime; // 과제 시작 일시
+    private final LocalDateTime endDateTime; // 과제 종료 일시
+    private final YesNo completeYn; // 과제 제출 여부
+    private final LocalDateTime completeDateTime; // 과제 제출 일시
     private LocalDateTime createdAt; // 데이터 생성 일시
     private LocalDateTime updatedAt; // 데이터 수정 일시
 
-    public Assignment(Problem problem, Email assignFrom, Email assignTo, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        this.problem = problem;
-        this.assignFrom = assignFrom;
-        this.assignTo = assignTo;
-        this.startDateTime = startDateTime;
-        this.endDateTime = endDateTime;
+    public Assignment(AssignmentRequest request) {
+        this.study= request.getStudy();
+        this.recommend = request.getRecommend();
+        this.assignTo = request.getAssignTo();
+        this.startDateTime = request.getStartDateTime();
+        this.endDateTime = request.getEndDateTime();
+        this.completeYn = YesNo.N;
+        this.completeDateTime = null;
     }
 
     public boolean isComplete() {
-        return this.completeYn.equals("Y");
+        return this.completeYn == YesNo.Y;
     }
 
-    public void complete() {
+    public Assignment complete() {
         if (isComplete()) {
             throw new IllegalStateException("이미 완료한 과제는 다시 완료할 수 없습니다");
         }
-        this.completeYn = "Y";
-        this.completeDateTime = LocalDateTime.now();
+        return new Assignment(this.id, this.study, this.recommend, this.assignTo, this.startDateTime, this.endDateTime, YesNo.Y, LocalDateTime.now(), this.createdAt, this.updatedAt);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class AuthenticationResponse {
         this.refreshToken = refreshToken;
         this.id = memberDTO.getId();
         this.email = memberDTO.getEmail().getValue();
-        this.nickname = memberDTO.getNickname().getValue();
+        this.nickname = memberDTO.getName().getValue();
         this.socialType = memberDTO.getSocialType().name();
     }
 }

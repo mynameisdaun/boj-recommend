@@ -1,5 +1,6 @@
 package com.daun.word.domain.member.domain.vo;
 
+import com.daun.word.global.vo.Name;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -11,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-class NicknameTest {
+class NameTest {
     private static Stream<Arguments> validNickname() {
         return Stream.of(
                 Arguments.of("tester"),
@@ -32,11 +33,11 @@ class NicknameTest {
     @ParameterizedTest
     void create(String str) throws Exception {
         //given&&when
-        Nickname nickname = new Nickname(str);
+        Name name = new Name(str);
         //then
-        assertThat(nickname).isNotNull();
+        assertThat(name).isNotNull();
         assertAll(
-                () -> assertThat(nickname.getValue()).isEqualTo(str)
+                () -> assertThat(name.getValue()).isEqualTo(str)
         );
     }
 
@@ -46,7 +47,7 @@ class NicknameTest {
     void create_fail(String str) throws Exception {
         //given&&when&&then
         assertThatThrownBy(() -> {
-            new Nickname(str);
+            new Name(str);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 }

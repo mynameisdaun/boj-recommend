@@ -1,7 +1,7 @@
 package com.daun.word.global.infra.kakao.dto;
 
 import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.member.domain.vo.Nickname;
+import com.daun.word.global.vo.Name;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +19,8 @@ public class KakaoProfileResponse {
         return new Email(this.kakao_account.getEmail());
     }
 
-    public Nickname getNickname() {
-        return new Nickname(this.properties.getNickname());
+    public Name getNickname() {
+        return new Name(this.properties.getNickname());
     }
 
     public String getProfileImage() {

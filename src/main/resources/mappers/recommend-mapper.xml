@@ -10,7 +10,7 @@
             <arg column="email" name="member" javaType="Member"
                  select="com.daun.word.domain.member.domain.repository.MemberRepository.findByEmail"/>
             <arg column="recommended_count" name="recommendedCount"/>
-            <arg column="choose_yn" name="chooseYn" javaType="String"/>
+            <arg column="choose_yn" name="chooseYn" javaType="YesNo" typeHandler="YesNoTypeHandler"/>
             <arg column="choose_date_time" name="chooseDateTime" javaType="LocalDateTime"/>
             <arg column="created_at" name="createdAt" javaType="LocalDateTime"/>
             <arg column="updated_at" name="updatedAt" javaType="LocalDateTime"/>

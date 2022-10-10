@@ -5,15 +5,15 @@
     <resultMap id="assignmentMap" type="Assignment">
         <constructor>
             <idArg column="id" name="id" javaType="int"/>
-            <arg column="problem_id" name="problem" javaType="Problem"
-                 select="com.daun.word.domain.problem.domain.repository.ProblemRepository.findById"/>
-            <arg column="assign_from" name="assignFrom" javaType="Email"/>
-            <arg column="assign_to" name="assignTo" javaType="Email"/>
+            <arg column="study_id" name="study" javaType="Study"
+                 select="com.daun.word.domain.study.domain.repository.StudyRepository.findById"/>
+            <arg column="recommend_id" name="recommend" javaType="Recommend"
+                 select="com.daun.word.domain.recommend.domain.repository.RecommendRepository.findById"/>
+            <arg column="assign_to" name="assignTo" javaType="Member"
+                 select="com.daun.word.domain.member.domain.repository.MemberRepository.findByEmail"/>
             <arg column="start_date_time" name="startDateTime" javaType="LocalDateTime"/>
             <arg column="end_date_time" name="endDateTime" javaType="LocalDateTime"/>
-            <arg column="open_yn" name="openYn" javaType="String"/>
-            <arg column="open_date_time" name="openDateTime" javaType="LocalDateTime"/>
-            <arg column="complete_yn" name="completeYn" javaType="String"/>
+            <arg column="complete_yn" name="completeYn" javaType="YesNo" typeHandler="YesNoTypeHandler"/>
             <arg column="complete_date_time" name="completeDateTime" javaType="LocalDateTime"/>
             <arg column="created_at" name="createdAt" javaType="LocalDateTime"/>
             <arg column="updated_at" name="updatedAt" javaType="LocalDateTime"/>
@@ -21,20 +21,17 @@
     </resultMap>
 
     <select id="findById" resultMap="assignmentMap">
-        select a.id                ,
-               a.assign_from       ,
-               a.assign_to         ,
-               a.start_date_time   ,
-               a.end_date_time     ,
-               a.open_yn           ,
-               a.open_date_time    ,
-               a.complete_yn       ,
+        select a.id,
+               a.study_id,
+               a.recommend_id,
+               a.assign_to,
+               a.start_date_time,
+               a.end_date_time,
+               a.complete_yn,
                a.complete_date_time,
-               a.created_at        ,
-               a.updated_at        ,
-               p.id                 as problem_id
+               a.created_at,
+               a.updated_at
         from assignment as a
-                 left join problem p on a.problem_id = p.id
         where a.id = #{id.value};
     </select>
 
@@ -45,8 +42,8 @@
         <if test="assignment.id != null">
             id,
         </if>
-        problem_id,
-        assign_from,
+        study_id,
+        recommend_id,
         assign_to,
         start_date_time,
         end_date_time
@@ -55,36 +52,30 @@
         <if test="assignment.id != null">
             #{assignment.id},
         </if>
-        #{assignment.problem.id},
-        #{assignment.assignFrom},
+        #{assignment.study.id},
+        #{assignment.recommend.id},
         #{assignment.assignTo},
         #{assignment.startDateTime},
         #{assignment.endDateTime}
         )
         ON DUPLICATE KEY
         UPDATE
-        problem_id = #{assignment.problem.id},
-        assign_from = #{assignment.assignFrom},
+        study_id = #{assignment.study.id},
+        recommend_id = #{assignment.recommend.id},
         assign_to = #{assignment.assignTo},
         start_date_time = #{assignment.startDateTime},
         end_date_time = #{assignment.endDateTime},
-        open_yn = #{assignment.openYn},
-        open_date_time = #{assignment.openDateTime},
         complete_yn = #{assignment.completeYn},
         complete_date_time = #{assignment.completeDateTime},
         updated_at = sysdate()
-        <selectKey keyColumn="id,open_yn,open_date_time,complete_yn,complete_date_time,created_at,updated_at"
-                   keyProperty="assignment.id,assignment.openYn,assignment.openDateTime,assignment.completeYn,assignment.completeDateTime,assignment.createdAt,assignment.updatedAt"
+        <selectKey keyColumn="id,created_at,updated_at"
+                   keyProperty="assignment.id,assignment.createdAt,assignment.updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
-            SELECT assignment.id,
-            assignment.open_yn,
-            assignment.open_date_time,
-            assignment.complete_yn,
-            assignment.complete_date_time,
-            assignment.created_at,
-            assignment.updated_at
-            FROM assignment as assignment
-            WHERE assignment.id =
+            SELECT a.id,
+            a.created_at,
+            a.updated_at
+            FROM assignment as a
+            WHERE a.id =
             <if test="assignment.id != null">
                 #{assignment.id}
             </if>

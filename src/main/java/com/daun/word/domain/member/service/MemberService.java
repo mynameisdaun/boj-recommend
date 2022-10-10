@@ -1,23 +1,24 @@
 package com.daun.word.domain.member.service;
 
+import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.member.domain.SolvedAcMember;
+import com.daun.word.domain.member.domain.repository.MemberRepository;
+import com.daun.word.domain.member.domain.vo.Email;
+import com.daun.word.domain.member.domain.vo.SocialType;
+import com.daun.word.domain.member.dto.RegisterRequest;
 import com.daun.word.global.auth.dto.AuthenticationRequest;
 import com.daun.word.global.auth.dto.AuthenticationResponse;
 import com.daun.word.global.auth.token.dto.TokenDTO;
 import com.daun.word.global.auth.token.service.TokenService;
-import com.daun.word.domain.member.domain.Member;
-import com.daun.word.domain.member.domain.repository.MemberRepository;
-import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.member.dto.MemberDTO;
-import com.daun.word.domain.member.dto.RegisterRequest;
+import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import com.daun.word.global.vo.Tier;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.NoSuchElementException;
+import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -32,20 +33,40 @@ public class MemberService {
 
     private final PasswordEncoder passwordEncoder;
 
-    /* 회원 가입 */
+    private final SolvedAcClient solvedAcClient;
+
+    /* 이메일로 회원 조회*/
+    /* 없으면 임시로 회원 가입 시켜버린다.*/
     @Transactional
-    public MemberDTO register(RegisterRequest request) {
+    public Member findByEmail(Email email) {
+        checkArgument(email != null, "이메일로 회원 조회를 하기 위해서, 이메일은 필수 값 입니다.");
+        return memberRepository.findByEmail(email)
+                .orElseGet(() -> tempRegister(email));
+    }
+
+    @Transactional(readOnly = true)
+    public SolvedAcMember solvedAcMember(Email email) {
+        return solvedAcClient.findMemberByEmail(email);
+    }
+
+    @Transactional
+    public Member tempRegister(Email email) {
+        SolvedAcMember solvedAcMember = solvedAcMember(email);
+        return register(new RegisterRequest(solvedAcMember.getHandle(), passwordEncoder.encode(UUID.randomUUID().toString()), solvedAcMember.getBio(), SocialType.W.name(), new Tier(solvedAcMember.getTier())));
+    }
+
+    @Transactional
+    public Member register(RegisterRequest request) {
         checkArgument(request != null, "회원 가입을 위해서 올바른 회원 가입 요청이 있어야 합니다.");
         Member member = new Member(
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword().getValue()),
-                request.getNickname(),
-                new Tier(29),
+                request.getName(),
+                request.getTier(),
                 request.getSocialType()
         );
         memberRepository.save(member);
-
-        return new MemberDTO(member);
+        return member;
     }
 
     /* 로그인 */
@@ -61,19 +82,10 @@ public class MemberService {
         return new AuthenticationResponse(
                 member.getId(),
                 member.getEmail().getValue(),
-                member.getNickname().getValue(),
+                member.getName().getValue(),
                 member.getSocialType().name(),
                 token.getAccessToken(),
                 token.getRefreshToken()
         );
-    }
-
-    /* 이메일로 회원 조회*/
-    @Transactional(readOnly = true)
-    public Member findByEmail(Email email) {
-        checkArgument(email != null, "이메일로 회원 조회를 하기 위해서, 이메일은 필수 값 입니다.");
-
-        return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 이메일 입니다."));
     }
 }

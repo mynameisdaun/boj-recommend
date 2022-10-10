@@ -2,27 +2,29 @@ package com.daun.word.domain.recommend.controller;
 
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.member.domain.vo.Nickname;
-import com.daun.word.domain.member.domain.vo.SocialType;
+import com.daun.word.domain.member.service.MemberService;
 import com.daun.word.domain.recommend.service.RecommendService;
-import com.daun.word.global.vo.Tier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/recommend")
 public class RecommendController {
+
     private final RecommendService recommendService;
 
-    @PostMapping("")
-    public ResponseEntity<?> recommend() {
-        Member member = new Member(2, new Email("daun9870jung"), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Nickname("다우니"), new Tier(15), SocialType.W, 1, LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now());
-        return ResponseEntity.ok(recommendService.recommendForMember(member));
+    private final MemberService memberService;
+
+    @GetMapping("")
+    public ResponseEntity<?> recommend(@RequestParam @NotNull String handle) {
+        Member member = memberService.findByEmail(new Email(handle));
+        return ResponseEntity.ok(recommendService.recommend(member));
     }
 }

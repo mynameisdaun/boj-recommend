@@ -1,11 +1,12 @@
 package com.daun.word.global.infra.solvedac;
 
 import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.member.domain.SolvedAcMember;
+import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.global.Id;
 import com.daun.word.global.infra.solvedac.dto.ProblemCount;
 import com.daun.word.global.infra.solvedac.dto.ProblemSearchResponse;
-import com.daun.word.global.vo.Tier;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface SolvedAcClient {
 
     ProblemSearchResponse search(String query, int page, String sort, String direction);
 
-    Tier findMemberTier(Member member);
+    SolvedAcMember findMemberByEmail(Email email);
 
     Problem findById(Id<Problem, Integer> id);
 

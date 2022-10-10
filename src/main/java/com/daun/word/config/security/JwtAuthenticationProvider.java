@@ -1,11 +1,11 @@
 package com.daun.word.config.security;
 
+import com.daun.word.global.vo.Name;
 import com.daun.word.global.auth.dto.AuthenticationRequest;
 import com.daun.word.global.auth.dto.AuthenticationResponse;
 import com.daun.word.global.Id;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.member.domain.vo.Nickname;
 import com.daun.word.domain.member.domain.vo.Role;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.domain.member.service.MemberService;
@@ -53,7 +53,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                             new JwtAuthentication(
                                     Id.of(Member.class, response.getId()),
                                     new Email(response.getEmail()),
-                                    new Nickname(response.getNickname()),
+                                    new Name(response.getNickname()),
                                     SocialType.valueOf(response.getSocialType())
                             ),
                             null,

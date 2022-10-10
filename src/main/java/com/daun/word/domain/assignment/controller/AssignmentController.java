@@ -1,7 +1,7 @@
 package com.daun.word.domain.assignment.controller;
 
 import com.daun.word.domain.assignment.domain.Assignment;
-import com.daun.word.domain.assignment.dto.AssignmentSaveRequest;
+import com.daun.word.domain.assignment.dto.AssignmentRequest;
 import com.daun.word.domain.assignment.service.AssignmentService;
 import com.daun.word.global.Id;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class AssignmentController {
     private final AssignmentService assignmentService;
 
     @PostMapping("")
-    public ResponseEntity<?> save(@Valid @RequestBody AssignmentSaveRequest request) {
+    public ResponseEntity<?> save(@Valid @RequestBody AssignmentRequest request) {
         return ResponseEntity.status(201).body(assignmentService.save(request));
     }
 

@@ -3,7 +3,7 @@ package com.daun.word.config.security;
 import com.daun.word.global.Id;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.member.domain.vo.Nickname;
+import com.daun.word.global.vo.Name;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import lombok.Getter;
 import lombok.ToString;
@@ -18,16 +18,16 @@ public class JwtAuthentication {
 
     public final Email email;
 
-    public final Nickname nickname;
+    public final Name name;
 
     private final SocialType socialType;
 
-    public JwtAuthentication(Id<Member, Integer> id, Email email, Nickname nickname, SocialType socialType) {
+    public JwtAuthentication(Id<Member, Integer> id, Email email, Name name, SocialType socialType) {
         checkArgument(id != null, "id must be provided.");
-        checkArgument(nickname != null, "name must be provided.");
+        checkArgument(name != null, "name must be provided.");
         checkArgument(email != null, "email must be provided.");
         this.id=id;
-        this.nickname=nickname;
+        this.name = name;
         this.email = email;
         this.socialType = socialType;
     }

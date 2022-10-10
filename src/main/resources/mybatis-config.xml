@@ -15,14 +15,16 @@
                      javaType="com.daun.word.domain.member.domain.vo.Email"/>
         <typeHandler handler="com.daun.word.domain.member.domain.vo.SocialTypeHandler"
                      javaType="com.daun.word.domain.member.domain.vo.SocialType"/>
-        <typeHandler handler="com.daun.word.domain.member.domain.vo.NicknameTypeHandler"
-                     javaType="com.daun.word.domain.member.domain.vo.Nickname"/>
+        <typeHandler handler="com.daun.word.global.vo.NameTypeHandler"
+                     javaType="com.daun.word.global.vo.Name"/>
         <typeHandler handler="com.daun.word.global.vo.TierTypeHandler"
                      javaType="com.daun.word.global.vo.Tier"/>
         <typeHandler handler="com.daun.word.global.vo.TitleTypeHandler"
                      javaType="com.daun.word.global.vo.Title"/>
         <typeHandler handler="com.daun.word.global.vo.URLTypeHandler"
                      javaType="com.daun.word.global.vo.URL"/>
+        <typeHandler handler="com.daun.word.global.vo.YesNoTypeHandler"
+                     javaType="com.daun.word.global.vo.YesNo"/>
         <package name="com.daun.word"/>
     </typeHandlers>
 </configuration>

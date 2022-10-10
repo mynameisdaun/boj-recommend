@@ -3,17 +3,16 @@ package com.daun.word.Fixture;
 import com.daun.word.domain.assignment.domain.Assignment;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.member.domain.vo.Nickname;
 import com.daun.word.domain.member.domain.vo.Password;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.vo.Tag;
+import com.daun.word.domain.recommend.domain.Recommend;
+import com.daun.word.domain.study.domain.Study;
 import com.daun.word.global.auth.token.domain.Token;
 import com.daun.word.global.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.global.infra.kakao.dto.KakaoTokenResponse;
-import com.daun.word.global.vo.Tier;
-import com.daun.word.global.vo.Title;
-import com.daun.word.global.vo.URL;
+import com.daun.word.global.vo.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -34,8 +33,8 @@ public class Fixture {
         return new Password("imTester9!");
     }
 
-    public static Nickname nickname() {
-        return new Nickname("테스터");
+    public static Name nickname() {
+        return new Name("테스터");
     }
 
     public static Member member() {
@@ -106,7 +105,15 @@ public class Fixture {
     }
 
     public static Assignment assignment() {
-        return new Assignment(1, problem(), member().getEmail(), another_member().getEmail(), LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter), "N", null, "N", null, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+        return new Assignment(1, study(), recommend(), another_member(), LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter), YesNo.N, null, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+    }
+
+    public static Recommend recommend() {
+        return new Recommend(1, problem(), another_member(), 0, YesNo.N, null, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+    }
+
+    public static Study study() {
+        return new Study(another_member(), new Name("sample study"), "2023f708bd566934819ba9b65da86551bcc2e445bdd336b64f31e9a9f6f1aa3a", YesNo.N, Arrays.asList(another_member()));
     }
 }
 

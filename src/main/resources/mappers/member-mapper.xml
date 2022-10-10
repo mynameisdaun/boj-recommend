@@ -7,7 +7,7 @@
             <idArg column="id" name="id"/>
             <arg column="email" name="email" javaType="Email"/>
             <arg column="password" name="password"/>
-            <arg column="nickname" name="nickname" javaType="Nickname"/>
+            <arg column="name" name="name" javaType="Name"/>
             <arg column="tier" name="tier" javaType="Tier"/>
             <arg column="social_type" name="socialType" javaType="SocialType"/>
             <arg column="login_count" name="loginCount"/>
@@ -22,7 +22,7 @@
         SELECT m.id,
                m.email,
                m.password,
-               m.nickname,
+               m.name,
                m.tier,
                m.social_type,
                m.login_count,
@@ -41,7 +41,7 @@
         </if>
         email,
         password,
-        nickname,
+        name,
         tier,
         social_type
         )
@@ -52,7 +52,7 @@
         </if>
         #{member.email},
         #{member.password},
-        #{member.nickname},
+        #{member.name},
         #{member.tier},
         #{member.socialType}
         )
@@ -60,7 +60,7 @@
         UPDATE
         email = #{member.email},
         password = #{member.password},
-        nickname = #{member.nickname},
+        name = #{member.name},
         tier = #{member.tier},
         social_type = #{member.socialType},
         login_count = #{member.loginCount},

@@ -3,7 +3,7 @@ package com.daun.word.config.security;
 import com.daun.word.global.Id;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.member.domain.vo.Nickname;
+import com.daun.word.global.vo.Name;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,15 +57,15 @@ public class JwtAuthenticationTokenFilter extends GenericFilterBean {
                         response.setHeader(headerKey, refreshedToken);
                     }
                     Id<Member, Integer> userId = claims.memberId;
-                    Nickname nickname = claims.nickname;
+                    Name name = claims.name;
                     Email email = claims.email;
                     SocialType socialType = claims.socialType;
 
                     List<GrantedAuthority> authorities = obtainAuthorities(claims);
 
-                    if (nonNull(userId) && nonNull(nickname) && nonNull(email) && authorities.size() > 0) {
+                    if (nonNull(userId) && nonNull(name) && nonNull(email) && authorities.size() > 0) {
                         JwtAuthenticationToken authentication =
-                                new JwtAuthenticationToken(new JwtAuthentication(userId, email, nickname, socialType), null, socialType, authorities);
+                                new JwtAuthenticationToken(new JwtAuthentication(userId, email, name, socialType), null, socialType, authorities);
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }

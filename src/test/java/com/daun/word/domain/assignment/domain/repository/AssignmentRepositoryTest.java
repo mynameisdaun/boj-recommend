@@ -2,7 +2,7 @@ package com.daun.word.domain.assignment.domain.repository;
 
 import com.daun.word.domain.assignment.domain.Assignment;
 import com.daun.word.global.Id;
-import com.daun.word.domain.member.domain.vo.Email;
+import com.daun.word.global.vo.YesNo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -11,11 +11,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static com.daun.word.Fixture.Fixture.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -34,21 +32,13 @@ class AssignmentRepositoryTest {
                 .orElseThrow(NoSuchElementException::new);
         //then
         assertThat(assignment).isNotNull();
-        assertAll(
-                () -> assertThat(assignment.getId()).isEqualTo(Integer.valueOf(1)),
-                () -> assertThat(assignment.getProblem()).isNotNull(),
-                () -> assertThat(assignment.getProblem().getTags()).isNotNull(),
-                () -> assertThat(assignment.getProblem().getTags().size()).isOne(),
-                () -> assertThat(assignment.getAssignFrom()).isEqualTo(new Email("tester1@weword.com")),
-                () -> assertThat(assignment.getAssignTo()).isEqualTo(new Email("daun9870jung"))
-        );
     }
 
     @DisplayName(value = "과제를 저장한다")
     @Test
     void save() throws Exception {
         //given
-        Assignment assignment = new Assignment(problem(), member().getEmail(), another_member().getEmail(), LocalDateTime.now(), LocalDateTime.now());
+        Assignment assignment = new Assignment(study(), recommend(), another_member(), LocalDateTime.now(), LocalDateTime.now(), YesNo.N, null);
         //when
         assignmentRepository.save(assignment);
         //then

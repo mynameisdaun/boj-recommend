@@ -1,6 +1,8 @@
 package com.daun.word.global.infra.solvedac;
 
 import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.member.domain.SolvedAcMember;
+import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.global.Id;
 import com.daun.word.global.infra.solvedac.dto.ProblemCount;
@@ -28,6 +30,7 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
 
     private final RestTemplate restTemplate;
     private final String BASE = "https://solved.ac/api/v3";
+
 
     /* 문제 검색 */
     @Override
@@ -63,10 +66,14 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
     /* id 리스트로 문제들 조회 */
     @Override
     public List<Problem> findByIdsIn(List<Id<Problem, Integer>> lists) {
+        if (lists == null || lists.isEmpty()) {
+            return new ArrayList<>();
+        }
+        final int limitPerRequest = 100;
         int start = 0;
         List<Problem> resp = new ArrayList<>();
         while (true) {
-            List<Id<Problem, Integer>> ids = lists.subList(start, Math.min(start + 100, lists.size()));
+            List<Id<Problem, Integer>> ids = lists.subList(start, Math.min(start + limitPerRequest, lists.size()));
             StringBuilder url = new StringBuilder(BASE)
                     .append("/problem/lookup?problemIds=")
                     .append(ids.stream().map(id -> String.valueOf(id.getValue())).collect(Collectors.joining(",")));
@@ -78,7 +85,7 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
                     httpEntity(),
                     SolvedAcProblemResponse[].class).getBody();
             resp.addAll(stream(response).map(Problem::new).collect(toList()));
-            start += 100;
+            start += limitPerRequest;
             if (resp.size() == lists.size()) break;
         }
         return resp;
@@ -117,15 +124,15 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
     }
 
     @Override
-    public Tier findMemberTier(Member member) {
+    public SolvedAcMember findMemberByEmail(Email email) {
         StringBuilder url = new StringBuilder(BASE)
                 .append("/user/show?handle=")
-                .append(member.getEmail().getValue());
-        return new Tier(restTemplate.exchange(
+                .append(email.getValue());
+        return new SolvedAcMember(restTemplate.exchange(
                 url.toString(),
                 HttpMethod.GET,
                 httpEntity(),
-                UserSearchResponse.class).getBody().getTier());
+                UserSearchResponse.class).getBody());
     }
 
     public List<ProblemCount> problemCountGroupByLevel() {

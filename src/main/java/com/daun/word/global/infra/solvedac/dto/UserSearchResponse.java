@@ -32,7 +32,7 @@ public final class UserSearchResponse {
 
     @Data
     @NoArgsConstructor
-    static class Organization {
+    public static class Organization {
         private int organizationId;
         private String name;
         private String type;
@@ -45,7 +45,7 @@ public final class UserSearchResponse {
 
     @Data
     @NoArgsConstructor
-    static class Badge {
+    public static class Badge {
         private String badgeId;
         private String badgeImageUrl;
         private String displayName;
@@ -54,7 +54,7 @@ public final class UserSearchResponse {
 
     @Data
     @NoArgsConstructor
-    static class Background {
+    public static class Background {
         private String backgroundId;
         private String backgroundImageUrl;
         private String author;

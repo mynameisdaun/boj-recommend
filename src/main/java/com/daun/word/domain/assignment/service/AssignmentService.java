@@ -2,20 +2,17 @@ package com.daun.word.domain.assignment.service;
 
 import com.daun.word.domain.assignment.domain.Assignment;
 import com.daun.word.domain.assignment.domain.repository.AssignmentRepository;
-import com.daun.word.domain.assignment.dto.AssignmentSaveRequest;
-import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.assignment.dto.AssignmentRequest;
 import com.daun.word.domain.member.service.MemberService;
-import com.daun.word.domain.problem.domain.Problem;
-import com.daun.word.domain.problem.service.ProblemService;
+import com.daun.word.domain.recommend.service.RecommendService;
+import com.daun.word.domain.study.service.StudyService;
 import com.daun.word.global.Id;
-import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -27,28 +24,20 @@ public class AssignmentService {
 
     private final AssignmentRepository assignmentRepository;
 
-    private final ProblemService problemService;
+    private final RecommendService recommendService;
 
-    private final SolvedAcClient solvedAcClient;
+    private final StudyService studyService;
 
     @Transactional
     public Assignment findById(Id<Assignment, Integer> id) {
-        Assignment assignment = assignmentRepository.findById(id).orElseThrow(NoSuchElementException::new);
-        Member assignTo = memberService.findByEmail(assignment.getAssignTo());
-        if (!assignment.isComplete()) {
-            List<Problem> unsolved = solvedAcClient.unSolvedProblemsByMember(assignTo, Arrays.asList(assignment.getProblem()));
-            if (unsolved.isEmpty()) {
-                assignment.complete();
-                assignmentRepository.save(assignment);
-            }
-        }
-        return assignment;
+        return assignmentRepository.findById(id)
+                .orElseThrow(NoSuchElementException::new);
     }
 
     @Transactional
-    public Assignment save(AssignmentSaveRequest request) {
-        Assignment assignment = new Assignment(problemService.findById(request.getProblemId()), request.getAssignFrom(), request.getAssignTo(), request.getStartDateTime(), request.getEndDateTime());
-        assignmentRepository.save(assignment);
+    public Assignment save(AssignmentRequest request) {
+        Assignment assignment = new Assignment(request);
+        assignmentRepository.save(new Assignment(request));
         return assignment;
     }
 }

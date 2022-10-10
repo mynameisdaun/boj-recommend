@@ -1,6 +1,7 @@
 package com.daun.word.domain.member.dto;
 
 import com.daun.word.domain.member.domain.vo.SocialType;
+import com.daun.word.global.vo.Tier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,10 +19,11 @@ class RegisterRequestTest {
 
     private static Stream<Arguments> inValid() {
         return Stream.of(
-                Arguments.of(null, password().getValue(), nickname().getValue(), SocialType.K.name()),
-                Arguments.of(email().getValue(), null, nickname().getValue(), SocialType.K.name()),
-                Arguments.of(email().getValue(), password().getValue(), null, SocialType.K.name()),
-                Arguments.of(email().getValue(), password().getValue(), password().getValue(), null)
+                Arguments.of(null, password().getValue(), nickname().getValue(), SocialType.K.name(), new Tier(1)),
+                Arguments.of(email().getValue(), null, nickname().getValue(), SocialType.K.name(), new Tier(1)),
+                Arguments.of(email().getValue(), password().getValue(), null, SocialType.K.name(), new Tier(1)),
+                Arguments.of(email().getValue(), password().getValue(), password().getValue(), null, new Tier(1)),
+                Arguments.of(email().getValue(), password().getValue(), password().getValue(), SocialType.K.name(), null)
         );
     }
 
@@ -29,12 +31,12 @@ class RegisterRequestTest {
     @Test
     void create() throws Exception {
         //given,when
-        RegisterRequest request = new RegisterRequest(email().getValue(), password().getValue(), nickname().getValue(), SocialType.K.name());
+        RegisterRequest request = new RegisterRequest(email().getValue(), password().getValue(), nickname().getValue(), SocialType.K.name(), new Tier(1));
         //then
         assertThat(request).isNotNull();
         assertAll(
                 () -> assertThat(request.getEmail()).isEqualTo(email()),
-                () -> assertThat(request.getNickname()).isEqualTo(nickname()),
+                () -> assertThat(request.getName()).isEqualTo(nickname()),
                 () -> assertThat(request.getSocialType()).isEqualTo(SocialType.K)
         );
 
@@ -43,10 +45,10 @@ class RegisterRequestTest {
     @DisplayName(value = "회원가입을 위해서는 이메일, 닉네임, 소셜타입이 필수적으로 제공되어야 한다")
     @MethodSource("inValid")
     @ParameterizedTest
-    void create_fail(String email, String password, String nickname, String socialType) throws Exception {
+    void create_fail(String email, String password, String nickname, String socialType, Tier tier) throws Exception {
         //given&&when&&then
         assertThatThrownBy(() -> {
-            new RegisterRequest(email, password, nickname, socialType);
+            new RegisterRequest(email, password, nickname, socialType, new Tier(1));
         }).isInstanceOf(IllegalArgumentException.class);
     }
 

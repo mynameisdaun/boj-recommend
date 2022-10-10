@@ -46,8 +46,6 @@ public class ProblemService {
         //백준에 등록되어 있는 문제 수와, 로컬에 있는 문제 수를 비교한 후에 차이가 나는 만큼 업데이트를 한다.
         //업데이트를 할때는 많이 풀지 않은 수로 조회를 한다(왜냐면 가장 최신에 나왓을 테니까 가장 적게 풀었겠지..)
         try {
-
-
             final List<ProblemCount> solvedAcPcs = solvedAcClient.problemCountGroupByLevel();
             final List<ProblemCount> localPcs = problemRepository.countByGroup();
             final List<Problem> savedProblems = new ArrayList<>();

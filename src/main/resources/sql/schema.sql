@@ -1,5 +1,7 @@
-drop table if exists recommend;
 drop table if exists assignment;
+drop table if exists recommend;
+drop table if exists study_member;
+drop table if exists study;
 drop table if exists problem_tag;
 drop table if exists problem;
 drop table if exists tag;
@@ -12,7 +14,7 @@ CREATE TABLE member
     id            int auto_increment  not null comment '회원 구분자(seq)',
     email         varchar(100) unique not null comment '회원 email',
     password      varchar(100) comment '회원 비밀번호 추후 수정 22.08.16',
-    nickname      varchar(20)         not null comment '회원 닉네임',
+    name      varchar(50)         not null comment '회원 닉네임',
     tier          int                 not null comment '회원 백준 티어',
     social_type   char(1)             not null comment '회원가입 시 사용한 Social Portal, W: 자체회원, K: 카카오 / G: 구글 / N : 네이버',
     login_count   int                 not null default 0,
@@ -73,26 +75,32 @@ create table problem_tag
     FOREIGN KEY (problem_id) REFERENCES problem (id),
     FOREIGN KEY (tag_id) REFERENCES tag (id)
 ) comment '문제_태그';
-
-/* 22.10.03 과제 */
-create table assignment
+/* 스터디 그룹 */
+create table study
 (
-    id                 int          not null AUTO_INCREMENT PRIMARY KEY comment '과제 구분자(seq)',
-    problem_id         int          not null comment '문제 id',
-    assign_from        varchar(100) not null comment '과제를 만든 회원 email',
-    assign_to          varchar(100) not null comment '과제가 할당된 회원 email',
-    start_date_time    datetime     not null comment '과제 시작 시간',
-    end_date_time      datetime     not null comment '과제 종료 기한',
-    open_yn            char(1)      not null default 'N' comment '과제 열람 여부',
-    open_date_time     datetime comment '과제 열람 일시',
-    complete_yn        char(1)      not null default 'N' comment '과제 제출 여부',
-    complete_date_time datetime comment '과제 제출 일시',
-    created_at         datetime     not null default current_timestamp comment '데이터 생성일시',
-    updated_at         datetime     not null default current_timestamp comment '데이터 수정일시',
-    FOREIGN KEY (problem_id) REFERENCES problem (id),
-    FOREIGN KEY (assign_from) REFERENCES member (email),
-    FOREIGN KEY (assign_to) REFERENCES member (email)
-) comment '과제 상세 정보';
+    id         int          not null auto_increment comment '스터디 그룹 seq',
+    leader     varchar(100) not null comment '스터디리더 email',
+    study_name varchar(50)  not null comment '스터디 명',
+    hash       char(64)     not null comment '스터디 관리 hash key',
+    delete_yn  char(1)      not null default 'N' comment '데이터 삭제 여부',
+    created_at datetime     not null default current_timestamp comment '데이터 생성일시',
+    updated_at datetime     not null default current_timestamp comment '데이터 수정일시',
+    PRIMARY KEY (id),
+    FOREIGN KEY (leader) REFERENCES member (email)
+) comment '스터디 그룹';
+
+create table study_member
+(
+    id         int          not null auto_increment comment '스터디_회원 맵핑 seq',
+    study_id   int          not null comment '스터디 그룹 seq',
+    email      varchar(100) not null comment '회원 email',
+    delete_yn  char(1)      not null default 'N' comment '데이터 삭제 여부',
+    created_at datetime     not null default current_timestamp comment '데이터 생성일시',
+    updated_at datetime     not null default current_timestamp comment '데이터 수정일시',
+    PRIMARY KEY (id),
+    foreign key (study_id) references study (id),
+    foreign key (email) references member (email)
+) comment '그룹_참여자 매핑';
 
 /* 22.10.06 문제 추천 */
 create table recommend
@@ -109,6 +117,24 @@ create table recommend
     FOREIGN KEY (problem_id) REFERENCES problem (id),
     FOREIGN KEY (email) REFERENCES member (email)
 ) comment '문제 추천';
+
+/* 22.10.10 과제 수정*/
+create table assignment
+(
+    id                 int          not null AUTO_INCREMENT PRIMARY KEY comment '과제 구분자(seq)',
+    study_id           int          not null comment '스터디 id',
+    recommend_id       int          not null comment '문제 추천 id',
+    assign_to          varchar(100) not null comment '과제가 할당된 회원 email',
+    start_date_time    datetime     not null comment '과제 시작 시간',
+    end_date_time      datetime     not null comment '과제 종료 기한',
+    complete_yn        char(1)      not null default 'N' comment '과제 제출 여부',
+    complete_date_time datetime comment '과제 제출 일시',
+    created_at         datetime     not null default current_timestamp comment '데이터 생성일시',
+    updated_at         datetime     not null default current_timestamp comment '데이터 수정일시',
+    FOREIGN KEY (study_id) REFERENCES study (id),
+    FOREIGN KEY (recommend_id) REFERENCES recommend (id),
+    FOREIGN KEY (assign_to) REFERENCES member (email)
+) comment '과제 상세 정보';
 
 
 

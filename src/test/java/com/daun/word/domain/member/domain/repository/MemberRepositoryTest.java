@@ -2,7 +2,7 @@ package com.daun.word.domain.member.domain.repository;
 
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.member.domain.vo.Nickname;
+import com.daun.word.global.vo.Name;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.global.vo.Tier;
 import org.junit.jupiter.api.DisplayName;
@@ -10,11 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.dao.DuplicateKeyException;
 
 import java.util.NoSuchElementException;
 
-import static com.daun.word.Fixture.Fixture.member;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -30,7 +28,7 @@ class MemberRepositoryTest {
     @Test
     void register() throws Exception {
         //given
-        Member member = new Member(new Email("new-member@weword.com"), "fake-password", new Nickname("new-member"), new Tier(11), SocialType.W);
+        Member member = new Member(new Email("new-member@weword.com"), "fake-password", new Name("new-member"), new Tier(11), SocialType.W);
         //when
         int success = memberRepository.save(member);
         //then

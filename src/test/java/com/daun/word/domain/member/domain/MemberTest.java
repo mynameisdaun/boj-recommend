@@ -1,7 +1,7 @@
 package com.daun.word.domain.member.domain;
 
 import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.member.domain.vo.Nickname;
+import com.daun.word.global.vo.Name;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.global.vo.Tier;
 import org.junit.jupiter.api.Disabled;
@@ -42,7 +42,7 @@ class MemberTest {
         assertAll(
                 () -> assertThat(member.getEmail()).isEqualTo(email()),
                 () -> assertThat(member.getPassword()).isEqualTo("fake-password"),
-                () -> assertThat(member.getNickname()).isEqualTo(nickname()),
+                () -> assertThat(member.getName()).isEqualTo(nickname()),
                 () -> assertThat(member.getSocialType()).isEqualTo(SocialType.K)
         );
 
@@ -52,10 +52,10 @@ class MemberTest {
     @MethodSource("inValid")
     @ParameterizedTest
     @Disabled
-    void create_fail(Nickname nickname, String password, Email email, Tier tier,SocialType socialType) throws Exception {
+    void create_fail(Name name, String password, Email email, Tier tier, SocialType socialType) throws Exception {
         //given&&when&&then
         assertThatThrownBy(() -> {
-            new Member(email, password, nickname, tier, socialType);
+            new Member(email, password, name, tier, socialType);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 

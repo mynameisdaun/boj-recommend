@@ -9,7 +9,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.daun.word.global.Id;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.member.domain.vo.Nickname;
+import com.daun.word.global.vo.Name;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import lombok.Getter;
 
@@ -47,7 +47,7 @@ public final class Jwt {
             builder.withExpiresAt(new Date(now.getTime() + expirySeconds * 1_000L));
         }
         builder.withClaim("memberId", claims.memberId.getValue());
-        builder.withClaim("nickname", claims.nickname.getValue());
+        builder.withClaim("nickname", claims.name.getValue());
         builder.withClaim("email", claims.email.getValue());
         builder.withArrayClaim("roles", claims.roles);
         return builder.sign(algorithm);
@@ -67,7 +67,7 @@ public final class Jwt {
 
     static public class Claims {
         Id<Member, Integer> memberId;
-        Nickname nickname;
+        Name name;
         Email email;
         SocialType socialType;
         String[] roles;
@@ -83,7 +83,7 @@ public final class Jwt {
                 this.memberId = memberId.as(Id.class);
             Claim nickname = decodedJWT.getClaim("nickname");
             if (!nickname.isNull())
-                this.nickname = new Nickname(nickname.asString());
+                this.name = new Name(nickname.asString());
             Claim email = decodedJWT.getClaim("email");
             if (!email.isNull())
                 this.email = new Email(email.asString());
@@ -98,11 +98,11 @@ public final class Jwt {
             this.exp = decodedJWT.getExpiresAt();
         }
 
-        public static Claims of(Id<Member, Integer> memberId, Email email, Nickname nickname, SocialType socialType, String[] roles) {
+        public static Claims of(Id<Member, Integer> memberId, Email email, Name name, SocialType socialType, String[] roles) {
             Claims claims = new Claims();
             claims.memberId = memberId;
             claims.email = email;
-            claims.nickname = nickname;
+            claims.name = name;
             claims.socialType = socialType;
             claims.roles = roles;
             return claims;

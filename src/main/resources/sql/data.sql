@@ -1,12 +1,12 @@
 /* 회원*/
 
-INSERT INTO member (email, password, nickname, tier, social_type)
+INSERT INTO member (email, password, name, tier, social_type)
 VALUES ('tester1@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터', 15, 'W');
 
-INSERT INTO member(email, password, nickname, tier, social_type)
+INSERT INTO member(email, password, name, tier, social_type)
 VALUES ('daun9870jung', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터2', 15, 'W');
 
-INSERT INTO member(email, password, nickname, tier, social_type)
+INSERT INTO member(email, password, name, tier, social_type)
 VALUES ('tester3@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터3', 15, 'W');
 
 /* 토큰 */
