@@ -3,10 +3,11 @@ package com.daun.word.global.infra.solvedac;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.global.Id;
+import com.daun.word.global.infra.solvedac.dto.ProblemCount;
+import com.daun.word.global.infra.solvedac.dto.ProblemSearchResponse;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblemResponse;
+import com.daun.word.global.infra.solvedac.dto.UserSearchResponse;
 import com.daun.word.global.vo.Tier;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
@@ -28,6 +29,22 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
     private final RestTemplate restTemplate;
     private final String BASE = "https://solved.ac/api/v3";
 
+    /* 문제 검색 */
+    @Override
+    public ProblemSearchResponse search(String query, int page, String sort, String direction) {
+        StringBuilder url = new StringBuilder(BASE)
+                .append("/search/problem")
+                .append("?query=").append(query)
+                .append("&page=").append(page)
+                .append("&sort=").append(sort)
+                .append("&direction=").append(direction);
+        return restTemplate.exchange(
+                url.toString(),
+                HttpMethod.GET,
+                httpEntity(),
+                ProblemSearchResponse.class).getBody();
+    }
+
 
     /* id로 문제 조회 */
     @Override
@@ -35,18 +52,15 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
         StringBuilder url = new StringBuilder(BASE)
                 .append("/problem/show?problemId=")
                 .append(id.getValue());
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity request = new HttpEntity(headers);
         ResponseEntity<SolvedAcProblemResponse> response = restTemplate.exchange(
                 url.toString(),
                 HttpMethod.GET,
-                request,
+                httpEntity(),
                 SolvedAcProblemResponse.class);
         return new Problem(response.getBody());
     }
 
-    /* id 리스트로 문제들 조회*/
+    /* id 리스트로 문제들 조회 */
     @Override
     public List<Problem> findByIdsIn(List<Id<Problem, Integer>> lists) {
         int start = 0;
@@ -56,15 +70,12 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
             StringBuilder url = new StringBuilder(BASE)
                     .append("/problem/lookup?problemIds=")
                     .append(ids.stream().map(id -> String.valueOf(id.getValue())).collect(Collectors.joining(",")));
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            HttpEntity request = new HttpEntity(headers);
             log.info("{}", ids.size());
             log.info(url.toString());
             SolvedAcProblemResponse[] response = restTemplate.exchange(
                     url.toString(),
                     HttpMethod.GET,
-                    request,
+                    httpEntity(),
                     SolvedAcProblemResponse[].class).getBody();
             resp.addAll(stream(response).map(Problem::new).collect(toList()));
             start += 100;
@@ -87,19 +98,10 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
             min = p.getTier().getLevel() < max.getLevel() ? p.getTier() : min;
         }
         while (true) {
-            StringBuilder url = new StringBuilder(BASE)
-                    .append("/search/problem?query=")
+            StringBuilder query = new StringBuilder()
                     .append("s@").append(assignTo.getEmail().getValue())
-                    .append(" *").append(min.getRate()).append("..").append(max.getRate())
-                    .append("&page=").append(page);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity request = new HttpEntity(headers);
-            ProblemSearchResponse response = restTemplate.exchange(
-                    url.toString(),
-                    HttpMethod.GET,
-                    request,
-                    ProblemSearchResponse.class).getBody();
+                    .append(" *").append(min.getRate()).append("..").append(max.getRate());
+            ProblemSearchResponse response = search(query.toString(), page, "solved", "desc");
             total = response.getCount();
             cnt += response.getItems().length;
             solved.addAll(stream(response.getItems()).map(i -> Id.of(Problem.class, i.getProblemId())).collect(toList()));
@@ -115,136 +117,32 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
     }
 
     @Override
-    public List<Problem> manualProblemUpdate() {
-        List<Problem> allProblems = new ArrayList<>();
-        for (int i = 1; i <= 30; i++) {
-            log.info("\n ###### {} 번째 가져오는 중입니다!", i);
-            int page = 1;
-            int cnt = 0;
-            List<Id<Problem, Integer>> ids = new ArrayList<>();
-            while (true) {
-                Tier tier = new Tier(i);
-                StringBuilder url = new StringBuilder(BASE)
-                        .append("/search/problem?query=")
-                        .append("*")
-                        .append(tier.getRate())
-                        .append("..")
-                        .append(tier.getRate())
-                        .append("&")
-                        .append("page=")
-                        .append(page);
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                ProblemSearchResponse response = restTemplate.exchange(url.toString(), HttpMethod.GET, new HttpEntity(headers), ProblemSearchResponse.class).getBody();
-                cnt = response.getCount();
-                ids.addAll(stream(response.getItems()).map(r -> Id.of(Problem.class, r.problemId)).collect(toList()));
-                if (ids.size() < cnt) {
-                    page++;
-                    continue;
-                }
-                break;
-            }
-            List<Problem> byIdsIn = findByIdsIn(ids);
-            allProblems.addAll(byIdsIn);
-        }
-        log.info("\n ##########################################\n\n{}\n\nallProblemsSize: {}", allProblems, allProblems.size());
-        return allProblems;
-    }
-
-    @Override
     public Tier findMemberTier(Member member) {
         StringBuilder url = new StringBuilder(BASE)
                 .append("/user/show?handle=")
                 .append(member.getEmail().getValue());
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity request = new HttpEntity(headers);
         return new Tier(restTemplate.exchange(
                 url.toString(),
                 HttpMethod.GET,
-                request,
+                httpEntity(),
                 UserSearchResponse.class).getBody().getTier());
     }
 
-    @Data
-    @NoArgsConstructor
-    public static class UserSearchResponse {
-        private String handle;
-        private String bio;
-        private Organization[] organizations;
-        private Badge badge;
-        private Background background;
-        private String profileImageUrl;
-        private int solvedCount;
-        private int voteCount;
-        private int exp;
-        private int tier;
-        private int rating;
-        private int ratingByProblemsSum;
-        private int ratingByClass;
-        private int ratingBySolvedCount;
-        private int ratingByVoteCount;
-        private int _class;
-        private String classDecoration;
-        private int rivalCount;
-        private int reverseRivalCount;
-        private int maxStreak;
-        private int rank;
-        private int isRival;
-        private int isReverseRival;
-
-        @Data
-        @NoArgsConstructor
-        static class Organization {
-            private int organizationId;
-            private String name;
-            private String type;
-            private int rating;
-            private int userCount;
-            private int voteCount;
-            private int solvedCount;
-            private String color;
-        }
-
-        @Data
-        @NoArgsConstructor
-        static class Badge {
-            private String badgeId;
-            private String badgeImageUrl;
-            private String displayName;
-            private String displayDescription;
-        }
-
-        @Data
-        @NoArgsConstructor
-        static class Background {
-            private String backgroundId;
-            private String backgroundImageUrl;
-            private String author;
-            private String authorUrl;
-            private String displayName;
-            private String displayDescription;
-        }
+    public List<ProblemCount> problemCountGroupByLevel() {
+        StringBuilder url = new StringBuilder(BASE)
+                .append("/problem/level");
+        return stream(restTemplate.exchange(
+                url.toString(),
+                HttpMethod.GET,
+                httpEntity(),
+                ProblemCount[].class).getBody())
+                .sorted((a, b) -> a.getLevel() - b.getLevel())
+                .collect(toList());
     }
 
-    @Data
-    @NoArgsConstructor
-    static class ProblemSearchResponse {
-        private int count;
-        private Item[] items;
-
-        @Data
-        @NoArgsConstructor
-        static class Item {
-            private int problemId;
-            private String titleKo;
-            private boolean isSolvable;
-            private boolean isPartial;
-            private int acceptedUserCount;
-            private int level;
-            private int votedUserCount;
-            private boolean isLevelLocked;
-            private double averageTries;
-        }
+    private HttpEntity httpEntity() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new HttpEntity(headers);
     }
 }

@@ -3,6 +3,7 @@ package com.daun.word.domain.problem.domain.repository;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.vo.Tag;
 import com.daun.word.global.Id;
+import com.daun.word.global.infra.solvedac.dto.ProblemCount;
 import com.daun.word.global.vo.Tier;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -27,6 +28,12 @@ public interface ProblemRepository {
     /* 아이디로 문제를 조회한다 */
     Optional<Problem> findById(@Param("problemId") Id<Problem, Integer> id);
 
+    /* 아이디들로 문제들을 조회한다 */
+    List<Problem> findByIdIn(@Param("ids") List<Id<Problem, Integer>> ids);
+
     /* 티어로 문제 조회 */
     List<Problem> findByTierBetweenOrderBySolvedCountDesc(@Param("goe") Tier goe, @Param("loe") Tier loe, @Param("offset") int offset, @Param("limit") int limit);
+
+    /* 티어별 문제 수 조회*/
+    List<ProblemCount> countByGroup();
 }

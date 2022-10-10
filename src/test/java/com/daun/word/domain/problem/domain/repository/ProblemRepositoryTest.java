@@ -3,6 +3,7 @@ package com.daun.word.domain.problem.domain.repository;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.vo.Tag;
 import com.daun.word.global.Id;
+import com.daun.word.global.infra.solvedac.dto.ProblemCount;
 import com.daun.word.global.vo.Tier;
 import com.daun.word.global.vo.Title;
 import com.daun.word.global.vo.URL;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static com.daun.word.Fixture.Fixture.problem;
@@ -77,15 +79,17 @@ class ProblemRepositoryTest {
         assertThat(problem.getId()).isEqualTo(16120);
     }
 
-    @DisplayName(value = "티어로 문제를 조회한다")
+    @DisplayName(value = "티어별 문제 수를 조회한다")
     @Test
-    void findByTierBetweenOrderBySolvedCountDesc() throws Exception {
+    void countByGroup() throws Exception {
         //given
-
-        //when
-
-        //then
-
+        List<ProblemCount> problemCounts = problemRepository.countByGroup();
+        System.out.println(problemCounts);
+        //when&&then
+        assertThat(problemCounts).isNotNull();
+        assertThat(problemCounts.isEmpty()).isFalse();
+        assertThat(problemCounts.get(0)).isNotNull();
+        assertThat(problemCounts.get(0).getCount()).isGreaterThan(0);
     }
 
 }

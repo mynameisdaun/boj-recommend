@@ -108,7 +108,7 @@ create table recommend
     PRIMARY KEY (id),
     FOREIGN KEY (problem_id) REFERENCES problem (id),
     FOREIGN KEY (email) REFERENCES member (email)
-);
+) comment '문제 추천';
 
 
 

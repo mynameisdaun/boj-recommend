@@ -40,16 +40,4 @@ class DefaultSolvedAcClientTest {
                 () -> assertThat(problem.getTags().get(0).getTitle()).isNotNull()
         );
     }
-
-    @DisplayName(value = "모든 문제 업데이트")
-    @Test
-    void manualProblemUpdate() throws Exception {
-        //given
-        solvedAcClient.manualProblemUpdate();
-        //when
-
-        //then
-
-    }
-
 }

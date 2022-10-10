@@ -39,6 +39,22 @@
         where p.id = ${problemId.value}
     </select>
 
+    <select id="findByIdIn" resultMap="problemMap">
+        SELECT p.id,
+        p.title,
+        p.url,
+        p.tier,
+        p.accepted_user_count,
+        p.recommended_count,
+        p.created_at,
+        p.updated_at
+        FROM problem as p
+        where p.id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id.value}
+        </foreach>
+    </select>
+
     <select id="findByTierBetweenOrderBySolvedCountDesc" resultMap="problemMap">
         SELECT p.id,
                p.title,
@@ -143,4 +159,12 @@
         ON DUPLICATE KEY UPDATE problem_id = #{problemId.value},
                                 tag_id     = #{tagId.value}
     </insert>
+
+    <select id="countByGroup" resultType="ProblemCount">
+        select count(*) as count,
+               p.tier   as level
+        from problem as p
+        group by p.tier
+        order by p.tier asc
+    </select>
 </mapper>

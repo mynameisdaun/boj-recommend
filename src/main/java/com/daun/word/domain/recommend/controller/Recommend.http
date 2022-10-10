@@ -1,2 +1,4 @@
 ###
 POST localhost:8080/recommend
+Content-Type: application/json
+
