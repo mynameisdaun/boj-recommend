@@ -9,7 +9,7 @@ drop table if exists token;
 drop table if exists member;
 
 /* 22.08.17 회원 테이블 */
-CREATE TABLE member
+create TABLE member
 (
     id            int auto_increment  not null comment '회원 구분자(seq)',
     email         varchar(100) unique not null comment '회원 email',
@@ -25,7 +25,7 @@ CREATE TABLE member
 ) comment '회원';
 
 /* 22.08.18 토큰 테이블 */
-CREATE TABLE token
+create TABLE token
 (
     member_email                      varchar(100) unique not null comment '회원 email',
     access_token                      varchar(400) comment 'Api 액세스 토큰',

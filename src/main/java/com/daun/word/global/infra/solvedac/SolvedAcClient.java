@@ -21,6 +21,9 @@ public interface SolvedAcClient {
 
     List<Problem> findByIdsIn(List<Id<Problem, Integer>> ids);
 
+    /* 문제 리스트 중에서, 모든 회원이 풀지 않은 문제만 반환하기 */
+    List<Problem> unSolvedProblemsByMembers(List<Member> assignTo, List<Problem> Problem);
+
     /* 문제 리스트 중에서, 회원이 풀지 않은 문제만 반환하기 */
     List<Problem> unSolvedProblemsByMember(Member assignTo, List<Problem> Problem);
 

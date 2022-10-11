@@ -5,6 +5,7 @@ import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.repository.ProblemRepository;
 import com.daun.word.domain.recommend.domain.Recommend;
 import com.daun.word.domain.recommend.domain.repository.RecommendRepository;
+import com.daun.word.domain.study.domain.Study;
 import com.daun.word.global.Id;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +36,11 @@ public class RecommendService {
                 orElseThrow(NoSuchElementException::new);
     }
 
+
+
+    //TODO: 환경변수로 정리하는 것도 좋은 방법이겠다.
     @Transactional
-    public List<Recommend> recommend(Member member) {
+    public List<Recommend> recommendForMember(Member member) {
         //-3 +1
         int offset = 0;
         int limit = 50;
@@ -55,7 +59,6 @@ public class RecommendService {
                 offset++;
                 continue;
             }
-
             Collections.shuffle(recommendPool);
             List<Recommend> recommends = recommendPool.stream()
                     .limit(recommendSize)

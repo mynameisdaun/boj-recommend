@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.lang.Math.*;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 
@@ -41,6 +42,7 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
                 .append("&page=").append(page)
                 .append("&sort=").append(sort)
                 .append("&direction=").append(direction);
+        log.info(url.toString());
         return restTemplate.exchange(
                 url.toString(),
                 HttpMethod.GET,
@@ -73,7 +75,7 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
         int start = 0;
         List<Problem> resp = new ArrayList<>();
         while (true) {
-            List<Id<Problem, Integer>> ids = lists.subList(start, Math.min(start + limitPerRequest, lists.size()));
+            List<Id<Problem, Integer>> ids = lists.subList(start, min(start + limitPerRequest, lists.size()));
             StringBuilder url = new StringBuilder(BASE)
                     .append("/problem/lookup?problemIds=")
                     .append(ids.stream().map(id -> String.valueOf(id.getValue())).collect(Collectors.joining(",")));
@@ -90,6 +92,49 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
         }
         return resp;
     }
+
+    /* 모든 회원이 풀지 않은 문제 반환하기 */
+    //TODO: 매직 넘버 너무 많다
+    @Override
+    public List<Problem> unSolvedProblemsByMembers(List<Member> members, List<Problem> problems) {
+        List<Id<Problem, Integer>> solved = new ArrayList<>();
+        final int page = 1;
+        int limit = 8;
+        int offset = 0;
+        while (true) {
+            //10개씩 조회한다.
+            List<Problem> sub = problems.subList(offset, min(problems.size(), offset + limit));
+            String query = memberSolvedQuery(members, sub);
+            /* 백준 api의 Bad Request 기준을 피하기 위해 사이즈를 줄인다.*/
+            if (query.length() > 450) {
+                limit--;
+            }
+            ProblemSearchResponse response = search(query, page, "solved", "desc");
+            solved.addAll(stream(response.getItems()).map(i -> Id.of(Problem.class, i.getProblemId())).collect(toList()));
+            if (response.getCount() < limit) {
+                break;
+            }
+            offset += limit;
+        }
+        return problems.stream()
+                .filter(p -> !solved.contains(Id.of(Problem.class, p.getId())))
+                .collect(toList());
+    }
+
+    private String memberSolvedQuery(List<Member> members, List<Problem> problems) {
+        StringBuilder sb = new StringBuilder();
+        for (Problem p : problems) {
+            for (Member m : members) {
+                sb.append("s@")
+                        .append(m.getEmail().getValue())
+                        .append(" ")
+                        .append(p.getId())
+                        .append(" | ");
+            }
+        }
+        return sb.toString().substring(0, sb.length() - 3);
+    }
+
 
     /* 문제 리스트 중에서, 회원이 풀지 않은 문제만 반환하기 */
     @Override

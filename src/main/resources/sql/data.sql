@@ -1,19 +1,19 @@
 /* 회원*/
 
-INSERT INTO member (email, password, name, tier, social_type)
-VALUES ('tester1@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터', 15, 'W');
+insert into member (email, password, name, tier, social_type)
+values ('tester1@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터', 15, 'W');
 
-INSERT INTO member(email, password, name, tier, social_type)
-VALUES ('daun9870jung', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터2', 15, 'W');
+insert into member(email, password, name, tier, social_type)
+values ('daun9870jung', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터2', 15, 'W');
 
-INSERT INTO member(email, password, name, tier, social_type)
-VALUES ('tester3@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터3', 15, 'W');
+insert into member(email, password, name, tier, social_type)
+values ('tester3@weword.com', '$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS', '테스터3', 15, 'W');
 
 /* 토큰 */
-INSERT INTO token (member_email, access_token, access_token_expired_date, refresh_token, refresh_token_expired_date,
+insert into token (member_email, access_token, access_token_expired_date, refresh_token, refresh_token_expired_date,
                    member_social_type, social_access_token, social_access_token_expired_date, social_refresh_token,
                    social_refresh_token_expired_date)
-VALUES ('tester1@weword.com',
+values ('tester1@weword.com',
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjA5Nzc4MzEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.Bs9nDgglcyg_IQCcsLQVH48RW1t1-w8QYqkLJissNuU',
         '2022-08-20 15:43:51',
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjEwMzY1MTEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.uCNJxT-PuD2FNLZcplTULRqu1XO2YEWX_0--35quTGU',
@@ -89,3 +89,10 @@ insert into problem_tag(pk, problem_id, tag_id)
 values ('19237-102', 19237, 102);
 insert into problem_tag(pk, problem_id, tag_id)
 values ('19237-141', 19237, 141);
+
+insert into study (leader, study_name, hash, delete_yn)
+values ('daun9870jung', 'sample study', '2023f708bd566934819ba9b65da86551bcc2e445bdd336b64f31e9a9f6f1aa3a', 'N');
+
+insert into study_member (study_id, email, delete_yn)
+values (1, 'daun9870jung', 'N');
+
