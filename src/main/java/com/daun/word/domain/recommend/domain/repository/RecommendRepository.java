@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,4 +23,6 @@ public interface RecommendRepository {
     Optional<Recommend> findByMemberAndProblem(@Param("member") Member member, @Param("problem") Problem problem);
 
     List<Recommend> findByMemberAndProblems(@Param("member") Member member, @Param("problems") List<Problem> problems);
+
+    List<Recommend> findByMembersWhereCreatedBefore(@Param("members") List<Member> member, @Param("date") LocalDateTime date);
 }

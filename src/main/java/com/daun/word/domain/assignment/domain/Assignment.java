@@ -12,8 +12,8 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
-@RequiredArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @ToString
 public class Assignment {

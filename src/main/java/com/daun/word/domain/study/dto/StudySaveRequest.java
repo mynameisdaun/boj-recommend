@@ -3,18 +3,19 @@ package com.daun.word.domain.study.dto;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.global.vo.Name;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class StudySaveRequest {
-    private final Email leader;
-    private final Name studyName;
-    private final String key;
-    private final List<Email> members;
+    private  Email leader;
+    private  Name studyName;
+    private  String key;
+    private  List<Email> members;
 
     public StudySaveRequest(String leader, String studyName, String key, List<String> members) {
         this.leader = new Email(leader);

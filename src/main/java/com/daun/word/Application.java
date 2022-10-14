@@ -1,5 +1,7 @@
 package com.daun.word;
 
+import com.daun.word.domain.study.service.DefaultHashService;
+import com.daun.word.domain.study.service.StudyHashService;
 import com.daun.word.global.infra.excel.DefaultExcelClient;
 import com.daun.word.global.infra.excel.ExcelClient;
 import com.daun.word.global.infra.image.DefaultImageClient;
@@ -81,4 +83,8 @@ public class Application {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public StudyHashService studyHashService() {
+        return new DefaultHashService();
+    }
 }

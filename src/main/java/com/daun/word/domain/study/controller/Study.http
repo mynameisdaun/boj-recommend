@@ -1,0 +1,24 @@
+###
+POST http://localhost:8080/study/recommend
+Content-Type: application/json
+
+{
+  "id": 2,
+  "key": 1234
+}
+
+###
+POST http://localhost:8080/study
+Content-Type: application/json
+
+{
+  "leader": "daun9870jung",
+  "studyName": "첫번째 스터디,",
+  "key": "1234",
+  "members" : [
+    "daun9870jung",
+    "pine98",
+    "shp7724",
+    "baggomsoon96"
+  ]
+}

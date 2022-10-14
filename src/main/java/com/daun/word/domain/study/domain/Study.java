@@ -1,12 +1,15 @@
 package com.daun.word.domain.study.domain;
 
 import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.study.service.StudyHashService;
 import com.daun.word.global.vo.Name;
+import com.daun.word.global.vo.Tier;
 import com.daun.word.global.vo.YesNo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import javax.naming.AuthenticationException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,6 +26,13 @@ public final class Study {
     private final List<Member> members;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public void auth(String key, StudyHashService studyHashService) throws AuthenticationException {
+        if (!studyHashService.sha256(key).equals(this.hash)) {
+            throw new AuthenticationException("올바른 스터디 키가 아닙니다.");
+        }
+    }
+
 
     @Override
     public boolean equals(Object o) {

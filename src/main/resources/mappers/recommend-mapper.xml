@@ -109,4 +109,23 @@
             #{problem.id}
         </foreach>
     </select>
+
+    <select id="findByMembersWhereCreatedBefore" resultMap="recommendMap">
+        select r.id,
+        r.problem_id,
+        r.email,
+        r.recommended_count,
+        r.choose_yn,
+        r.choose_date_time,
+        r.created_at,
+        r.updated_at
+        from recommend as r
+        where r.email in
+        <foreach item="member" collection="members" open="(" separator="," close=")">
+            #{member.email}
+        </foreach>
+        <![CDATA[
+          and r.updated_at >= #{date}
+        ]]>
+    </select>
 </mapper>

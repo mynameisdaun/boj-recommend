@@ -96,11 +96,11 @@
          email,
          delete_yn)
         VALUES (#{studyId.value},
-                #{member.email}
-                    #{deleteYn})
-        ON DUPLICATE KEY UPDATE study_id   = #{studyId.value},
-                                email      = #{member.email},
-                                delete_yn  = #{deleteYn},
-                                updated_at = sysdate()
+                #{member.email},
+                    #{deleteYn}) ON DUPLICATE KEY
+        UPDATE study_id = #{studyId.value},
+            email = #{member.email},
+            delete_yn = #{deleteYn},
+            updated_at = sysdate()
     </insert>
 </mapper>

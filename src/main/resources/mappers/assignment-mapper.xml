@@ -4,7 +4,7 @@
 
     <resultMap id="assignmentMap" type="Assignment">
         <constructor>
-            <idArg column="id" name="id" javaType="int"/>
+            <idArg column="id" name="id" />
             <arg column="study_id" name="study" javaType="Study"
                  select="com.daun.word.domain.study.domain.repository.StudyRepository.findById"/>
             <arg column="recommend_id" name="recommend" javaType="Recommend"

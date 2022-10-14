@@ -16,7 +16,10 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +52,6 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
                 httpEntity(),
                 ProblemSearchResponse.class).getBody();
     }
-
 
     /* id로 문제 조회 */
     @Override
@@ -108,13 +110,26 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
             /* 백준 api의 Bad Request 기준을 피하기 위해 사이즈를 줄인다.*/
             if (query.length() > 450) {
                 limit--;
+                continue;
             }
             ProblemSearchResponse response = search(query, page, "solved", "desc");
             solved.addAll(stream(response.getItems()).map(i -> Id.of(Problem.class, i.getProblemId())).collect(toList()));
-            if (response.getCount() < limit) {
+            if (response.getItems().length < limit) {
                 break;
             }
             offset += limit;
+        }
+        for (Problem p : problems) {
+            if (!solved.contains(Id.of(Problem.class, p.getId()))) {
+                log.info("안푼문제: " + p);
+                try {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                    br.readLine();
+                } catch (Exception e) {
+
+                }
+                return Arrays.asList(p);
+            }
         }
         return problems.stream()
                 .filter(p -> !solved.contains(Id.of(Problem.class, p.getId())))

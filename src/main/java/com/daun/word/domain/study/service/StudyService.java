@@ -2,8 +2,12 @@ package com.daun.word.domain.study.service;
 
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.service.MemberService;
+import com.daun.word.domain.recommend.domain.Recommend;
+import com.daun.word.domain.recommend.service.RecommendService;
 import com.daun.word.domain.study.domain.Study;
 import com.daun.word.domain.study.domain.repository.StudyRepository;
+import com.daun.word.domain.study.dto.StudyAssignRequest;
+import com.daun.word.domain.study.dto.StudyAssignResponse;
 import com.daun.word.domain.study.dto.StudySaveRequest;
 import com.daun.word.global.Id;
 import com.daun.word.global.utils.HashUtils;
@@ -12,6 +16,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.naming.AuthenticationException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -24,6 +32,24 @@ public class StudyService {
     private final StudyRepository studyRepository;
 
     private final MemberService memberService;
+
+    private final RecommendService recommendService;
+
+    private final StudyHashService studyHashService;
+
+    @Transactional
+    public StudyAssignResponse studyAssign(StudyAssignRequest request) throws AuthenticationException, IOException {
+        Study study = studyRepository.findById(Id.of(Study.class, request.getId()))
+                .orElseThrow(NoSuchElementException::new);
+        study.auth(request.getKey(), studyHashService);
+
+        List<Recommend> recommendForStudy = recommendService.recommendForStudy(study);
+        List<Recommend> recommendForMember = new ArrayList<>();
+        for (Member m : study.getMembers()) {
+            recommendForMember.add(recommendService.recommendForMember(m).get(0));
+        }
+        return new StudyAssignResponse(Arrays.asList(recommendForStudy.get(0).getProblem()), recommendForMember);
+    }
 
     @Transactional
     public Study save(StudySaveRequest request) {

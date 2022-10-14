@@ -3,18 +3,17 @@ package com.daun.word.global.infra.solvedac;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.SocialType;
+import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.global.Id;
 import com.daun.word.global.vo.Name;
+import com.daun.word.global.vo.Tier;
 import com.daun.word.global.vo.Title;
 import com.daun.word.global.vo.URL;
-import com.daun.word.domain.problem.domain.Problem;
-import com.daun.word.global.vo.Tier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestTemplate;
 
-import javax.rmi.CORBA.Tie;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,9 +53,9 @@ class DefaultSolvedAcClientTest {
     void unSolvedProblemsByMembers() throws Exception {
         //given
         Member member1 = new Member(new Email("daun9870jung"), "example-password", new Name("autowired"), new Tier(15), SocialType.W);
-        Member member2 = new Member(new Email(""), "example-password", new Name("autowired"), new Tier(15), SocialType.W);
-        Member member3 = new Member(new Email(""), "example-password", new Name("autowired"), new Tier(15), SocialType.W);
-        Member member4 = new Member(new Email(""), "example-password", new Name("autowired"), new Tier(15), SocialType.W);
+        Member member2 = new Member(new Email("shp7724"), "example-password", new Name("autowired"), new Tier(15), SocialType.W);
+        Member member3 = new Member(new Email("baggomsoon96"), "example-password", new Name("autowired"), new Tier(15), SocialType.W);
+        Member member4 = new Member(new Email("pine98"), "example-password", new Name("autowired"), new Tier(15), SocialType.W);
         List<Member> members = Arrays.asList(member1, member4, member2, member3);
         Problem p1 = new Problem(1918, new Title("t"), new URL("1"), new Tier(15), null, 0, 0);
         Problem p2 = new Problem(16120, new Title("t"), new URL("1"), new Tier(15), null, 0, 0);

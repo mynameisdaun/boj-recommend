@@ -10,7 +10,7 @@ import java.util.Map;
 @Getter
 @ToString
 @EqualsAndHashCode
-public final class Tier {
+public final class Tier implements Comparable<Tier> {
 
     private static final Map<Integer, String> level_rate = new HashMap<>();
     private final int level;
@@ -61,6 +61,11 @@ public final class Tier {
 
     public Tier plus(int plus) {
         return new Tier(this.level + plus);
+    }
+
+    @Override
+    public int compareTo(Tier o) {
+        return this.level - o.level;
     }
 }
 
