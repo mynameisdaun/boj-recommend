@@ -18,10 +18,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
@@ -59,7 +56,7 @@ public class RecommendService {
         int offset = 0;
         int limit = 50;
 
-        //일주일 이내에 어떤 멤버에게라도 추천한 문제가 있다면, 재 추천하지 않는다.
+
         final List<Id<Problem, Integer>> recommendedIds = recommendRepository.findByMembersWhereCreatedBefore(members, LocalDateTime.now().minusDays(7))
                 .stream()
                 .map(r -> Id.of(Problem.class, r.getProblem().getId()))
@@ -74,7 +71,7 @@ public class RecommendService {
             log.info("안푼문제: {}",unsolved);
             recommendPool.addAll(unsolved.stream().filter(p -> !recommendedIds.contains(Id.of(Problem.class, p.getId()))).collect(toList()));
             if (unsolved.isEmpty() || recommendPool.size() < minRecommendPoolSize) {
-                offset++;
+                offset+=limit;
                 continue;
             }
             break;
@@ -101,15 +98,21 @@ public class RecommendService {
         final int minRecommendPoolSize = 10;
         final int recommendSize = 1;
         List<Problem> recommendPool = new ArrayList<>();
+
+        final List<Id<Problem, Integer>> recommendedIds = recommendRepository.findByMembersWhereCreatedBefore(Arrays.asList(member), LocalDateTime.now().minusDays(7))
+                .stream()
+                .map(r -> Id.of(Problem.class, r.getProblem().getId()))
+                .distinct()
+                .collect(toList());
+
         while (true) {
             List<Problem> problems = problemRepository.findByTierBetweenOrderBySolvedCountDesc(member.getTier().minus(3), member.getTier().plus(1), offset, limit);
             if (problems.isEmpty()) break;
 
             List<Problem> unsolved = solvedAcClient.unSolvedProblemsByMember(member, problems);
-            recommendPool.addAll(unsolved);
-
+            recommendPool.addAll(unsolved.stream().filter(p -> !recommendedIds.contains(Id.of(Problem.class, p.getId()))).collect(toList()));
             if (unsolved.isEmpty() || recommendPool.size() < minRecommendPoolSize) {
-                offset++;
+                offset+=limit;
                 continue;
             }
             Collections.shuffle(recommendPool);

@@ -122,12 +122,6 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
         for (Problem p : problems) {
             if (!solved.contains(Id.of(Problem.class, p.getId()))) {
                 log.info("안푼문제: " + p);
-                try {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-                    br.readLine();
-                } catch (Exception e) {
-
-                }
                 return Arrays.asList(p);
             }
         }

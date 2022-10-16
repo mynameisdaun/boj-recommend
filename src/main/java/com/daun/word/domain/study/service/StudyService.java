@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.naming.AuthenticationException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -48,7 +47,7 @@ public class StudyService {
         for (Member m : study.getMembers()) {
             recommendForMember.add(recommendService.recommendForMember(m).get(0));
         }
-        return new StudyAssignResponse(Arrays.asList(recommendForStudy.get(0).getProblem()), recommendForMember);
+        return new StudyAssignResponse(recommendForStudy, recommendForMember);
     }
 
     @Transactional
