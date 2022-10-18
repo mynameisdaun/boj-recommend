@@ -45,7 +45,7 @@ public class StudyService {
         List<Recommend> recommendForStudy = recommendService.recommendForStudy(study);
         List<Recommend> recommendForMember = new ArrayList<>();
         for (Member m : study.getMembers()) {
-            recommendForMember.add(recommendService.recommendForMember(m).get(0));
+            recommendForMember.add(recommendService.recommendForMember_v2(m).get(0));
         }
         return new StudyAssignResponse(recommendForStudy, recommendForMember);
     }

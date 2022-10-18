@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +26,6 @@ public class RecommendController {
     @GetMapping("")
     public ResponseEntity<?> recommend(@RequestParam @NotNull String handle) {
         Member member = memberService.findByEmail(new Email(handle));
-        return ResponseEntity.ok(recommendService.recommendForMember(member));
+        return ResponseEntity.ok(recommendService.recommendForMember_v2(member));
     }
 }

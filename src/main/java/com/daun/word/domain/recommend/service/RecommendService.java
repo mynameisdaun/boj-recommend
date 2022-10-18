@@ -88,6 +88,54 @@ public class RecommendService {
         return recommends;
     }
 
+    public List<Recommend> recommendForMember_v2(Member member) {
+        List<Member> members = Arrays.asList(member);
+        List<Tier> tiers = members.stream().map(Member::getTier).sorted().collect(toList());
+        List<Problem> recommendPool = new ArrayList<>();
+
+        final int minRecommendPoolSize = 5;
+        final int recommendSize = 1;
+        if (tiers.size() > 2) {
+            tiers.remove(0);
+            tiers.remove(tiers.size() - 1);
+        }
+        Tier minTier = tiers.get(0);
+        Tier maxTier = tiers.get(tiers.size() - 1);
+        int offset = 0;
+        int limit = 50;
+
+
+        final List<Id<Problem, Integer>> recommendedIds = recommendRepository.findByMembersWhereCreatedBefore(members, LocalDateTime.now().minusDays(7))
+                .stream()
+                .map(r -> Id.of(Problem.class, r.getProblem().getId()))
+                .distinct()
+                .collect(toList());
+        while (true) {
+            List<Problem> problems = problemRepository.findByTierBetweenOrderBySolvedCountDesc(minTier, maxTier, offset, limit);
+            if (problems.isEmpty()) {
+                throw new NoSuchElementException("모든 문제를 다 검색했습니다");
+            }
+            List<Problem> unsolved = solvedAcClient.unSolvedProblemsByMembers(members, problems);
+            log.info("안푼문제: {}",unsolved);
+            recommendPool.addAll(unsolved.stream().filter(p -> !recommendedIds.contains(Id.of(Problem.class, p.getId()))).collect(toList()));
+            if (unsolved.isEmpty() || recommendPool.size() < minRecommendPoolSize) {
+                offset+=limit;
+                continue;
+            }
+            break;
+        }
+        Collections.shuffle(recommendPool);
+        List<Recommend> recommends = new ArrayList<>();
+        for (Member m : members) {
+            for (int i = 0; i < recommendSize; i++) {
+                Recommend r = new Recommend(recommendPool.get(i), m);
+                recommendRepository.save(r);
+                recommends.add(r);
+            }
+        }
+        return recommends;
+    }
+
 
     //TODO: 환경변수로 정리하는 것도 좋은 방법이겠다.
     @Transactional
