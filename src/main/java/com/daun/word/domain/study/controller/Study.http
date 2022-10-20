@@ -1,4 +1,16 @@
 ###
+POST http://localhost:8080/study/assign
+Content-Type: application/json
+
+{
+  "id": 2,
+  "key": 1234,
+  "problemId": 1958
+}
+
+
+
+###
 POST http://localhost:8080/study/recommend
 Content-Type: application/json
 

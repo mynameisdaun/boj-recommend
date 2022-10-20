@@ -14,9 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -33,11 +31,21 @@ public class RecommendService {
 
     private final SolvedAcClient solvedAcClient;
 
+    @Transactional
+    public Recommend assign(Study study, Problem problem) {
+        List<Problem> problems = solvedAcClient.unSolvedProblemsByMembers(study.getMembers(), Arrays.asList(problem));
+        if (problems.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        return new Recommend(problems.get(0), null);
+    }
+
     @Transactional(readOnly = true)
     public Recommend findById(Id<Recommend, Integer> id) {
         return recommendRepository.findById(id).
                 orElseThrow(NoSuchElementException::new);
     }
+
 
     @Transactional
     public List<Recommend> recommendForStudy(Study study) throws IOException {
@@ -68,10 +76,10 @@ public class RecommendService {
                 throw new NoSuchElementException("모든 문제를 다 검색했습니다");
             }
             List<Problem> unsolved = solvedAcClient.unSolvedProblemsByMembers(members, problems);
-            log.info("안푼문제: {}",unsolved);
+            log.info("안푼문제: {}", unsolved);
             recommendPool.addAll(unsolved.stream().filter(p -> !recommendedIds.contains(Id.of(Problem.class, p.getId()))).collect(toList()));
             if (unsolved.isEmpty() || recommendPool.size() < minRecommendPoolSize) {
-                offset+=limit;
+                offset += limit;
                 continue;
             }
             break;
@@ -116,10 +124,10 @@ public class RecommendService {
                 throw new NoSuchElementException("모든 문제를 다 검색했습니다");
             }
             List<Problem> unsolved = solvedAcClient.unSolvedProblemsByMembers(members, problems);
-            log.info("안푼문제: {}",unsolved);
+            log.info("안푼문제: {}", unsolved);
             recommendPool.addAll(unsolved.stream().filter(p -> !recommendedIds.contains(Id.of(Problem.class, p.getId()))).collect(toList()));
             if (unsolved.isEmpty() || recommendPool.size() < minRecommendPoolSize) {
-                offset+=limit;
+                offset += limit;
                 continue;
             }
             break;
@@ -160,7 +168,7 @@ public class RecommendService {
             List<Problem> unsolved = solvedAcClient.unSolvedProblemsByMember(member, problems);
             recommendPool.addAll(unsolved.stream().filter(p -> !recommendedIds.contains(Id.of(Problem.class, p.getId()))).collect(toList()));
             if (unsolved.isEmpty() || recommendPool.size() < minRecommendPoolSize) {
-                offset+=limit;
+                offset += limit;
                 continue;
             }
             Collections.shuffle(recommendPool);

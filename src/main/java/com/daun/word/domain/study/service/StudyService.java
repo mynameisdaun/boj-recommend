@@ -2,13 +2,13 @@ package com.daun.word.domain.study.service;
 
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.service.MemberService;
+import com.daun.word.domain.problem.domain.Problem;
+import com.daun.word.domain.problem.service.ProblemService;
 import com.daun.word.domain.recommend.domain.Recommend;
 import com.daun.word.domain.recommend.service.RecommendService;
 import com.daun.word.domain.study.domain.Study;
 import com.daun.word.domain.study.domain.repository.StudyRepository;
-import com.daun.word.domain.study.dto.StudyAssignRequest;
-import com.daun.word.domain.study.dto.StudyAssignResponse;
-import com.daun.word.domain.study.dto.StudySaveRequest;
+import com.daun.word.domain.study.dto.*;
 import com.daun.word.global.Id;
 import com.daun.word.global.utils.HashUtils;
 import com.daun.word.global.vo.YesNo;
@@ -36,8 +36,19 @@ public class StudyService {
 
     private final StudyHashService studyHashService;
 
+    private final ProblemService problemService;
+
     @Transactional
-    public StudyAssignResponse studyAssign(StudyAssignRequest request) throws AuthenticationException, IOException {
+    public StudyAssignResponse studyAssign(StudyAssignRequest request) {
+        Study study = studyRepository.findById(Id.of(Study.class, request.getId()))
+                .orElseThrow(NoSuchElementException::new);
+        Problem problem = problemService.findById(Id.of(Problem.class, request.getProblemId()));
+        Recommend assign = recommendService.assign(study, problem);
+        return new StudyAssignResponse(assign.getProblem());
+    }
+
+    @Transactional
+    public StudyRecommendResponse studyRecommend(StudyRecommendRequest request) throws AuthenticationException, IOException {
         Study study = studyRepository.findById(Id.of(Study.class, request.getId()))
                 .orElseThrow(NoSuchElementException::new);
         study.auth(request.getKey(), studyHashService);
@@ -47,7 +58,7 @@ public class StudyService {
         for (Member m : study.getMembers()) {
             recommendForMember.add(recommendService.recommendForMember_v2(m).get(0));
         }
-        return new StudyAssignResponse(recommendForStudy, recommendForMember);
+        return new StudyRecommendResponse(recommendForStudy, recommendForMember);
     }
 
     @Transactional

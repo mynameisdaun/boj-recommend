@@ -1,14 +1,12 @@
 package com.daun.word.domain.study.controller;
 
 import com.daun.word.domain.study.dto.StudyAssignRequest;
+import com.daun.word.domain.study.dto.StudyRecommendRequest;
 import com.daun.word.domain.study.dto.StudySaveRequest;
 import com.daun.word.domain.study.service.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.naming.AuthenticationException;
 import javax.validation.Valid;
@@ -25,8 +23,13 @@ public class StudyController {
         return ResponseEntity.ok(studyService.save(request));
     }
 
-    @PostMapping("/recommend")
-    public ResponseEntity<?> study_recommend(@RequestBody @Valid StudyAssignRequest request) throws AuthenticationException, IOException {
+    @PostMapping("/assign")
+    public ResponseEntity<?> assign(@RequestBody @Valid StudyAssignRequest request) {
         return ResponseEntity.ok(studyService.studyAssign(request));
+    }
+
+    @PostMapping("/recommend")
+    public ResponseEntity<?> study_recommend(@RequestBody @Valid StudyRecommendRequest request) throws AuthenticationException, IOException {
+        return ResponseEntity.ok(studyService.studyRecommend(request));
     }
 }
