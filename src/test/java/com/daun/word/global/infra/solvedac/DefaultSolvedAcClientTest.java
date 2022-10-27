@@ -4,7 +4,7 @@ import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.domain.problem.domain.Problem;
-import com.daun.word.global.Id;
+import com.daun.word.global.GlobalId;
 import com.daun.word.global.vo.Name;
 import com.daun.word.global.vo.Tier;
 import com.daun.word.global.vo.Title;
@@ -33,7 +33,7 @@ class DefaultSolvedAcClientTest {
     @Test
     void findById() throws Exception {
         //given&&when
-        Problem problem = solvedAcClient.findById(Id.of(Problem.class, 16120));
+        Problem problem = solvedAcClient.findById(GlobalId.of(Problem.class, 16120));
         //then
         assertThat(problem).isNotNull();
         assertAll(

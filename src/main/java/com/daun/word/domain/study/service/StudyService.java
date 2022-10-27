@@ -9,7 +9,7 @@ import com.daun.word.domain.recommend.service.RecommendService;
 import com.daun.word.domain.study.domain.Study;
 import com.daun.word.domain.study.domain.repository.StudyRepository;
 import com.daun.word.domain.study.dto.*;
-import com.daun.word.global.Id;
+import com.daun.word.global.GlobalId;
 import com.daun.word.global.utils.HashUtils;
 import com.daun.word.global.vo.YesNo;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.naming.AuthenticationException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
@@ -40,16 +38,16 @@ public class StudyService {
 
     @Transactional
     public StudyAssignResponse studyAssign(StudyAssignRequest request) {
-        Study study = studyRepository.findById(Id.of(Study.class, request.getId()))
+        Study study = studyRepository.findById(request.getId())
                 .orElseThrow(NoSuchElementException::new);
-        Problem problem = problemService.findById(Id.of(Problem.class, request.getProblemId()));
+        Problem problem = problemService.findById(GlobalId.of(Problem.class, request.getProblemId()));
         Recommend assign = recommendService.assign(study, problem);
         return new StudyAssignResponse(assign.getProblem());
     }
 
     @Transactional
     public StudyRecommendResponse studyRecommend(StudyRecommendRequest request) throws AuthenticationException, IOException {
-        Study study = studyRepository.findById(Id.of(Study.class, request.getId()))
+        Study study = studyRepository.findById(request.getId())
                 .orElseThrow(NoSuchElementException::new);
         study.auth(request.getKey(), studyHashService);
 
@@ -68,14 +66,14 @@ public class StudyService {
                 stream()
                 .map(memberService::findByEmail)
                 .collect(toList());
-        Study study = new Study(leader, request.getStudyName(), HashUtils.sha256(request.getKey()), YesNo.N, members);
+        Study study = new Study(UUID.randomUUID(), leader, request.getStudyName(), HashUtils.sha256(request.getKey()), members);
         studyRepository.save(study);
-        study.getMembers().stream().forEach(m -> studyRepository.saveStudyMember(Id.of(Study.class, study.getId()), m, YesNo.N));
+        study.getMembers().stream().forEach(m -> studyRepository.saveStudyMember(study.getId(), m, YesNo.N));
         return study;
     }
 
     @Transactional(readOnly = true)
-    public Study findById(Id<Study, Integer> id) {
+    public Study findById(UUID id) {
         return studyRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
     }

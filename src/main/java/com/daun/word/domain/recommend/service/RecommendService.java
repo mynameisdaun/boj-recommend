@@ -6,7 +6,7 @@ import com.daun.word.domain.problem.domain.repository.ProblemRepository;
 import com.daun.word.domain.recommend.domain.Recommend;
 import com.daun.word.domain.recommend.domain.repository.RecommendRepository;
 import com.daun.word.domain.study.domain.Study;
-import com.daun.word.global.Id;
+import com.daun.word.global.GlobalId;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import com.daun.word.global.vo.Tier;
 import lombok.RequiredArgsConstructor;
@@ -37,12 +37,12 @@ public class RecommendService {
         if (problems.isEmpty()) {
             throw new IllegalArgumentException();
         }
-        return new Recommend(problems.get(0), null);
+        return new Recommend(UUID.randomUUID(), problems.get(0), null);
     }
 
     @Transactional(readOnly = true)
-    public Recommend findById(Id<Recommend, Integer> id) {
-        return recommendRepository.findById(id).
+    public Recommend findById(GlobalId<Recommend, Integer> globalId) {
+        return recommendRepository.findById(globalId).
                 orElseThrow(NoSuchElementException::new);
     }
 
@@ -65,9 +65,9 @@ public class RecommendService {
         int limit = 50;
 
 
-        final List<Id<Problem, Integer>> recommendedIds = recommendRepository.findByMembersWhereCreatedBefore(members, LocalDateTime.now().minusDays(7))
+        final List<GlobalId<Problem, Integer>> recommendedIds = recommendRepository.findByMembersWhereCreatedBefore(members, LocalDateTime.now().minusDays(7))
                 .stream()
-                .map(r -> Id.of(Problem.class, r.getProblem().getId()))
+                .map(r -> GlobalId.of(Problem.class, r.getProblem().getId()))
                 .distinct()
                 .collect(toList());
         while (true) {
@@ -77,7 +77,7 @@ public class RecommendService {
             }
             List<Problem> unsolved = solvedAcClient.unSolvedProblemsByMembers(members, problems);
             log.info("안푼문제: {}", unsolved);
-            recommendPool.addAll(unsolved.stream().filter(p -> !recommendedIds.contains(Id.of(Problem.class, p.getId()))).collect(toList()));
+            recommendPool.addAll(unsolved.stream().filter(p -> !recommendedIds.contains(GlobalId.of(Problem.class, p.getId()))).collect(toList()));
             if (unsolved.isEmpty() || recommendPool.size() < minRecommendPoolSize) {
                 offset += limit;
                 continue;
@@ -88,7 +88,7 @@ public class RecommendService {
         List<Recommend> recommends = new ArrayList<>();
         for (Member m : members) {
             for (int i = 0; i < recommendSize; i++) {
-                Recommend r = new Recommend(recommendPool.get(i), m);
+                Recommend r = new Recommend(UUID.randomUUID(), recommendPool.get(i), m);
                 recommendRepository.save(r);
                 recommends.add(r);
             }
@@ -113,9 +113,9 @@ public class RecommendService {
         int limit = 50;
 
 
-        final List<Id<Problem, Integer>> recommendedIds = recommendRepository.findByMembersWhereCreatedBefore(members, LocalDateTime.now().minusDays(7))
+        final List<GlobalId<Problem, Integer>> recommendedIds = recommendRepository.findByMembersWhereCreatedBefore(members, LocalDateTime.now().minusDays(7))
                 .stream()
-                .map(r -> Id.of(Problem.class, r.getProblem().getId()))
+                .map(r -> GlobalId.of(Problem.class, r.getProblem().getId()))
                 .distinct()
                 .collect(toList());
         while (true) {
@@ -125,7 +125,7 @@ public class RecommendService {
             }
             List<Problem> unsolved = solvedAcClient.unSolvedProblemsByMembers(members, problems);
             log.info("안푼문제: {}", unsolved);
-            recommendPool.addAll(unsolved.stream().filter(p -> !recommendedIds.contains(Id.of(Problem.class, p.getId()))).collect(toList()));
+            recommendPool.addAll(unsolved.stream().filter(p -> !recommendedIds.contains(GlobalId.of(Problem.class, p.getId()))).collect(toList()));
             if (unsolved.isEmpty() || recommendPool.size() < minRecommendPoolSize) {
                 offset += limit;
                 continue;
@@ -136,7 +136,7 @@ public class RecommendService {
         List<Recommend> recommends = new ArrayList<>();
         for (Member m : members) {
             for (int i = 0; i < recommendSize; i++) {
-                Recommend r = new Recommend(recommendPool.get(i), m);
+                Recommend r = new Recommend(UUID.randomUUID(), recommendPool.get(i), m);
                 recommendRepository.save(r);
                 recommends.add(r);
             }
@@ -155,9 +155,9 @@ public class RecommendService {
         final int recommendSize = 1;
         List<Problem> recommendPool = new ArrayList<>();
 
-        final List<Id<Problem, Integer>> recommendedIds = recommendRepository.findByMembersWhereCreatedBefore(Arrays.asList(member), LocalDateTime.now().minusDays(7))
+        final List<GlobalId<Problem, Integer>> recommendedIds = recommendRepository.findByMembersWhereCreatedBefore(Arrays.asList(member), LocalDateTime.now().minusDays(7))
                 .stream()
-                .map(r -> Id.of(Problem.class, r.getProblem().getId()))
+                .map(r -> GlobalId.of(Problem.class, r.getProblem().getId()))
                 .distinct()
                 .collect(toList());
 
@@ -166,7 +166,7 @@ public class RecommendService {
             if (problems.isEmpty()) break;
 
             List<Problem> unsolved = solvedAcClient.unSolvedProblemsByMember(member, problems);
-            recommendPool.addAll(unsolved.stream().filter(p -> !recommendedIds.contains(Id.of(Problem.class, p.getId()))).collect(toList()));
+            recommendPool.addAll(unsolved.stream().filter(p -> !recommendedIds.contains(GlobalId.of(Problem.class, p.getId()))).collect(toList()));
             if (unsolved.isEmpty() || recommendPool.size() < minRecommendPoolSize) {
                 offset += limit;
                 continue;
@@ -174,7 +174,7 @@ public class RecommendService {
             Collections.shuffle(recommendPool);
             List<Recommend> recommends = recommendPool.stream()
                     .limit(recommendSize)
-                    .map(a -> new Recommend(a, member))
+                    .map(a -> new Recommend(UUID.randomUUID(), a, member))
                     .collect(toList());
             recommends.forEach(this::save);
             return recommends;

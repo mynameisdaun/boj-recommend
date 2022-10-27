@@ -7,25 +7,46 @@ import com.daun.word.global.vo.Tier;
 import com.daun.word.global.vo.YesNo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.naming.AuthenticationException;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
+@Entity(name = "study")
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
-public final class Study {
+public class Study {
+    @Id
+    @Column(name = "study_id", nullable = false, columnDefinition = "varbinary(16)")
+    private UUID id;
 
-    private Integer id;
-    private final Member leader;
-    private final Name studyName;
-    private final String hash;
-    private final YesNo deleteYn;
-    private final List<Member> members;
+    @ManyToOne
+    @JoinColumn(name = "email")
+    private Member leader;
+
+    private Name studyName;
+    @Column(name = "hash", nullable = false, columnDefinition = "varbinary(64)")
+    private String hash;
+
+    @ManyToMany
+    @JoinColumn(name = "member_id")
+    private List<Member> members;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public Study(UUID id, Member leader, Name studyName, String hash, List<Member> members) {
+        this.id = id;
+        this.leader = leader;
+        this.studyName = studyName;
+        this.hash = hash;
+        this.members = members;
+    }
 
     public void auth(String key, StudyHashService studyHashService) throws AuthenticationException {
         if (!studyHashService.sha256(key).equals(this.hash)) {

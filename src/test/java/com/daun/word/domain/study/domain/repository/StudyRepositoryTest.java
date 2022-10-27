@@ -1,7 +1,7 @@
 package com.daun.word.domain.study.domain.repository;
 
 import com.daun.word.domain.study.domain.Study;
-import com.daun.word.global.Id;
+import com.daun.word.global.GlobalId;
 import com.daun.word.global.utils.HashUtils;
 import com.daun.word.global.vo.Name;
 import com.daun.word.global.vo.YesNo;
@@ -42,7 +42,7 @@ class StudyRepositoryTest {
     @Test
     void findById() throws Exception {
         //given&&when
-        Study study = studyRepository.findById(Id.of(Study.class, 1))
+        Study study = studyRepository.findById(GlobalId.of(Study.class, 1))
                 .orElseThrow(NoSuchElementException::new);
         //then
         assertThat(study).isNotNull();

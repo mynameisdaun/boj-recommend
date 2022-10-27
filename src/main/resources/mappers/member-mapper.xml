@@ -4,7 +4,7 @@
 
     <resultMap id="memberMap" type="Member">
         <constructor>
-            <idArg column="id" name="id"/>
+            <idArg column="globalId" name="globalId"/>
             <arg column="email" name="email" javaType="Email"/>
             <arg column="password" name="password"/>
             <arg column="name" name="name" javaType="Name"/>
@@ -19,7 +19,7 @@
 
     <select id="findByEmail" resultMap="memberMap">
         /* email로 회원 조회 */
-        SELECT m.id,
+        SELECT m.globalId,
                m.email,
                m.password,
                m.name,
@@ -33,11 +33,11 @@
         WHERE m.email = #{email}
     </select>
 
-    <insert id="save" parameterType="Member" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="save" parameterType="Member" useGeneratedKeys="true" keyColumn="globalId" keyProperty="globalId">
         INSERT INTO member
         (
-        <if test="member.id != null">
-            id,
+        <if test="member.globalId != null">
+            globalId,
         </if>
         email,
         password,
@@ -47,8 +47,8 @@
         )
         VALUES
         (
-        <if test="member.id != null">
-            #{member.id},
+        <if test="member.globalId != null">
+            #{member.globalId},
         </if>
         #{member.email},
         #{member.password},
@@ -67,19 +67,19 @@
         last_login_at = #{member.lastLoginAt},
         updated_at = sysdate()
         <selectKey
-                keyColumn="id,created_at,updated_at"
-                keyProperty="member.id,member.createdAt,member.updatedAt"
+                keyColumn="globalId,created_at,updated_at"
+                keyProperty="member.globalId,member.createdAt,member.updatedAt"
                 resultType="java.util.HashMap" order="AFTER">
             SELECT
-            m.id,
+            m.globalId,
             m.created_at,
             m.updated_at
             FROM member m
-            where m.id =
-            <if test="member.id != null">
-                #{member.id}
+            where m.globalId =
+            <if test="member.globalId != null">
+                #{member.globalId}
             </if>
-            <if test="member.id == null">
+            <if test="member.globalId == null">
                 LAST_INSERT_ID()
             </if>
         </selectKey>

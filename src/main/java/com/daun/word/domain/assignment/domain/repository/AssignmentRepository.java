@@ -1,7 +1,7 @@
 package com.daun.word.domain.assignment.domain.repository;
 
 import com.daun.word.domain.assignment.domain.Assignment;
-import com.daun.word.global.Id;
+import com.daun.word.global.GlobalId;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -19,5 +19,5 @@ public interface AssignmentRepository {
     Integer update(@Param("assignment") Assignment assignment);
 
     /* 과제 id로 과제 조회 */
-    Optional<Assignment> findById(@Param("id") Id<Assignment, Integer> id);
+    Optional<Assignment> findById(@Param("id") GlobalId<Assignment, Integer> globalId);
 }

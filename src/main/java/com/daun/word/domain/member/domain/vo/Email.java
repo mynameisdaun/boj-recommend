@@ -2,17 +2,20 @@ package com.daun.word.domain.member.domain.vo;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.ibatis.type.Alias;
 
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
+@Embeddable
+@NoArgsConstructor
 @Getter
-@EqualsAndHashCode
 @ToString
-@Alias("Email")
-public class Email implements Serializable {
-    private final String email;
+@EqualsAndHashCode
+public class Email {
+    @Column(name="email", nullable = false)
+    private String email;
 
     public Email(String email) {
 //        String pattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"

@@ -21,7 +21,7 @@
     </resultMap>
 
     <select id="findById" resultMap="assignmentMap">
-        select a.id,
+        select a.globalId,
                a.study_id,
                a.recommend_id,
                a.assign_to,
@@ -32,15 +32,15 @@
                a.created_at,
                a.updated_at
         from assignment as a
-        where a.id = #{id.value};
+        where a.globalId = #{globalId.value};
     </select>
 
     <insert id="save" parameterType="Assignment" useGeneratedKeys="true"
-            keyColumn="id" keyProperty="assignment.id">
+            keyColumn="globalId" keyProperty="assignment.globalId">
         INSERT INTO assignment
         (
-        <if test="assignment.id != null">
-            id,
+        <if test="assignment.globalId != null">
+            globalId,
         </if>
         study_id,
         recommend_id,
@@ -49,37 +49,37 @@
         end_date_time
         )
         VALUES (
-        <if test="assignment.id != null">
-            #{assignment.id},
+        <if test="assignment.globalId != null">
+            #{assignment.globalId},
         </if>
-        #{assignment.study.id},
-        #{assignment.recommend.id},
+        #{assignment.study.globalId},
+        #{assignment.recommend.globalId},
         #{assignment.assignTo},
         #{assignment.startDateTime},
         #{assignment.endDateTime}
         )
         ON DUPLICATE KEY
         UPDATE
-        study_id = #{assignment.study.id},
-        recommend_id = #{assignment.recommend.id},
+        study_id = #{assignment.study.globalId},
+        recommend_id = #{assignment.recommend.globalId},
         assign_to = #{assignment.assignTo},
         start_date_time = #{assignment.startDateTime},
         end_date_time = #{assignment.endDateTime},
         complete_yn = #{assignment.completeYn},
         complete_date_time = #{assignment.completeDateTime},
         updated_at = sysdate()
-        <selectKey keyColumn="id,created_at,updated_at"
-                   keyProperty="assignment.id,assignment.createdAt,assignment.updatedAt"
+        <selectKey keyColumn="globalId,created_at,updated_at"
+                   keyProperty="assignment.globalId,assignment.createdAt,assignment.updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
-            SELECT a.id,
+            SELECT a.globalId,
             a.created_at,
             a.updated_at
             FROM assignment as a
-            WHERE a.id =
-            <if test="assignment.id != null">
-                #{assignment.id}
+            WHERE a.globalId =
+            <if test="assignment.globalId != null">
+                #{assignment.globalId}
             </if>
-            <if test="assignment.id == null">
+            <if test="assignment.globalId == null">
                 LAST_INSERT_ID()
             </if>
         </selectKey>

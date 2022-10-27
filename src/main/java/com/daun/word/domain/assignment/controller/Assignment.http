@@ -3,7 +3,7 @@ POST http://localhost:8080/assignment
 Content-Type: application/json
 
 {
-  "problemId": "16120",
+  "problemGlobalId": "16120",
   "assignFrom": "tester1@weword.com",
   "assignTo": "daun9870jung",
   "startDateTime": "2022-10-05T05:47:08.644",
@@ -15,7 +15,7 @@ POST http://localhost:8080/assignment
 Content-Type: application/json
 
 {
-  "problemId": "15683",
+  "problemGlobalId": "15683",
   "assignFrom": "tester1@weword.com",
   "assignTo": "daun9870jung",
   "startDateTime": "2022-10-05T05:47:08.644",

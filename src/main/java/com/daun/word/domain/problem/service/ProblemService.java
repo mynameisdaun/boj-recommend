@@ -2,8 +2,8 @@ package com.daun.word.domain.problem.service;
 
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.repository.ProblemRepository;
-import com.daun.word.domain.problem.domain.vo.Tag;
-import com.daun.word.global.Id;
+import com.daun.word.domain.problem.domain.Tag;
+import com.daun.word.global.GlobalId;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import com.daun.word.global.infra.solvedac.dto.ProblemCount;
 import com.daun.word.global.vo.Tier;
@@ -28,16 +28,16 @@ public class ProblemService {
 
 
     @Transactional
-    public Problem findById(Id<Problem, Integer> id) {
-        return problemRepository.findById(id)
-                .orElse(save(solvedAcClient.findById(id)));
+    public Problem findById(GlobalId<Problem, Integer> globalId) {
+        return problemRepository.findById(globalId)
+                .orElse(save(solvedAcClient.findById(globalId)));
     }
 
     @Transactional
     public Problem save(Problem problem) {
         problem.getTags().forEach(problemRepository::saveTag);
         problemRepository.save(problem);
-        problem.getTags().forEach(t -> problemRepository.saveProblemTag(Id.of(Problem.class, problem.getId()), Id.of(Tag.class, t.getId())));
+        problem.getTags().forEach(t -> problemRepository.saveProblemTag(GlobalId.of(Problem.class, problem.getId()), GlobalId.of(Tag.class, t.getId())));
         return problem;
     }
 
@@ -68,11 +68,11 @@ public class ProblemService {
                 StringBuilder query = new StringBuilder("*").append(tier.getRate()).append("..").append(tier.getRate());
                 while (diff > 0) {
                     log.info("\n ############### {} 번째 검색 ############### \n", page);
-                    List<Id<Problem, Integer>> solvedAcIds = solvedAcClient.search(query.toString(), page, "solved", "asc")
+                    List<GlobalId<Problem, Integer>> solvedAcIds = solvedAcClient.search(query.toString(), page, "solved", "asc")
                             .toProblemIds();
-                    List<Id<Problem, Integer>> localIds = problemRepository.findByIdIn(solvedAcIds)
+                    List<GlobalId<Problem, Integer>> localIds = problemRepository.findByIdIn(solvedAcIds)
                             .stream()
-                            .map(p -> Id.of(Problem.class, p.getId()))
+                            .map(p -> GlobalId.of(Problem.class, p.getId()))
                             .collect(toList());
                     List<Problem> unsavedProblems = solvedAcClient.findByIdsIn(solvedAcIds.stream()
                             .filter(id -> !localIds.contains(id))

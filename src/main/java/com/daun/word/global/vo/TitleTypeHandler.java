@@ -14,7 +14,7 @@ public class TitleTypeHandler implements TypeHandler<Title> {
 
     @Override
     public void setParameter(PreparedStatement ps, int i, Title parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, parameter.getValue());
+        ps.setString(i, parameter.getTitle());
     }
 
     @Override

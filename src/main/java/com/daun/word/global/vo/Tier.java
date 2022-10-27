@@ -2,19 +2,27 @@ package com.daun.word.global.vo;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.util.HashMap;
 import java.util.Map;
 
-@Getter
+@Embeddable
 @ToString
+@NoArgsConstructor
 @EqualsAndHashCode
-public final class Tier implements Comparable<Tier> {
+@Getter
+public class Tier implements Comparable<Tier> {
 
     private static final Map<Integer, String> level_rate = new HashMap<>();
-    private final int level;
-    private final String rate;
+
+    @Column(name = "level", nullable = false)
+    private int level;
+    @Column(name = "rate", nullable = false)
+    private String rate;
 
     static {
         level_rate.put(0, "UNRATED");

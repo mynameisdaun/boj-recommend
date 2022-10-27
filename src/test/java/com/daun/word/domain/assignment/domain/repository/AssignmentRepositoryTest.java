@@ -1,7 +1,7 @@
 package com.daun.word.domain.assignment.domain.repository;
 
 import com.daun.word.domain.assignment.domain.Assignment;
-import com.daun.word.global.Id;
+import com.daun.word.global.GlobalId;
 import com.daun.word.global.vo.YesNo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,9 +26,9 @@ class AssignmentRepositoryTest {
     @Test
     void findById() throws Exception {
         //given
-        Id<Assignment, Integer> id = Id.of(Assignment.class, assignment().getId());
+        GlobalId<Assignment, Integer> globalId = GlobalId.of(Assignment.class, assignment().getId());
         //when
-        Assignment assignment = assignmentRepository.findById(id)
+        Assignment assignment = assignmentRepository.findById(globalId)
                 .orElseThrow(NoSuchElementException::new);
         //then
         assertThat(assignment).isNotNull();

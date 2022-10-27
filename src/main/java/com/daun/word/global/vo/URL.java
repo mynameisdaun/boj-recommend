@@ -2,16 +2,23 @@ package com.daun.word.global.vo;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 import static com.daun.word.global.utils.StringUtils.isNullOrBlank;
 
 @Getter
 @EqualsAndHashCode
 @ToString
+@NoArgsConstructor
+@Embeddable
 public class URL {
 
-    private final String url;
+    @Column(name="url", nullable = false)
+    private String url;
 
     public URL(String url) {
         if (isNullOrBlank(url)) {
@@ -23,4 +30,5 @@ public class URL {
     public String getValue() {
         return this.url;
     }
+
 }

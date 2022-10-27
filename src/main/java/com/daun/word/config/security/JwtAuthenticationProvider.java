@@ -1,9 +1,9 @@
 package com.daun.word.config.security;
 
+import com.daun.word.global.GlobalId;
 import com.daun.word.global.vo.Name;
 import com.daun.word.global.auth.dto.AuthenticationRequest;
 import com.daun.word.global.auth.dto.AuthenticationResponse;
-import com.daun.word.global.Id;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.Role;
@@ -51,7 +51,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                     // 로그인 완료 전 JwtAuthenticationToken.principal 부분은 Email 인스턴스가 set 되어 있었다.
                     new JwtAuthenticationToken(
                             new JwtAuthentication(
-                                    Id.of(Member.class, response.getId()),
+                                    response.getId(),
                                     new Email(response.getEmail()),
                                     new Name(response.getNickname()),
                                     SocialType.valueOf(response.getSocialType())

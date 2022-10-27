@@ -1,7 +1,7 @@
 package com.daun.word.global.infra.solvedac.dto;
 
 import com.daun.word.domain.problem.domain.Problem;
-import com.daun.word.global.Id;
+import com.daun.word.global.GlobalId;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,9 +30,9 @@ public final class ProblemSearchResponse {
         private double averageTries;
     }
 
-    public List<Id<Problem, Integer>> toProblemIds() {
+    public List<GlobalId<Problem, Integer>> toProblemIds() {
         return stream(this.items)
-                .map(i -> Id.of(Problem.class, i.getProblemId()))
+                .map(i -> GlobalId.of(Problem.class, i.getProblemId()))
                 .collect(toList());
     }
 }

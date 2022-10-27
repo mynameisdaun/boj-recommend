@@ -2,16 +2,23 @@ package com.daun.word.global.vo;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 import static com.daun.word.global.utils.StringUtils.isNullOrBlank;
 
+@Embeddable
+@NoArgsConstructor
 @Getter
 @EqualsAndHashCode
 @ToString
 public class Title {
 
-    private final String title;
+    @Column(name = "title", nullable = false)
+    private String title;
 
     public Title(String title) {
         if (isNullOrBlank(title)) {
@@ -20,7 +27,4 @@ public class Title {
         this.title = title;
     }
 
-    public String getValue() {
-        return this.title;
-    }
 }

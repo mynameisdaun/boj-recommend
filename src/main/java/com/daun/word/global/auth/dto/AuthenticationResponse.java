@@ -4,6 +4,8 @@ import com.daun.word.domain.member.dto.MemberDTO;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.UUID;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -11,7 +13,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 @RequiredArgsConstructor
 public class AuthenticationResponse {
     //TODO: Test Code!
-    private final Integer id;
+    private final UUID id;
     private final String email;
     private final String nickname;
     private final String socialType;

@@ -6,10 +6,9 @@ import com.daun.word.domain.assignment.dto.AssignmentRequest;
 import com.daun.word.domain.member.service.MemberService;
 import com.daun.word.domain.recommend.service.RecommendService;
 import com.daun.word.domain.study.service.StudyService;
-import com.daun.word.global.Id;
+import com.daun.word.global.GlobalId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +28,8 @@ public class AssignmentService {
     private final StudyService studyService;
 
     @Transactional
-    public Assignment findById(Id<Assignment, Integer> id) {
-        return assignmentRepository.findById(id)
+    public Assignment findById(GlobalId<Assignment, Integer> globalId) {
+        return assignmentRepository.findById(globalId)
                 .orElseThrow(NoSuchElementException::new);
     }
 

@@ -14,7 +14,7 @@ public class URLTypeHandler implements TypeHandler<URL> {
 
     @Override
     public void setParameter(PreparedStatement ps, int i, URL parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, parameter.getValue());
+        ps.setString(i, parameter.getUrl());
     }
 
     @Override

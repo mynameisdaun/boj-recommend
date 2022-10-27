@@ -4,7 +4,7 @@
 
     <resultMap id="recommendMap" type="Recommend">
         <constructor>
-            <idArg column="id" name="id"/>
+            <idArg column="globalId" name="globalId"/>
             <arg column="problem_id" name="problem" javaType="Problem"
                  select="com.daun.word.domain.problem.domain.repository.ProblemRepository.findById"/>
             <arg column="email" name="member" javaType="Member"
@@ -17,13 +17,13 @@
         </constructor>
     </resultMap>
 
-    <insert id="save" parameterType="Recommend" useGeneratedKeys="true" keyColumn="id" keyProperty="recommend.id">
+    <insert id="save" parameterType="Recommend" useGeneratedKeys="true" keyColumn="globalId" keyProperty="recommend.globalId">
         insert into recommend
         (
         problem_id,
         email
-        <if test="recommend.id != null">
-            ,id
+        <if test="recommend.globalId != null">
+            ,globalId
             ,recommended_count
             ,choose_yn
             ,choose_date_time
@@ -31,42 +31,42 @@
         )
         values
         (
-        #{recommend.problem.id},
+        #{recommend.problem.globalId},
         #{recommend.member.email}
-        <if test="recommend.id != null">
-            ,#{recommend.id}
+        <if test="recommend.globalId != null">
+            ,#{recommend.globalId}
             ,#{recommend.recommendedCount}
             ,#{recommend.chooseYn}
             ,#{recommend.chooseDateTime}
         </if>
         )
         on duplicate key update
-        problem_id = #{recommend.problem.id},
+        problem_id = #{recommend.problem.globalId},
         email = #{recommend.member.email},
         recommended_count = #{recommend.recommendedCount},
         choose_yn = #{recommend.chooseYn},
         choose_date_time = #{recommend.chooseDateTime},
         updated_at = sysdate()
-        <selectKey keyColumn="id,created_at,updated_at"
-                   keyProperty="recommend.id,recommend.createdAt,recommend.updatedAt"
+        <selectKey keyColumn="globalId,created_at,updated_at"
+                   keyProperty="recommend.globalId,recommend.createdAt,recommend.updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
             select
-            r.id,
+            r.globalId,
             r.created_at,
             r.updated_at
             from recommend as r
-            WHERE r.id =
-            <if test="recommend.id != null">
-                #{recommend.id}
+            WHERE r.globalId =
+            <if test="recommend.globalId != null">
+                #{recommend.globalId}
             </if>
-            <if test="recommend.id == null">
+            <if test="recommend.globalId == null">
                 LAST_INSERT_ID()
             </if>
         </selectKey>
     </insert>
 
     <select id="findById" resultMap="recommendMap">
-        select r.id,
+        select r.globalId,
                r.problem_id,
                r.email,
                r.recommended_count,
@@ -75,11 +75,11 @@
                r.created_at,
                r.updated_at
         from recommend as r
-        where r.id = #{recommendId.value}
+        where r.globalId = #{recommendGlobalId.value}
     </select>
 
     <select id="findByMemberAndProblem" resultMap="recommendMap">
-        select r.id,
+        select r.globalId,
                r.problem_id,
                r.email,
                r.recommended_count,
@@ -89,12 +89,12 @@
                r.updated_at
         from recommend as r
         where r.email = #{member.email}
-          and r.problem_id = #{problem.id.value}
+          and r.problem_id = #{problem.globalId.value}
     </select>
 
     <select id="findByMemberAndProblems" resultMap="recommendMap">
         select
-        r.id,
+        r.globalId,
         r.problem_id,
         r.email,
         r.recommended_count,
@@ -106,12 +106,12 @@
         where r.email = #{member.email}
         and r.problem_id in
         <foreach item="problem" collection="problems" open="(" separator="," close=")">
-            #{problem.id}
+            #{problem.globalId}
         </foreach>
     </select>
 
     <select id="findByMembersWhereCreatedBefore" resultMap="recommendMap">
-        select r.id,
+        select r.globalId,
         r.problem_id,
         r.email,
         r.recommended_count,

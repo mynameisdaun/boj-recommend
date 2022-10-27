@@ -2,41 +2,39 @@ package com.daun.word.domain.recommend.domain;
 
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.problem.domain.Problem;
+import com.daun.word.global.vo.CreatedAt;
+import com.daun.word.global.vo.UpdatedAt;
 import com.daun.word.global.vo.YesNo;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-@AllArgsConstructor
-@RequiredArgsConstructor
+@Entity(name = "recommend")
+@NoArgsConstructor
 @Getter
 @ToString
 public class Recommend {
-    private Integer id;
-    private final Problem problem;
-    private final Member member;
-    private int recommendedCount;
-    private YesNo chooseYn;
-    private LocalDateTime chooseDateTime;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    @Id
+    @Column(name = "recommend_id", nullable = false, columnDefinition = "varbinary(16)")
+    private UUID id;
 
+    @ManyToOne
+    @JoinColumn(name = "problem_id")
+    private Problem problem;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-        Recommend recommend = (Recommend) o;
+    private CreatedAt createdAt;
 
-        return id == recommend.id;
-    }
+    private UpdatedAt updatedAt;
 
-    @Override
-    public int hashCode() {
-        return id;
+    public Recommend(UUID id, Problem problem, Member member) {
+        this.id = id;
+        this.problem = problem;
+        this.member = member;
     }
 }

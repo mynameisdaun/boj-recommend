@@ -1,6 +1,6 @@
 package com.daun.word.config.security;
 
-import com.daun.word.global.Id;
+import com.daun.word.global.GlobalId;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.global.vo.Name;
@@ -25,6 +25,7 @@ import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import static java.util.Objects.nonNull;
@@ -56,16 +57,16 @@ public class JwtAuthenticationTokenFilter extends GenericFilterBean {
                         String refreshedToken = jwt.refreshToken(authorizationToken);
                         response.setHeader(headerKey, refreshedToken);
                     }
-                    Id<Member, Integer> userId = claims.memberId;
+                    UUID userGlobalId = claims.memberGlobalId;
                     Name name = claims.name;
                     Email email = claims.email;
                     SocialType socialType = claims.socialType;
 
                     List<GrantedAuthority> authorities = obtainAuthorities(claims);
 
-                    if (nonNull(userId) && nonNull(name) && nonNull(email) && authorities.size() > 0) {
+                    if (nonNull(userGlobalId) && nonNull(name) && nonNull(email) && authorities.size() > 0) {
                         JwtAuthenticationToken authentication =
-                                new JwtAuthenticationToken(new JwtAuthentication(userId, email, name, socialType), null, socialType, authorities);
+                                new JwtAuthenticationToken(new JwtAuthentication(userGlobalId, email, name, socialType), null, socialType, authorities);
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }

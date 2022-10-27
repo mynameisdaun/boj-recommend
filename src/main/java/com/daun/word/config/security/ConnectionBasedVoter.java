@@ -1,6 +1,6 @@
 package com.daun.word.config.security;
 
-import com.daun.word.global.Id;
+import com.daun.word.global.GlobalId;
 import com.daun.word.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDecisionVoter;
@@ -20,7 +20,7 @@ public class ConnectionBasedVoter implements AccessDecisionVoter<FilterInvocatio
     //TODO: API 마다 다양하게, 어떤 Voter를 선택할지 골라야 한다. 어떻게 적용할 수 있을까?
     private final RequestMatcher requiresAuthorizationRequestMatcher;
 
-    private final Function<String, Id<Member, Integer>> idExtractor;
+    private final Function<String, GlobalId<Member, Integer>> idExtractor;
 
 
     @Override
@@ -44,7 +44,7 @@ public class ConnectionBasedVoter implements AccessDecisionVoter<FilterInvocatio
         return requiresAuthorizationRequestMatcher.matches(request);
     }
 
-    private Id<Member, Integer> obtainTargetId(HttpServletRequest request) {
+    private GlobalId<Member, Integer> obtainTargetId(HttpServletRequest request) {
         return idExtractor.apply(request.getRequestURI());
     }
 

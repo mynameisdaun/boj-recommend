@@ -1,6 +1,6 @@
 package com.daun.word.config.security;
 
-import com.daun.word.global.Id;
+import com.daun.word.global.GlobalId;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Role;
 import org.springframework.context.annotation.Bean;
@@ -77,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     /* url에서 targetId를 추출하기 위해 정규식 처리 */
                     Matcher matcher = pattern.matcher(url);
                     long id = matcher.matches() ? toLong(matcher.group(1), -1) : -1;
-                    return Id.of(Member.class, (int) id);
+                    return GlobalId.of(Member.class, (int) id);
                 }
         );
     }

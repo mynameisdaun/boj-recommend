@@ -2,40 +2,69 @@ package com.daun.word.domain.member.domain;
 
 import com.daun.word.config.security.Jwt;
 import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.global.vo.Name;
 import com.daun.word.domain.member.domain.vo.Password;
 import com.daun.word.domain.member.domain.vo.SocialType;
-import com.daun.word.global.Id;
+import com.daun.word.global.vo.CreatedAt;
+import com.daun.word.global.vo.Name;
 import com.daun.word.global.vo.Tier;
+import com.daun.word.global.vo.UpdatedAt;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.UUID;
 
-import static java.time.LocalDateTime.now;
-
-@Getter
-@Setter
+@Entity(name = "member")
+@Table(name="member", uniqueConstraints = {
+        @UniqueConstraint(
+                name = "email_unique",
+                columnNames = {"email"}
+        )
+})
 @AllArgsConstructor
-@RequiredArgsConstructor
-@ToString
-public final class Member {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString @Getter
+public class Member {
 
-    private Integer id;
-    private final Email email;
-    private final String password;
-    private final Name name;
-    private final Tier tier;
+    @Id
+    @Column(name = "member_id", nullable = false, columnDefinition = "varbinary(16)")
+    private UUID id;
 
-    private final SocialType socialType;
+    private Email email;
+
+    private Name name;
+
+
+    @Column(name = "password")
+    private String password;
+
+    private Tier tier;
+
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
+    @Column(name = "login_count", nullable = false, columnDefinition = "int default 0")
     private int loginCount;
-    private LocalDateTime lastLoginAt;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+
+    @Column(name = "last_login_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastLoginAt;
+
+    private CreatedAt createdAt;
+
+    private UpdatedAt updatedAt;
+
+    public Member(Email email, String password, Name name, Tier tier, SocialType socialType) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.tier = tier;
+        this.socialType = socialType;
+    }
 
     /* api token 발급 */
     public String accessToken(Jwt jwt, String[] roles) {
-        Jwt.Claims claims = Jwt.Claims.of(Id.of(Member.class, id), email, name, socialType, roles);
+        Jwt.Claims claims = Jwt.Claims.of(UUID.randomUUID(), email, name, socialType, roles);
         return jwt.newToken(claims);
     }
 
@@ -49,7 +78,7 @@ public final class Member {
     /* 로그인 성공 후 */
     public void afterLoginSuccess() {
         this.loginCount++;
-        this.lastLoginAt = now();
+        this.lastLoginAt = new Date();
     }
 
 }

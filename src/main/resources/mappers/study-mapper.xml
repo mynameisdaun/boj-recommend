@@ -4,7 +4,7 @@
 
     <resultMap id="studyMap" type="Study">
         <constructor>
-            <idArg column="id" name="id"/>
+            <idArg column="id" name="globalId"/>
             <arg column="leader" name="leader" javaType="Member"
                  select="com.daun.word.domain.member.domain.repository.MemberRepository.findByEmail"/>
             <arg column="study_name" name="studyName" javaType="Name" typeHandler="NameTypeHandler"/>
@@ -30,7 +30,7 @@
                m.updated_at
         FROM study_member sm
                  left join member m on sm.email = m.email
-        WHERE sm.study_id = #{id}
+        WHERE sm.study_id = #{globalId}
     </select>
 
     <select id="findById" resultMap="studyMap">
@@ -42,18 +42,18 @@
                s.created_at,
                s.updated_at
         FROM study s
-        where s.id = ${id.value}
+        where s.id = ${globalId.value}
           and s.delete_yn = 'N'
     </select>
 
-    <insert id="save" parameterType="Study" useGeneratedKeys="true" keyColumn="id" keyProperty="study.id">
+    <insert id="save" parameterType="Study" useGeneratedKeys="true" keyColumn="id" keyProperty="study.globalId">
         INSERT INTO study
         (
         leader,
         study_name,
         hash,
         delete_yn
-        <if test="study.id != null">
+        <if test="study.globalId != null">
             ,id
         </if>
         )
@@ -63,8 +63,8 @@
         #{study.studyName},
         #{study.hash},
         #{study.deleteYn}
-        <if test="study.id != null">
-            ,#{study.id}
+        <if test="study.globalId != null">
+            ,#{study.globalId}
         </if>
         )
         ON DUPLICATE KEY UPDATE
@@ -73,18 +73,18 @@
         hash = #{study.hash},
         delete_yn = #{study.deleteYn},
         updated_at = sysdate()
-        <selectKey keyColumn="id,created_at,updated_at"
-                   keyProperty="study.id,study.createdAt,study.updatedAt"
+        <selectKey keyColumn="globalId,created_at,updated_at"
+                   keyProperty="study.globalId,study.createdAt,study.updatedAt"
                    resultType="java.util.HashMap" order="AFTER">
-            SELECT s.id,
+            SELECT s.globalId,
             s.created_at,
             s.updated_at
             FROM study s
-            where s.id =
-            <if test="study.id != null">
-                #{study.id}
+            where s.globalId =
+            <if test="study.globalId != null">
+                #{study.globalId}
             </if>
-            <if test="study.id == null">
+            <if test="study.globalId == null">
                 LAST_INSERT_ID()
             </if>
         </selectKey>
@@ -95,10 +95,10 @@
         (study_id,
          email,
          delete_yn)
-        VALUES (#{studyId.value},
+        VALUES (#{studyGlobalId.value},
                 #{member.email},
                     #{deleteYn}) ON DUPLICATE KEY
-        UPDATE study_id = #{studyId.value},
+        UPDATE study_id = #{studyGlobalId.value},
             email = #{member.email},
             delete_yn = #{deleteYn},
             updated_at = sysdate()

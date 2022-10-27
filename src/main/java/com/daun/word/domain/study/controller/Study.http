@@ -3,9 +3,9 @@ POST http://localhost:8080/study/assign
 Content-Type: application/json
 
 {
-  "id": 2,
+  "globalId": 2,
   "key": 1234,
-  "problemId": 1799
+  "problemGlobalId": 1799
 }
 
 
@@ -15,7 +15,7 @@ POST http://localhost:8080/study/recommend
 Content-Type: application/json
 
 {
-  "id": 2,
+  "globalId": 2,
   "key": 1234
 }
 

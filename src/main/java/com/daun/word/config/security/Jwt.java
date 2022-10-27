@@ -6,7 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.daun.word.global.Id;
+import com.daun.word.global.GlobalId;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.global.vo.Name;
@@ -14,6 +14,7 @@ import com.daun.word.domain.member.domain.vo.SocialType;
 import lombok.Getter;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 public final class Jwt {
@@ -46,7 +47,7 @@ public final class Jwt {
         if (expirySeconds > 0) {
             builder.withExpiresAt(new Date(now.getTime() + expirySeconds * 1_000L));
         }
-        builder.withClaim("memberId", claims.memberId.getValue());
+        builder.withClaim("memberId", claims.memberGlobalId.toString());
         builder.withClaim("nickname", claims.name.getValue());
         builder.withClaim("email", claims.email.getValue());
         builder.withArrayClaim("roles", claims.roles);
@@ -66,7 +67,7 @@ public final class Jwt {
     }
 
     static public class Claims {
-        Id<Member, Integer> memberId;
+        UUID memberGlobalId;
         Name name;
         Email email;
         SocialType socialType;
@@ -80,7 +81,7 @@ public final class Jwt {
         Claims(DecodedJWT decodedJWT) {
             Claim memberId = decodedJWT.getClaim("memberId");
             if (!memberId.isNull())
-                this.memberId = memberId.as(Id.class);
+                this.memberGlobalId = UUID.fromString(memberId.asString());
             Claim nickname = decodedJWT.getClaim("nickname");
             if (!nickname.isNull())
                 this.name = new Name(nickname.asString());
@@ -98,9 +99,9 @@ public final class Jwt {
             this.exp = decodedJWT.getExpiresAt();
         }
 
-        public static Claims of(Id<Member, Integer> memberId, Email email, Name name, SocialType socialType, String[] roles) {
+        public static Claims of(UUID memberGlobalId, Email email, Name name, SocialType socialType, String[] roles) {
             Claims claims = new Claims();
-            claims.memberId = memberId;
+            claims.memberGlobalId = memberGlobalId;
             claims.email = email;
             claims.name = name;
             claims.socialType = socialType;

@@ -3,7 +3,7 @@ package com.daun.word.domain.assignment.controller;
 import com.daun.word.domain.assignment.domain.Assignment;
 import com.daun.word.domain.assignment.dto.AssignmentRequest;
 import com.daun.word.domain.assignment.service.AssignmentService;
-import com.daun.word.global.Id;
+import com.daun.word.global.GlobalId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +25,6 @@ public class AssignmentController {
     @GetMapping("/{assignmentId}")
     public ResponseEntity<?> findById(@PathVariable Integer assignmentId) {
         return ResponseEntity.status(200)
-                .body(assignmentService.findById(Id.of(Assignment.class, assignmentId)));
+                .body(assignmentService.findById(GlobalId.of(Assignment.class, assignmentId)));
     }
 }

@@ -4,11 +4,11 @@
 
     <resultMap id="problemMap" type="Problem">
         <constructor>
-            <idArg column="id" name="id"/>
+            <idArg column="globalId" name="globalId"/>
             <arg column="title" name="title" javaType="Title"/>
             <arg column="url" name="url" javaType="URL"/>
             <arg column="tier" name="tier" javaType="Tier"/>
-            <arg column="id" name="tags" javaType="List" select="findTags"/>
+            <arg column="globalId" name="tags" javaType="List" select="findTags"/>
             <arg column="accepted_user_count" name="acceptedUserCount"/>
             <arg column="recommended_count" name="recommendedCount"/>
             <arg column="created_at" name="createdAt" javaType="LocalDateTime"/>
@@ -18,7 +18,7 @@
 
     <resultMap id="tagMap" type="Tag">
         <constructor>
-            <idArg column="id" name="id"/>
+            <idArg column="globalId" name="globalId"/>
             <arg column="tag_key" name="key" javaType="String"/>
             <arg column="title" name="title" javaType="Title"/>
             <arg column="created_at" name="createdAt" javaType="LocalDateTime"/>
@@ -27,7 +27,7 @@
     </resultMap>
 
     <select id="findById" resultMap="problemMap">
-        SELECT p.id,
+        SELECT p.globalId,
                p.title,
                p.url,
                p.tier,
@@ -36,11 +36,11 @@
                p.created_at,
                p.updated_at
         FROM problem p
-        where p.id = ${problemId.value}
+        where p.globalId = ${problemGlobalId.value}
     </select>
 
     <select id="findByIdIn" resultMap="problemMap">
-        SELECT p.id,
+        SELECT p.globalId,
         p.title,
         p.url,
         p.tier,
@@ -49,14 +49,14 @@
         p.created_at,
         p.updated_at
         FROM problem as p
-        where p.id in
-        <foreach item="id" collection="ids" open="(" separator="," close=")">
-            #{id.value}
+        where p.globalId in
+        <foreach item="globalId" collection="globalId" open="(" separator="," close=")">
+            #{globalId.value}
         </foreach>
     </select>
 
     <select id="findByTierBetweenOrderBySolvedCountDesc" resultMap="problemMap">
-        SELECT p.id,
+        SELECT p.globalId,
                p.title,
                p.url,
                p.tier,
@@ -74,21 +74,21 @@
     </select>
 
     <select id="findTags" resultMap="tagMap">
-        SELECT t.id,
+        SELECT t.globalId,
                t.tag_key,
                t.title,
                t.created_at,
                t.updated_at
         FROM problem_tag pt
-                 left join problem p on pt.problem_id = p.id
-                 left join tag t on pt.tag_id = t.id
-        where p.id = ${id}
+                 left join problem p on pt.problem_id = p.globalId
+                 left join tag t on pt.tag_id = t.globalId
+        where p.globalId = ${globalId}
     </select>
 
-    <insert id="save" parameterType="Problem" useGeneratedKeys="true" keyColumn="id" keyProperty="problem.id">
+    <insert id="save" parameterType="Problem" useGeneratedKeys="true" keyColumn="globalId" keyProperty="problem.globalId">
         INSERT INTO problem
         (
-        id,
+        globalId,
         title,
         url,
         tier,
@@ -97,7 +97,7 @@
         )
         VALUES
         (
-        #{problem.id},
+        #{problem.globalId},
         #{problem.title},
         #{problem.url},
         #{problem.tier},
@@ -117,20 +117,20 @@
             p.created_at,
             p.updated_at
             FROM problem p
-            where p.id = #{problem.id};
+            where p.globalId = #{problem.globalId};
         </selectKey>
     </insert>
 
-    <insert id="saveTag" parameterType="Tag" useGeneratedKeys="true" keyColumn="id" keyProperty="tag.id">
+    <insert id="saveTag" parameterType="Tag" useGeneratedKeys="true" keyColumn="globalId" keyProperty="tag.globalId">
         INSERT INTO tag
         (
-        id,
+        globalId,
         tag_key,
         title
         )
         VALUES
         (
-        #{tag.id},
+        #{tag.globalId},
         #{tag.key},
         #{tag.title}
         )
@@ -144,7 +144,7 @@
             t.created_at,
             t.updated_at
             FROM tag t
-            where t.id = #{tag.id};
+            where t.globalId = #{tag.globalId};
         </selectKey>
     </insert>
 
@@ -153,11 +153,11 @@
         (pk,
          problem_id,
          tag_id)
-        VALUES (CONCAT(#{problemId.value}, '-', #{tagId.value}),
-                #{problemId.value},
-                #{tagId.value})
-        ON DUPLICATE KEY UPDATE problem_id = #{problemId.value},
-                                tag_id     = #{tagId.value}
+        VALUES (CONCAT(#{problemGlobalId.value}, '-', #{tagGlobalId.value}),
+                #{problemGlobalId.value},
+                #{tagGlobalId.value})
+        ON DUPLICATE KEY UPDATE problem_id = #{problemGlobalId.value},
+                                tag_id     = #{tagGlobalId.value}
     </insert>
 
     <select id="countByGroup" resultType="ProblemCount">

@@ -7,22 +7,20 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
+import java.util.Date;
 
 @Embeddable
 @NoArgsConstructor
 @Getter
 @ToString
 @EqualsAndHashCode
-public class Name {
-    @Column(name = "name")
-    private String name;
+public class CreatedAt {
 
-    public Name(String name) {
-        this.name = name;
+    @Column(name = "created_at",  nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date createdAt;
+
+    public CreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getValue() {
-        return this.name;
-    }
 }

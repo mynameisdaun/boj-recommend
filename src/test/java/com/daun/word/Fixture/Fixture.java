@@ -6,7 +6,7 @@ import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.Password;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.domain.problem.domain.Problem;
-import com.daun.word.domain.problem.domain.vo.Tag;
+import com.daun.word.domain.problem.domain.Tag;
 import com.daun.word.domain.recommend.domain.Recommend;
 import com.daun.word.domain.study.domain.Study;
 import com.daun.word.global.auth.token.domain.Token;

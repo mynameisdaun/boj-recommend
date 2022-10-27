@@ -21,7 +21,7 @@ create TABLE member
     last_login_at datetime            not null default current_timestamp comment '마지막 로그인 일시',
     created_at    datetime            not null default current_timestamp comment '데이터 생성일시',
     updated_at    datetime            not null default current_timestamp comment '데이터 수정일시',
-    primary key (id)
+    primary key (globalId)
 ) comment '회원';
 
 /* 22.08.18 토큰 테이블 */

@@ -4,7 +4,7 @@ import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.SolvedAcMember;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.problem.domain.Problem;
-import com.daun.word.global.Id;
+import com.daun.word.global.GlobalId;
 import com.daun.word.global.infra.solvedac.dto.ProblemCount;
 import com.daun.word.global.infra.solvedac.dto.ProblemSearchResponse;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblemResponse;
@@ -16,8 +16,6 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,10 +53,10 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
 
     /* id로 문제 조회 */
     @Override
-    public Problem findById(Id<Problem, Integer> id) {
+    public Problem findById(GlobalId<Problem, Integer> globalId) {
         StringBuilder url = new StringBuilder(BASE)
                 .append("/problem/show?problemId=")
-                .append(id.getValue());
+                .append(globalId.getValue());
         ResponseEntity<SolvedAcProblemResponse> response = restTemplate.exchange(
                 url.toString(),
                 HttpMethod.GET,
@@ -69,7 +67,7 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
 
     /* id 리스트로 문제들 조회 */
     @Override
-    public List<Problem> findByIdsIn(List<Id<Problem, Integer>> lists) {
+    public List<Problem> findByIdsIn(List<GlobalId<Problem, Integer>> lists) {
         if (lists == null || lists.isEmpty()) {
             return new ArrayList<>();
         }
@@ -77,7 +75,7 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
         int start = 0;
         List<Problem> resp = new ArrayList<>();
         while (true) {
-            List<Id<Problem, Integer>> ids = lists.subList(start, min(start + limitPerRequest, lists.size()));
+            List<GlobalId<Problem, Integer>> ids = lists.subList(start, min(start + limitPerRequest, lists.size()));
             StringBuilder url = new StringBuilder(BASE)
                     .append("/problem/lookup?problemIds=")
                     .append(ids.stream().map(id -> String.valueOf(id.getValue())).collect(Collectors.joining(",")));
@@ -99,7 +97,7 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
     //TODO: 매직 넘버 너무 많다
     @Override
     public List<Problem> unSolvedProblemsByMembers(List<Member> members, List<Problem> problems) {
-        List<Id<Problem, Integer>> solved = new ArrayList<>();
+        List<GlobalId<Problem, Integer>> solved = new ArrayList<>();
         final int page = 1;
         int limit = 8;
         int offset = 0;
@@ -113,20 +111,20 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
                 continue;
             }
             ProblemSearchResponse response = search(query, page, "solved", "desc");
-            solved.addAll(stream(response.getItems()).map(i -> Id.of(Problem.class, i.getProblemId())).collect(toList()));
+            solved.addAll(stream(response.getItems()).map(i -> GlobalId.of(Problem.class, i.getProblemId())).collect(toList()));
             if (response.getItems().length < limit) {
                 break;
             }
             offset += limit;
         }
         for (Problem p : problems) {
-            if (!solved.contains(Id.of(Problem.class, p.getId()))) {
+            if (!solved.contains(GlobalId.of(Problem.class, p.getId()))) {
                 log.info("안푼문제: " + p);
                 return Arrays.asList(p);
             }
         }
         return problems.stream()
-                .filter(p -> !solved.contains(Id.of(Problem.class, p.getId())))
+                .filter(p -> !solved.contains(GlobalId.of(Problem.class, p.getId())))
                 .collect(toList());
     }
 
@@ -148,7 +146,7 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
     /* 문제 리스트 중에서, 회원이 풀지 않은 문제만 반환하기 */
     @Override
     public List<Problem> unSolvedProblemsByMember(Member assignTo, List<Problem> problems) {
-        List<Id<Problem, Integer>> solved = new ArrayList<>();
+        List<GlobalId<Problem, Integer>> solved = new ArrayList<>();
         int page = 1;
         int total = 0;
         int cnt = 0;
@@ -165,7 +163,7 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
             ProblemSearchResponse response = search(query.toString(), page, "solved", "desc");
             total = response.getCount();
             cnt += response.getItems().length;
-            solved.addAll(stream(response.getItems()).map(i -> Id.of(Problem.class, i.getProblemId())).collect(toList()));
+            solved.addAll(stream(response.getItems()).map(i -> GlobalId.of(Problem.class, i.getProblemId())).collect(toList()));
             if (cnt < total) {
                 page++;
                 continue;
@@ -173,7 +171,7 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
             break;
         }
         return problems.stream()
-                .filter(p -> !solved.contains(Id.of(Problem.class, p.getId())))
+                .filter(p -> !solved.contains(GlobalId.of(Problem.class, p.getId())))
                 .collect(toList());
     }
 

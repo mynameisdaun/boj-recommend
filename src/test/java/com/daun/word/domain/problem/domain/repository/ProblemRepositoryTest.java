@@ -1,8 +1,8 @@
 package com.daun.word.domain.problem.domain.repository;
 
 import com.daun.word.domain.problem.domain.Problem;
-import com.daun.word.domain.problem.domain.vo.Tag;
-import com.daun.word.global.Id;
+import com.daun.word.domain.problem.domain.Tag;
+import com.daun.word.global.GlobalId;
 import com.daun.word.global.infra.solvedac.dto.ProblemCount;
 import com.daun.word.global.vo.Tier;
 import com.daun.word.global.vo.Title;
@@ -59,9 +59,9 @@ class ProblemRepositoryTest {
     @Test
     void saveProblem_Tag() throws Exception {
         //given&&when
-        Id<Problem, Integer> problemId = Id.of(Problem.class, problem().getId());
-        Id<Tag, Integer> tagId = Id.of(Tag.class, tag().getId());
-        int saved = problemRepository.saveProblemTag(problemId, tagId);
+        GlobalId<Problem, Integer> problemGlobalId = GlobalId.of(Problem.class, problem().getId());
+        GlobalId<Tag, Integer> tagGlobalId = GlobalId.of(Tag.class, tag().getId());
+        int saved = problemRepository.saveProblemTag(problemGlobalId, tagGlobalId);
         //then
         assertThat(saved).isOne();
     }
@@ -71,9 +71,9 @@ class ProblemRepositoryTest {
     @Test
     void findById() throws Exception {
         //given
-        Id<Problem, Integer> id = Id.of(Problem.class, 16120);
+        GlobalId<Problem, Integer> globalId = GlobalId.of(Problem.class, 16120);
         //when
-        Problem problem = problemRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        Problem problem = problemRepository.findById(globalId).orElseThrow(NoSuchElementException::new);
         //then
         assertThat(problem).isNotNull();
         assertThat(problem.getId()).isEqualTo(16120);

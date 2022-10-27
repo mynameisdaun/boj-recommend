@@ -15,7 +15,7 @@ public final class StudyRecommendResponse {
     private final List<MemberProblem> memberProblems;
 
     public StudyRecommendResponse(List<Recommend> studyProblem, List<Recommend> recommends) {
-        this.studyProblems = studyProblem.stream().map(Recommend::getProblem).map(Problem::getUrl).map(URL::getValue).collect(Collectors.toList());
+        this.studyProblems = studyProblem.stream().map(Recommend::getProblem).map(Problem::getUrl).map(URL::getUrl).collect(Collectors.toList());
         this.memberProblems = recommends.stream().map(MemberProblem::new).collect(Collectors.toList());
     }
 

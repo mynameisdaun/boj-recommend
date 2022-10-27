@@ -1,34 +1,38 @@
 package com.daun.word.domain.problem.domain;
 
-import com.daun.word.domain.problem.domain.vo.Tag;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblemResponse;
-import com.daun.word.global.vo.Tier;
-import com.daun.word.global.vo.Title;
-import com.daun.word.global.vo.URL;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import com.daun.word.global.vo.*;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
-@RequiredArgsConstructor
+@Entity(name = "problem")
+@Table(name = "problem")
+@NoArgsConstructor
 @Getter
 @ToString
 public class Problem {
 
-    private final Integer id;
-    private final Title title;
-    private final URL url;
-    private final Tier tier;
-    private final List<Tag> tags;
-    private final int acceptedUserCount;
-    private final int recommendedCount;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    @Id
+    @Column(name="problem_id", nullable = false)
+    private Integer id;
+    private Title title;
+    private URL url;
+    private Tier tier;
+    @OneToMany
+    @JoinColumn(name="tag_id")
+    private List<Tag> tags;
+
+    @Column(name = "accepted_user_count", nullable = false, columnDefinition = "int default 0")
+    private int acceptedUserCount;
+    @Column(name = "recommended_count", nullable = false, columnDefinition = "int default 0")
+    private int recommendedCount;
+
+    private CreatedAt createdAt;
+
+    private UpdatedAt updatedAt;
 
     public Problem(SolvedAcProblemResponse response) {
         this.id = response.getProblemId();
@@ -41,20 +45,5 @@ public class Problem {
         for (SolvedAcProblemResponse.Tag tag : response.getTags()) {
             this.tags.add(new Tag(tag));
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Problem problem = (Problem) o;
-
-        return id != null ? id.equals(problem.id) : problem.id == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 }
