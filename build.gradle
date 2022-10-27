@@ -32,11 +32,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'io.jsonwebtoken:jjwt-api:0.10.7'
     implementation 'com.auth0:java-jwt:3.19.2'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'com.google.guava:guava:31.1-jre'
-    implementation 'org.jsoup:jsoup:1.15.3'
 
     /* for excel */
     implementation 'org.apache.poi:poi:5.2.2'
@@ -50,6 +51,7 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.10.7'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.10.7'
     runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly 'com.h2database:h2'
 
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
