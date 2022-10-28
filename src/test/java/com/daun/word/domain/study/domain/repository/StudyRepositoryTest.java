@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 import static com.daun.word.Fixture.Fixture.another_member;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -29,7 +30,7 @@ class StudyRepositoryTest {
     @Test
     void save() throws Exception {
         //given
-        Study study = new Study(another_member(), new Name("테스트 스터디"), HashUtils.sha256("key"), YesNo.N, Arrays.asList(another_member()));
+        Study study = new Study(UUID.randomUUID(), another_member(), new Name("테스트 스터디"), HashUtils.sha256("key"), Arrays.asList(another_member()));
         //when
         int saved = studyRepository.save(study);
         //then

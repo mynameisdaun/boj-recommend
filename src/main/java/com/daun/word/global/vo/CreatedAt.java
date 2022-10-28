@@ -10,10 +10,7 @@ import javax.persistence.Embeddable;
 import java.util.Date;
 
 @Embeddable
-@NoArgsConstructor
-@Getter
-@ToString
-@EqualsAndHashCode
+@NoArgsConstructor @Getter @ToString @EqualsAndHashCode
 public class CreatedAt {
 
     @Column(name = "created_at",  nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

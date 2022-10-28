@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @ToString
-public class Problem {
+public class Problem extends BaseEntity {
 
     @Id
     @Column(name="problem_id", nullable = false)
@@ -21,18 +21,14 @@ public class Problem {
     private Title title;
     private URL url;
     private Tier tier;
-    @OneToMany
-    @JoinColumn(name="tag_id")
-    private List<Tag> tags;
+    @OneToMany(mappedBy = "problem")
+    /*다대 다 관계인가 ?*/
+    private List<Tag> tags = new ArrayList<Tag>();
 
     @Column(name = "accepted_user_count", nullable = false, columnDefinition = "int default 0")
     private int acceptedUserCount;
     @Column(name = "recommended_count", nullable = false, columnDefinition = "int default 0")
     private int recommendedCount;
-
-    private CreatedAt createdAt;
-
-    private UpdatedAt updatedAt;
 
     public Problem(SolvedAcProblemResponse response) {
         this.id = response.getProblemId();

@@ -2,6 +2,7 @@ package com.daun.word.domain.recommend.domain;
 
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.problem.domain.Problem;
+import com.daun.word.global.vo.BaseEntity;
 import com.daun.word.global.vo.CreatedAt;
 import com.daun.word.global.vo.UpdatedAt;
 import com.daun.word.global.vo.YesNo;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @ToString
-public class Recommend {
+public class Recommend extends BaseEntity {
     @Id
     @Column(name = "recommend_id", nullable = false, columnDefinition = "varbinary(16)")
     private UUID id;
@@ -27,10 +28,6 @@ public class Recommend {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
-
-    private CreatedAt createdAt;
-
-    private UpdatedAt updatedAt;
 
     public Recommend(UUID id, Problem problem, Member member) {
         this.id = id;

@@ -17,6 +17,8 @@ import com.daun.word.global.vo.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.UUID;
 
 public class Fixture {
     public static String FAKE_KAKAO_REST_API_KEY = "fake-api-key";
@@ -40,22 +42,34 @@ public class Fixture {
     public static Member member() {
         LocalDateTime now = LocalDateTime.now();
         return new Member(
-                1,
+                UUID.randomUUID(),
                 new Email("tester1@weword.com"),
-                "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS",
                 nickname(),
+                "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS",
                 new Tier(15),
                 SocialType.W,
                 1,
-                LocalDateTime.parse("2022-08-20 15:43:51", formatter),
-                LocalDateTime.parse("2022-08-20 15:43:51", formatter),
-                LocalDateTime.parse("2022-08-20 15:43:51", formatter)
+                new Date(),
+                new CreatedAt(new Date()),
+                new UpdatedAt(new Date()),
+                YesNo.N
         );
     }
 
     public static Member another_member() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(2, new Email("daun9870jung"), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", nickname(), new Tier(15), SocialType.W, 1, LocalDateTime.parse("2022-08-20 15:43:51", formatter), LocalDateTime.parse("2022-08-20 15:43:51", formatter), LocalDateTime.parse("2022-08-20 15:43:51", formatter));
+        return new Member(
+                UUID.randomUUID(),
+                new Email("daun9870jung"),
+                nickname(),
+                "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS",
+                new Tier(15),
+                SocialType.W,
+                1,
+                new Date(),
+                new CreatedAt(new Date()),
+                new UpdatedAt(new Date()),
+                YesNo.N);
     }
 
     public static KakaoTokenResponse kakaoTokenResponse() {
@@ -97,7 +111,7 @@ public class Fixture {
     }
 
     public static Tag tag() {
-        return new Tag(1, "key", new Title("example"), LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+        return new Tag(1, "key", new Title("example"), new CreatedAt(new Date()), new UpdatedAt(new Date()), YesNo.N));
     }
 
     public static Problem problem() {
@@ -109,7 +123,7 @@ public class Fixture {
     }
 
     public static Recommend recommend() {
-        return new Recommend(1, problem(), another_member(), 0, YesNo.N, null, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+        return new Recommend(UUID.randomUUID(), problem(), another_member(), 0, YesNo.N, null, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
     }
 
     public static Study study() {

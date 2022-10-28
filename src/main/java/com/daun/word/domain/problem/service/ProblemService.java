@@ -35,7 +35,7 @@ public class ProblemService {
 
     @Transactional
     public Problem save(Problem problem) {
-        problem.getTags().forEach(problemRepository::saveTag);
+        problem.getProblemTags()getTags().forEach(problemRepository::saveTag);
         problemRepository.save(problem);
         problem.getTags().forEach(t -> problemRepository.saveProblemTag(GlobalId.of(Problem.class, problem.getId()), GlobalId.of(Tag.class, t.getId())));
         return problem;

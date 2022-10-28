@@ -1,24 +1,18 @@
 package com.daun.word.domain.problem.domain;
 
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblemResponse;
-import com.daun.word.global.vo.CreatedAt;
-import com.daun.word.global.vo.Title;
-import com.daun.word.global.vo.UpdatedAt;
+import com.daun.word.global.vo.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity(name = "tag")
 @Table(name = "tag")
-@NoArgsConstructor
 @Getter
 @ToString
-public class Tag {
+public class Tag extends BaseEntity {
     @Id
     @Column(name="tag_id", nullable = false)
     private Integer id;
@@ -27,9 +21,14 @@ public class Tag {
     private String key;
     private Title title;
 
-    private CreatedAt createdAt;
+    public Tag(Integer id, String key, Title title) {
+        this.id = id;
+        this.key = key;
+        this.title = title;
+    }
 
-    private UpdatedAt updatedAt;
+    protected Tag() {
+    }
 
     public Tag(SolvedAcProblemResponse.Tag tag) {
         this.id = tag.getBojTagId();

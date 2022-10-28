@@ -4,11 +4,9 @@ import com.daun.word.config.security.Jwt;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.Password;
 import com.daun.word.domain.member.domain.vo.SocialType;
-import com.daun.word.global.vo.CreatedAt;
-import com.daun.word.global.vo.Name;
-import com.daun.word.global.vo.Tier;
-import com.daun.word.global.vo.UpdatedAt;
+import com.daun.word.global.vo.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -22,23 +20,23 @@ import java.util.UUID;
                 columnNames = {"email"}
         )
 })
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString @Getter
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @Column(name = "member_id", nullable = false, columnDefinition = "varbinary(16)")
     private UUID id;
 
+    @Embedded
     private Email email;
 
+    @Embedded
     private Name name;
-
 
     @Column(name = "password")
     private String password;
 
+    @Embedded
     private Tier tier;
 
     @Enumerated(EnumType.STRING)
@@ -50,16 +48,20 @@ public class Member {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastLoginAt;
 
-    private CreatedAt createdAt;
-
-    private UpdatedAt updatedAt;
-
-    public Member(Email email, String password, Name name, Tier tier, SocialType socialType) {
+    public Member(UUID id, Email email, Name name, String password, Tier tier, SocialType socialType, int loginCount, Date lastLoginAt, CreatedAt createdAt, UpdatedAt updatedAt, YesNo deleteYn) {
+        super(createdAt, updatedAt, deleteYn);
+        this.id = id;
         this.email = email;
-        this.password = password;
         this.name = name;
+        this.password = password;
         this.tier = tier;
         this.socialType = socialType;
+        this.loginCount = loginCount;
+        this.lastLoginAt = lastLoginAt;
+    }
+
+    protected Member() {
+        super();
     }
 
     /* api token 발급 */

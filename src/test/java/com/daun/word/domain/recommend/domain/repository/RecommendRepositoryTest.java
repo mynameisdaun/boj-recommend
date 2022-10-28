@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 import static com.daun.word.Fixture.Fixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,7 +25,7 @@ class RecommendRepositoryTest {
     @Test
     void save() throws Exception {
         //given
-        Recommend recommend = new Recommend(problem(), member());
+        Recommend recommend = new Recommend(UUID.randomUUID(), problem(), member());
         //when
         int save = recommendRepository.save(recommend);
         //then

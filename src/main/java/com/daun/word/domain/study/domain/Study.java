@@ -2,6 +2,7 @@ package com.daun.word.domain.study.domain;
 
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.study.service.StudyHashService;
+import com.daun.word.global.vo.BaseEntity;
 import com.daun.word.global.vo.Name;
 import com.daun.word.global.vo.Tier;
 import com.daun.word.global.vo.YesNo;
@@ -18,9 +19,7 @@ import java.util.UUID;
 
 @Entity(name = "study")
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Study {
+public class Study extends BaseEntity {
     @Id
     @Column(name = "study_id", nullable = false, columnDefinition = "varbinary(16)")
     private UUID id;
@@ -37,10 +36,8 @@ public class Study {
     @JoinColumn(name = "member_id")
     private List<Member> members;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
     public Study(UUID id, Member leader, Name studyName, String hash, List<Member> members) {
+        super();
         this.id = id;
         this.leader = leader;
         this.studyName = studyName;
