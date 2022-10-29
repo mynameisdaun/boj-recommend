@@ -47,12 +47,7 @@ public class Fixture {
                 nickname(),
                 "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS",
                 new Tier(15),
-                SocialType.W,
-                1,
-                new Date(),
-                new CreatedAt(new Date()),
-                new UpdatedAt(new Date()),
-                YesNo.N
+                SocialType.W
         );
     }
 
@@ -64,12 +59,8 @@ public class Fixture {
                 nickname(),
                 "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS",
                 new Tier(15),
-                SocialType.W,
-                1,
-                new Date(),
-                new CreatedAt(new Date()),
-                new UpdatedAt(new Date()),
-                YesNo.N);
+                SocialType.W
+        );
     }
 
     public static KakaoTokenResponse kakaoTokenResponse() {
@@ -111,11 +102,11 @@ public class Fixture {
     }
 
     public static Tag tag() {
-        return new Tag(1, "key", new Title("example"), new CreatedAt(new Date()), new UpdatedAt(new Date()), YesNo.N));
+        return new Tag(1, "key", new Title("example"));
     }
 
     public static Problem problem() {
-        return new Problem(16120, new Title("PPAP"), new URL("https://www.acmicpc.net/problem/16120"), new Tier(12), Arrays.asList(tag()), 0, 0, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+        return new Problem(16120, new Title("PPAP"), new URL("https://www.acmicpc.net/problem/16120"), new Tier(12), Arrays.asList(tag()));
     }
 
     public static Assignment assignment() {
@@ -123,11 +114,11 @@ public class Fixture {
     }
 
     public static Recommend recommend() {
-        return new Recommend(UUID.randomUUID(), problem(), another_member(), 0, YesNo.N, null, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+        return new Recommend(UUID.randomUUID(), problem(), another_member());
     }
 
     public static Study study() {
-        return new Study(another_member(), new Name("sample study"), "2023f708bd566934819ba9b65da86551bcc2e445bdd336b64f31e9a9f6f1aa3a", YesNo.N, Arrays.asList(another_member()));
+        return new Study(UUID.randomUUID(), another_member(), new Name("sample study"), "2023f708bd566934819ba9b65da86551bcc2e445bdd336b64f31e9a9f6f1aa3a", null);
     }
 }
 

@@ -4,9 +4,11 @@ import com.daun.word.config.security.Jwt;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.Password;
 import com.daun.word.domain.member.domain.vo.SocialType;
-import com.daun.word.global.vo.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import com.daun.word.global.vo.BaseEntity;
+import com.daun.word.global.vo.Name;
+import com.daun.word.global.vo.Tier;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -14,13 +16,14 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity(name = "member")
-@Table(name="member", uniqueConstraints = {
+@Table(name = "member", uniqueConstraints = {
         @UniqueConstraint(
                 name = "email_unique",
                 columnNames = {"email"}
         )
 })
-@ToString @Getter
+@ToString
+@Getter
 public class Member extends BaseEntity {
 
     @Id
@@ -48,16 +51,16 @@ public class Member extends BaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastLoginAt;
 
-    public Member(UUID id, Email email, Name name, String password, Tier tier, SocialType socialType, int loginCount, Date lastLoginAt, CreatedAt createdAt, UpdatedAt updatedAt, YesNo deleteYn) {
-        super(createdAt, updatedAt, deleteYn);
+    public Member(UUID id, Email email, Name name, String password, Tier tier, SocialType socialType) {
+        super();
         this.id = id;
         this.email = email;
         this.name = name;
         this.password = password;
         this.tier = tier;
         this.socialType = socialType;
-        this.loginCount = loginCount;
-        this.lastLoginAt = lastLoginAt;
+        this.loginCount = 0;
+        this.lastLoginAt = null;
     }
 
     protected Member() {

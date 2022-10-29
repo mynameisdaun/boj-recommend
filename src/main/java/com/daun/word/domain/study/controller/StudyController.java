@@ -25,11 +25,11 @@ public class StudyController {
 
     @PostMapping("/assign")
     public ResponseEntity<?> assign(@RequestBody @Valid StudyAssignRequest request) {
-        return ResponseEntity.ok(studyService.studyAssign(request));
+        return null;
     }
 
     @PostMapping("/recommend")
     public ResponseEntity<?> study_recommend(@RequestBody @Valid StudyRecommendRequest request) throws AuthenticationException, IOException {
-        return ResponseEntity.ok(studyService.studyRecommend(request));
+        return null;
     }
 }

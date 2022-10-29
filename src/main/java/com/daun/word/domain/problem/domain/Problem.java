@@ -16,30 +16,36 @@ import java.util.List;
 public class Problem extends BaseEntity {
 
     @Id
-    @Column(name="problem_id", nullable = false)
+    @Column(name = "problem_id", nullable = false)
     private Integer id;
+
+    @Embedded
     private Title title;
+
+    @Embedded
     private URL url;
+
+    @Embedded
     private Tier tier;
+
     @OneToMany(mappedBy = "problem")
-    /*다대 다 관계인가 ?*/
-    private List<Tag> tags = new ArrayList<Tag>();
+    private List<ProblemTag> problemTags;
 
     @Column(name = "accepted_user_count", nullable = false, columnDefinition = "int default 0")
     private int acceptedUserCount;
+
     @Column(name = "recommended_count", nullable = false, columnDefinition = "int default 0")
     private int recommendedCount;
 
-    public Problem(SolvedAcProblemResponse response) {
-        this.id = response.getProblemId();
-        this.title = new Title(response.getTitleKo());
-        this.url = new URL("https://www.acmicpc.net/problem/" + response.getProblemId());
-        this.tier = new Tier(response.getLevel());
-        this.tags = new ArrayList<>();
-        this.acceptedUserCount = response.getAcceptedUserCount();
+    public Problem(Integer id, Title title, URL url, Tier tier, List<Tag> problemTags) {
+        super();
+        this.id = id;
+        this.title = title;
+        this.url = url;
+        this.tier = tier;
+        this.problemTags = null;
+        //TODO: no ..
+        this.acceptedUserCount = 0;
         this.recommendedCount = 0;
-        for (SolvedAcProblemResponse.Tag tag : response.getTags()) {
-            this.tags.add(new Tag(tag));
-        }
     }
 }

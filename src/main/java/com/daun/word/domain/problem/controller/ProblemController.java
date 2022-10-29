@@ -16,7 +16,7 @@ public class ProblemController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(problemService.findById(GlobalId.of(Problem.class, id)));
+        return ResponseEntity.status(200).body(problemService.findById(id));
     }
 
     @PostMapping("/manual-update")

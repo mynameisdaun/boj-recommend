@@ -30,11 +30,11 @@ class StudyRepositoryTest {
     @Test
     void save() throws Exception {
         //given
-        Study study = new Study(UUID.randomUUID(), another_member(), new Name("테스트 스터디"), HashUtils.sha256("key"), Arrays.asList(another_member()));
+        Study study = new Study(UUID.randomUUID(), another_member(), new Name("테스트 스터디"), HashUtils.sha256("key"), null);
         //when
         int saved = studyRepository.save(study);
         //then
-        assertThat(study.getId()).isPositive();
+
         assertThat(study.getCreatedAt()).isNotNull();
         assertThat(study.getUpdatedAt()).isNotNull();
     }
@@ -43,7 +43,7 @@ class StudyRepositoryTest {
     @Test
     void findById() throws Exception {
         //given&&when
-        Study study = studyRepository.findById(GlobalId.of(Study.class, 1))
+        Study study = studyRepository.findById(UUID.randomUUID())
                 .orElseThrow(NoSuchElementException::new);
         //then
         assertThat(study).isNotNull();
@@ -55,7 +55,7 @@ class StudyRepositoryTest {
                 () -> assertThat(study.getDeleteYn()).isNotNull(),
                 () -> assertThat(study.getCreatedAt()).isNotNull(),
                 () -> assertThat(study.getUpdatedAt()).isNotNull(),
-                () -> assertThat(study.getMembers().isEmpty()).isFalse()
+                () -> assertThat(study.getStudyMembers().isEmpty()).isFalse()
         );
     }
 }

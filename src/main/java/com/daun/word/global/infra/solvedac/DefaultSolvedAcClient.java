@@ -62,7 +62,7 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
                 HttpMethod.GET,
                 httpEntity(),
                 SolvedAcProblemResponse.class);
-        return new Problem(response.getBody());
+        return null;
     }
 
     /* id 리스트로 문제들 조회 */
@@ -86,7 +86,8 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
                     HttpMethod.GET,
                     httpEntity(),
                     SolvedAcProblemResponse[].class).getBody();
-            resp.addAll(stream(response).map(Problem::new).collect(toList()));
+
+            //resp.addAll(stream(response).map(Problem::new).collect(toList()));
             start += limitPerRequest;
             if (resp.size() == lists.size()) break;
         }

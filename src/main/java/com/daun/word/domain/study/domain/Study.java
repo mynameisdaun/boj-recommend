@@ -14,10 +14,11 @@ import lombok.RequiredArgsConstructor;
 import javax.naming.AuthenticationException;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Entity(name = "study")
+@Entity(name = "study") @Table(name = "study")
 @Getter
 public class Study extends BaseEntity {
     @Id
@@ -28,21 +29,25 @@ public class Study extends BaseEntity {
     @JoinColumn(name = "email")
     private Member leader;
 
+    @Embedded
     private Name studyName;
+
     @Column(name = "hash", nullable = false, columnDefinition = "varbinary(64)")
     private String hash;
 
-    @ManyToMany
-    @JoinColumn(name = "member_id")
-    private List<Member> members;
+    @OneToMany(mappedBy = "study")
+    private List<StudyMember> studyMembers = new ArrayList<>();
 
-    public Study(UUID id, Member leader, Name studyName, String hash, List<Member> members) {
+    public Study(UUID id, Member leader, Name studyName, String hash) {
         super();
         this.id = id;
         this.leader = leader;
         this.studyName = studyName;
         this.hash = hash;
-        this.members = members;
+    }
+
+    protected Study() {
+        super();
     }
 
     public void auth(String key, StudyHashService studyHashService) throws AuthenticationException {

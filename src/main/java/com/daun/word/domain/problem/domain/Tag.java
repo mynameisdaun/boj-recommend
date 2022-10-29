@@ -1,12 +1,13 @@
 package com.daun.word.domain.problem.domain;
 
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblemResponse;
-import com.daun.word.global.vo.*;
+import com.daun.word.global.vo.BaseEntity;
+import com.daun.word.global.vo.Title;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "tag")
 @Table(name = "tag")
@@ -20,6 +21,9 @@ public class Tag extends BaseEntity {
     @Column(name="tag_key", nullable = false)
     private String key;
     private Title title;
+
+    @OneToMany(mappedBy = "tag")
+    private List<ProblemTag> problemTags;
 
     public Tag(Integer id, String key, Title title) {
         this.id = id;

@@ -35,6 +35,21 @@ public class MemberService {
 
     private final SolvedAcClient solvedAcClient;
 
+    @Transactional
+    public Member register(RegisterRequest request) {
+        checkArgument(request != null, "회원 가입을 위해서 올바른 회원 가입 요청이 있어야 합니다.");
+        Member member = new Member(
+                UUID.randomUUID(),
+                request.getEmail(),
+                request.getName(),
+                passwordEncoder.encode(request.getPassword().getValue()),
+                request.getTier(),
+                request.getSocialType()
+        );
+        memberRepository.save(member);
+        return member;
+    }
+
     /* 이메일로 회원 조회*/
     /* 없으면 임시로 회원 가입 시켜버린다.*/
     @Transactional
@@ -53,20 +68,6 @@ public class MemberService {
     public Member tempRegister(Email email) {
         SolvedAcMember solvedAcMember = solvedAcMember(email);
         return register(new RegisterRequest(solvedAcMember.getHandle(), passwordEncoder.encode(UUID.randomUUID().toString()), solvedAcMember.getBio(), SocialType.W.name(), new Tier(solvedAcMember.getTier())));
-    }
-
-    @Transactional
-    public Member register(RegisterRequest request) {
-        checkArgument(request != null, "회원 가입을 위해서 올바른 회원 가입 요청이 있어야 합니다.");
-        Member member = new Member(
-                request.getEmail(),
-                passwordEncoder.encode(request.getPassword().getValue()),
-                request.getName(),
-                request.getTier(),
-                request.getSocialType()
-        );
-        memberRepository.save(member);
-        return member;
     }
 
     /* 로그인 */

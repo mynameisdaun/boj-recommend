@@ -6,6 +6,7 @@ import com.daun.word.domain.problem.domain.repository.ProblemRepository;
 import com.daun.word.domain.recommend.domain.Recommend;
 import com.daun.word.domain.recommend.domain.repository.RecommendRepository;
 import com.daun.word.domain.study.domain.Study;
+import com.daun.word.domain.study.domain.StudyMember;
 import com.daun.word.global.GlobalId;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import com.daun.word.global.vo.Tier;
@@ -33,7 +34,8 @@ public class RecommendService {
 
     @Transactional
     public Recommend assign(Study study, Problem problem) {
-        List<Problem> problems = solvedAcClient.unSolvedProblemsByMembers(study.getMembers(), Arrays.asList(problem));
+        List<Problem> problems = solvedAcClient.unSolvedProblemsByMembers(
+                study.getStudyMembers().stream().map(StudyMember::getMember).collect(toList()), Arrays.asList(problem));
         if (problems.isEmpty()) {
             throw new IllegalArgumentException();
         }
@@ -49,7 +51,7 @@ public class RecommendService {
 
     @Transactional
     public List<Recommend> recommendForStudy(Study study) throws IOException {
-        List<Member> members = study.getMembers();
+        List<Member> members = study.getStudyMembers().stream().map(StudyMember::getMember).collect(toList());
         List<Tier> tiers = members.stream().map(Member::getTier).sorted().collect(toList());
         List<Problem> recommendPool = new ArrayList<>();
 

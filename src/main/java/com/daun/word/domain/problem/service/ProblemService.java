@@ -1,19 +1,25 @@
 package com.daun.word.domain.problem.service;
 
 import com.daun.word.domain.problem.domain.Problem;
+import com.daun.word.domain.problem.domain.ProblemTag;
+import com.daun.word.domain.problem.domain.repository.ProblemJpaRepository;
 import com.daun.word.domain.problem.domain.repository.ProblemRepository;
 import com.daun.word.domain.problem.domain.Tag;
+import com.daun.word.domain.problem.domain.repository.ProblemTagJpaRepository;
+import com.daun.word.domain.problem.domain.repository.TagJpaRepository;
 import com.daun.word.global.GlobalId;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import com.daun.word.global.infra.solvedac.dto.ProblemCount;
 import com.daun.word.global.vo.Tier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static java.util.stream.Collectors.toList;
 
@@ -22,23 +28,28 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 public class ProblemService {
 
-    private final ProblemRepository problemRepository;
+    private final ProblemRepository oldRepository;
+
+    private final ProblemTagJpaRepository problemTagRepository;
+
+    private final TagJpaRepository tagRepository;
+
+    private final ProblemJpaRepository problemRepository;
 
     private final SolvedAcClient solvedAcClient;
 
 
     @Transactional
-    public Problem findById(GlobalId<Problem, Integer> globalId) {
-        return problemRepository.findById(globalId)
-                .orElse(save(solvedAcClient.findById(globalId)));
+    public Problem findById(Integer id) {
+        return problemRepository.findById(id)
+                .orElseThrow(NoSuchElementException::new);
     }
 
     @Transactional
     public Problem save(Problem problem) {
-        problem.getProblemTags()getTags().forEach(problemRepository::saveTag);
-        problemRepository.save(problem);
-        problem.getTags().forEach(t -> problemRepository.saveProblemTag(GlobalId.of(Problem.class, problem.getId()), GlobalId.of(Tag.class, t.getId())));
-        return problem;
+        Problem p = problemRepository.save(problem);
+        List<ProblemTag> problemTags = new ArrayList<>();
+        throw new NotImplementedException();
     }
 
     @Transactional
@@ -47,7 +58,7 @@ public class ProblemService {
         //업데이트를 할때는 많이 풀지 않은 수로 조회를 한다(왜냐면 가장 최신에 나왓을 테니까 가장 적게 풀었겠지..)
         try {
             final List<ProblemCount> solvedAcPcs = solvedAcClient.problemCountGroupByLevel();
-            final List<ProblemCount> localPcs = problemRepository.countByGroup();
+            final List<ProblemCount> localPcs = oldRepository.countByGroup();
             final List<Problem> savedProblems = new ArrayList<>();
             log.info("\n #################### Manual Update Start #################### \n");
             for (int i = 1; i <= 30; i++) {
@@ -70,7 +81,7 @@ public class ProblemService {
                     log.info("\n ############### {} 번째 검색 ############### \n", page);
                     List<GlobalId<Problem, Integer>> solvedAcIds = solvedAcClient.search(query.toString(), page, "solved", "asc")
                             .toProblemIds();
-                    List<GlobalId<Problem, Integer>> localIds = problemRepository.findByIdIn(solvedAcIds)
+                    List<GlobalId<Problem, Integer>> localIds = oldRepository.findByIdIn(solvedAcIds)
                             .stream()
                             .map(p -> GlobalId.of(Problem.class, p.getId()))
                             .collect(toList());
