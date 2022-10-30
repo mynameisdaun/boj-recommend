@@ -10,10 +10,11 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -27,12 +28,7 @@ class StudySaveRequestTest {
 
     private static Stream<Arguments> inValid() {
         return Stream.of(
-                Arguments.of(null, email(), new Name("name"), "fake-password", new Tier(11), SocialType.K),
-                Arguments.of(UUID.randomUUID(), null, new Name("name"), "fake-password", new Tier(11), SocialType.K),
-                Arguments.of(UUID.randomUUID(), email(), null, "fake-password", new Tier(11), SocialType.K),
-                Arguments.of(UUID.randomUUID(), email(), new Name("name"), null, new Tier(11), SocialType.K),
-                Arguments.of(UUID.randomUUID(), email(), new Name("name"), "fake-password", null, SocialType.K),
-                Arguments.of(UUID.randomUUID(), email(), new Name("name"), "fake-password", new Tier(11), null)
+                Arguments.of(new ArrayList<>())
         );
     }
 
@@ -52,14 +48,49 @@ class StudySaveRequestTest {
         );
     }
 
-
     @DisplayName(value = "스터디 리더 지정이 필요합니다")
+    @NullAndEmptySource
     @ParameterizedTest
-    void create_fail_no_leader() throws Exception {
+    void create_fail_leader(final String leader) throws Exception {
         //given&&when&&then
         assertThatThrownBy(() -> {
-            new StudySaveRequest("tester1", "name", "secret-key", Arrays.asList("tester1", "tester2"));
+            new StudySaveRequest(leader, "name", "secret-key", Arrays.asList("tester1", "tester2"));
         }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("스터디 리더 지정이 필요합니다");
+    }
+
+    @DisplayName(value = "스터디 이름은 필수입력 사항 입니다")
+    @NullAndEmptySource
+    @ParameterizedTest
+    void create_fail_study_name(final String name) throws Exception {
+        //given&&when&&then
+        assertThatThrownBy(() -> {
+            new StudySaveRequest("tester1", name, "secret-key", Arrays.asList("tester1", "tester2"));
+        }).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("스터디 이름은 필수입력 사항 입니다");
+    }
+
+    @DisplayName(value = "스터디 비밀번호 key는 4글자 이상이어야 합니다")
+    @ValueSource(strings = "12")
+    @NullAndEmptySource
+    @ParameterizedTest
+    void create_fail_key(final String key) throws Exception {
+        //given&&when&&then
+        assertThatThrownBy(() -> {
+            new StudySaveRequest("tester1", "name", key, Arrays.asList("tester1", "tester2"));
+        }).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("스터디 비밀번호 key는 4글자 이상이어야 합니다");
+    }
+
+    @DisplayName(value = "1명 이상의 스터디원이 있어야 합니다")
+    @MethodSource("inValid")
+    @NullSource
+    @ParameterizedTest
+    void create_fail_members(final List<String> members) throws Exception {
+        //given&&when&&then
+        assertThatThrownBy(() -> {
+            new StudySaveRequest("tester1", "name", "secret-key", members);
+        }).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("1명 이상의 스터디원이 있어야 합니다");
     }
 }
