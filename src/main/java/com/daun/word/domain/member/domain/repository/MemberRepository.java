@@ -17,4 +17,5 @@ public interface MemberRepository {
     Optional<Member> findById(final UUID id);
 
     Optional<Member> findMemberByEmail(final Email email);
+    boolean existsMemberByEmail(final Email email);
 }

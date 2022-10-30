@@ -5,12 +5,12 @@ import com.daun.word.domain.member.domain.repository.MemberRepository;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.dto.RegisterRequest;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.ConstraintViolationException;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -26,7 +26,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     /**
-     * 회원 등록
+     * 회원을 등록한다
      *
      * @param request RegisterRequest
      * @return Member
@@ -35,27 +35,24 @@ public class MemberService {
      */
     @Transactional
     public Member register(RegisterRequest request) {
-        checkArgument(request != null, "잘못된 회원가입 요청입니다.");
-
-        try {
-            findByEmail(request.getEmail());
-            throw new IllegalStateException("이미 가입한 회원입니다.");
-        } catch (ConstraintViolationException e) {
-            Member member = new Member(
-                    UUID.randomUUID(),
-                    request.getEmail(),
-                    request.getName(),
-                    passwordEncoder.encode(request.getPassword().getValue()),
-                    request.getTier(),
-                    request.getSocialType()
-            );
-            memberRepository.save(member);
-            return member;
+        checkArgument(request != null, "잘못된 회원가입 요청입니다");
+        if (memberRepository.existsMemberByEmail(request.getEmail())) {
+            throw new IllegalStateException("이미 가입한 회원입니다");
         }
+        Member member = new Member(
+                UUID.randomUUID(),
+                request.getEmail(),
+                request.getName(),
+                passwordEncoder.encode(request.getPassword().getValue()),
+                request.getTier(),
+                request.getSocialType()
+        );
+        memberRepository.save(member);
+        return member;
     }
 
     /**
-     * Email로 회원 조회
+     * Email로 회원을 조회한다
      *
      * @param email Email
      * @return Member

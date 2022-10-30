@@ -40,12 +40,12 @@ public class Fixture {
 
     public static Member member_1() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(UUID.randomUUID(), new Email("tester1"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W);
+        return new Member(UUID.fromString("a1ba0849-e331-4a76-9108-386de77a3648"), new Email("tester1"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W);
     }
 
     public static Member member_2() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(UUID.randomUUID(), new Email("tester2"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W);
+        return new Member(UUID.fromString("e7f677ab-e1d5-4f24-a606-e183e43c7d54"), new Email("tester2"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W);
     }
 
 

@@ -30,4 +30,12 @@ public class FakeMemberRepository implements MemberRepository {
                 .filter(m -> m.getEmail().equals(email))
                 .findFirst();
     }
+
+    @Override
+    public boolean existsMemberByEmail(Email email) {
+        return members.values()
+                .stream()
+                .filter(m -> m.getEmail().equals(email))
+                .count() > 0;
+    }
 }
