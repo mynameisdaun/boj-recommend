@@ -27,7 +27,7 @@ public class MemberDTO {
         this.socialType = member.getSocialType();
         this.loginCount = member.getLoginCount();
         this.lastLoginAt = member.getLastLoginAt();
-        this.createdAt = member.getCreatedAt().getCreatedAt();
-        this.updatedAt = member.getUpdatedAt().getUpdatedAt();
+        this.createdAt = member.getCreatedAt();
+        this.updatedAt = member.getUpdatedAt();
     }
 }

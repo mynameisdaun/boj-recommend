@@ -6,16 +6,28 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @MappedSuperclass
-@AllArgsConstructor @NoArgsConstructor @Getter
+@Getter
 abstract public class BaseEntity {
 
-    @Embedded private CreatedAt createdAt;
+    @Column(updatable = false)
+    private Date createdAt;
+    private Date updatedAt;
+    @Column(name = "delete_yn", nullable = false)
+    private boolean deleteYn;
 
-    @Embedded private UpdatedAt updatedAt;
+    @PrePersist
+    public void prePersist() {
+        Date now = new Date();
+        createdAt = now;
+        updatedAt = now;
+        deleteYn = false;
+    }
 
-    @Column(length = 1, columnDefinition = "char(1) default 'N'")
-    @Enumerated(value = EnumType.STRING)
-    private YesNo deleteYn;
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = new Date();
+    }
 }

@@ -2,41 +2,32 @@ package com.daun.word.domain.member.domain.repository;
 
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
-import org.springframework.dao.DuplicateKeyException;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-import static com.daun.word.Fixture.Fixture.another_member;
-import static com.daun.word.Fixture.Fixture.member;
+import java.util.UUID;
 
 public class FakeMemberRepository implements MemberRepository {
 
-    private final Map<Integer, Member> memberTable;
+    Map<UUID, Member> members = new HashMap<>();
 
-    public FakeMemberRepository() {
-        memberTable = new HashMap<>();
-        memberTable.put(1, member());
-        memberTable.put(2, another_member());
+    @Override
+    public Member save(final Member member) {
+        members.put(member.getId(), member);
+        return member;
     }
 
     @Override
-    public int save(Member request) {
-        if(memberTable.entrySet().stream().map(v->v.getValue().getEmail()).filter(email->email.equals(request.getEmail())).count()>0) {
-            throw new DuplicateKeyException("");
-        };
-        memberTable.put(memberTable.size()+1, request);
-        return 0;
+    public Optional<Member> findById(UUID id) {
+        return Optional.ofNullable(members.get(id));
     }
 
     @Override
-    public Optional<Member> findByEmail(Email email) {
-        return memberTable.entrySet()
+    public Optional<Member> findMemberByEmail(Email email) {
+        return members.values()
                 .stream()
-                .filter(w -> w.getValue().getEmail().equals(email))
-                .map(w->w.getValue())
+                .filter(m -> m.getEmail().equals(email))
                 .findFirst();
-
     }
 }

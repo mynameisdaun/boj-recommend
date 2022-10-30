@@ -10,13 +10,10 @@ import javax.persistence.Embeddable;
 import java.util.Date;
 
 @Embeddable
-@NoArgsConstructor
-@Getter
-@ToString
-@EqualsAndHashCode
+@NoArgsConstructor @Getter @ToString @EqualsAndHashCode
 public class UpdatedAt {
 
-    @Column(name = "updated_at",  nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date updatedAt;
 
     public UpdatedAt(Date updatedAt) {

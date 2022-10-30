@@ -38,7 +38,7 @@ class AssignmentRepositoryTest {
     @Test
     void save() throws Exception {
         //given
-        Assignment assignment = new Assignment(study(), recommend(), another_member(), LocalDateTime.now(), LocalDateTime.now(), YesNo.N, null);
+        Assignment assignment = new Assignment(study(), recommend(), member_1(), LocalDateTime.now(), LocalDateTime.now(), YesNo.N, null);
         //when
         assignmentRepository.save(assignment);
         //then

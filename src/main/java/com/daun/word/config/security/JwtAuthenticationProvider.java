@@ -1,10 +1,8 @@
 package com.daun.word.config.security;
 
-import com.daun.word.global.GlobalId;
 import com.daun.word.global.vo.Name;
 import com.daun.word.global.auth.dto.AuthenticationRequest;
 import com.daun.word.global.auth.dto.AuthenticationResponse;
-import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.Role;
 import com.daun.word.domain.member.domain.vo.SocialType;
@@ -44,7 +42,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     * */
     private Authentication processMemberAuthentication(AuthenticationRequest request) {
         try {
-            AuthenticationResponse response = memberService.login(request);
+            //AuthenticationResponse response = memberService.login(request);
+            AuthenticationResponse response = null;
             JwtAuthenticationToken authenticated =
                     // 응답용 Authentication 인스턴스를 생성한다.
                     // JwtAuthenticationToken.principal 부분에는 JwtAuthentication 인스턴스가 set 된다.

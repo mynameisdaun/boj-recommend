@@ -32,7 +32,7 @@ class ProblemRepositoryTest {
     @Test
     void save() throws Exception {
         //given
-        Problem problem = new Problem(2800, new Title("괄호 제거"), new URL("https://www.acmicpc.net/problem/2800"), new Tier(11), Arrays.asList(tag()), 1173, 0);
+        Problem problem = new Problem(2800, new Title("괄호 제거"), new URL("https://www.acmicpc.net/problem/2800"), new Tier(11), Arrays.asList(tag()));
         //when
         int saved = problemRepository.save(problem);
         //then

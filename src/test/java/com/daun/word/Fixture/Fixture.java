@@ -17,7 +17,6 @@ import com.daun.word.global.vo.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.UUID;
 
 public class Fixture {
@@ -39,29 +38,25 @@ public class Fixture {
         return new Name("테스터");
     }
 
-    public static Member member() {
+    public static Member member_1() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(
-                UUID.randomUUID(),
-                new Email("tester1@weword.com"),
-                nickname(),
-                "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS",
-                new Tier(15),
-                SocialType.W
-        );
+        return new Member(UUID.randomUUID(), new Email("tester1"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W);
     }
 
-    public static Member another_member() {
+    public static Member member_2() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(
-                UUID.randomUUID(),
-                new Email("daun9870jung"),
-                nickname(),
-                "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS",
-                new Tier(15),
-                SocialType.W
-        );
+        return new Member(UUID.randomUUID(), new Email("tester2"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W);
     }
+
+
+    public static Member member_3() {
+        return new Member(UUID.randomUUID(), new Email("tester3"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W);
+    }
+
+    public static Member member_4() {
+        return new Member(UUID.randomUUID(), new Email("tester4"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W);
+    }
+
 
     public static KakaoTokenResponse kakaoTokenResponse() {
         return new KakaoTokenResponse(
@@ -110,15 +105,15 @@ public class Fixture {
     }
 
     public static Assignment assignment() {
-        return new Assignment(1, study(), recommend(), another_member(), LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter), YesNo.N, null, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+        return new Assignment(1, study(), recommend(), member_1(), LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter), YesNo.N, null, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
     }
 
     public static Recommend recommend() {
-        return new Recommend(UUID.randomUUID(), problem(), another_member());
+        return new Recommend(UUID.randomUUID(), problem(), member_1());
     }
 
     public static Study study() {
-        return new Study(UUID.randomUUID(), another_member(), new Name("sample study"), "2023f708bd566934819ba9b65da86551bcc2e445bdd336b64f31e9a9f6f1aa3a", null);
+        return new Study(UUID.randomUUID(), member_1(), new Name("sample study"), "2023f708bd566934819ba9b65da86551bcc2e445bdd336b64f31e9a9f6f1aa3a");
     }
 }
 

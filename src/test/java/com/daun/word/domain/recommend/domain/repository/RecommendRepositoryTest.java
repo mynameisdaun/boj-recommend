@@ -25,7 +25,7 @@ class RecommendRepositoryTest {
     @Test
     void save() throws Exception {
         //given
-        Recommend recommend = new Recommend(UUID.randomUUID(), problem(), member());
+        Recommend recommend = new Recommend(UUID.randomUUID(), problem(), member_3());
         //when
         int save = recommendRepository.save(recommend);
         //then
@@ -36,13 +36,13 @@ class RecommendRepositoryTest {
     @Test
     void findByMemberAndProblem() throws Exception {
         //given&&when
-        Recommend recommend = recommendRepository.findByMemberAndProblem(another_member(), problem())
+        Recommend recommend = recommendRepository.findByMemberAndProblem(member_1(), problem())
                 .orElseThrow(NoSuchElementException::new);
         //then
         assertThat(recommend).isNotNull();
         assertAll(
                 () -> assertThat(recommend.getMember()).isNotNull(),
-                () -> assertThat(recommend.getMember().getEmail()).isEqualTo(another_member().getEmail()),
+                () -> assertThat(recommend.getMember().getEmail()).isEqualTo(member_1().getEmail()),
                 () -> assertThat(recommend.getProblem()).isNotNull(),
                 () -> assertThat(recommend.getProblem().getId()).isEqualTo(problem().getId())
         );
