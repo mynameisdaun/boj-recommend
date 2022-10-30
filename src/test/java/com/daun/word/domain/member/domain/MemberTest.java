@@ -52,7 +52,6 @@ class MemberTest {
     @DisplayName(value = "회원 생성을 위해서는 이메일, 비밀번호, 닉네임, 소셜타입이 필수적으로 제공되어야 한다")
     @MethodSource("inValid")
     @ParameterizedTest
-    @Disabled
     void create_fail(UUID id, Email email, Name name, String password, Tier tier, SocialType socialType) throws Exception {
         //given&&when&&then
         assertThatThrownBy(() -> {
