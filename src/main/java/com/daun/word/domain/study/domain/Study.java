@@ -7,10 +7,7 @@ import com.daun.word.global.vo.Name;
 import com.daun.word.global.vo.Tier;
 import com.daun.word.global.vo.YesNo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.naming.AuthenticationException;
 import javax.persistence.*;
@@ -21,7 +18,7 @@ import java.util.UUID;
 
 @Entity(name = "study")
 @Table(name = "study")
-@Getter
+@Getter @ToString
 public class Study extends BaseEntity {
     @Id
     @Column(name = "study_id", nullable = false, columnDefinition = "varbinary(16)")

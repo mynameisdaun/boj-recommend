@@ -113,7 +113,7 @@ public class Fixture {
     }
 
     public static Study study() {
-        return new Study(UUID.randomUUID(), member_1(), new Name("sample study"), "2023f708bd566934819ba9b65da86551bcc2e445bdd336b64f31e9a9f6f1aa3a");
+        return new Study(UUID.fromString("cec40f35-7c26-4b8d-b269-f6fb9eb4ad70"), member_1(), new Name("sample study"), "2023f708bd566934819ba9b65da86551bcc2e445bdd336b64f31e9a9f6f1aa3a");
     }
 }
 

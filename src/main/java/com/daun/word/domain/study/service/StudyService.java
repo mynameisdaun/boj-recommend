@@ -58,11 +58,11 @@ public class StudyService {
      *
      * @param id UUID
      * @return Study
-     * @throws NoSuchElementException 존재하지 않는 스터디 입니다.
+     * @throws NoSuchElementException 존재하지 않는 스터디 입니다
      */
     @Transactional(readOnly = true)
     public Study findById(UUID id) {
         return studyRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 스터디 입니다."));
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 스터디 입니다"));
     }
 }

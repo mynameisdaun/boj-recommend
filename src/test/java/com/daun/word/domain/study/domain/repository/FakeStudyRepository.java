@@ -6,6 +6,7 @@ import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
+
 public class FakeStudyRepository implements StudyRepository {
     private final Map<UUID, Study> studies = new HashMap<>();
 

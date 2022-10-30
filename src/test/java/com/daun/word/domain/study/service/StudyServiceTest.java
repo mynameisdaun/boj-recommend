@@ -1,9 +1,9 @@
 package com.daun.word.domain.study.service;
 
 import com.daun.word.domain.member.domain.repository.FakeMemberRepository;
-import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.service.MemberService;
 import com.daun.word.domain.study.domain.Study;
+import com.daun.word.domain.study.domain.StudyMember;
 import com.daun.word.domain.study.domain.repository.FakeStudyMemberRepository;
 import com.daun.word.domain.study.domain.repository.FakeStudyRepository;
 import com.daun.word.domain.study.dto.StudySaveRequest;
@@ -33,8 +33,15 @@ class StudyServiceTest {
         fakeMemberRepository.save(member_1());
         fakeMemberRepository.save(member_2());
         fakeMemberRepository.save(member_3());
+        FakeStudyRepository fakeStudyRepository = new FakeStudyRepository();
+        fakeStudyRepository.save(study());
+        FakeStudyMemberRepository fakeStudyMemberRepository = new FakeStudyMemberRepository();
+        fakeStudyMemberRepository.save(new StudyMember(study(), member_1()));
+        fakeStudyMemberRepository.save(new StudyMember(study(), member_2()));
+        study().enrollMember(Arrays.asList(new StudyMember(study(), member_1()), new StudyMember(study(), member_2())));
+
         studyService = new StudyService(
-                new FakeStudyRepository(),
+                fakeStudyRepository,
                 new FakeStudyMemberRepository(),
                 new MemberService(fakeMemberRepository, new BCryptPasswordEncoder()),
                 new DefaultHashService()
@@ -88,5 +95,26 @@ class StudyServiceTest {
                 .hasMessage("존재하지 않는 회원 입니다");
     }
 
+    @DisplayName(value = "ID로 스터디를 조회한다")
+    @Test
+    void findById() throws Exception {
+        //given
+        UUID id = study().getId();
+        //when
+        Study study = studyService.findById(id);
+        //then
+        assertThat(study).isNotNull();
+        assertAll(
+                () -> assertThat(study.getId()).isEqualTo(id)
+        );
+    }
 
+    @DisplayName(value = "존재하지 않는 스터디 입니다")
+    @Test
+    void findById_fail_no_exist() throws Exception {
+        //given&&when&&then
+        assertThatThrownBy(() -> studyService.findById(UUID.randomUUID()))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("존재하지 않는 스터디 입니다");
+    }
 }
