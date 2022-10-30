@@ -22,7 +22,7 @@ public class StudyController {
     private final StudyService studyService;
 
     @PostMapping("")
-    @ApiOperation(value = "study 생성", notes = "study를 생성한다Ω`")
+    @ApiOperation(value = "study 생성", notes = "study를 생성한다")
     public ResponseEntity<?> study(@RequestBody @Valid StudySaveRequest request) {
         return ResponseEntity.ok(studyService.save(request));
     }

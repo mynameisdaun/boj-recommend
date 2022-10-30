@@ -1,9 +1,14 @@
 package com.daun.word.domain.problem.domain.repository;
 
 import com.daun.word.domain.problem.domain.Tag;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public interface TagJpaRepository extends JpaRepository<Tag, Integer> {
+public interface TagRepository {
+
+    Tag save(final Tag request);
+
+    Optional<Tag> findById(final Long id);
 }

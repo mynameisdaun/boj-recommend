@@ -2,11 +2,10 @@ package com.daun.word.domain.problem.service;
 
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.ProblemTag;
-import com.daun.word.domain.problem.domain.repository.ProblemJpaRepository;
+import com.daun.word.domain.problem.domain.repository.JpaProblemRepository;
 import com.daun.word.domain.problem.domain.repository.ProblemRepository;
-import com.daun.word.domain.problem.domain.Tag;
-import com.daun.word.domain.problem.domain.repository.ProblemTagJpaRepository;
-import com.daun.word.domain.problem.domain.repository.TagJpaRepository;
+import com.daun.word.domain.problem.domain.repository.JpaProblemTagRepository;
+import com.daun.word.domain.problem.domain.repository.JpaTagRepository;
 import com.daun.word.global.GlobalId;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import com.daun.word.global.infra.solvedac.dto.ProblemCount;
@@ -30,11 +29,11 @@ public class ProblemService {
 
     private final ProblemRepository oldRepository;
 
-    private final ProblemTagJpaRepository problemTagRepository;
+    private final JpaProblemTagRepository problemTagRepository;
 
-    private final TagJpaRepository tagRepository;
+    private final JpaTagRepository tagRepository;
 
-    private final ProblemJpaRepository problemRepository;
+    private final JpaProblemRepository problemRepository;
 
     private final SolvedAcClient solvedAcClient;
 

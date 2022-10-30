@@ -16,7 +16,7 @@ import java.util.List;
 public class Tag extends BaseEntity {
     @Id
     @Column(name="tag_id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name="tag_key", nullable = false)
     private String key;
@@ -25,7 +25,7 @@ public class Tag extends BaseEntity {
     @OneToMany(mappedBy = "tag")
     private List<ProblemTag> problemTags;
 
-    public Tag(Integer id, String key, Title title) {
+    public Tag(Long id, String key, Title title) {
         this.id = id;
         this.key = key;
         this.title = title;
@@ -35,7 +35,7 @@ public class Tag extends BaseEntity {
     }
 
     public Tag(SolvedAcProblemResponse.Tag tag) {
-        this.id = tag.getBojTagId();
+        this.id = Long.valueOf(tag.getBojTagId());
         this.key = tag.getKey();
         this.title = new Title(
                 tag.getDisplayNames()

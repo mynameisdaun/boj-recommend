@@ -97,15 +97,15 @@ public class Fixture {
     }
 
     public static Tag tag() {
-        return new Tag(1, "key", new Title("example"));
+        return new Tag(1L, "key", new Title("example"));
     }
 
     public static Problem problem() {
-        return new Problem(16120, new Title("PPAP"), new URL("https://www.acmicpc.net/problem/16120"), new Tier(12), Arrays.asList(tag()));
+        return new Problem(16120L, new Title("PPAP"), new URL("https://www.acmicpc.net/problem/16120"), new Tier(12));
     }
 
     public static Assignment assignment() {
-        return new Assignment(1, study(), recommend(), member_1(), LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter), YesNo.N, null, LocalDateTime.parse("2022-08-19 16:43:51", formatter), LocalDateTime.parse("2022-08-19 16:43:51", formatter));
+        return new Assignment(UUID.randomUUID(), member_1(), problem());
     }
 
     public static Recommend recommend() {

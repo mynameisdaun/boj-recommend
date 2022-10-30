@@ -6,8 +6,9 @@ import javax.persistence.*;
 
 @Entity
 public class ProblemTag extends BaseEntity {
-    @Id @GeneratedValue
-    private long pk;
+    @Id
+    @GeneratedValue
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "problem_id")

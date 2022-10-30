@@ -17,7 +17,7 @@ public class Problem extends BaseEntity {
 
     @Id
     @Column(name = "problem_id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Embedded
     private Title title;
@@ -29,23 +29,22 @@ public class Problem extends BaseEntity {
     private Tier tier;
 
     @OneToMany(mappedBy = "problem")
-    private List<ProblemTag> problemTags;
+    private List<ProblemTag> problemTags = new ArrayList<>();
 
-    @Column(name = "accepted_user_count", nullable = false, columnDefinition = "int default 0")
-    private int acceptedUserCount;
-
-    @Column(name = "recommended_count", nullable = false, columnDefinition = "int default 0")
-    private int recommendedCount;
-
-    public Problem(Integer id, Title title, URL url, Tier tier, List<Tag> problemTags) {
+    public Problem(Long id, Title title, URL url, Tier tier) {
         super();
         this.id = id;
         this.title = title;
         this.url = url;
         this.tier = tier;
         this.problemTags = null;
-        //TODO: no ..
-        this.acceptedUserCount = 0;
-        this.recommendedCount = 0;
+    }
+
+    public void addTags(List<ProblemTag> tags) {
+        for (ProblemTag tag : tags) {
+            if (!this.problemTags.contains(tag)) {
+                this.problemTags.add(tag);
+            }
+        }
     }
 }

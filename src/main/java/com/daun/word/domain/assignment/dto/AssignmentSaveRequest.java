@@ -1,6 +1,7 @@
 package com.daun.word.domain.assignment.dto;
 
 import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.recommend.domain.Recommend;
 import com.daun.word.domain.study.domain.Study;
 import lombok.Getter;
@@ -11,15 +12,9 @@ import java.time.LocalDateTime;
 
 @Getter
 @RequiredArgsConstructor
-public class AssignmentRequest {
+public class AssignmentSaveRequest {
     @NotNull
-    private final Study study;
+    private final Email assignTo;
     @NotNull
-    private final Recommend recommend;
-    @NotNull
-    private final Member assignTo;
-    @NotNull
-    private final LocalDateTime startDateTime;
-    @NotNull
-    private final LocalDateTime endDateTime;
+    private final Integer problemId;
 }
