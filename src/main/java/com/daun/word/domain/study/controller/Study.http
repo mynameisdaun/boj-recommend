@@ -9,7 +9,6 @@ Content-Type: application/json
 }
 
 
-
 ###
 POST http://localhost:8080/study/recommend
 Content-Type: application/json

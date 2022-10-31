@@ -16,7 +16,6 @@ import com.daun.word.global.vo.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.UUID;
 
 public class Fixture {
@@ -100,16 +99,16 @@ public class Fixture {
         return new Tag(1, "key", new Title("example"));
     }
 
-    public static Problem problem() {
-        return new Problem(16120, new Title("PPAP"), new URL(16120), new Tier(12));
+    public static Problem problem_16120() {
+        return new Problem(16120, new Title("PPAP"), new URL(16120), new Tier(12), 1378);
     }
 
     public static Assignment assignment() {
-        return new Assignment(UUID.randomUUID(), member_1(), problem());
+        return new Assignment(UUID.randomUUID(), member_1(), problem_16120());
     }
 
     public static Recommend recommend() {
-        return new Recommend(UUID.randomUUID(), problem(), member_1());
+        return new Recommend(UUID.randomUUID(), problem_16120(), member_1());
     }
 
     public static Study study() {

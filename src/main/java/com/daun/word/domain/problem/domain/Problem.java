@@ -11,8 +11,7 @@ import java.util.List;
 @Entity(name = "problem")
 @Table(name = "problem")
 @NoArgsConstructor
-@Getter
-@ToString
+@Getter @ToString @EqualsAndHashCode(of = "id", callSuper = false)
 public class Problem extends BaseEntity {
 
     @Id

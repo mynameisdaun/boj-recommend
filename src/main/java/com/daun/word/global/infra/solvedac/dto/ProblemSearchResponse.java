@@ -29,10 +29,4 @@ public final class ProblemSearchResponse {
         private boolean isLevelLocked;
         private double averageTries;
     }
-
-    public List<GlobalId<Problem, Integer>> toProblemIds() {
-        return stream(this.items)
-                .map(i -> GlobalId.of(Problem.class, i.getProblemId()))
-                .collect(toList());
-    }
 }

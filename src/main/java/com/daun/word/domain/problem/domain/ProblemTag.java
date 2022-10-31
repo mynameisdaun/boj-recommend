@@ -13,15 +13,16 @@ import javax.persistence.*;
 @Entity(name = "problemTag")
 @Table(name = "problem_tag")
 @Getter
-@ToString
+@ToString (exclude = "problem")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProblemTag extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "problem_id")
+    //TODO: Response dto 생성 전까지 일시적으로 사용한다.
     @JsonBackReference
     private Problem problem;
 

@@ -34,8 +34,15 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
     private final RestTemplate restTemplate;
     private final String BASE = "https://solved.ac/api/v3";
 
-
-    /* 문제 검색 */
+    /**
+     * SolvedAC로 부터 '문제 검색' 하기
+     *
+     * @param query     String 쿼리 문자열
+     * @param page      int 페이지 수
+     * @param sort      String 정렬 기준 주로 solved 기준으로 사용 (id, level, title, solved, average_try, random)
+     * @param direction String 정렬방향 asc, desc
+     * @return ProblemSearchResponse
+     */
     @Override
     public ProblemSearchResponse search(String query, int page, String sort, String direction) {
         StringBuilder url = new StringBuilder(BASE)
@@ -52,7 +59,12 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
                 ProblemSearchResponse.class).getBody();
     }
 
-    /* id로 문제 조회 */
+    /**
+     * SolvedAC로 부터 '문제 조회' 하기
+     *
+     * @param id
+     * @return SolvedAcProblem
+     */
     @Override
     public Optional<SolvedAcProblem> findById(Integer id) {
         StringBuilder url = new StringBuilder(BASE)
@@ -65,139 +77,22 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
                 SolvedAcProblem.class).getBody());
     }
 
-    /* id 리스트로 문제들 조회 */
+    /**
+     * SolvedAC로 부터 '회원 조회' 하기
+     *
+     * @param email Email
+     * @return SolvedAcMember
+     */
     @Override
-    public List<Problem> findByIdsIn(List<GlobalId<Problem, Integer>> lists) {
-        if (lists == null || lists.isEmpty()) {
-            return new ArrayList<>();
-        }
-        final int limitPerRequest = 100;
-        int start = 0;
-        List<Problem> resp = new ArrayList<>();
-        while (true) {
-            List<GlobalId<Problem, Integer>> ids = lists.subList(start, min(start + limitPerRequest, lists.size()));
-            StringBuilder url = new StringBuilder(BASE)
-                    .append("/problem/lookup?problemIds=")
-                    .append(ids.stream().map(id -> String.valueOf(id.getValue())).collect(Collectors.joining(",")));
-            log.info("{}", ids.size());
-            log.info(url.toString());
-            SolvedAcProblem[] response = restTemplate.exchange(
-                    url.toString(),
-                    HttpMethod.GET,
-                    httpEntity(),
-                    SolvedAcProblem[].class).getBody();
-
-            //resp.addAll(stream(response).map(Problem::new).collect(toList()));
-            start += limitPerRequest;
-            if (resp.size() == lists.size()) break;
-        }
-        return resp;
-    }
-
-    /* 모든 회원이 풀지 않은 문제 반환하기 */
-    //TODO: 매직 넘버 너무 많다
-    @Override
-    public List<Problem> unSolvedProblemsByMembers(List<Member> members, List<Problem> problems) {
-        List<GlobalId<Problem, Integer>> solved = new ArrayList<>();
-        final int page = 1;
-        int limit = 8;
-        int offset = 0;
-        while (true) {
-            //10개씩 조회한다.
-            List<Problem> sub = problems.subList(offset, min(problems.size(), offset + limit));
-            String query = memberSolvedQuery(members, sub);
-            /* 백준 api의 Bad Request 기준을 피하기 위해 사이즈를 줄인다.*/
-            if (query.length() > 450) {
-                limit--;
-                continue;
-            }
-            ProblemSearchResponse response = search(query, page, "solved", "desc");
-            solved.addAll(stream(response.getItems()).map(i -> GlobalId.of(Problem.class, i.getProblemId())).collect(toList()));
-            if (response.getItems().length < limit) {
-                break;
-            }
-            offset += limit;
-        }
-        for (Problem p : problems) {
-            if (!solved.contains(GlobalId.of(Problem.class, p.getId()))) {
-                log.info("안푼문제: " + p);
-                return Arrays.asList(p);
-            }
-        }
-        return problems.stream()
-                .filter(p -> !solved.contains(GlobalId.of(Problem.class, p.getId())))
-                .collect(toList());
-    }
-
-    private String memberSolvedQuery(List<Member> members, List<Problem> problems) {
-        StringBuilder sb = new StringBuilder();
-        for (Problem p : problems) {
-            for (Member m : members) {
-                sb.append("s@")
-                        .append(m.getEmail().getValue())
-                        .append(" ")
-                        .append(p.getId())
-                        .append(" | ");
-            }
-        }
-        return sb.toString().substring(0, sb.length() - 3);
-    }
-
-
-    /* 문제 리스트 중에서, 회원이 풀지 않은 문제만 반환하기 */
-    @Override
-    public List<Problem> unSolvedProblemsByMember(Member assignTo, List<Problem> problems) {
-        List<GlobalId<Problem, Integer>> solved = new ArrayList<>();
-        int page = 1;
-        int total = 0;
-        int cnt = 0;
-        Tier max = new Tier(0);
-        Tier min = new Tier(30);
-        for (Problem p : problems) {
-            max = p.getTier().getLevel() > max.getLevel() ? p.getTier() : max;
-            min = p.getTier().getLevel() < max.getLevel() ? p.getTier() : min;
-        }
-        while (true) {
-            StringBuilder query = new StringBuilder()
-                    .append("s@").append(assignTo.getEmail().getValue())
-                    .append(" *").append(min.getRate()).append("..").append(max.getRate());
-            ProblemSearchResponse response = search(query.toString(), page, "solved", "desc");
-            total = response.getCount();
-            cnt += response.getItems().length;
-            solved.addAll(stream(response.getItems()).map(i -> GlobalId.of(Problem.class, i.getProblemId())).collect(toList()));
-            if (cnt < total) {
-                page++;
-                continue;
-            }
-            break;
-        }
-        return problems.stream()
-                .filter(p -> !solved.contains(GlobalId.of(Problem.class, p.getId())))
-                .collect(toList());
-    }
-
-    @Override
-    public SolvedAcMember findMemberByEmail(Email email) {
+    public Optional<SolvedAcMember> findMemberByEmail(Email email) {
         StringBuilder url = new StringBuilder(BASE)
                 .append("/user/show?handle=")
                 .append(email.getValue());
-        return new SolvedAcMember(restTemplate.exchange(
+        return Optional.ofNullable(new SolvedAcMember(restTemplate.exchange(
                 url.toString(),
                 HttpMethod.GET,
                 httpEntity(),
-                UserSearchResponse.class).getBody());
-    }
-
-    public List<ProblemCount> problemCountGroupByLevel() {
-        StringBuilder url = new StringBuilder(BASE)
-                .append("/problem/level");
-        return stream(restTemplate.exchange(
-                url.toString(),
-                HttpMethod.GET,
-                httpEntity(),
-                ProblemCount[].class).getBody())
-                .sorted((a, b) -> a.getLevel() - b.getLevel())
-                .collect(toList());
+                UserSearchResponse.class).getBody()));
     }
 
     private HttpEntity httpEntity() {
