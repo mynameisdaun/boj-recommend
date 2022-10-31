@@ -10,5 +10,7 @@ public interface TagRepository {
 
     Tag save(final Tag request);
 
-    Optional<Tag> findById(final Long id);
+    Tag saveAndFlush(final Tag request);
+
+    Optional<Tag> findById(final Integer id);
 }

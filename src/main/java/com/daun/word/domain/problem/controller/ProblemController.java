@@ -19,8 +19,8 @@ public class ProblemController {
         return ResponseEntity.status(200).body(problemService.findById(id));
     }
 
-    @PostMapping("/manual-update")
-    public ResponseEntity<?> manualUpdate() {
-        return ResponseEntity.status(200).body(problemService.manualUpdate());
+    @PostMapping("/{id}")
+    public ResponseEntity<?> save(@PathVariable Integer id) {
+        return ResponseEntity.status(200).body(problemService.manual(id));
     }
 }

@@ -7,8 +7,10 @@ import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.global.GlobalId;
 import com.daun.word.global.infra.solvedac.dto.ProblemCount;
 import com.daun.word.global.infra.solvedac.dto.ProblemSearchResponse;
+import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface SolvedAcClient {
@@ -17,7 +19,7 @@ public interface SolvedAcClient {
 
     SolvedAcMember findMemberByEmail(Email email);
 
-    Problem findById(GlobalId<Problem, Integer> globalId);
+    Optional<SolvedAcProblem> findById(Integer id);
 
     List<Problem> findByIdsIn(List<GlobalId<Problem, Integer>> ids);
 

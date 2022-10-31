@@ -97,11 +97,11 @@ public class Fixture {
     }
 
     public static Tag tag() {
-        return new Tag(1L, "key", new Title("example"));
+        return new Tag(1, "key", new Title("example"));
     }
 
     public static Problem problem() {
-        return new Problem(16120L, new Title("PPAP"), new URL("https://www.acmicpc.net/problem/16120"), new Tier(12));
+        return new Problem(16120, new Title("PPAP"), new URL(16120), new Tier(12));
     }
 
     public static Assignment assignment() {

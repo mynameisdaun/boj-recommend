@@ -1,7 +1,7 @@
 package com.daun.word.domain.problem.domain;
 
-import com.daun.word.global.infra.solvedac.dto.SolvedAcProblemResponse;
 import com.daun.word.global.vo.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,7 +17,7 @@ public class Problem extends BaseEntity {
 
     @Id
     @Column(name = "problem_id", nullable = false)
-    private Long id;
+    private Integer id;
 
     @Embedded
     private Title title;
@@ -28,16 +28,20 @@ public class Problem extends BaseEntity {
     @Embedded
     private Tier tier;
 
-    @OneToMany(mappedBy = "problem")
+    @Column(name = "accepted_user_count", nullable = false, columnDefinition = "int default 0")
+    private int acceptedUserCount;
+
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
     private List<ProblemTag> problemTags = new ArrayList<>();
 
-    public Problem(Long id, Title title, URL url, Tier tier) {
+    public Problem(Integer id, Title title, URL url, Tier tier, int acceptedUserCount) {
         super();
         this.id = id;
         this.title = title;
         this.url = url;
         this.tier = tier;
-        this.problemTags = null;
+        this.acceptedUserCount = acceptedUserCount;
     }
 
     public void addTags(List<ProblemTag> tags) {

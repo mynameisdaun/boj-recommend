@@ -7,7 +7,7 @@ import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.global.GlobalId;
 import com.daun.word.global.infra.solvedac.dto.ProblemCount;
 import com.daun.word.global.infra.solvedac.dto.ProblemSearchResponse;
-import com.daun.word.global.infra.solvedac.dto.SolvedAcProblemResponse;
+import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
 import com.daun.word.global.infra.solvedac.dto.UserSearchResponse;
 import com.daun.word.global.vo.Tier;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.lang.Math.*;
@@ -53,16 +54,15 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
 
     /* id로 문제 조회 */
     @Override
-    public Problem findById(GlobalId<Problem, Integer> globalId) {
+    public Optional<SolvedAcProblem> findById(Integer id) {
         StringBuilder url = new StringBuilder(BASE)
                 .append("/problem/show?problemId=")
-                .append(globalId.getValue());
-        ResponseEntity<SolvedAcProblemResponse> response = restTemplate.exchange(
+                .append(id);
+        return Optional.ofNullable(restTemplate.exchange(
                 url.toString(),
                 HttpMethod.GET,
                 httpEntity(),
-                SolvedAcProblemResponse.class);
-        return null;
+                SolvedAcProblem.class).getBody());
     }
 
     /* id 리스트로 문제들 조회 */
@@ -81,11 +81,11 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
                     .append(ids.stream().map(id -> String.valueOf(id.getValue())).collect(Collectors.joining(",")));
             log.info("{}", ids.size());
             log.info(url.toString());
-            SolvedAcProblemResponse[] response = restTemplate.exchange(
+            SolvedAcProblem[] response = restTemplate.exchange(
                     url.toString(),
                     HttpMethod.GET,
                     httpEntity(),
-                    SolvedAcProblemResponse[].class).getBody();
+                    SolvedAcProblem[].class).getBody();
 
             //resp.addAll(stream(response).map(Problem::new).collect(toList()));
             start += limitPerRequest;

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,9 +23,9 @@ public class AssignmentController {
         return ResponseEntity.status(201).body(assignmentService.save(request));
     }
 
-    @GetMapping("/{assignmentId}")
-    public ResponseEntity<?> findById(@PathVariable Integer assignmentId) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable UUID id) {
         return ResponseEntity.status(200)
-                .body(assignmentService.findById(GlobalId.of(Assignment.class, assignmentId)));
+                .body(assignmentService.findById(id));
     }
 }

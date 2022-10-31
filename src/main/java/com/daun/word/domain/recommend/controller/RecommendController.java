@@ -25,6 +25,7 @@ public class RecommendController {
     @GetMapping("")
     public ResponseEntity<?> recommend(@RequestParam @NotNull String handle) {
         Member member = memberService.findByEmail(new Email(handle));
-        return ResponseEntity.ok(recommendService.recommendForMember_v2(member));
+        //return ResponseEntity.ok(recommendService.recommendForMember_v2(member));
+        return null;
     }
 }

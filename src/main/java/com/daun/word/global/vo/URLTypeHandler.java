@@ -19,16 +19,16 @@ public class URLTypeHandler implements TypeHandler<URL> {
 
     @Override
     public URL getResult(ResultSet rs, String columnName) throws SQLException {
-        return new URL(rs.getString(columnName));
+        return new URL(rs.getInt(columnName));
     }
 
     @Override
     public URL getResult(ResultSet rs, int columnIndex) throws SQLException {
-        return new URL(rs.getString(columnIndex));
+        return new URL(rs.getInt(columnIndex));
     }
 
     @Override
     public URL getResult(CallableStatement cs, int columnIndex) throws SQLException {
-        return new URL(cs.getString(columnIndex));
+        return new URL(cs.getInt(columnIndex));
     }
 }

@@ -1,5 +1,6 @@
 package com.daun.word.global.vo;
 
+import com.google.common.base.Preconditions;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,21 +11,19 @@ import javax.persistence.Embeddable;
 
 import static com.daun.word.global.utils.StringUtils.isNullOrBlank;
 
+@Embeddable
+@NoArgsConstructor
 @Getter
 @EqualsAndHashCode
 @ToString
-@NoArgsConstructor
-@Embeddable
 public class URL {
 
-    @Column(name="url", nullable = false)
+    @Column(name = "url", nullable = false)
     private String url;
 
-    public URL(String url) {
-        if (isNullOrBlank(url)) {
-            throw new IllegalArgumentException("정책에 맞지 않는 url 입니다.");
-        }
-        this.url = url;
+    public URL(Integer id) {
+        Preconditions.checkArgument(id != null && id > 0, "유효하지 않은 문제 번호 입니다.");
+        this.url = "https://www.acmicpc.net/problem/" + id;
     }
 
     public String getValue() {

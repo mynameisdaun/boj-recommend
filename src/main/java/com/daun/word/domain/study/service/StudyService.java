@@ -41,7 +41,7 @@ public class StudyService {
      */
     @Transactional
     public Study save(final StudySaveRequest request) {
-        checkArgument(request != null);
+        checkArgument(request != null, "올바르지 않은 요청입니다");
         final Member leader = memberService.findByEmail(request.getLeader());
         final Study study = studyRepository.save(new Study(UUID.randomUUID(), leader, request.getStudyName(), studyHashService.sha256(request.getKey())));
         studyRepository.save(study);

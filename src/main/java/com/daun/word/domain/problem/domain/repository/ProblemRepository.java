@@ -11,5 +11,5 @@ public interface ProblemRepository {
 
     Problem save(final Problem request);
 
-    Optional<Problem> findById(final Long id);
+    Optional<Problem> findById(final Integer id);
 }
