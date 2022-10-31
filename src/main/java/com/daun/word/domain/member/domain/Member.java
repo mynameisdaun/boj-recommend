@@ -7,6 +7,7 @@ import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.global.vo.BaseEntity;
 import com.daun.word.global.vo.Name;
 import com.daun.word.global.vo.Tier;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,8 +23,7 @@ import java.util.UUID;
                 columnNames = {"email"}
         )
 })
-@ToString
-@Getter
+@ToString @Getter @EqualsAndHashCode(of = "id")
 public class Member extends BaseEntity {
 
     @Id

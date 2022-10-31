@@ -2,6 +2,7 @@ package com.daun.word.Fixture;
 
 import com.daun.word.domain.assignment.domain.Assignment;
 import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.member.domain.SolvedAcMember;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.Password;
 import com.daun.word.domain.member.domain.vo.SocialType;
@@ -105,8 +106,24 @@ public class Fixture {
         return new Problem(16120, new Title("PPAP"), new URL(16120), new Tier(12), 1378);
     }
 
+    public static Problem problem_1002() {
+        return new Problem(1002, new Title("터렛"), new URL(1002), new Tier(8), 29321);
+    }
+
+    public static Problem problem_19() {
+        return new Problem(19, new Title("첫번째 가짜"), new URL(19), new Tier(10), 29321);
+    }
+
+    public static Problem problem_29() {
+        return new Problem(29, new Title("두번째 가짜"), new URL(29), new Tier(11), 5678);
+    }
+
     public static Assignment assignment() {
-        return new Assignment(UUID.randomUUID(), member_1(), problem_16120());
+        return new Assignment(UUID.fromString("aba40f35-7c62-4b8d-b269-a5fb9eb4ad70"), member_1(), problem_16120());
+    }
+
+    public static Assignment assignment_complete() {
+        return new Assignment(UUID.fromString("cfc60b53-4b8d-7c62-b269-a5fb7fa4ad70"), member_1(), problem_29());
     }
 
     public static Recommend recommend() {
@@ -117,9 +134,15 @@ public class Fixture {
         return new Study(UUID.fromString("cec40f35-7c26-4b8d-b269-f6fb9eb4ad70"), member_1(), new Name("sample study"), "2023f708bd566934819ba9b65da86551bcc2e445bdd336b64f31e9a9f6f1aa3a");
     }
 
-    public static SolvedAcProblem solvedAcProblem() {
+    public static SolvedAcMember solvedAcMember(String handle) {
+        SolvedAcMember solvedAcMember = new SolvedAcMember();
+        solvedAcMember.setHandle(handle);
+        return solvedAcMember;
+    }
+
+    public static SolvedAcProblem solvedAcProblem(Integer id) {
         SolvedAcProblem solvedAcProblem = new SolvedAcProblem();
-        solvedAcProblem.setProblemId(2245);
+        solvedAcProblem.setProblemId(id);
         solvedAcProblem.setTitleKo("배열 정리하기");
         solvedAcProblem.setTitles(Arrays.asList(new SolvedAcProblem.Title("ko", "ko", "배열 정리하기", false)));
         solvedAcProblem.setSolvable(false);

@@ -7,12 +7,14 @@ import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.service.MemberService;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.service.ProblemService;
+import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -28,18 +30,40 @@ public class AssignmentService {
 
     private final ProblemService problemService;
 
+    private final SolvedAcClient solvedAcClient;
+
+
     /**
      * 과제를 등록한다
      *
      * @param request AssignmentSaveRequest
      * @return Assignment
      * @throws IllegalArgumentException 요청이 Null일 경우 "올바르지 않은 과제 생성 요청입니다"
+     * @throws IllegalStateException    과제 할당 내역이 있고 && 1. assignment.complete, 2. solvedAc에서 회원이 푼 기록 있다면
+     * "이미 완료된 과제입니다"
+     * @throws IllegalStateException 과제 할당 내역은 있으나, 문제를 푼 기록이 없다면 "이미 할당된 과제입니다"
      */
     @Transactional
     public Assignment save(AssignmentSaveRequest request) {
         checkArgument(request != null, "올바르지 않은 과제 생성 요청입니다");
         Member member = memberService.findByEmail(request.getAssignTo());
         Problem problem = problemService.findById(request.getProblemId());
+
+        Optional<Assignment> maybeAssignment = assignmentRepository.findByMemberAndProblem(member, problem);
+        if (maybeAssignment.isPresent()) {
+            Assignment assignment = maybeAssignment.get();
+            boolean complete = assignment.isComplete();
+            if(!complete && solvedAcClient.isSolved(member,problem)) {
+                assignment.complete();
+                assignmentRepository.save(assignment);
+                complete = true;
+            }
+            if(complete) {
+                throw new IllegalStateException("이미 완료된 과제입니다");
+            }
+            throw new IllegalStateException("이미 할당된 과제입니다");
+        }
+
         Assignment assignment = new Assignment(UUID.randomUUID(), member, problem);
         assignmentRepository.save(assignment);
         return assignment;

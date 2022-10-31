@@ -1,13 +1,15 @@
 package com.daun.word.domain.member.domain;
 
 import com.daun.word.global.infra.solvedac.dto.UserSearchResponse;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Arrays;
 
-@Getter
-@ToString
+@Data
+@NoArgsConstructor
 public class SolvedAcMember {
     private String handle;
     private String bio;

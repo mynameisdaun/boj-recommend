@@ -13,8 +13,8 @@ insert into tag(tag_id, tag_key, title) values (100, 'geometry','기하학');
 insert into tag(tag_id, tag_key, title) values (124, 'math','수학');
 
 /* problem */
-insert into problem (problem_id, level, rate, title, url) values(16120, 12, 'g4', 'PPAP', 'https://www.acmicpc.net/problem/16120');
-insert into problem (problem_id, level, rate, title, url) values(1002, 8, 's3', '터렛', 'https://www.acmicpc.net/problem/1002');
+insert into problem (problem_id, level, rate, title, url,accepted_user_count) values(16120, 12, 'g4', 'PPAP', 'https://www.acmicpc.net/problem/16120', 1379);
+insert into problem (problem_id, level, rate, title, url,accepted_user_count) values(1002, 8, 's3', '터렛', 'https://www.acmicpc.net/problem/1002', 29321);
 
 /* problem tag */
 insert into problem_tag(id,problem_id, tag_id) values (300000,16120,33);

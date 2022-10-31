@@ -2,6 +2,7 @@ package com.daun.word.global.infra.solvedac;
 
 import com.daun.word.domain.member.domain.SolvedAcMember;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,6 +27,10 @@ public final class FakeSolvedAcDB {
         for (final SolvedAcProblem p : problems) {
             problemTable.put(p.getProblemId(), p);
         }
+    }
+
+    public boolean isSolved(String handle, Integer problemId) {
+        return memberSolvedProblem.get(handle).contains(problemId);
     }
 
     public void memberSolve(String handle, Integer problemId) {

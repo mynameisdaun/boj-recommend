@@ -13,7 +13,9 @@ import java.util.UUID;
 
 @Entity(name = "assignment")
 @Table(name = "assignment")
-@NoArgsConstructor(access = AccessLevel.PROTECTED) @Getter @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@ToString
 public class Assignment extends BaseEntity {
 
     @Id
@@ -29,10 +31,18 @@ public class Assignment extends BaseEntity {
 
     private boolean complete;
 
+    public Assignment complete() {
+        if (this.complete) {
+            throw new IllegalStateException("이미 완료된 과제입니다");
+        }
+        this.complete = true;
+        return this;
+    }
+
     public Assignment(UUID id, Member member, Problem problem) {
         this.id = id;
         this.member = member;
         this.problem = problem;
-        this.complete=false;
+        this.complete = false;
     }
 }

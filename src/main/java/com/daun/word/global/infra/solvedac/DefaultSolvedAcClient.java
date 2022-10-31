@@ -51,7 +51,6 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
                 .append("&page=").append(page)
                 .append("&sort=").append(sort)
                 .append("&direction=").append(direction);
-        log.info(url.toString());
         return restTemplate.exchange(
                 url.toString(),
                 HttpMethod.GET,
@@ -93,6 +92,24 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
                 HttpMethod.GET,
                 httpEntity(),
                 UserSearchResponse.class).getBody()));
+    }
+
+    /**
+     * 회원이 문제를 풀었는지 확인하기
+     *
+     * @param member
+     * @param problem
+     * @return boolean
+     */
+    @Override
+    public boolean isSolved(Member member, Problem problem) {
+        StringBuilder query = new StringBuilder();
+        query.append("s@")
+                .append(member.getEmail())
+                .append(" ")
+                .append(problem.getId());
+        ProblemSearchResponse search = search(query.toString(), 1, "solved", "asc");
+        return search.getCount() > 0;
     }
 
     private HttpEntity httpEntity() {

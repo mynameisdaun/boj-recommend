@@ -95,7 +95,7 @@ class ProblemServiceTest {
     @Test
     void save() throws Exception {
         //given
-        SolvedAcProblem request = solvedAcProblem();
+        SolvedAcProblem request = solvedAcProblem(19);
         //when
         Problem save = problemService.save(request);
         //then
