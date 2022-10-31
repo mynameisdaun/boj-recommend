@@ -35,10 +35,10 @@ public class Tag extends BaseEntity {
         this(tag.getBojTagId(),tag.getKey(),new Title(
                 tag.getDisplayNames()
                         .stream()
-                        .filter(a -> a.getLanguage().equals("ko"))
+                        .filter(a -> a.getLanguage().equals("ko") || a.getLanguage().equals("en"))
+                        .sorted((a,b) -> b.getLanguage().compareTo(a.getLanguage()))
                         .findFirst()
-                        .orElseThrow(IllegalArgumentException::new)
-                        .getName()
+                        .get().getName()
         ));
     }
 }

@@ -50,12 +50,11 @@ public class ProblemService {
      * BOJ문제 로컬 저장
      *
      * @param request
-     * @return
+     * @return Problem
      */
     @Transactional
     public Problem save(final SolvedAcProblem request) {
         checkArgument(request != null, "올바르지 않은 요청입니다");
-        log.info("{}",request);
         final Title title = new Title(request.getTitleKo());
         final URL url = new URL(request.getProblemId());
         final Tier tier = new Tier(request.getLevel());

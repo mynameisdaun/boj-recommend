@@ -1,6 +1,5 @@
 package com.daun.word.domain.problem.service;
 
-import com.daun.word.domain.member.domain.repository.FakeMemberRepository;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.ProblemTag;
 import com.daun.word.domain.problem.domain.Tag;
@@ -8,6 +7,7 @@ import com.daun.word.domain.problem.domain.repository.*;
 import com.daun.word.global.infra.solvedac.FakeSolvedAcClient;
 import com.daun.word.global.infra.solvedac.FakeSolvedAcDB;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
+import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
 import com.daun.word.global.vo.Tier;
 import com.daun.word.global.vo.Title;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import java.util.NoSuchElementException;
 
 import static com.daun.word.Fixture.Fixture.problem_16120;
+import static com.daun.word.Fixture.Fixture.solvedAcProblem;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -88,6 +89,25 @@ class ProblemServiceTest {
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessage("문제를 찾을 수 없습니다");
 
+    }
+
+    @DisplayName(value = "BOJ문제 로컬 저장")
+    @Test
+    void save() throws Exception {
+        //given
+        SolvedAcProblem request = solvedAcProblem();
+        //when
+        Problem save = problemService.save(request);
+        //then
+        assertThat(save).isNotNull();
+        assertAll(
+                () -> assertThat(save.getId()).isEqualTo(request.getProblemId()),
+                () -> assertThat(save.getTitle().getValue()).isEqualTo(request.getTitleKo()),
+                () -> assertThat(save.getProblemTags().size()).isEqualTo(request.getTags().size()),
+                () -> assertThat(save.getTier().getLevel()).isEqualTo(request.getLevel()),
+                () -> assertThat(save.getAcceptedUserCount()).isEqualTo(request.getAcceptedUserCount()),
+                () -> assertThat(save.getUrl().getValue()).contains(String.valueOf(request.getProblemId()))
+        );
     }
 
 

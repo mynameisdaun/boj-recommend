@@ -12,10 +12,12 @@ import com.daun.word.domain.study.domain.Study;
 import com.daun.word.global.auth.token.domain.Token;
 import com.daun.word.global.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.global.infra.kakao.dto.KakaoTokenResponse;
+import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
 import com.daun.word.global.vo.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class Fixture {
@@ -113,6 +115,31 @@ public class Fixture {
 
     public static Study study() {
         return new Study(UUID.fromString("cec40f35-7c26-4b8d-b269-f6fb9eb4ad70"), member_1(), new Name("sample study"), "2023f708bd566934819ba9b65da86551bcc2e445bdd336b64f31e9a9f6f1aa3a");
+    }
+
+    public static SolvedAcProblem solvedAcProblem() {
+        SolvedAcProblem solvedAcProblem = new SolvedAcProblem();
+        solvedAcProblem.setProblemId(2245);
+        solvedAcProblem.setTitleKo("배열 정리하기");
+        solvedAcProblem.setTitles(Arrays.asList(new SolvedAcProblem.Title("ko", "ko", "배열 정리하기", false)));
+        solvedAcProblem.setSolvable(false);
+        solvedAcProblem.setPartial(false);
+        solvedAcProblem.setAcceptedUserCount(17);
+        solvedAcProblem.setLevel(15);
+        solvedAcProblem.setVotedUserCount(3);
+        solvedAcProblem.setSprout(false);
+        solvedAcProblem.setGivesNoRating(false);
+        solvedAcProblem.setLevelLocked(false);
+        solvedAcProblem.setAverageTries(2.7059);
+        solvedAcProblem.setOfficial(true);
+        solvedAcProblem.setTags(
+                Arrays.asList(
+                        new SolvedAcProblem.Tag("bfs", false, 126, 732, Arrays.asList(new SolvedAcProblem.DisplayName("en", "breadth-first search", null))),
+                        new SolvedAcProblem.Tag("graphs", false, 7, 2627, Arrays.asList(new SolvedAcProblem.DisplayName("ko", "그래프 이론", null), new SolvedAcProblem.DisplayName("en", "graph theory", null))),
+                        new SolvedAcProblem.Tag("graph_traversal", false, 11, 1453, Arrays.asList(new SolvedAcProblem.DisplayName("ko", "그래프 탐색", null), new SolvedAcProblem.DisplayName("en", "graph traversal", null))
+                        ))
+        );
+        return solvedAcProblem;
     }
 }
 

@@ -27,4 +27,8 @@ public class Title {
         this.title = title;
     }
 
+    public String getValue() {
+        return this.title;
+    }
+
 }
