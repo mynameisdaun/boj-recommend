@@ -1,8 +1,7 @@
 package com.daun.word.domain.problem.controller;
 
-import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.service.ProblemService;
-import com.daun.word.global.GlobalId;
+import com.daun.word.global.vo.Tier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,5 +21,10 @@ public class ProblemController {
     @PostMapping("/{id}")
     public ResponseEntity<?> save(@PathVariable Integer id) {
         return ResponseEntity.status(200).body(problemService.manual(id));
+    }
+
+    @GetMapping("/between")
+    public ResponseEntity<?> save(@RequestParam Tier min, @RequestParam Tier max) {
+        return ResponseEntity.status(200).body(problemService.findAllByTierBetween(min, max));
     }
 }

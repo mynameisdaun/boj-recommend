@@ -2,3 +2,6 @@ GET http://localhost:8080/problem/16120
 
 ###
 POST http://localhost:8080/problem/2245
+
+### 3. 티어 구간으로 문제 조회
+GET http://localhost:8080/problem/between?min=8&max=12

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity(name = "assignment")
@@ -32,11 +33,15 @@ public class Assignment extends BaseEntity {
 
     private boolean complete;
 
+    @Column(name = "complete_at", nullable = true)
+    private Date completeAt;
+
     public Assignment complete() {
         if (this.complete) {
             throw new IllegalStateException("이미 완료된 과제입니다");
         }
         this.complete = true;
+        this.completeAt = new Date();
         return this;
     }
 
@@ -45,5 +50,6 @@ public class Assignment extends BaseEntity {
         this.member = member;
         this.problem = problem;
         this.complete = false;
+        this.completeAt = null;
     }
 }

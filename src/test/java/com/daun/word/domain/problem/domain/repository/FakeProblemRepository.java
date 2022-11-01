@@ -1,10 +1,13 @@
 package com.daun.word.domain.problem.domain.repository;
 
 import com.daun.word.domain.problem.domain.Problem;
+import com.daun.word.global.vo.Tier;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class FakeProblemRepository implements ProblemRepository {
 
@@ -19,5 +22,22 @@ public class FakeProblemRepository implements ProblemRepository {
     @Override
     public Optional<Problem> findById(Integer id) {
         return Optional.ofNullable(table.get(id));
+    }
+
+    @Override
+    public List<Problem> findAllByTierBetweenOrderByAcceptedUserCountDesc(final Tier min, final Tier max) {
+        return table.values()
+                .stream()
+                .filter(p -> p.getTier().getLevel() <= max.getLevel() && p.getTier().getLevel() >= min.getLevel())
+                .sorted((a, b) -> b.getAcceptedUserCount() - a.getAcceptedUserCount())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Problem> findAllByIdIn(List<Integer> ids) {
+        return table.values()
+                .stream()
+                .filter(p -> ids.contains(p.getId()))
+                .collect(Collectors.toList());
     }
 }

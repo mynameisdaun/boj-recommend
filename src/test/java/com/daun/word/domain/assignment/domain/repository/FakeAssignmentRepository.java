@@ -3,11 +3,9 @@ package com.daun.word.domain.assignment.domain.repository;
 import com.daun.word.domain.assignment.domain.Assignment;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.problem.domain.Problem;
+import org.apache.commons.lang3.NotImplementedException;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class FakeAssignmentRepository implements AssignmentRepository {
 
@@ -30,5 +28,15 @@ public class FakeAssignmentRepository implements AssignmentRepository {
                 .stream()
                 .filter(a -> a.getMember().equals(member) && a.getProblem().equals(problem))
                 .findFirst();
+    }
+
+    @Override
+    public List<Assignment> findAllByDeleted(boolean deleted) {
+        throw new NotImplementedException("아직 구현 전 입니다 ㅠㅠ");
+    }
+
+    @Override
+    public List<Assignment> findAllByMemberAndProblemIn(Member member, List<Problem> problems) {
+        throw new NotImplementedException("아직 구현 전 입니다 ㅠㅠ");
     }
 }

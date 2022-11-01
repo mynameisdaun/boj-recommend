@@ -63,6 +63,12 @@ public class Tier implements Comparable<Tier> {
         this.rate = level_rate.get(level);
     }
 
+    public Tier(String level) {
+        int l = Integer.parseInt(level);
+        this.level = l;
+        this.rate = level_rate.get(l);
+    }
+
     public Tier minus(int minus) {
         return new Tier(this.level - minus);
     }

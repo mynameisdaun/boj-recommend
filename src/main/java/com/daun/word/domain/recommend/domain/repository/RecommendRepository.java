@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-
 public interface RecommendRepository {
 
     Optional<Recommend> findById(final UUID id);

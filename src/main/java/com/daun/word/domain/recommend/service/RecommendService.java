@@ -1,23 +1,25 @@
 package com.daun.word.domain.recommend.service;
 
+import com.daun.word.domain.assignment.domain.Assignment;
+import com.daun.word.domain.assignment.domain.repository.AssignmentRepository;
 import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.member.domain.vo.Email;
+import com.daun.word.domain.member.service.MemberService;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.repository.ProblemRepository;
 import com.daun.word.domain.recommend.domain.Recommend;
 import com.daun.word.domain.recommend.domain.repository.RecommendRepository;
-import com.daun.word.domain.study.domain.Study;
-import com.daun.word.domain.study.domain.StudyMember;
-import com.daun.word.global.GlobalId;
+import com.daun.word.domain.recommend.domain.strategy.ProblemPoolStrategy;
+import com.daun.word.domain.recommend.dto.RecommendRequest;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
-import com.daun.word.global.vo.Tier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 
@@ -28,11 +30,63 @@ public class RecommendService {
 
     private final RecommendRepository recommendRepository;
 
-    @Transactional
+    private final MemberService memberService;
+
+    private final SolvedAcClient solvedAcClient;
+
+    private final ProblemRepository problemRepository;
+
+    private final AssignmentRepository assignmentRepository;
+
+    /**
+     * id로 추천을 조회한다
+     *
+     * @param id 문제추천 id
+     * @return Recommend
+     * @throws NoSuchElementException 존재하지 않는 추천입니다
+     */
+    @Transactional(readOnly = true)
     public Recommend findById(UUID id) {
         return recommendRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 추천입니다"));
     }
 
+    /**
+     * 문제를 추천한다
+     * 1. 문제 추천 전략에 따라서 문제 풀을 생성하고,
+     * 2. 문제 풀에서 이미 과제로 할당된 적이 있는 문제는 필터링한다
+     * 3. 추천을 확정하기 전, 로컬에는 기록이 없지만, BOJ에서 문제를 푼 기록이 있는지 다시 확인한다
+     * 4-1. BOJ에서 푼 기록이 없다면, 문제를 추천하고, 과제를 등록한다
+     * 4-2. BOJ에서 푼 기록이 있다면, 푼 기록을 로컬에 저장하고 추천 문제 검색을 이어간다
+     *
+     * @param request
+     * @param strategy
+     * @return
+     * @throws IllegalStateException 현재 문제 풀 생성 전략으로 더 이상 추천 할 수 있는 문제가 없는 경우 "추천할 수 있는 문제가 없습니다"
+     */
+    @Transactional
+    public Recommend recommend(RecommendRequest request, ProblemPoolStrategy strategy) {
+        final Member member = memberService.findByEmail(new Email(request.getEmail()));
 
+        //1. 문제 추천 전략에 따라서, 문제 풀 생성
+        final List<Problem> problemPools = strategy.recommend(problemRepository, request);
+
+        //2. 이미 할당 받은 문제는 필터링
+        final List<Problem> assigned = assignmentRepository.findAllByMemberAndProblemIn(member, problemPools)
+                .stream()
+                .map(Assignment::getProblem)
+                .collect(toList());
+        final List<Problem> filtered = problemPools.stream()
+                .filter(p -> !assigned.contains(p))
+                .collect(toList());
+
+        //3. BOJ에서 재 검증
+        for (Problem p : filtered) {
+            if (!solvedAcClient.isSolved(member, p)) {
+                return recommendRepository.save(new Recommend(UUID.randomUUID(), p, member));
+            }
+            assignmentRepository.save(new Assignment(UUID.randomUUID(), member, p));
+        }
+        throw new IllegalStateException("추천할 수 있는 문제가 없습니다");
+    }
 }

@@ -3,7 +3,6 @@ package com.daun.word.domain.assignment.domain.repository;
 import com.daun.word.domain.assignment.domain.Assignment;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.problem.domain.Problem;
-import org.springframework.expression.spel.ast.Assign;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,4 +18,7 @@ public interface AssignmentRepository {
     List<Assignment> findAllByDeleted(final boolean deleted);
 
     Optional<Assignment> findByMemberAndProblem(final Member member, final Problem problem);
+
+    List<Assignment> findAllByMemberAndProblemIn(final Member member, final List<Problem> problems);
+
 }

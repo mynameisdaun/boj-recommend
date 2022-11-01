@@ -117,6 +117,11 @@ public class AssignmentService {
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 과제 입니다"));
     }
 
+    /**
+     * 모든 과제를 조회한다
+     *
+     * @return List Assignment
+     */
     @Transactional(readOnly = true)
     public List<Assignment> findAll() {
         return assignmentRepository.findAllByDeleted(false);
