@@ -65,4 +65,12 @@ public class StudyService {
         return studyRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 스터디 입니다"));
     }
+
+    /**
+     * 모든 스터디 조회
+     * @return Study List
+     */
+    public List<Study> findAll() {
+        return studyRepository.findAll();
+    }
 }

@@ -18,14 +18,15 @@ import java.util.UUID;
 
 @Entity(name = "study")
 @Table(name = "study")
-@Getter @ToString
+@Getter
+@ToString
 public class Study extends BaseEntity {
     @Id
     @Column(name = "study_id", nullable = false, columnDefinition = "varbinary(16)")
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "email")
+    @JoinColumn(name = "member_id")
     private Member leader;
 
     @Embedded

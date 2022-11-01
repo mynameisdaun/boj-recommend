@@ -21,19 +21,16 @@ import java.io.IOException;
 public class StudyController {
     private final StudyService studyService;
 
+    @GetMapping("")
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(studyService.findAll());
+    }
+
     @PostMapping("")
     @ApiOperation(value = "study 생성", notes = "study를 생성한다")
     public ResponseEntity<?> study(@RequestBody @Valid StudySaveRequest request) {
         return ResponseEntity.ok(studyService.save(request));
     }
 
-    @PostMapping("/assign")
-    public ResponseEntity<?> assign(@RequestBody @Valid StudyAssignRequest request) {
-        return null;
-    }
 
-    @PostMapping("/recommend")
-    public ResponseEntity<?> study_recommend(@RequestBody @Valid StudyRecommendRequest request) throws AuthenticationException, IOException {
-        return null;
-    }
 }

@@ -71,8 +71,8 @@ public class Application {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+/*    @Bean
     public StudyHashService studyHashService() {
         return new DefaultHashService();
-    }
+    }*/
 }

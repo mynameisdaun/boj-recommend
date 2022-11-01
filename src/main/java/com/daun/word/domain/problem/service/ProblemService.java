@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -35,15 +36,18 @@ public class ProblemService {
 
     /**
      * 문제를 조회한다
+     * 로컬에서 문제를 찾지 못한 경우,
+     * 1. BOJ Api에서 문제를 검색해오고
+     * 2. 로컬에 업데이트 한 후
+     * 3. 문제를 반환한다
      *
      * @param id Long
      * @return Problem
-     * @throws NoSuchElementException 문제가 저장되어있지 않은 경우 "문제를 찾을 수 없습니다"
      */
     @Transactional
-    public Problem findById(Integer id) {
+    public Problem findById(final Integer id) {
         return problemRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("문제를 찾을 수 없습니다"));
+                .orElseGet(() -> manual(id));
     }
 
     /**

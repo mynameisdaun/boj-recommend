@@ -19,6 +19,7 @@ import java.util.UUID;
 public class Assignment extends BaseEntity {
 
     @Id
+    @Column(name = "assignment_id", nullable = false, columnDefinition = "varbinary(16)")
     private UUID id;
 
     @ManyToOne

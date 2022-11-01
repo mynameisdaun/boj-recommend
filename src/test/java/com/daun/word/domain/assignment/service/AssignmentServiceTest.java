@@ -3,13 +3,17 @@ package com.daun.word.domain.assignment.service;
 import com.daun.word.domain.assignment.domain.Assignment;
 import com.daun.word.domain.assignment.domain.repository.AssignmentRepository;
 import com.daun.word.domain.assignment.domain.repository.FakeAssignmentRepository;
-import com.daun.word.domain.assignment.dto.AssignmentSaveRequest;
+import com.daun.word.domain.assignment.dto.AssignRequest;
 import com.daun.word.domain.member.domain.repository.FakeMemberRepository;
 import com.daun.word.domain.member.service.MemberService;
 import com.daun.word.domain.problem.domain.repository.FakeProblemRepository;
 import com.daun.word.domain.problem.domain.repository.FakeProblemTagRepository;
 import com.daun.word.domain.problem.domain.repository.FakeTagRepository;
 import com.daun.word.domain.problem.service.ProblemService;
+import com.daun.word.domain.study.domain.repository.FakeStudyMemberRepository;
+import com.daun.word.domain.study.domain.repository.FakeStudyRepository;
+import com.daun.word.domain.study.service.DefaultHashService;
+import com.daun.word.domain.study.service.StudyService;
 import com.daun.word.global.infra.solvedac.FakeSolvedAcClient;
 import com.daun.word.global.infra.solvedac.FakeSolvedAcDB;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
@@ -39,6 +43,8 @@ class AssignmentServiceTest {
     private SolvedAcClient solvedAcClient;
 
     private ProblemService problemService;
+
+    private StudyService studyService;
 
     @BeforeEach
     public void setUp() {
@@ -71,16 +77,19 @@ class AssignmentServiceTest {
         this.solvedAcClient = new FakeSolvedAcClient(fakeSolvedAcDB);
         this.problemService = new ProblemService(fakeProblemRepository, new FakeTagRepository(), new FakeProblemTagRepository(), solvedAcClient);
 
-        this.assignmentService = new AssignmentService(assignmentRepository, memberService, problemService, solvedAcClient);
+        FakeStudyRepository fakeStudyRepository = new FakeStudyRepository();
+        FakeStudyMemberRepository fakeStudyMemberRepository = new FakeStudyMemberRepository();
+        this.studyService = new StudyService(fakeStudyRepository, fakeStudyMemberRepository, memberService, new DefaultHashService());
+        this.assignmentService = new AssignmentService(assignmentRepository, memberService, problemService, solvedAcClient, studyService, new DefaultHashService());
     }
 
     @DisplayName(value = "과제를 등록한다")
     @Test
     void save() throws Exception {
         //given
-        AssignmentSaveRequest request = new AssignmentSaveRequest(member_1().getEmail(), problem_1002().getId());
+        AssignRequest request = new AssignRequest(member_1().getEmail(), problem_1002().getId());
         //when
-        Assignment save = assignmentService.save(request);
+        Assignment save = assignmentService.assign(request);
         //then
         assertThat(save).isNotNull();
         assertAll(
@@ -95,9 +104,9 @@ class AssignmentServiceTest {
     @Test
     void save_assigned() throws Exception {
         //given
-        AssignmentSaveRequest request = new AssignmentSaveRequest(member_1().getEmail(), problem_16120().getId());
+        AssignRequest request = new AssignRequest(member_1().getEmail(), problem_16120().getId());
         //when&&then
-        assertThatThrownBy(() -> assignmentService.save(request))
+        assertThatThrownBy(() -> assignmentService.assign(request))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("이미 할당된 과제입니다");
     }
@@ -107,9 +116,9 @@ class AssignmentServiceTest {
     @ParameterizedTest
     void save_completed(final Integer problemId) throws Exception {
         //given
-        AssignmentSaveRequest request = new AssignmentSaveRequest(member_1().getEmail(), problemId);
+        AssignRequest request = new AssignRequest(member_1().getEmail(), problemId);
         //when&&then
-        assertThatThrownBy(() -> assignmentService.save(request))
+        assertThatThrownBy(() -> assignmentService.assign(request))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("이미 완료된 과제입니다");
     }

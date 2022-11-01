@@ -14,12 +14,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.NoSuchElementException;
-
 import static com.daun.word.Fixture.Fixture.problem_16120;
 import static com.daun.word.Fixture.Fixture.solvedAcProblem;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ProblemServiceTest {
@@ -55,6 +52,8 @@ class ProblemServiceTest {
         problemTagRepository.save(new ProblemTag(problem, tag_4));
 
         FakeSolvedAcDB fakeSolvedAcDB = new FakeSolvedAcDB();
+
+        fakeSolvedAcDB.addProblem(solvedAcProblem(1));
         this.solvedAcClient = new FakeSolvedAcClient(fakeSolvedAcDB);
 
         this.problemRepository = new FakeProblemRepositorySuite(problemTagRepository);
@@ -81,14 +80,22 @@ class ProblemServiceTest {
         );
     }
 
-    @DisplayName(value = "문제를 찾을 수 없습니다")
+    @DisplayName(value = "문제를 찾을 수 없는 경우 BOJ에서 조회한다")
     @Test
     void findById_no_exist() throws Exception {
-        //given&&when&&then
-        assertThatThrownBy(() -> problemService.findById(12))
-                .isInstanceOf(NoSuchElementException.class)
-                .hasMessage("문제를 찾을 수 없습니다");
-
+        //given
+        Integer id = 1;
+        //when
+        Problem problem = problemService.findById(id);
+        //then
+        assertThat(problem).isNotNull();
+        assertAll(
+                () -> assertThat(problem.getId()).isEqualTo(id),
+                () -> assertThat(problem.getTier()).isInstanceOf(Tier.class),
+                () -> assertThat(problem.getProblemTags().size()).isPositive(),
+                () -> assertThat(problem.getProblemTags().get(0)).isInstanceOf(ProblemTag.class),
+                () -> assertThat(problem.getAcceptedUserCount()).isPositive()
+        );
     }
 
     @DisplayName(value = "BOJ문제 로컬 저장")
@@ -109,6 +116,4 @@ class ProblemServiceTest {
                 () -> assertThat(save.getUrl().getValue()).contains(String.valueOf(request.getProblemId()))
         );
     }
-
-
 }

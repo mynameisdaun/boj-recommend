@@ -3,19 +3,17 @@ package com.daun.word.domain.recommend.domain;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.global.vo.BaseEntity;
-import com.daun.word.global.vo.CreatedAt;
-import com.daun.word.global.vo.UpdatedAt;
-import com.daun.word.global.vo.YesNo;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity(name = "recommend")
-@NoArgsConstructor
-@Getter
-@ToString
+@Table(name = "recommend")
+@NoArgsConstructor(access = AccessLevel.PROTECTED) @Getter @ToString
 public class Recommend extends BaseEntity {
     @Id
     @Column(name = "recommend_id", nullable = false, columnDefinition = "varbinary(16)")

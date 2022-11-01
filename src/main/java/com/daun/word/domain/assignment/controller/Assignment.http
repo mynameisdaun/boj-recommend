@@ -1,29 +1,14 @@
-### 1. 과제 작성
-POST http://localhost:8080/assignment
+### 1. 과제 전체 조회
+GET http://localhost:8080/assignment
+
+### 2. 스터디에게 과제 할당
+POST http://localhost:8080/assignment/study
 Content-Type: application/json
 
 {
-  "problemGlobalId": "16120",
-  "assignFrom": "tester1@weword.com",
-  "assignTo": "daun9870jung",
-  "startDateTime": "2022-10-05T05:47:08.644",
-  "endDateTime": "2022-10-06T05:47:08.644"
+  "studyId": "1ee72417-fea2-2ff3-4a80-dac3d075b046",
+  "hash": "1234",
+  "problemId": 16120
 }
-
-### 1-1 과제 작성(미완료)
-POST http://localhost:8080/assignment
-Content-Type: application/json
-
-{
-  "problemGlobalId": "15683",
-  "assignFrom": "tester1@weword.com",
-  "assignTo": "daun9870jung",
-  "startDateTime": "2022-10-05T05:47:08.644",
-  "endDateTime": "2022-10-06T05:47:08.644"
-}
-
-### 2. 과제 확인
-GET http://localhost:8080/assignment/2
-
 
 
