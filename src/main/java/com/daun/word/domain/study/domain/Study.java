@@ -25,7 +25,7 @@ public class Study extends BaseEntity {
     @Column(name = "study_id", nullable = false, columnDefinition = "varbinary(16)")
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member leader;
 

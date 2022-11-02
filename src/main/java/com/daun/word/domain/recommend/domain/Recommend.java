@@ -19,11 +19,11 @@ public class Recommend extends BaseEntity {
     @Column(name = "recommend_id", nullable = false, columnDefinition = "varbinary(16)")
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "problem_id")
     private Problem problem;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
