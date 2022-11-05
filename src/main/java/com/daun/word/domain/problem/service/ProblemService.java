@@ -42,6 +42,8 @@ public class ProblemService {
     @Transactional
     public Problem save(final SolvedAcProblem request) {
         checkArgument(request != null, "올바르지 않은 요청입니다");
+
+        //TODO: 생성로직 problem 안으로 옮기자
         final Title title = new Title(request.getTitleKo());
         final URL url = new URL(request.getProblemId());
         final Tier tier = new Tier(request.getLevel());
@@ -52,6 +54,7 @@ public class ProblemService {
             final Tag tag = tagRepository.saveAndFlush(new Tag(t));
             problemTags.add(new ProblemTag(problem, tag));
         }
+        //TODO: cascadetype.All 로 변경해서 한번에 영속화하자..
 
         problemTags.forEach(pt -> problemTagRepository.save(pt));
         problem.addTags(problemTags);
