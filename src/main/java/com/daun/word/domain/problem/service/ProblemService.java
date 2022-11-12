@@ -43,10 +43,7 @@ public class ProblemService {
     public Problem save(final SolvedAcProblem request) {
         checkArgument(request != null, "올바르지 않은 요청입니다");
         //TODO: 생성로직 problem 안으로 옮기자
-        final Title title = new Title(request.getTitleKo());
-        final URL url = new URL(request.getProblemId());
-        final Tier tier = new Tier(request.getLevel());
-        final Problem problem = problemRepository.save(new Problem(request.getProblemId(), title, url, tier, request.getAcceptedUserCount()));
+        final Problem problem = problemRepository.save(new Problem(request));
 
         final List<ProblemTag> problemTags = new ArrayList<>();
         for (final SolvedAcProblem.Tag t : request.getTags()) {

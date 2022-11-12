@@ -1,5 +1,6 @@
 package com.daun.word.domain.problem.domain;
 
+import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
 import com.daun.word.global.vo.*;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
@@ -7,11 +8,14 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity(name = "problem")
 @Table(name = "problem")
 @NoArgsConstructor
-@Getter @ToString @EqualsAndHashCode(of = "id", callSuper = false)
+@Getter
+@ToString
+@EqualsAndHashCode(of = "id", callSuper = false)
 public class Problem extends BaseEntity {
 
     @Id
@@ -41,6 +45,10 @@ public class Problem extends BaseEntity {
         this.url = url;
         this.tier = tier;
         this.acceptedUserCount = acceptedUserCount;
+    }
+
+    public Problem(SolvedAcProblem solvedAcProblem) {
+        this(solvedAcProblem.getProblemId(), new Title(solvedAcProblem.getTitleKo()), new URL(solvedAcProblem.getProblemId()), new Tier(solvedAcProblem.getLevel()), 0);
     }
 
     public void addTags(List<ProblemTag> tags) {
