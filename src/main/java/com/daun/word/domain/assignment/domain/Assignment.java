@@ -23,12 +23,11 @@ public class Assignment extends BaseEntity {
     @Column(name = "assignment_id", nullable = false, columnDefinition = "varbinary(16)")
     private UUID id;
 
-    //TODO: FetchType 변경
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "problem_id")
     private Problem problem;
 

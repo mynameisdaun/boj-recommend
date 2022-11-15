@@ -12,18 +12,20 @@ import javax.persistence.*;
 
 @Entity(name = "studyMember")
 @Table(name = "study_member")
-@AllArgsConstructor @Getter @ToString @EqualsAndHashCode(of = "id")
+@AllArgsConstructor
+@Getter
+@ToString
+@EqualsAndHashCode(of = "id")
 public class StudyMember extends BaseEntity {
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "study_id")
-    @JsonBackReference
     private Study study;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 

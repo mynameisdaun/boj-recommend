@@ -9,6 +9,7 @@ import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.Tag;
 import com.daun.word.domain.recommend.domain.Recommend;
+import com.daun.word.domain.recommend.domain.vo.RecommendType;
 import com.daun.word.domain.study.domain.Study;
 import com.daun.word.global.auth.token.domain.Token;
 import com.daun.word.global.infra.kakao.dto.KakaoProfileResponse;
@@ -127,7 +128,7 @@ public class Fixture {
     }
 
     public static Recommend recommend() {
-        return new Recommend(UUID.randomUUID(), problem_16120(), member_1());
+        return new Recommend(UUID.randomUUID(), problem_16120(), member_1(), RecommendType.TIER);
     }
 
     public static Study study() {

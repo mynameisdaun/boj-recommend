@@ -3,6 +3,7 @@ package com.daun.word.domain.recommend.controller;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.service.MemberService;
+import com.daun.word.domain.recommend.dto.RecommendResponse;
 import com.daun.word.domain.recommend.service.RecommendService;
 import com.daun.word.global.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,6 @@ public class RecommendController {
     @GetMapping("")
     public ResponseEntity<ApiResponse> recommend(@RequestParam @NotNull String handle) {
         Member member = memberService.findByEmail(new Email(handle));
-        //return ResponseEntity.ok(recommendService.recommendForMember_v2(member));
-        return ResponseEntity.ok(new ApiResponse(null));
+        return ResponseEntity.ok(new ApiResponse(new RecommendResponse(recommendService.recommend()));
     }
 }

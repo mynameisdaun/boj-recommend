@@ -83,7 +83,7 @@ public class RecommendService {
         //3. BOJ에서 재 검증
         for (Problem p : filtered) {
             if (!solvedAcClient.isSolved(member, p)) {
-                return recommendRepository.save(new Recommend(UUID.randomUUID(), p, member));
+                return recommendRepository.save(new Recommend(UUID.randomUUID(), p, member, request.getRecommendType()));
             }
             assignmentRepository.save(new Assignment(UUID.randomUUID(), member, p));
         }

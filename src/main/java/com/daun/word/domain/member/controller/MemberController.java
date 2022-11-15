@@ -2,6 +2,7 @@ package com.daun.word.domain.member.controller;
 
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.dto.RegisterRequest;
+import com.daun.word.domain.member.dto.RegisterResponse;
 import com.daun.word.domain.member.service.MemberService;
 import com.daun.word.global.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class MemberController {
 
     @PostMapping("")
     public ResponseEntity<ApiResponse> register(@Valid @RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(new ApiResponse(memberService.register(request)));
+        return ResponseEntity.ok(new ApiResponse(new RegisterResponse(memberService.register(request))));
     }
 
 

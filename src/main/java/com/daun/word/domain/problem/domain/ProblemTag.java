@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Entity(name = "problemTag")
 @Table(name = "problem_tag")
 @Getter
-@ToString (exclude = "problem")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProblemTag extends BaseEntity {
     @Id
@@ -22,8 +21,6 @@ public class ProblemTag extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "problem_id")
-    //TODO: Response dto 생성 전까지 일시적으로 사용한다.
-    @JsonBackReference
     private Problem problem;
 
     @ManyToOne(fetch = FetchType.LAZY)

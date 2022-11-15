@@ -36,7 +36,6 @@ public class Study extends BaseEntity {
     private String hash;
 
     @OneToMany(mappedBy = "study")
-    @JsonManagedReference
     private List<StudyMember> studyMembers = new ArrayList<>();
 
     public Study(UUID id, Member leader, Name studyName, String hash) {

@@ -14,7 +14,6 @@ import java.util.UUID;
 @Table(name = "problem")
 @NoArgsConstructor
 @Getter
-@ToString
 @EqualsAndHashCode(of = "id", callSuper = false)
 public class Problem extends BaseEntity {
 
@@ -35,7 +34,6 @@ public class Problem extends BaseEntity {
     private int acceptedUserCount;
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.PERSIST)
-    @JsonManagedReference
     private List<ProblemTag> problemTags = new ArrayList<>();
 
     public Problem(Integer id, Title title, URL url, Tier tier, int acceptedUserCount) {

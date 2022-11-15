@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.stream.Collectors;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(("/problem"))
@@ -16,16 +18,21 @@ public class ProblemController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> findById(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(new ApiResponse(problemService.findById(id)));
+        return ResponseEntity.status(200).body(new ApiResponse(new ProblemDTO(problemService.findById(id))));
     }
 
     @PostMapping("/{id}")
     public ResponseEntity<ApiResponse> save(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(new ApiResponse(problemService.manual(id)));
+        return ResponseEntity.status(200).body(new ApiResponse(new ProblemDTO(problemService.manual(id))));
     }
 
     @GetMapping("/between")
     public ResponseEntity<ApiResponse> save(@RequestParam Tier min, @RequestParam Tier max) {
-        return ResponseEntity.status(200).body(new ApiResponse(problemService.findAllByTierBetween(min, max)));
+        return ResponseEntity.status(200).body(new ApiResponse(
+                problemService.findAllByTierBetween(min, max)
+                        .stream()
+                        .map(ProblemDTO::new)
+                        .collect(Collectors.toList()))
+        );
     }
 }
