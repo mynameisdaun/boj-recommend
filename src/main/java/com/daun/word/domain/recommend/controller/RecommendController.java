@@ -4,6 +4,7 @@ import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.service.MemberService;
 import com.daun.word.domain.recommend.service.RecommendService;
+import com.daun.word.global.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +24,9 @@ public class RecommendController {
     private final MemberService memberService;
 
     @GetMapping("")
-    public ResponseEntity<?> recommend(@RequestParam @NotNull String handle) {
+    public ResponseEntity<ApiResponse> recommend(@RequestParam @NotNull String handle) {
         Member member = memberService.findByEmail(new Email(handle));
         //return ResponseEntity.ok(recommendService.recommendForMember_v2(member));
-        return null;
+        return ResponseEntity.ok(new ApiResponse(null));
     }
 }
