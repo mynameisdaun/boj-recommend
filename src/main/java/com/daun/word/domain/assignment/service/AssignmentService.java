@@ -14,6 +14,7 @@ import com.daun.word.domain.study.domain.StudyMember;
 import com.daun.word.domain.study.service.StudyHashService;
 import com.daun.word.domain.study.service.StudyService;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
+import com.google.common.base.Preconditions;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -86,6 +87,7 @@ public class AssignmentService {
 
         Optional<Assignment> maybeAssignment = assignmentRepository.findByMemberAndProblem(member, problem);
         if (maybeAssignment.isPresent()) {
+
             Assignment assignment = maybeAssignment.get();
             boolean complete = assignment.isComplete();
             if (!complete && solvedAcClient.isSolved(member, problem)) {
@@ -94,11 +96,13 @@ public class AssignmentService {
                 complete = true;
             }
             if (complete) {
-                throw new IllegalStateException("이미 완료된 과제입니다");
+                throw new IllegalStateException(problem.getId() + "번 문제는 " + member.getEmail().getValue() + "님께 이미 완료한 과제입니다");
             }
-            throw new IllegalStateException("이미 할당된 과제입니다");
+            throw new IllegalStateException(problem.getId() + "번 문제는 " + member.getEmail().getValue() + "님께 이미 할당된 적 있는 문제입니다");
+        } else if (solvedAcClient.isSolved(member, problem)) {
+            assignmentRepository.save(new Assignment(UUID.randomUUID(), member, problem).complete());
+            throw new IllegalStateException(problem.getId() + "번 문제는 " + member.getEmail().getValue() + "님이 이미 해결한적 있는 문제입니다");
         }
-
         Assignment assignment = new Assignment(UUID.randomUUID(), member, problem);
         assignmentRepository.save(assignment);
         return assignment;
@@ -113,8 +117,8 @@ public class AssignmentService {
      */
     @Transactional(readOnly = true)
     public Assignment findById(final UUID id) {
-        return assignmentRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 과제 입니다"));
+        Preconditions.checkArgument(id != null, "올바르지 않은 요청입니다");
+        return assignmentRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 과제 입니다"));
     }
 
     /**

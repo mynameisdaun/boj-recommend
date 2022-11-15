@@ -105,7 +105,7 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
     public boolean isSolved(Member member, Problem problem) {
         StringBuilder query = new StringBuilder();
         query.append("s@")
-                .append(member.getEmail())
+                .append(member.getEmail().getValue())
                 .append(" ")
                 .append(problem.getId());
         ProblemSearchResponse search = search(query.toString(), 1, "solved", "asc");
