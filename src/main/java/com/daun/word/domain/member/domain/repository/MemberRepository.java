@@ -2,8 +2,7 @@ package com.daun.word.domain.member.domain.repository;
 
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -12,10 +11,11 @@ import java.util.UUID;
 @Repository
 public interface MemberRepository {
 
-    Member save(final Member member);
+    Member save(@Param("member") final Member member);
 
-    Optional<Member> findById(final UUID id);
+    Optional<Member> findById(@Param("id") final UUID id);
 
-    Optional<Member> findMemberByEmail(final Email email);
-    boolean existsMemberByEmail(final Email email);
+    Optional<Member> findMemberByEmail(@Param("email") Email email);
+
+    boolean existsMemberByEmail(@Param("email") final Email email);
 }

@@ -119,6 +119,6 @@ public class ProblemService {
      */
     @Transactional(readOnly = true)
     public List<Problem> findAllByTierBetween(final Tier min, final Tier max) {
-        return problemRepository.findAllByTierBetweenOrderByAcceptedUserCountDesc(min, max);
+        return problemRepository.findAllByTierBetweenOrderByAcceptedUserCountDesc(min.getLevel(), max.getLevel());
     }
 }

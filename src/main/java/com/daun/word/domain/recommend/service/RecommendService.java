@@ -10,6 +10,7 @@ import com.daun.word.domain.problem.domain.repository.ProblemRepository;
 import com.daun.word.domain.recommend.domain.Recommend;
 import com.daun.word.domain.recommend.domain.repository.RecommendRepository;
 import com.daun.word.domain.recommend.domain.strategy.ProblemPoolStrategy;
+import com.daun.word.domain.recommend.domain.strategy.ProblemPoolStrategyFactory;
 import com.daun.word.domain.recommend.dto.RecommendRequest;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import lombok.RequiredArgsConstructor;
@@ -60,16 +61,16 @@ public class RecommendService {
      * 4-2. BOJ에서 푼 기록이 있다면, 푼 기록을 로컬에 저장하고 추천 문제 검색을 이어간다
      *
      * @param request
-     * @param strategy
      * @return
      * @throws IllegalStateException 현재 문제 풀 생성 전략으로 더 이상 추천 할 수 있는 문제가 없는 경우 "추천할 수 있는 문제가 없습니다"
      */
     @Transactional
-    public Recommend recommend(RecommendRequest request, ProblemPoolStrategy strategy) {
+    public Recommend recommend(RecommendRequest request) {
         final Member member = memberService.findByEmail(new Email(request.getEmail()));
+        final ProblemPoolStrategy strategy = ProblemPoolStrategyFactory.create(request.getRecommendType());
 
         //1. 문제 추천 전략에 따라서, 문제 풀 생성
-        final List<Problem> problemPools = strategy.recommend(problemRepository, request);
+        final List<Problem> problemPools = strategy.recommend(problemRepository, request.getQuery());
 
         //2. 이미 할당 받은 문제는 필터링
         final List<Problem> assigned = assignmentRepository.findAllByMemberAndProblemIn(member, problemPools)

@@ -1,5 +1,6 @@
 /* member */
-insert into member (member_id,email,last_login_at,name,password,social_type,level,rate) values (x'f1860abc2ea1411bbd4abaa44f0d5580','daun9870jung',sysdate(),'daun','$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS','W',13,'g3');
+/*insert into member (member_id,email,last_login_at,name,password,social_type,level,rate) values (x'f1860abc2ea1411bbd4abaa44f0d5580','daun9870jung',sysdate(),'daun','$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS','W',13,'g3');*/
+insert into member (member_id,email,last_login_at,name,password,social_type,level,rate) values (x'f1860abc2ea1411bbd4abaa44f0d5580','daun9870jung',sysdate(),'정다운','$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS','W',15,'g1');
 insert into member (member_id,email,last_login_at,name,password,social_type,level,rate) values (x'c5ee925c3dbb4941b825021446f24446','pine98',sysdate(),'pine','$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS','W',13,'g3');
 insert into member (member_id,email,last_login_at,name,password,social_type,level,rate) values (x'625c6fc4145d408f8dd533c16ba26064','shp7724',sysdate(),'shp','$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS','W',13,'g3');
 insert into member (member_id,email,last_login_at,name,password,social_type,level,rate) values (x'4721ee722ff3417fade3acd0a804605b','baggomsoon96',sysdate(),'baggomsoon','$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS','W',13,'g3');

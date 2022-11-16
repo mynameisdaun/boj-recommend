@@ -14,7 +14,7 @@ import javax.persistence.Embeddable;
 @ToString
 @EqualsAndHashCode
 public class Email {
-    @Column(name="email", nullable = false)
+    @Column(name="email", unique = true, nullable = false)
     private String email;
 
     public Email(String email) {
