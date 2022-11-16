@@ -24,7 +24,7 @@ public class FakeMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Optional<Member> findMemberByEmail(Email email) {
+    public Optional<Member> findByEmail(Email email) {
         return members.values()
                 .stream()
                 .filter(m -> m.getEmail().equals(email))

@@ -4,7 +4,6 @@ import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.repository.MemberRepository;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.dto.RegisterRequest;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -62,7 +61,7 @@ public class MemberService {
     @Transactional
     public Member findByEmail(final Email email) {
         checkArgument(email != null, "이메일은 필수 값 입니다");
-        return memberRepository.findMemberByEmail(email)
+        return memberRepository.findByEmail(email)
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원 입니다"));
     }
 
