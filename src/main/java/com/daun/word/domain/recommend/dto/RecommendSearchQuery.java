@@ -1,10 +1,13 @@
 package com.daun.word.domain.recommend.dto;
 
 import com.daun.word.global.vo.Tier;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
-@Getter
+@Data
+@NoArgsConstructor
 public class RecommendSearchQuery {
 
     private Tier minTier;
