@@ -25,10 +25,10 @@ public class FakeProblemRepository implements ProblemRepository {
     }
 
     @Override
-    public List<Problem> findAllByTierBetweenOrderByAcceptedUserCountDesc(final int min, final int max) {
+    public List<Problem> findAllByTierBetweenOrderByAcceptedUserCountDesc(final Tier min, final Tier max) {
         return table.values()
                 .stream()
-                .filter(p -> p.getTier().getLevel() <= max && p.getTier().getLevel() >= min)
+                .filter(p -> p.getTier().getLevel() <= max.getLevel() && p.getTier().getLevel() >= min.getLevel())
                 .sorted((a, b) -> b.getAcceptedUserCount() - a.getAcceptedUserCount())
                 .collect(Collectors.toList());
     }
