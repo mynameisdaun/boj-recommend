@@ -14,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.NoSuchElementException;
 
-import static com.daun.word.Fixture.Fixture.member_1;
+import static com.daun.word.Fixture.Fixture.daun9870jung;
 import static com.daun.word.Fixture.Fixture.member_2;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -27,7 +27,7 @@ class MemberServiceTest {
     @BeforeEach
     public void SetUp() {
         FakeMemberRepository memberRepository = new FakeMemberRepository();
-        memberRepository.save(member_1());
+        memberRepository.save(daun9870jung());
         memberService = new MemberService(memberRepository, new BCryptPasswordEncoder());
     }
 
@@ -61,7 +61,7 @@ class MemberServiceTest {
     @Test
     void register_fail_exist_email() throws Exception {
         //given
-        RegisterRequest request = new RegisterRequest(member_1().getEmail().getValue(), "iWantBeNew@9", "songTTubi", "W", new Tier(1));
+        RegisterRequest request = new RegisterRequest(daun9870jung().getEmail().getValue(), "iWantBeNew@9", "songTTubi", "W", new Tier(1));
         //when&&then
         assertThatThrownBy(() -> {
             memberService.register(request);
@@ -73,16 +73,16 @@ class MemberServiceTest {
     @Test
     void findByEmail() throws Exception {
         //given&&when
-        Member member = memberService.findByEmail(member_1().getEmail());
+        Member member = memberService.findByEmail(daun9870jung().getEmail());
         //then
         assertThat(member).isNotNull();
         assertAll(
-                () -> assertThat(member.getId()).isEqualTo(member_1().getId()),
-                () -> assertThat(member.getEmail()).isEqualTo(member_1().getEmail()),
-                () -> assertThat(member.getName()).isEqualTo(member_1().getName()),
-                () -> assertThat(member.getSocialType()).isEqualTo(member_1().getSocialType()),
-                () -> assertThat(member.getLastLoginAt()).isEqualTo(member_1().getLastLoginAt()),
-                () -> assertThat(member.getLoginCount()).isEqualTo(member_1().getLoginCount())
+                () -> assertThat(member.getId()).isEqualTo(daun9870jung().getId()),
+                () -> assertThat(member.getEmail()).isEqualTo(daun9870jung().getEmail()),
+                () -> assertThat(member.getName()).isEqualTo(daun9870jung().getName()),
+                () -> assertThat(member.getSocialType()).isEqualTo(daun9870jung().getSocialType()),
+                () -> assertThat(member.getLastLoginAt()).isEqualTo(daun9870jung().getLastLoginAt()),
+                () -> assertThat(member.getLoginCount()).isEqualTo(daun9870jung().getLoginCount())
         );
     }
 

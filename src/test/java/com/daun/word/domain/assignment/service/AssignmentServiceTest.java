@@ -51,11 +51,11 @@ class AssignmentServiceTest {
         //TODO: SetUp 부분 중복 어떻게 제거할 수 있을까? 혹은 짧은 예제로 변경 가능 하지 않을까?
         this.assignmentRepository = new FakeAssignmentRepository();
         this.assignmentRepository.save(assignment());
-        this.assignmentRepository.save(new Assignment(UUID.randomUUID(), member_1(), problem_19()));
-        this.assignmentRepository.save(new Assignment(UUID.randomUUID(), member_1(), problem_29()).complete());
+        this.assignmentRepository.save(new Assignment(UUID.randomUUID(), daun9870jung(), problem_19()));
+        this.assignmentRepository.save(new Assignment(UUID.randomUUID(), daun9870jung(), problem_29()).complete());
 
         FakeMemberRepository memberRepository = new FakeMemberRepository();
-        memberRepository.save(member_1());
+        memberRepository.save(daun9870jung());
         this.memberService = new MemberService(memberRepository, new BCryptPasswordEncoder());
 
 
@@ -66,14 +66,14 @@ class AssignmentServiceTest {
         fakeProblemRepository.save(problem_29());
 
         FakeSolvedAcDB fakeSolvedAcDB = new FakeSolvedAcDB();
-        fakeSolvedAcDB.addMember(solvedAcMember(member_1().getEmail().getValue()));
+        fakeSolvedAcDB.addMember(solvedAcMember(daun9870jung().getEmail().getValue()));
         fakeSolvedAcDB.addProblem(solvedAcProblem(16120));
         fakeSolvedAcDB.addProblem(solvedAcProblem(1002));
         fakeSolvedAcDB.addProblem(solvedAcProblem(19));
         fakeSolvedAcDB.addProblem(solvedAcProblem(29));
 
-        fakeSolvedAcDB.memberSolve(member_1().getEmail().getValue(), problem_19().getId());
-        fakeSolvedAcDB.memberSolve(member_1().getEmail().getValue(), problem_29().getId());
+        fakeSolvedAcDB.memberSolve(daun9870jung().getEmail().getValue(), problem_19().getId());
+        fakeSolvedAcDB.memberSolve(daun9870jung().getEmail().getValue(), problem_29().getId());
         this.solvedAcClient = new FakeSolvedAcClient(fakeSolvedAcDB);
         this.problemService = new ProblemService(fakeProblemRepository, new FakeTagRepository(), new FakeProblemTagRepository(), solvedAcClient);
 
@@ -87,7 +87,7 @@ class AssignmentServiceTest {
     @Test
     void save() throws Exception {
         //given
-        AssignRequest request = new AssignRequest(member_1().getEmail(), problem_1002().getId());
+        AssignRequest request = new AssignRequest(daun9870jung().getEmail(), problem_1002().getId());
         //when
         Assignment save = assignmentService.assign(request);
         //then
@@ -95,7 +95,7 @@ class AssignmentServiceTest {
         assertAll(
                 () -> assertThat(save.getId()).isInstanceOf(UUID.class),
                 () -> assertThat(save.isComplete()).isFalse(),
-                () -> assertThat(save.getMember()).isEqualTo(member_1()),
+                () -> assertThat(save.getMember()).isEqualTo(daun9870jung()),
                 () -> assertThat(save.getProblem()).isEqualTo(problem_1002())
         );
     }
@@ -104,7 +104,7 @@ class AssignmentServiceTest {
     @Test
     void save_assigned() throws Exception {
         //given
-        AssignRequest request = new AssignRequest(member_1().getEmail(), problem_16120().getId());
+        AssignRequest request = new AssignRequest(daun9870jung().getEmail(), problem_16120().getId());
         //when&&then
         assertThatThrownBy(() -> assignmentService.assign(request))
                 .isInstanceOf(IllegalStateException.class)
@@ -116,7 +116,7 @@ class AssignmentServiceTest {
     @ParameterizedTest
     void save_completed(final Integer problemId) throws Exception {
         //given
-        AssignRequest request = new AssignRequest(member_1().getEmail(), problemId);
+        AssignRequest request = new AssignRequest(daun9870jung().getEmail(), problemId);
         //when&&then
         assertThatThrownBy(() -> assignmentService.assign(request))
                 .isInstanceOf(IllegalStateException.class)
