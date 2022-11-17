@@ -4,6 +4,7 @@ import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
 import com.daun.word.global.vo.*;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Table(name = "problem")
 @NoArgsConstructor
 @Getter
-@EqualsAndHashCode(of = "id", callSuper = false)
+@EqualsAndHashCode(of = "id", callSuper = false) @ToString
 public class Problem extends BaseEntity {
 
     @Id
@@ -33,6 +34,7 @@ public class Problem extends BaseEntity {
     @Column(name = "accepted_user_count", nullable = false, columnDefinition = "int default 0")
     private int acceptedUserCount;
 
+    @BatchSize(size = 10)
     @OneToMany(mappedBy = "problem", cascade = CascadeType.PERSIST)
     private List<ProblemTag> problemTags = new ArrayList<>();
 
@@ -46,7 +48,7 @@ public class Problem extends BaseEntity {
     }
 
     public Problem(SolvedAcProblem solvedAcProblem) {
-        this(solvedAcProblem.getProblemId(), new Title(solvedAcProblem.getTitleKo()), new URL(solvedAcProblem.getProblemId()), new Tier(solvedAcProblem.getLevel()), 0);
+        this(solvedAcProblem.getProblemId(), new Title(solvedAcProblem.getTitleKo()), new URL(solvedAcProblem.getProblemId()), new Tier(solvedAcProblem.getLevel()), solvedAcProblem.getAcceptedUserCount());
     }
 
     public void addTags(List<ProblemTag> tags) {
