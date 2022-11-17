@@ -120,10 +120,6 @@ class ProblemRepositoryTest {
     void findAllByTierBetweenOrderByAcceptedUserCountDesc() {
         //given&&when
         List<Problem> problems = problemRepository.findAllByTierBetweenOrderByAcceptedUserCountDesc(new Tier(11), new Tier(15));
-        for (Problem p : problems) {
-            System.out.println("====================");
-            System.out.println(p);
-        }
         //then
         assertThat(problems).isNotNull();
         assertAll(

@@ -3,7 +3,11 @@ package com.daun.word.domain.recommend.dto;
 import com.daun.word.domain.member.dto.MemberDTO;
 import com.daun.word.domain.problem.controller.ProblemDTO;
 import com.daun.word.domain.recommend.domain.Recommend;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+@Data
 public class RecommendResponse {
 
     private String id;
