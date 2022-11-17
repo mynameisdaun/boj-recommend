@@ -17,6 +17,4 @@ public interface StudyRepository {
     Optional<Study> findById(@Param("id") UUID id);
 
     List<Study> findAll();
-
-    List<Study> findAllByIdIn(List<UUID> ids);
 }

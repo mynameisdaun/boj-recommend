@@ -41,9 +41,9 @@ public class Fixture {
         return new Name("테스터");
     }
 
-    public static Member member_1() {
+    public static Member daun9870jung() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(UUID.fromString("a1ba0849-e331-4a76-9108-386de77a3648"), new Email("tester1"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W);
+        return new Member(UUID.fromString("f1860abc-2ea1-411b-bd4a-baa44f0d5580"), new Email("tester1"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W);
     }
 
     public static Member member_2() {
@@ -120,19 +120,19 @@ public class Fixture {
     }
 
     public static Assignment assignment() {
-        return new Assignment(UUID.fromString("aba40f35-7c62-4b8d-b269-a5fb9eb4ad70"), member_1(), problem_16120());
+        return new Assignment(UUID.fromString("aba40f35-7c62-4b8d-b269-a5fb9eb4ad70"), daun9870jung(), problem_16120());
     }
 
     public static Assignment assignment_complete() {
-        return new Assignment(UUID.fromString("cfc60b53-4b8d-7c62-b269-a5fb7fa4ad70"), member_1(), problem_29());
+        return new Assignment(UUID.fromString("cfc60b53-4b8d-7c62-b269-a5fb7fa4ad70"), daun9870jung(), problem_29());
     }
 
     public static Recommend recommend() {
-        return new Recommend(UUID.randomUUID(), problem_16120(), member_1(), RecommendType.TIER);
+        return new Recommend(UUID.randomUUID(), problem_16120(), daun9870jung(), RecommendType.TIER);
     }
 
     public static Study study() {
-        return new Study(UUID.fromString("cec40f35-7c26-4b8d-b269-f6fb9eb4ad70"), member_1(), new Name("sample study"), "2023f708bd566934819ba9b65da86551bcc2e445bdd336b64f31e9a9f6f1aa3a");
+        return new Study(UUID.fromString("cec40f35-7c26-4b8d-b269-f6fb9eb4ad70"), daun9870jung(), new Name("sample study"), "2023f708bd566934819ba9b65da86551bcc2e445bdd336b64f31e9a9f6f1aa3a");
     }
 
     public static SolvedAcMember solvedAcMember(String handle) {

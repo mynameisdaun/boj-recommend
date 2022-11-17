@@ -45,7 +45,7 @@ insert into problem_tag(id, problem_id, tag_id) values (300012,2887,97);
 
 
 /* study and study member */
-insert into study(study_id,hash,name,member_id) values (x'1ee72417fea22ff34a80dac3d075b046','03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4','example_study',x'f1860abc2ea1411bbd4abaa44f0d5580');
+insert into study(study_id,hash,name,member_id) values (x'1ee72417fea22ff34a80dac3d075b046','03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4','example-study',x'f1860abc2ea1411bbd4abaa44f0d5580');
 insert into study_member(id,member_id,study_id) values (3000001,x'f1860abc2ea1411bbd4abaa44f0d5580',x'1ee72417fea22ff34a80dac3d075b046');
 insert into study_member(id,member_id,study_id) values (3000002,x'c5ee925c3dbb4941b825021446f24446',x'1ee72417fea22ff34a80dac3d075b046');
 insert into study_member(id,member_id,study_id) values (3000003,x'625c6fc4145d408f8dd533c16ba26064',x'1ee72417fea22ff34a80dac3d075b046');

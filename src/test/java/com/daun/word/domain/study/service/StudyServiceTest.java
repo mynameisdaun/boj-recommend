@@ -30,15 +30,15 @@ class StudyServiceTest {
     @BeforeEach
     public void setUp() {
         FakeMemberRepository fakeMemberRepository = new FakeMemberRepository();
-        fakeMemberRepository.save(member_1());
+        fakeMemberRepository.save(daun9870jung());
         fakeMemberRepository.save(member_2());
         fakeMemberRepository.save(member_3());
         FakeStudyRepository fakeStudyRepository = new FakeStudyRepository();
         fakeStudyRepository.save(study());
         FakeStudyMemberRepository fakeStudyMemberRepository = new FakeStudyMemberRepository();
-        fakeStudyMemberRepository.save(new StudyMember(study(), member_1()));
+        fakeStudyMemberRepository.save(new StudyMember(study(), daun9870jung()));
         fakeStudyMemberRepository.save(new StudyMember(study(), member_2()));
-        study().enrollMember(Arrays.asList(new StudyMember(study(), member_1()), new StudyMember(study(), member_2())));
+        study().enrollMember(Arrays.asList(new StudyMember(study(), daun9870jung()), new StudyMember(study(), member_2())));
 
         studyService = new StudyService(
                 fakeStudyRepository,
@@ -52,8 +52,8 @@ class StudyServiceTest {
     @Test
     void save() throws Exception {
         //given
-        String leader = member_1().getEmail().getValue();
-        List<String> members = Arrays.asList(member_1().getEmail().getValue(), member_2().getEmail().getValue());
+        String leader = daun9870jung().getEmail().getValue();
+        List<String> members = Arrays.asList(daun9870jung().getEmail().getValue(), member_2().getEmail().getValue());
         StudySaveRequest request = new StudySaveRequest(leader, "name", "1234", members);
         //when
         Study study = studyService.save(request);
@@ -65,7 +65,7 @@ class StudyServiceTest {
                 () -> assertThat(study.getStudyName().getValue()).isEqualTo("name"),
                 () -> assertThat(study.getHash()).isInstanceOf(String.class),
                 () -> assertThat(study.getStudyMembers().size()).isEqualTo(2),
-                () -> assertThat(study.getStudyMembers().containsAll(Arrays.asList(member_1(), member_2())))
+                () -> assertThat(study.getStudyMembers().containsAll(Arrays.asList(daun9870jung(), member_2())))
         );
     }
 
@@ -74,7 +74,7 @@ class StudyServiceTest {
     void save_fail_not_joined_leader() throws Exception {
         //given
         String leader = "no-exist-leader";
-        List<String> members = Arrays.asList(member_1().getEmail().getValue(), member_2().getEmail().getValue());
+        List<String> members = Arrays.asList(daun9870jung().getEmail().getValue(), member_2().getEmail().getValue());
         StudySaveRequest request = new StudySaveRequest(leader, "name", "1234", members);
         //when&&then
         assertThatThrownBy(() -> studyService.save(request))
@@ -86,8 +86,8 @@ class StudyServiceTest {
     @Test
     void save_fail_not_joined_member() throws Exception {
         //given
-        String leader = member_1().getEmail().getValue();
-        List<String> members = Arrays.asList(member_1().getEmail().getValue(), member_2().getEmail().getValue(), member_4().getEmail().getValue());
+        String leader = daun9870jung().getEmail().getValue();
+        List<String> members = Arrays.asList(daun9870jung().getEmail().getValue(), member_2().getEmail().getValue(), member_4().getEmail().getValue());
         StudySaveRequest request = new StudySaveRequest(leader, "name", "1234", members);
         //when&&then
         assertThatThrownBy(() -> studyService.save(request))

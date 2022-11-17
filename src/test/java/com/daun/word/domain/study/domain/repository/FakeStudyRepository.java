@@ -26,12 +26,5 @@ public class FakeStudyRepository implements StudyRepository {
         return new ArrayList<>(table.values());
     }
 
-    @Override
-    public List<Study> findAllByIdIn(final List<UUID> ids) {
-        return table.values()
-                .stream()
-                .filter(s -> ids.contains(s.getId()))
-                .collect(toList());
-    }
 
 }
