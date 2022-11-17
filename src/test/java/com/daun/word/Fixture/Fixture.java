@@ -128,7 +128,8 @@ public class Fixture {
     }
 
     public static Recommend recommend() {
-        return new Recommend(UUID.randomUUID(), problem_16120(), daun9870jung(), RecommendType.TIER);
+        return new Recommend(UUID.fromString("eb4adf35-4b8d-7c26-b269-f6cec40fb970"), problem_16120(), daun9870jung(), RecommendType.TIER);
+
     }
 
     public static Study study() {

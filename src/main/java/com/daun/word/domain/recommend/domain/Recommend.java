@@ -30,7 +30,7 @@ public class Recommend extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "recommend_type")
     private RecommendType type;
 

@@ -53,3 +53,6 @@ insert into study_member(id,member_id,study_id) values (3000004,x'4721ee722ff341
 
 /* assignment */
 insert into assignment(assignment_id, complete, member_id, problem_id) values(x'145d408f8dd5317fade3acd0a804605b',0,x'f1860abc2ea1411bbd4abaa44f0d5580',16120);
+
+/* recommend */
+insert into recommend(recommend_id,problem_id,member_id,recommend_type) values (x'eb4adf354b8d7c26b269f6cec40fb970',16120,x'f1860abc2ea1411bbd4abaa44f0d5580','TIER');
