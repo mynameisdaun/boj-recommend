@@ -15,6 +15,6 @@ public class TierProblemPoolStrategy implements ProblemPoolStrategy {
     public List<Problem> recommend(ProblemRepository problemRepository, RecommendSearchQuery query) {
         Preconditions.checkArgument(query.getMinTier() != null, "최소 티어가 없으면, 티어 추천 전략을 사용할 수 없습니다");
         Preconditions.checkArgument(query.getMaxTier() != null, "최대 티어가 없으면, 티어 추천 전략을 사용할 수 없습니다");
-        return problemRepository.findAllByTierBetweenOrderByAcceptedUserCountDesc(query.getMinTier().getLevel(), query.getMaxTier().getLevel());
+        return problemRepository.findAllByTierBetweenOrderByAcceptedUserCountDesc(query.getMinTier(), query.getMaxTier());
     }
 }
