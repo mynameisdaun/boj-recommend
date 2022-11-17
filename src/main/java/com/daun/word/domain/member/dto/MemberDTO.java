@@ -12,18 +12,18 @@ import java.util.UUID;
 @Data
 public class MemberDTO {
     private UUID id;
-    private Email email;
-    private Name name;
+    private String email;
+    private String name;
     private SocialType socialType;
     private int loginCount;
     private Date lastLoginAt;
     private Date createdAt;
     private Date updatedAt;
 
-    public MemberDTO (Member member) {
+    public MemberDTO(Member member) {
         this.id = member.getId();
-        this.email = member.getEmail();
-        this.name = member.getName();
+        this.email = member.getEmail().getValue();
+        this.name = member.getName().getValue();
         this.socialType = member.getSocialType();
         this.loginCount = member.getLoginCount();
         this.lastLoginAt = member.getLastLoginAt();
