@@ -6,7 +6,9 @@ import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.global.infra.solvedac.dto.ProblemSearchResponse;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
+import com.daun.word.global.infra.solvedac.dto.TierCounts;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -18,5 +20,9 @@ public interface SolvedAcClient {
 
     Optional<SolvedAcProblem> findById(final Integer id);
 
+    List<SolvedAcProblem> findByIdsIn(final List<Integer> ids);
+
     boolean isSolved(final Member member, final Problem problem);
+
+    TierCounts problemCountGroupByTier();
 }

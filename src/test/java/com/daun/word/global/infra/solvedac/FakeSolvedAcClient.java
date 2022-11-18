@@ -6,7 +6,12 @@ import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.global.infra.solvedac.dto.ProblemSearchResponse;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
+import com.daun.word.global.infra.solvedac.dto.TierCounts;
+import com.daun.word.global.vo.Tier;
+import org.apache.commons.lang3.NotImplementedException;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class FakeSolvedAcClient implements SolvedAcClient {
@@ -35,5 +40,15 @@ public class FakeSolvedAcClient implements SolvedAcClient {
     @Override
     public boolean isSolved(Member member, Problem problem) {
         return fakeSolvedAcDB.isSolved(member.getEmail().getValue(), problem.getId());
+    }
+
+    @Override
+    public TierCounts problemCountGroupByTier() {
+        throw new NotImplementedException("");
+    }
+
+    @Override
+    public List<SolvedAcProblem> findByIdsIn(List<Integer> ids) {
+        throw new NotImplementedException("");
     }
 }

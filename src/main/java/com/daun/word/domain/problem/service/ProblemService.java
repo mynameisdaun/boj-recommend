@@ -4,8 +4,11 @@ import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.ProblemTag;
 import com.daun.word.domain.problem.domain.Tag;
 import com.daun.word.domain.problem.domain.repository.*;
+import com.daun.word.domain.problem.dto.ManualUpdateRequest;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
+import com.daun.word.global.infra.solvedac.dto.ProblemSearchResponse;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
+import com.daun.word.global.infra.solvedac.dto.TierCounts;
 import com.daun.word.global.vo.Tier;
 import com.daun.word.global.vo.Title;
 import com.daun.word.global.vo.URL;
@@ -120,5 +123,51 @@ public class ProblemService {
     @Transactional(readOnly = true)
     public List<Problem> findAllByTierBetween(final Tier min, final Tier max) {
         return problemRepository.findAllByTierBetweenOrderByAcceptedUserCountDesc(min, max);
+    }
+
+    /**
+     * SolvedAc로 부터 문제 업데이트
+     * 1. SolvedAc에서 티어별 문제 수를 조회한다
+     * 2. SolvedAc의 문제 수가 로컬에 있는 문제 수 보다 많을 경우 업데이트를 진행한다
+     * 2-1. solvedAc 에서 푼 사람 수를 기준으로 오름차순 정렬하여 조회한다
+     * 2-2  local에 존재 하지 않는 문제를 업데이트한다
+     *
+     * @param request
+     */
+    @Transactional
+    public int manual(final ManualUpdateRequest request) {
+        final TierCounts counts = solvedAcClient.problemCountGroupByTier();
+        log.error("counts: {}", counts);
+        for (int i = request.min(); i <= request.max(); i++) {
+            final Tier tier = new Tier(i);
+            final int solvedAc = counts.get(i).getCount();
+            final int local = problemRepository.countByTier(tier);
+            int page = 1;
+            if (solvedAc > local) {
+                List<Problem> localIds = problemRepository.findAllByTierBetweenOrderByAcceptedUserCountDesc(tier, tier);
+                final int gap = solvedAc - local;
+                int saveCount = 0;
+                log.error("gap: {}", gap);
+                while (gap > saveCount) {
+                    StringBuilder query = new StringBuilder("*")
+                            .append(tier.getRate());
+                    List<Integer> solvedAcIds = solvedAcClient.search(query.toString(), page, "solved", "asc")
+                            .toIdList();
+
+                    List<Integer> filtered = solvedAcIds.stream()
+                            .filter(id -> !localIds.contains(id))
+                            .collect(toList());
+
+                    List<SolvedAcProblem> unsaved = solvedAcClient.findByIdsIn(filtered);
+                    for (SolvedAcProblem p : unsaved) {
+                        Problem saved = problemRepository.save(new Problem(p));
+                        saveCount++;
+                        log.info("saveCount:{}, \n {}",saveCount, saved);
+                    }
+                    page++;
+                }
+            }
+        }
+        return 1;
     }
 }

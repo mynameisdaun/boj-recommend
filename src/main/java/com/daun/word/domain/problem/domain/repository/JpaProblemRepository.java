@@ -9,7 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface JpaProblemRepository extends ProblemRepository, JpaRepository<Problem, Long> {
-
-
-
+    List<Problem> findAllByTier
 }

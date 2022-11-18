@@ -1,0 +1,13 @@
+### autowired
+POST localhost:8080/recommend
+Content-Type: application/json
+
+{
+  "email": "daun9870jung",
+  "type": "TIER",
+  "query": {
+    "minTier": 11,
+    "maxTier": 15
+  }
+}
+

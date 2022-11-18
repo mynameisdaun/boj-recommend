@@ -1,5 +1,6 @@
 package com.daun.word.domain.problem.controller;
 
+import com.daun.word.domain.problem.dto.ManualUpdateRequest;
 import com.daun.word.domain.problem.service.ProblemService;
 import com.daun.word.global.dto.ApiResponse;
 import com.daun.word.global.vo.Tier;
@@ -28,11 +29,11 @@ public class ProblemController {
 
     @GetMapping("/between")
     public ResponseEntity<ApiResponse> save(@RequestParam Tier min, @RequestParam Tier max) {
-        return ResponseEntity.status(200).body(new ApiResponse(
-                problemService.findAllByTierBetween(min, max)
-                        .stream()
-                        .map(ProblemDTO::new)
-                        .collect(Collectors.toList()))
-        );
+        return ResponseEntity.status(200).body(new ApiResponse(problemService.findAllByTierBetween(min, max).stream().map(ProblemDTO::new).collect(Collectors.toList())));
+    }
+
+    @PostMapping("/manual")
+    public ResponseEntity<ApiResponse> manual(@RequestBody ManualUpdateRequest request) {
+        return ResponseEntity.status(200).body(new ApiResponse(problemService.manual(request)));
     }
 }

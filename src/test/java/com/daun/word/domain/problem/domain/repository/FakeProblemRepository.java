@@ -40,4 +40,9 @@ public class FakeProblemRepository implements ProblemRepository {
                 .filter(p -> ids.contains(p.getId()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public int countByTier(Tier tier) {
+        return (int) table.values().stream().filter(p -> p.getTier().equals(tier)).count();
+    }
 }

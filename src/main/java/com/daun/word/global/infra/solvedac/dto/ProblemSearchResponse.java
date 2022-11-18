@@ -16,6 +16,12 @@ public final class ProblemSearchResponse {
     private int count;
     private Item[] items;
 
+    public List<Integer> toIdList() {
+        return stream(this.items)
+                .map(Item::getProblemId)
+                .collect(toList());
+    }
+
     @Data
     @NoArgsConstructor
     public static class Item {
@@ -29,4 +35,5 @@ public final class ProblemSearchResponse {
         private boolean isLevelLocked;
         private double averageTries;
     }
+
 }

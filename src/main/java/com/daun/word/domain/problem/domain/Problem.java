@@ -1,15 +1,19 @@
 package com.daun.word.domain.problem.domain;
 
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
-import com.daun.word.global.vo.*;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
+import com.daun.word.global.vo.BaseEntity;
+import com.daun.word.global.vo.Tier;
+import com.daun.word.global.vo.Title;
+import com.daun.word.global.vo.URL;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity(name = "problem")
 @Table(name = "problem")

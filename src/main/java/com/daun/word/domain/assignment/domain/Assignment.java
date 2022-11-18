@@ -31,6 +31,7 @@ public class Assignment extends BaseEntity {
     @JoinColumn(name = "problem_id")
     private Problem problem;
 
+    @Column(name = "complete", nullable = false, columnDefinition = "bit default 0")
     private boolean complete;
 
     @Column(name = "complete_at", nullable = true)

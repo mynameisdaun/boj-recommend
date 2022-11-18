@@ -5,3 +5,12 @@ POST http://localhost:8080/problem/2245
 
 ### 3. 티어 구간으로 문제 조회
 GET http://localhost:8080/problem/between?min=8&max=12
+
+###
+POST http://localhost:8080/problem/manual
+Content-Type: application/json
+
+{
+  "minTier": 11,
+  "maxTier": 11
+}
