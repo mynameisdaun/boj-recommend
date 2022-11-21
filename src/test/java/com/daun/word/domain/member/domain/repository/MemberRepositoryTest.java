@@ -1,15 +1,18 @@
 package com.daun.word.domain.member.domain.repository;
 
 import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.member.domain.QMember;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.global.vo.Name;
 import com.daun.word.global.vo.Tier;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -47,17 +50,7 @@ class MemberRepositoryTest {
         em.flush();
         //then
         assertThat(saved).isNotNull();
-        assertAll(
-                () -> assertThat(saved.getEmail().getValue()).isEqualTo("no-exist"),
-                () -> assertThat(saved.getName().getValue()).isEqualTo("꼬북이"),
-                () -> assertThat(passwordEncoder.matches("sample-password", saved.getPassword())),
-                () -> assertThat(saved.getTier().getLevel()).isEqualTo(11),
-                () -> assertThat(saved.getLoginCount()).isEqualTo(0),
-                () -> assertThat(saved.getLastLoginAt()).isNull(),
-                () -> assertThat(saved.getCreatedAt()).isNotNull(),
-                () -> assertThat(saved.getUpdatedAt()).isNotNull(),
-                () -> assertThat(saved.isDeleted()).isFalse()
-        );
+        assertAll(() -> assertThat(saved.getEmail().getValue()).isEqualTo("no-exist"), () -> assertThat(saved.getName().getValue()).isEqualTo("꼬북이"), () -> assertThat(passwordEncoder.matches("sample-password", saved.getPassword())), () -> assertThat(saved.getTier().getLevel()).isEqualTo(11), () -> assertThat(saved.getLoginCount()).isEqualTo(0), () -> assertThat(saved.getLastLoginAt()).isNull(), () -> assertThat(saved.getCreatedAt()).isNotNull(), () -> assertThat(saved.getUpdatedAt()).isNotNull(), () -> assertThat(saved.isDeleted()).isFalse());
     }
 
     @DisplayName("이미 존재하는 이메일로 새로운 회원이 가입할 수 없다")
@@ -74,20 +67,10 @@ class MemberRepositoryTest {
     @Test
     void findById() {
         //given&&when
-        Member find = memberRepository.findById(UUID.fromString("f1860abc-2ea1-411b-bd4a-baa44f0d5580"))
-                .orElseThrow(NoSuchElementException::new);
+        Member find = memberRepository.findById(UUID.fromString("f1860abc-2ea1-411b-bd4a-baa44f0d5580")).orElseThrow(NoSuchElementException::new);
         //then
         assertThat(find).isNotNull();
-        assertAll(
-                () -> assertThat(find.getEmail().getValue()).isEqualTo("daun9870jung"),
-                () -> assertThat(find.getName().getValue()).isEqualTo("정다운"),
-                () -> assertThat(find.getTier().getLevel()).isEqualTo(15),
-                () -> assertThat(find.getLoginCount()).isEqualTo(0),
-                () -> assertThat(find.getLastLoginAt()).isNotNull(),
-                () -> assertThat(find.getCreatedAt()).isNotNull(),
-                () -> assertThat(find.getUpdatedAt()).isNotNull(),
-                () -> assertThat(find.isDeleted()).isFalse()
-        );
+        assertAll(() -> assertThat(find.getEmail().getValue()).isEqualTo("daun9870jung"), () -> assertThat(find.getName().getValue()).isEqualTo("정다운"), () -> assertThat(find.getTier().getLevel()).isEqualTo(15), () -> assertThat(find.getLoginCount()).isEqualTo(0), () -> assertThat(find.getLastLoginAt()).isNotNull(), () -> assertThat(find.getCreatedAt()).isNotNull(), () -> assertThat(find.getUpdatedAt()).isNotNull(), () -> assertThat(find.isDeleted()).isFalse());
     }
 
     @DisplayName("존재하지 않는 회원은 아이디로 조회할 수 없다")
@@ -104,21 +87,10 @@ class MemberRepositoryTest {
     @Test
     void findByEmail() throws Exception {
         //given&&when
-        Member find = memberRepository.findByEmail(new Email("daun9870jung"))
-                .orElseThrow(NoSuchElementException::new);
+        Member find = memberRepository.findByEmail(new Email("daun9870jung")).orElseThrow(NoSuchElementException::new);
         //then
         assertThat(find).isNotNull();
-        assertAll(
-                () -> assertThat(find.getId()).isEqualTo(UUID.fromString("f1860abc-2ea1-411b-bd4a-baa44f0d5580")),
-                () -> assertThat(find.getEmail().getValue()).isEqualTo("daun9870jung"),
-                () -> assertThat(find.getName().getValue()).isEqualTo("정다운"),
-                () -> assertThat(find.getTier().getLevel()).isEqualTo(15),
-                () -> assertThat(find.getLoginCount()).isEqualTo(0),
-                () -> assertThat(find.getLastLoginAt()).isNotNull(),
-                () -> assertThat(find.getCreatedAt()).isNotNull(),
-                () -> assertThat(find.getUpdatedAt()).isNotNull(),
-                () -> assertThat(find.isDeleted()).isFalse()
-        );
+        assertAll(() -> assertThat(find.getId()).isEqualTo(UUID.fromString("f1860abc-2ea1-411b-bd4a-baa44f0d5580")), () -> assertThat(find.getEmail().getValue()).isEqualTo("daun9870jung"), () -> assertThat(find.getName().getValue()).isEqualTo("정다운"), () -> assertThat(find.getTier().getLevel()).isEqualTo(15), () -> assertThat(find.getLoginCount()).isEqualTo(0), () -> assertThat(find.getLastLoginAt()).isNotNull(), () -> assertThat(find.getCreatedAt()).isNotNull(), () -> assertThat(find.getUpdatedAt()).isNotNull(), () -> assertThat(find.isDeleted()).isFalse());
     }
 
     @DisplayName("존재하지 않는 회원은 이메일로 조회할 수 없다")
@@ -141,9 +113,29 @@ class MemberRepositoryTest {
         boolean exist = memberRepository.existsMemberByEmail(email_exist);
         boolean no_exist = memberRepository.existsMemberByEmail(email_no_exist);
         //when
-        assertAll(
-                () -> assertThat(exist).isTrue(),
-                () -> assertThat(no_exist).isFalse()
-        );
+        assertAll(() -> assertThat(exist).isTrue(), () -> assertThat(no_exist).isFalse());
+    }
+
+    @DisplayName(value = "querydsltest")
+    @Test
+    void querydsl() throws Exception {
+        UUID id = UUID.randomUUID();
+        Member member = new Member(id, new Email("no-exist"), new Name("꼬북이"), "sample-password", new Tier(11), SocialType.W);
+        em.persist(member);
+        //when
+        JPAQueryFactory query = new JPAQueryFactory(em);
+        QMember qmMember = new QMember("m");
+        Member one = query.selectFrom(qmMember)
+                .fetchOne();
+        assertThat(one).isNotNull();
+        assertAll(() -> assertThat(one.getEmail().getValue()).isEqualTo("no-exist"),
+                () -> assertThat(one.getName().getValue()).isEqualTo("꼬북이"),
+                () -> assertThat(passwordEncoder.matches("sample-password", one.getPassword())),
+                () -> assertThat(one.getTier().getLevel()).isEqualTo(11),
+                () -> assertThat(one.getLoginCount()).isEqualTo(0),
+                () -> assertThat(one.getLastLoginAt()).isNull(),
+                () -> assertThat(one.getCreatedAt()).isNotNull(),
+                () -> assertThat(one.getUpdatedAt()).isNotNull(),
+                () -> assertThat(one.isDeleted()).isFalse());
     }
 }
