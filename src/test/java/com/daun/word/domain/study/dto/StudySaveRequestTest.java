@@ -1,12 +1,6 @@
 package com.daun.word.domain.study.dto;
 
-import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.member.domain.vo.SocialType;
-import com.daun.word.global.vo.Name;
-import com.daun.word.global.vo.Tier;
-import org.apache.ibatis.annotations.Param;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,11 +9,8 @@ import org.junit.jupiter.params.provider.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Stream;
 
-import static com.daun.word.Fixture.Fixture.email;
-import static com.daun.word.Fixture.Fixture.nickname;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;

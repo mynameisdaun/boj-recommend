@@ -42,9 +42,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-couchbase'
     implementation 'com.querydsl:querydsl-jpa'
 
-
     compileOnly 'org.projectlombok:lombok'
-
 
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.10.7'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.10.7'
@@ -67,6 +65,11 @@ tasks.named('test') {
 }
 
 def querydslDir = "$buildDir/generated/querydsl"
+querydsl {
+    library = "com.querydsl:querydsl-apt:4.2.2"
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
 
 sourceSets {
     main.java.srcDir querydslDir

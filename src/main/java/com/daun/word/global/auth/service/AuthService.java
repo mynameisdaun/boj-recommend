@@ -1,20 +1,17 @@
 package com.daun.word.global.auth.service;
 
+import com.daun.word.domain.member.domain.Member;
+import com.daun.word.domain.member.service.MemberService;
 import com.daun.word.global.auth.dto.LoginResponse;
-import com.daun.word.global.auth.token.service.TokenService;
 import com.daun.word.global.infra.kakao.client.KakaoOAuthClient;
 import com.daun.word.global.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.global.infra.kakao.dto.KakaoTokenResponse;
-import com.daun.word.domain.member.domain.Member;
-import com.daun.word.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.eval.NotImplementedException;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 @Service
 @Slf4j
@@ -25,7 +22,6 @@ public class AuthService {
 
     private final KakaoOAuthClient kakaoOAuthClient;
 
-    private final TokenService tokenService;
 
 
 
