@@ -10,8 +10,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -63,6 +65,13 @@ public class MemberService {
         checkArgument(email != null, "이메일은 필수 값 입니다");
         return memberRepository.findByEmail(email)
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원 입니다"));
+    }
+
+    @Transactional
+    public List<Member> findByEmailIn(final List<Email> emails) {
+        return emails.stream()
+                .map(this::findByEmail)
+                .collect(Collectors.toList());
     }
 
 }

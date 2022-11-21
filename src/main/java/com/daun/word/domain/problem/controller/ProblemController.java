@@ -1,6 +1,7 @@
 package com.daun.word.domain.problem.controller;
 
 import com.daun.word.domain.problem.dto.ManualUpdateRequest;
+import com.daun.word.domain.problem.dto.ProblemDTO;
 import com.daun.word.domain.problem.service.ProblemService;
 import com.daun.word.global.dto.ApiResponse;
 import com.daun.word.global.vo.Tier;

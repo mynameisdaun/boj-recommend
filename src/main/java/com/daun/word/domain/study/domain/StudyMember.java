@@ -37,5 +37,9 @@ public class StudyMember extends BaseEntity {
     protected StudyMember() {
     }
 
+    public String email() {
+        return this.member.getEmail().getValue();
+    }
+
 }
 

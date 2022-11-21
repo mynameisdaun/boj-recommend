@@ -1,4 +1,4 @@
-package com.daun.word.domain.problem.controller;
+package com.daun.word.domain.problem.dto;
 
 import com.daun.word.domain.problem.domain.ProblemTag;
 import com.daun.word.domain.problem.domain.Tag;

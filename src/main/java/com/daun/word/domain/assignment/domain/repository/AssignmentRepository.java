@@ -21,9 +21,7 @@ public interface AssignmentRepository {
 
     Optional<Assignment> findByMemberAndProblem(final Member member, final Problem problem);
 
-
-    //멤버는 사용안하니까 굳이 페치 할 필요 없다
-    @Query(" select a from assignment a join fetch a.problem where a.member = :member and a.problem in :problems ")
-    List<Assignment> findAllByMemberAndProblemIn(@Param("member") final Member member, @Param("problems") final List<Problem> problems);
+    @Query(" select a from assignment a join fetch a.problem where a.member in :members and a.problem in :problems ")
+    List<Assignment> findAllByMembersAndProblemIn(@Param("members") final List<Member> members, @Param("problems") final List<Problem> problems);
 
 }

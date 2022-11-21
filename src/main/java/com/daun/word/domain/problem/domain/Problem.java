@@ -38,7 +38,7 @@ public class Problem extends BaseEntity {
     @Column(name = "accepted_user_count", nullable = false, columnDefinition = "int default 0")
     private int acceptedUserCount;
 
-    @BatchSize(size = 10)
+    @BatchSize(size = 100)
     @OneToMany(mappedBy = "problem", cascade = CascadeType.PERSIST)
     private List<ProblemTag> problemTags = new ArrayList<>();
 

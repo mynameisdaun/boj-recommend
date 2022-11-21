@@ -11,6 +11,6 @@ POST http://localhost:8080/problem/manual
 Content-Type: application/json
 
 {
-  "minTier": 11,
-  "maxTier": 11
+  "minTier": 14,
+  "maxTier": 15
 }

@@ -19,7 +19,7 @@ public interface ProblemRepository {
 
     List<Problem> findAllByIdIn(final List<Integer> ids);
 
-    @Query( "select p from problem p where p.tier.level between min.level and max.level orderby p.acceptedUserCount desc ")
+    @Query( "select p from problem p join p.problemTags where p.tier.level between :#{#min.level} and :#{#max.level} order by p.acceptedUserCount desc ")
     List<Problem> findAllByTierBetweenOrderByAcceptedUserCountDesc(@Param("min") final Tier min, @Param("max") final Tier max);
 
 

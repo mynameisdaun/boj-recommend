@@ -3,7 +3,6 @@ package com.daun.word.domain.recommend.service;
 import com.daun.word.domain.assignment.domain.Assignment;
 import com.daun.word.domain.assignment.domain.repository.AssignmentRepository;
 import com.daun.word.domain.member.domain.Member;
-import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.service.MemberService;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.repository.ProblemRepository;
@@ -12,12 +11,14 @@ import com.daun.word.domain.recommend.domain.repository.RecommendRepository;
 import com.daun.word.domain.recommend.domain.strategy.ProblemPoolStrategy;
 import com.daun.word.domain.recommend.domain.strategy.ProblemPoolStrategyFactory;
 import com.daun.word.domain.recommend.dto.RecommendRequest;
+import com.daun.word.domain.study.service.StudyService;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -39,6 +40,7 @@ public class RecommendService {
 
     private final AssignmentRepository assignmentRepository;
 
+
     /**
      * id로 추천을 조회한다
      *
@@ -48,8 +50,7 @@ public class RecommendService {
      */
     @Transactional(readOnly = true)
     public Recommend findById(UUID id) {
-        return recommendRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 추천입니다"));
+        return recommendRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 추천입니다"));
     }
 
     /**
@@ -65,29 +66,29 @@ public class RecommendService {
      * @throws IllegalStateException 현재 문제 풀 생성 전략으로 더 이상 추천 할 수 있는 문제가 없는 경우 "추천할 수 있는 문제가 없습니다"
      */
     @Transactional
-    public Recommend recommend(RecommendRequest request) {
-        final Member member = memberService.findByEmail(new Email(request.getEmail()));
+    public List<Recommend> recommend(RecommendRequest request) {
+        final List<Member> members = memberService.findByEmailIn(request.emails());
         final ProblemPoolStrategy strategy = ProblemPoolStrategyFactory.create(request.getType());
         //1. 문제 추천 전략에 따라서, 문제 풀 생성
         final List<Problem> problemPools = strategy.recommend(problemRepository, request.getQuery());
 
         //2. 이미 할당 받은 문제는 필터링
-        final List<Problem> assigned = assignmentRepository.findAllByMemberAndProblemIn(member, problemPools)
-                .stream()
-                .map(Assignment::getProblem)
-                .collect(toList());
-        final List<Problem> filtered = problemPools.stream()
-                .filter(p -> !assigned.contains(p))
-                .collect(toList());
+        final List<Problem> assigned = assignmentRepository.findAllByMembersAndProblemIn(members, problemPools).stream().map(Assignment::getProblem).collect(toList());
+
+        final List<Problem> filtered = problemPools.stream().filter(p -> !assigned.contains(p)).collect(toList());
 
         //3. BOJ에서 재 검증
         for (Problem p : filtered) {
-            if (!solvedAcClient.isSolved(member, p)) {
-                assignmentRepository.save(new Assignment(UUID.randomUUID(), member, p));
-                return recommendRepository.save(new Recommend(UUID.randomUUID(), p, member, request.getType()));
+            if (!solvedAcClient.isSolved(members, p)) {
+                List<Recommend> response = new ArrayList<>();
+                for (Member m : members) {
+                    assignmentRepository.save(new Assignment(UUID.randomUUID(), m, p).complete());
+                    response.add(recommendRepository.save(new Recommend(UUID.randomUUID(), p, m, request.getType())));
+                }
+                return response;
             }
-            assignmentRepository.save(new Assignment(UUID.randomUUID(), member, p).complete());
         }
         throw new IllegalStateException("추천할 수 있는 문제가 없습니다");
     }
+
 }

@@ -1,13 +1,27 @@
-### autowired
+###
 POST localhost:8080/recommend
 Content-Type: application/json
 
 {
-  "email": "daun9870jung",
+  "email": "baggomsoon96",
+  "type": "TIER",
+  "query": {
+    "minTier": 12,
+    "maxTier": 12
+  }
+}
+
+###
+POST localhost:8080/recommend/study
+Content-Type: application/json
+
+{
+  "study": "1ee72417-fea2-2ff3-4a80-dac3d075b046",
+  "hash": "1234",
   "type": "TIER",
   "query": {
     "minTier": 11,
-    "maxTier": 15
+    "maxTier": 11
   }
 }
 

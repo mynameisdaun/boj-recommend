@@ -46,7 +46,7 @@ public class Assignment extends BaseEntity {
         return this;
     }
 
-    public Assignment(UUID id, Member member, Problem problem) {
+    public Assignment(UUID id, Problem problem, Member member) {
         this.id = id;
         this.member = member;
         this.problem = problem;

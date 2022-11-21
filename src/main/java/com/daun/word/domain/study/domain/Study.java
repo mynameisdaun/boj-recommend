@@ -64,6 +64,15 @@ public class Study extends BaseEntity {
         }
     }
 
+    public Member highestTierMember() {
+        return this.studyMembers
+                .stream()
+                .map(StudyMember::getMember)
+                .sorted((a, b) -> b.getTier().getLevel() - a.getTier().getLevel())
+                .findFirst()
+                .get();
+    }
+
 
     @Override
     public boolean equals(Object o) {

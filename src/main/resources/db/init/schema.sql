@@ -3,8 +3,8 @@ drop table if exists assignment;
 drop table if exists hibernate_sequence;
 drop table if exists problem_tag;
 drop table if exists problem;
-drop table if exists study;
 drop table if exists study_member;
+drop table if exists study;
 drop table if exists tag;
 drop table if exists member;
 

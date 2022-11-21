@@ -36,7 +36,7 @@ public class FakeAssignmentRepository implements AssignmentRepository {
     }
 
     @Override
-    public List<Assignment> findAllByMemberAndProblemIn(Member member, List<Problem> problems) {
+    public List<Assignment> findAllByMembersAndProblemIn(List<Member> member, List<Problem> problems) {
         throw new NotImplementedException("아직 구현 전 입니다 ㅠㅠ");
     }
 }

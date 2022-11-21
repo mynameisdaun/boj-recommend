@@ -90,7 +90,7 @@ public class AssignmentService {
 
             Assignment assignment = maybeAssignment.get();
             boolean complete = assignment.isComplete();
-            if (!complete && solvedAcClient.isSolved(member, problem)) {
+            if (!complete && solvedAcClient.isSolved(Arrays.asList(member), problem)) {
                 assignment.complete();
                 assignmentRepository.save(assignment);
                 complete = true;
@@ -99,11 +99,11 @@ public class AssignmentService {
                 throw new IllegalStateException(problem.getId() + "번 문제는 " + member.getEmail().getValue() + "님께 이미 완료한 과제입니다");
             }
             throw new IllegalStateException(problem.getId() + "번 문제는 " + member.getEmail().getValue() + "님께 이미 할당된 적 있는 문제입니다");
-        } else if (solvedAcClient.isSolved(member, problem)) {
-            assignmentRepository.save(new Assignment(UUID.randomUUID(), member, problem).complete());
+        } else if (solvedAcClient.isSolved(Arrays.asList(member), problem)) {
+            assignmentRepository.save(new Assignment(UUID.randomUUID(), problem, member).complete());
             throw new IllegalStateException(problem.getId() + "번 문제는 " + member.getEmail().getValue() + "님이 이미 해결한적 있는 문제입니다");
         }
-        Assignment assignment = new Assignment(UUID.randomUUID(), member, problem);
+        Assignment assignment = new Assignment(UUID.randomUUID(), problem, member);
         assignmentRepository.save(assignment);
         return assignment;
     }

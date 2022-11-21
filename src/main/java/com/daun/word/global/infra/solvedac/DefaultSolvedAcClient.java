@@ -82,7 +82,7 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
             throw new IllegalStateException("한번에 50문제씩 조회할 수 있습니다");
         }
         final StringBuilder url = new StringBuilder(BASE)
-                .append("/problem/lookup&");
+                .append("/problem/lookup?problemIds=");
         ids.forEach(id -> url.append(id).append(","));
         url.deleteCharAt(url.length() - 1);
         return restTemplate.exchange(
@@ -131,20 +131,24 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
     }
 
     /**
-     * 회원이 문제를 풀었는지 확인하기
+     * 회원들이 문제를 풀었는지 확인하기
      *
-     * @param member
+     * @param members
      * @param problem
      * @return boolean
      */
     @Override
-    public boolean isSolved(Member member, Problem problem) {
+    public boolean isSolved(List<Member> members, Problem problem) {
         StringBuilder query = new StringBuilder();
-        query.append("s@")
-                .append(member.getEmail().getValue())
-                .append(" ")
-                .append(problem.getId());
-        ProblemSearchResponse search = search(query.toString(), 1, "solved", "asc");
+        for(Member m : members) {
+            query.append("s@")
+                    .append(m.getEmail().getValue())
+                    .append(" ")
+                    .append(problem.getId())
+                    .append(" | ");
+        }
+        log.error(query.substring(0, query.length()-4));
+        ProblemSearchResponse search = search(query.substring(0, query.length()-4).toString(), 1, "solved", "asc");
         return search.getCount() > 0;
     }
 

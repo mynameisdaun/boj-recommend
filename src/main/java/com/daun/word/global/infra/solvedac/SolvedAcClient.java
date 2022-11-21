@@ -22,7 +22,7 @@ public interface SolvedAcClient {
 
     List<SolvedAcProblem> findByIdsIn(final List<Integer> ids);
 
-    boolean isSolved(final Member member, final Problem problem);
+    boolean isSolved(final List<Member> member, final Problem problem);
 
     TierCounts problemCountGroupByTier();
 }

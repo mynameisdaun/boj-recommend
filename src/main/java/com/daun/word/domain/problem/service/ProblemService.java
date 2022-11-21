@@ -160,9 +160,9 @@ public class ProblemService {
 
                     List<SolvedAcProblem> unsaved = solvedAcClient.findByIdsIn(filtered);
                     for (SolvedAcProblem p : unsaved) {
-                        Problem saved = problemRepository.save(new Problem(p));
+                        Problem saved = save(p);
                         saveCount++;
-                        log.info("saveCount:{}, \n {}",saveCount, saved);
+                        log.error("saveCount:{}, \n {}", saveCount, saved);
                     }
                     page++;
                 }

@@ -1,6 +1,5 @@
 package com.daun.word.domain.problem.dto;
 
-import com.daun.word.domain.problem.controller.TagDTO;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.global.dto.TierDTO;
 import lombok.Data;
@@ -17,6 +16,8 @@ public class ProblemDTO {
     private final TierDTO tier;
     private final List<TagDTO> tags;
 
+    private final int acceptedUserCount;
+
     public ProblemDTO(Problem problem) {
         this.id = problem.getId();
         this.title = problem.getTitle().getValue();
@@ -26,5 +27,6 @@ public class ProblemDTO {
                 .stream()
                 .map(TagDTO::new)
                 .collect(Collectors.toList());
+        this.acceptedUserCount = problem.getAcceptedUserCount();
     }
 }
