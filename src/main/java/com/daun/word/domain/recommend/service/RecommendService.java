@@ -11,7 +11,6 @@ import com.daun.word.domain.recommend.domain.repository.RecommendRepository;
 import com.daun.word.domain.recommend.domain.strategy.ProblemPoolStrategy;
 import com.daun.word.domain.recommend.domain.strategy.ProblemPoolStrategyFactory;
 import com.daun.word.domain.recommend.dto.RecommendRequest;
-import com.daun.word.domain.study.service.StudyService;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,18 +70,30 @@ public class RecommendService {
         final ProblemPoolStrategy strategy = ProblemPoolStrategyFactory.create(request.getType());
         //1. 문제 추천 전략에 따라서, 문제 풀 생성
         final List<Problem> problemPools = strategy.recommend(problemRepository, request.getQuery());
+        System.out.println("problemPools: ");
+        for(Problem p : problemPools) {
+            System.out.println(p);
+        }
 
         //2. 이미 할당 받은 문제는 필터링
         final List<Problem> assigned = assignmentRepository.findAllByMembersAndProblemIn(members, problemPools).stream().map(Assignment::getProblem).collect(toList());
+        System.out.println("assigned: ");
+        for(Problem p : assigned) {
+            System.out.println(p);
+        }
 
         final List<Problem> filtered = problemPools.stream().filter(p -> !assigned.contains(p)).collect(toList());
 
+        System.out.println("filtered: ");
+        for(Problem p : filtered) {
+            System.out.println(p);
+        }
         //3. BOJ에서 재 검증
         for (Problem p : filtered) {
             if (!solvedAcClient.isSolved(members, p)) {
                 List<Recommend> response = new ArrayList<>();
                 for (Member m : members) {
-                    assignmentRepository.save(new Assignment(UUID.randomUUID(), m, p).complete());
+                    assignmentRepository.save(new Assignment(UUID.randomUUID(), p, m).complete());
                     response.add(recommendRepository.save(new Recommend(UUID.randomUUID(), p, m, request.getType())));
                 }
                 return response;

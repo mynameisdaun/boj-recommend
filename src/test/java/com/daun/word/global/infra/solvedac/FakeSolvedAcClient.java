@@ -18,8 +18,8 @@ public class FakeSolvedAcClient implements SolvedAcClient {
 
     private final FakeSolvedAcDB fakeSolvedAcDB;
 
-    public FakeSolvedAcClient(FakeSolvedAcDB solvedAcDB) {
-        this.fakeSolvedAcDB = solvedAcDB;
+    public FakeSolvedAcClient() {
+        this.fakeSolvedAcDB = new FakeSolvedAcDB();
     }
 
     @Override
@@ -38,8 +38,12 @@ public class FakeSolvedAcClient implements SolvedAcClient {
     }
 
     @Override
-    public boolean isSolved(Member member, Problem problem) {
-        return fakeSolvedAcDB.isSolved(member.getEmail().getValue(), problem.getId());
+    public boolean isSolved(List<Member> members, Problem problem) {
+        int count = 0;
+        for (Member member : members) {
+            if (fakeSolvedAcDB.isSolved(member.getEmail().getValue(), problem.getId())) count++;
+        }
+        return count == members.size();
     }
 
     @Override

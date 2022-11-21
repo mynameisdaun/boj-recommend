@@ -9,9 +9,20 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.daun.word.Fixture.Fixture.*;
+import static com.daun.word.Fixture.Fixture.problem_29;
+
 public class FakeProblemRepository implements ProblemRepository {
 
     private final Map<Integer, Problem> table = new HashMap<>();
+
+    public FakeProblemRepository() {
+        save(problem_16120());
+        save(problem_1002());
+        save(problem_19());
+        save(problem_29());
+        save(problem_39());
+    }
 
     @Override
     public Problem save(Problem request) {

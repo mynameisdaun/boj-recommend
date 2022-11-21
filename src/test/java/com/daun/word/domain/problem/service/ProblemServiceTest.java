@@ -33,32 +33,10 @@ class ProblemServiceTest {
 
     @BeforeEach
     void setUp() {
-        Problem problem = problem_16120();
-
         this.tagRepository = new FakeTagRepository();
-        Tag tag_1 = new Tag(33, "greedy", new Title("그리디 알고리즘"));
-        Tag tag_2 = new Tag(71, "stack", new Title("스택"));
-        Tag tag_3 = new Tag(158, "string", new Title("문자열"));
-        Tag tag_4 = new Tag(175, "data_structures", new Title("자료 구조"));
-        tagRepository.save(tag_1);
-        tagRepository.save(tag_2);
-        tagRepository.save(tag_3);
-        tagRepository.save(tag_4);
-
         this.problemTagRepository = new FakeProblemTagRepository();
-        problemTagRepository.save(new ProblemTag(problem, tag_1));
-        problemTagRepository.save(new ProblemTag(problem, tag_2));
-        problemTagRepository.save(new ProblemTag(problem, tag_3));
-        problemTagRepository.save(new ProblemTag(problem, tag_4));
-
-        FakeSolvedAcDB fakeSolvedAcDB = new FakeSolvedAcDB();
-
-        fakeSolvedAcDB.addProblem(solvedAcProblem(1));
-        this.solvedAcClient = new FakeSolvedAcClient(fakeSolvedAcDB);
-
+        this.solvedAcClient = new FakeSolvedAcClient();
         this.problemRepository = new FakeProblemRepositorySuite(problemTagRepository);
-        this.problemRepository.save(problem);
-
         this.problemService = new ProblemService(problemRepository, tagRepository, problemTagRepository, solvedAcClient);
     }
 

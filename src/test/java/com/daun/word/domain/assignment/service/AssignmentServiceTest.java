@@ -50,31 +50,11 @@ class AssignmentServiceTest {
     public void setUp() {
         //TODO: SetUp 부분 중복 어떻게 제거할 수 있을까? 혹은 짧은 예제로 변경 가능 하지 않을까?
         this.assignmentRepository = new FakeAssignmentRepository();
-        this.assignmentRepository.save(assignment());
-        this.assignmentRepository.save(new Assignment(UUID.randomUUID(), daun9870jung(), problem_19()));
-        this.assignmentRepository.save(new Assignment(UUID.randomUUID(), daun9870jung(), problem_29()).complete());
-
-        FakeMemberRepository memberRepository = new FakeMemberRepository();
-        memberRepository.save(daun9870jung());
-        this.memberService = new MemberService(memberRepository, new BCryptPasswordEncoder());
-
+        this.memberService = new MemberService(new FakeMemberRepository(), new BCryptPasswordEncoder());
 
         FakeProblemRepository fakeProblemRepository = new FakeProblemRepository();
-        fakeProblemRepository.save(problem_16120());
-        fakeProblemRepository.save(problem_1002());
-        fakeProblemRepository.save(problem_19());
-        fakeProblemRepository.save(problem_29());
 
-        FakeSolvedAcDB fakeSolvedAcDB = new FakeSolvedAcDB();
-        fakeSolvedAcDB.addMember(solvedAcMember(daun9870jung().getEmail().getValue()));
-        fakeSolvedAcDB.addProblem(solvedAcProblem(16120));
-        fakeSolvedAcDB.addProblem(solvedAcProblem(1002));
-        fakeSolvedAcDB.addProblem(solvedAcProblem(19));
-        fakeSolvedAcDB.addProblem(solvedAcProblem(29));
-
-        fakeSolvedAcDB.memberSolve(daun9870jung().getEmail().getValue(), problem_19().getId());
-        fakeSolvedAcDB.memberSolve(daun9870jung().getEmail().getValue(), problem_29().getId());
-        this.solvedAcClient = new FakeSolvedAcClient(fakeSolvedAcDB);
+        this.solvedAcClient = new FakeSolvedAcClient();
         this.problemService = new ProblemService(fakeProblemRepository, new FakeTagRepository(), new FakeProblemTagRepository(), solvedAcClient);
 
         FakeStudyRepository fakeStudyRepository = new FakeStudyRepository();
@@ -92,12 +72,7 @@ class AssignmentServiceTest {
         Assignment save = assignmentService.assign(request);
         //then
         assertThat(save).isNotNull();
-        assertAll(
-                () -> assertThat(save.getId()).isInstanceOf(UUID.class),
-                () -> assertThat(save.isComplete()).isFalse(),
-                () -> assertThat(save.getMember()).isEqualTo(daun9870jung()),
-                () -> assertThat(save.getProblem()).isEqualTo(problem_1002())
-        );
+        assertAll(() -> assertThat(save.getId()).isInstanceOf(UUID.class), () -> assertThat(save.isComplete()).isFalse(), () -> assertThat(save.getMember()).isEqualTo(daun9870jung()), () -> assertThat(save.getProblem()).isEqualTo(problem_1002()));
     }
 
     @DisplayName(value = "이미 할당된 과제입니다")
@@ -106,9 +81,7 @@ class AssignmentServiceTest {
         //given
         AssignRequest request = new AssignRequest(daun9870jung().getEmail(), problem_16120().getId());
         //when&&then
-        assertThatThrownBy(() -> assignmentService.assign(request))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessage("이미 할당된 과제입니다");
+        assertThatThrownBy(() -> assignmentService.assign(request)).isInstanceOf(IllegalStateException.class).hasMessage(request.getProblemId()+"번 문제는 "+daun9870jung().getEmail().getValue()+"님께 이미 할당된 적 있는 문제입니다");
     }
 
     @DisplayName(value = "이미 완료된 과제입니다")
@@ -118,9 +91,7 @@ class AssignmentServiceTest {
         //given
         AssignRequest request = new AssignRequest(daun9870jung().getEmail(), problemId);
         //when&&then
-        assertThatThrownBy(() -> assignmentService.assign(request))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessage("이미 완료된 과제입니다");
+        assertThatThrownBy(() -> assignmentService.assign(request)).isInstanceOf(IllegalStateException.class).hasMessage(problemId+"번 문제는 "+daun9870jung().getEmail().getValue()+"님께서 이미 완료한 과제입니다");
     }
 
     @DisplayName(value = "과제를 조회한다")
@@ -132,20 +103,13 @@ class AssignmentServiceTest {
         Assignment assignment = assignmentService.findById(id);
         //then
         assertThat(assignment).isNotNull();
-        assertAll(
-                () -> assertThat(assignment.getId()).isEqualTo(id),
-                () -> assertThat(assignment.getMember()).isEqualTo(assignment().getMember()),
-                () -> assertThat(assignment.getProblem()).isEqualTo(assignment().getProblem()),
-                () -> assertThat(assignment.isComplete()).isEqualTo(assignment().isComplete())
-        );
+        assertAll(() -> assertThat(assignment.getId()).isEqualTo(id), () -> assertThat(assignment.getMember()).isEqualTo(assignment().getMember()), () -> assertThat(assignment.getProblem()).isEqualTo(assignment().getProblem()), () -> assertThat(assignment.isComplete()).isEqualTo(assignment().isComplete()));
     }
 
     @DisplayName(value = "존재하지 않는 과제 입니다")
     @Test
     void findById_no_exist() throws Exception {
         //given&&when&&then
-        assertThatThrownBy(() -> assignmentService.findById(UUID.randomUUID()))
-                .isInstanceOf(NoSuchElementException.class)
-                .hasMessage("존재하지 않는 과제 입니다");
+        assertThatThrownBy(() -> assignmentService.findById(UUID.randomUUID())).isInstanceOf(NoSuchElementException.class).hasMessage("존재하지 않는 과제 입니다");
     }
 }

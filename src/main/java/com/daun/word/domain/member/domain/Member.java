@@ -23,7 +23,9 @@ import java.util.UUID;
                 columnNames = {"email"}
         )
 })
-@ToString @Getter @EqualsAndHashCode(of = "id")
+@ToString
+@Getter
+@EqualsAndHashCode(of = "id")
 public class Member extends BaseEntity {
 
     @Id
@@ -84,6 +86,10 @@ public class Member extends BaseEntity {
     public void afterLoginSuccess() {
         this.loginCount++;
         this.lastLoginAt = new Date();
+    }
+
+    public String email() {
+        return this.email.getValue();
     }
 
 }

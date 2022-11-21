@@ -96,7 +96,7 @@ public class AssignmentService {
                 complete = true;
             }
             if (complete) {
-                throw new IllegalStateException(problem.getId() + "번 문제는 " + member.getEmail().getValue() + "님께 이미 완료한 과제입니다");
+                throw new IllegalStateException(problem.getId() + "번 문제는 " + member.getEmail().getValue() + "님께서 이미 완료한 과제입니다");
             }
             throw new IllegalStateException(problem.getId() + "번 문제는 " + member.getEmail().getValue() + "님께 이미 할당된 적 있는 문제입니다");
         } else if (solvedAcClient.isSolved(Arrays.asList(member), problem)) {

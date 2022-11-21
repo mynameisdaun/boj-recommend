@@ -8,9 +8,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.daun.word.Fixture.Fixture.daun9870jung;
+
 public class FakeMemberRepository implements MemberRepository {
 
-    Map<UUID, Member> members = new HashMap<>();
+    private Map<UUID, Member> members = new HashMap<>();
+
+    public FakeMemberRepository() {
+        save(daun9870jung());
+    }
 
     @Override
     public Member save(final Member member) {

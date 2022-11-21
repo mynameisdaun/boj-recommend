@@ -1,6 +1,7 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.10'
-    id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+    id 'org.springframework.boot' version '2.2.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
     id 'java'
 }
 
@@ -28,10 +29,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.5'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'io.jsonwebtoken:jjwt-api:0.10.7'
@@ -40,17 +40,11 @@ dependencies {
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-data-couchbase'
+    implementation 'com.querydsl:querydsl-jpa'
 
-
-
-    /* for excel */
-    implementation 'org.apache.poi:poi:5.2.2'
-    implementation 'org.apache.poi:poi-ooxml:5.2.2'
-    implementation 'commons-io:commons-io:2.11.0'
 
     compileOnly 'org.projectlombok:lombok'
 
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.10.7'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.10.7'
@@ -64,11 +58,22 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.2'
     testCompileOnly 'org.projectlombok:lombok:1.18.12'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+sourceSets {
+    main.java.srcDir querydslDir
+}
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
 }

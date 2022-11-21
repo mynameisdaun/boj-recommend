@@ -62,41 +62,16 @@ public class Fixture {
 
 
     public static KakaoTokenResponse kakaoTokenResponse() {
-        return new KakaoTokenResponse(
-                "bearer",
-                "asffesadcsacascsavas-qsvasvasdvasvasvdsavas",
-                21599,
-                "sfdf2o4fu987987sfda222-393829d8wedywed",
-                215990);
+        return new KakaoTokenResponse("bearer", "asffesadcsacascsavas-qsvasvasdvasvasvdsavas", 21599, "sfdf2o4fu987987sfda222-393829d8wedywed", 215990);
     }
 
     public static KakaoProfileResponse kakaoProfileResponse() {
-        return new KakaoProfileResponse(
-                "123456789",
-                "2022-08-15T14:04:12Z",
-                new KakaoProfileResponse.KakaoAccount(
-                        false, false, new KakaoProfileResponse.Properties("테스터", null, null),
-                        true, false, false, false, "tester@tester.com", true, false,
-                        "20-29", true, false, "0101", "SOLAR", true, false, "male"),
-                new KakaoProfileResponse.Properties(
-                        "테스터", "http://k.kakaocdn.net/dn/zt9yB/btrJsu3NH8Z/0YRXHJP3w7IHCbXLtqzzM1/img_640x640.jpg",
-                        "http://k.kakaocdn.net/dn/zt9yB/btrJsu3NH8Z/0YRXHJP3w7IHCbXLtqzzM1/img_110x110.jpg"));
+        return new KakaoProfileResponse("123456789", "2022-08-15T14:04:12Z", new KakaoProfileResponse.KakaoAccount(false, false, new KakaoProfileResponse.Properties("테스터", null, null), true, false, false, false, "tester@tester.com", true, false, "20-29", true, false, "0101", "SOLAR", true, false, "male"), new KakaoProfileResponse.Properties("테스터", "http://k.kakaocdn.net/dn/zt9yB/btrJsu3NH8Z/0YRXHJP3w7IHCbXLtqzzM1/img_640x640.jpg", "http://k.kakaocdn.net/dn/zt9yB/btrJsu3NH8Z/0YRXHJP3w7IHCbXLtqzzM1/img_110x110.jpg"));
     }
 
     public static Token token() {
 
-        return new Token(
-                new Email("tester1@weword.com"),
-                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjA5Nzc4MzEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.Bs9nDgglcyg_IQCcsLQVH48RW1t1-w8QYqkLJissNuU",
-                LocalDateTime.parse("2022-08-20 15:43:51", formatter),
-                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjEwMzY1MTEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.uCNJxT-PuD2FNLZcplTULRqu1XO2YEWX_0--35quTGU",
-                LocalDateTime.parse("2022-08-21 08:01:51", formatter),
-                SocialType.valueOf("W"),
-                "7MP8EHWXFLzHxQsi1YNMXs3KVb1paQBpEPLwZb6QCj1zFwAAAYK54uKs",
-                LocalDateTime.parse("2022-08-20 15:13:51", formatter),
-                "oOdpDpTD3juuQy7ZVuEBnYkDH3cWJmM_lUie3eUcCj1zFwAAAYK54uKq",
-                LocalDateTime.parse("2022-10-19 15:13:50", formatter)
-        );
+        return new Token(new Email("tester1@weword.com"), "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjA5Nzc4MzEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.Bs9nDgglcyg_IQCcsLQVH48RW1t1-w8QYqkLJissNuU", LocalDateTime.parse("2022-08-20 15:43:51", formatter), "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjEwMzY1MTEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.uCNJxT-PuD2FNLZcplTULRqu1XO2YEWX_0--35quTGU", LocalDateTime.parse("2022-08-21 08:01:51", formatter), SocialType.valueOf("W"), "7MP8EHWXFLzHxQsi1YNMXs3KVb1paQBpEPLwZb6QCj1zFwAAAYK54uKs", LocalDateTime.parse("2022-08-20 15:13:51", formatter), "oOdpDpTD3juuQy7ZVuEBnYkDH3cWJmM_lUie3eUcCj1zFwAAAYK54uKq", LocalDateTime.parse("2022-10-19 15:13:50", formatter));
     }
 
     public static Tag tag() {
@@ -119,12 +94,16 @@ public class Fixture {
         return new Problem(29, new Title("두번째 가짜"), new URL(29), new Tier(11), 5678);
     }
 
+    public static Problem problem_39() {
+        return new Problem(39, new Title("세번째 가짜"), new URL(39), new Tier(13), 56789);
+    }
+
     public static Assignment assignment() {
-        return new Assignment(UUID.fromString("aba40f35-7c62-4b8d-b269-a5fb9eb4ad70"), daun9870jung(), problem_16120());
+        return new Assignment(UUID.fromString("aba40f35-7c62-4b8d-b269-a5fb9eb4ad70"), problem_16120(), daun9870jung());
     }
 
     public static Assignment assignment_complete() {
-        return new Assignment(UUID.fromString("cfc60b53-4b8d-7c62-b269-a5fb7fa4ad70"), daun9870jung(), problem_29());
+        return new Assignment(UUID.fromString("cfc60b53-4b8d-7c62-b269-a5fb7fa4ad70"), problem_29(), daun9870jung());
     }
 
     public static Recommend recommend() {
@@ -157,13 +136,7 @@ public class Fixture {
         solvedAcProblem.setLevelLocked(false);
         solvedAcProblem.setAverageTries(2.7059);
         solvedAcProblem.setOfficial(true);
-        solvedAcProblem.setTags(
-                Arrays.asList(
-                        new SolvedAcProblem.Tag("bfs", false, 126, 732, Arrays.asList(new SolvedAcProblem.DisplayName("en", "breadth-first search", null))),
-                        new SolvedAcProblem.Tag("graphs", false, 7, 2627, Arrays.asList(new SolvedAcProblem.DisplayName("ko", "그래프 이론", null), new SolvedAcProblem.DisplayName("en", "graph theory", null))),
-                        new SolvedAcProblem.Tag("graph_traversal", false, 11, 1453, Arrays.asList(new SolvedAcProblem.DisplayName("ko", "그래프 탐색", null), new SolvedAcProblem.DisplayName("en", "graph traversal", null))
-                        ))
-        );
+        solvedAcProblem.setTags(Arrays.asList(new SolvedAcProblem.Tag("bfs", false, 126, 732, Arrays.asList(new SolvedAcProblem.DisplayName("en", "breadth-first search", null))), new SolvedAcProblem.Tag("graphs", false, 7, 2627, Arrays.asList(new SolvedAcProblem.DisplayName("ko", "그래프 이론", null), new SolvedAcProblem.DisplayName("en", "graph theory", null))), new SolvedAcProblem.Tag("graph_traversal", false, 11, 1453, Arrays.asList(new SolvedAcProblem.DisplayName("ko", "그래프 탐색", null), new SolvedAcProblem.DisplayName("en", "graph traversal", null)))));
         return solvedAcProblem;
     }
 }

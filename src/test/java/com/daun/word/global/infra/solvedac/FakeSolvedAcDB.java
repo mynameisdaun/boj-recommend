@@ -9,6 +9,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static com.daun.word.Fixture.Fixture.*;
+import static com.daun.word.Fixture.Fixture.solvedAcProblem;
+
 public final class FakeSolvedAcDB {
 
     private final Map<String, SolvedAcMember> memberTable = new HashMap<>();
@@ -16,6 +19,16 @@ public final class FakeSolvedAcDB {
     private final Map<Integer, SolvedAcProblem> problemTable = new HashMap<>();
 
     private final Map<String, Set<Integer>> memberSolvedProblem = new HashMap<>();
+
+    public FakeSolvedAcDB() {
+        addMember(solvedAcMember(daun9870jung().getEmail().getValue()));
+        addProblem(solvedAcProblem(16120));
+        addProblem(solvedAcProblem(1002));
+        addProblem(solvedAcProblem(19));
+        addProblem(solvedAcProblem(29));
+        memberSolve(daun9870jung().getEmail().getValue(), problem_19().getId());
+        memberSolve(daun9870jung().getEmail().getValue(), problem_29().getId());
+    }
 
     public void addMember(final SolvedAcMember... members) {
         for (final SolvedAcMember m : members) {
