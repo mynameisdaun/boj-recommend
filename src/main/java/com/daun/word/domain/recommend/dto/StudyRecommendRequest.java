@@ -1,6 +1,7 @@
 package com.daun.word.domain.recommend.dto;
 
 import com.daun.word.domain.recommend.domain.vo.RecommendType;
+import com.daun.word.domain.recommend.dto.search.RecommendSearchQuery;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -2,8 +2,6 @@ package com.daun.word.domain.problem.domain.repository;
 
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.global.vo.Tier;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,10 +16,6 @@ public interface ProblemRepository {
     Optional<Problem> findById(final Integer id);
 
     List<Problem> findAllByIdIn(final List<Integer> ids);
-
-    @Query( "select p from problem p join p.problemTags where p.tier.level between :#{#min.level} and :#{#max.level} order by p.acceptedUserCount desc ")
-    List<Problem> findAllByTierBetweenOrderByAcceptedUserCountDesc(@Param("min") final Tier min, @Param("max") final Tier max);
-
 
     int countByTier(final Tier tier);
 }

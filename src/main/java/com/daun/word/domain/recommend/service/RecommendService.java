@@ -5,11 +5,9 @@ import com.daun.word.domain.assignment.domain.repository.AssignmentRepository;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.service.MemberService;
 import com.daun.word.domain.problem.domain.Problem;
-import com.daun.word.domain.problem.domain.repository.ProblemRepository;
+import com.daun.word.domain.problem.domain.repository.ProblemQueryRepository;
 import com.daun.word.domain.recommend.domain.Recommend;
 import com.daun.word.domain.recommend.domain.repository.RecommendRepository;
-import com.daun.word.domain.recommend.domain.strategy.ProblemPoolStrategy;
-import com.daun.word.domain.recommend.domain.strategy.ProblemPoolStrategyFactory;
 import com.daun.word.domain.recommend.dto.RecommendRequest;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +33,7 @@ public class RecommendService {
 
     private final SolvedAcClient solvedAcClient;
 
-    private final ProblemRepository problemRepository;
+    private final ProblemQueryRepository problemQueryRepository;
 
     private final AssignmentRepository assignmentRepository;
 
@@ -67,25 +65,25 @@ public class RecommendService {
     @Transactional
     public List<Recommend> recommend(RecommendRequest request) {
         final List<Member> members = memberService.findByEmailIn(request.emails());
-        final ProblemPoolStrategy strategy = ProblemPoolStrategyFactory.create(request.getType());
+
         //1. 문제 추천 전략에 따라서, 문제 풀 생성
-        final List<Problem> problemPools = strategy.recommend(problemRepository, request.getQuery());
+        final List<Problem> problemPools = problemQueryRepository.search(request.getQuery());
         System.out.println("problemPools: ");
-        for(Problem p : problemPools) {
+        for (Problem p : problemPools) {
             System.out.println(p);
         }
 
         //2. 이미 할당 받은 문제는 필터링
         final List<Problem> assigned = assignmentRepository.findAllByMembersAndProblemIn(members, problemPools).stream().map(Assignment::getProblem).collect(toList());
         System.out.println("assigned: ");
-        for(Problem p : assigned) {
+        for (Problem p : assigned) {
             System.out.println(p);
         }
 
         final List<Problem> filtered = problemPools.stream().filter(p -> !assigned.contains(p)).collect(toList());
 
         System.out.println("filtered: ");
-        for(Problem p : filtered) {
+        for (Problem p : filtered) {
             System.out.println(p);
         }
         //3. BOJ에서 재 검증

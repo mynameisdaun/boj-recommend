@@ -21,6 +21,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.daun.word.domain.member.domain.QMember.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -120,12 +121,12 @@ class MemberRepositoryTest {
     @Test
     void querydsl() throws Exception {
         UUID id = UUID.randomUUID();
-        Member member = new Member(id, new Email("no-exist"), new Name("꼬북이"), "sample-password", new Tier(11), SocialType.W);
-        em.persist(member);
+        Member request = new Member(id, new Email("no-exist"), new Name("꼬북이"), "sample-password", new Tier(11), SocialType.W);
+        em.persist(request);
         //when
         JPAQueryFactory query = new JPAQueryFactory(em);
-        QMember qmMember = new QMember("m");
-        Member one = query.selectFrom(qmMember)
+        Member one = query.selectFrom(member)
+                .where(member.email.email.eq("no-exist"))
                 .fetchOne();
         assertThat(one).isNotNull();
         assertAll(() -> assertThat(one.getEmail().getValue()).isEqualTo("no-exist"),

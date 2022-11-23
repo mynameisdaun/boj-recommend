@@ -2,6 +2,7 @@ package com.daun.word.domain.recommend.dto;
 
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.recommend.domain.vo.RecommendType;
+import com.daun.word.domain.recommend.dto.search.RecommendSearchQuery;
 import com.daun.word.domain.study.domain.Study;
 import com.daun.word.domain.study.domain.StudyMember;
 import lombok.Data;

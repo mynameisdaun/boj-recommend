@@ -1,7 +1,9 @@
 package com.daun.word.domain.problem.domain.repository;
 
 import com.daun.word.domain.problem.domain.Problem;
+import com.daun.word.domain.recommend.dto.search.RecommendSearchQuery;
 import com.daun.word.global.vo.Tier;
+import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,15 +35,6 @@ public class FakeProblemRepository implements ProblemRepository {
     @Override
     public Optional<Problem> findById(Integer id) {
         return Optional.ofNullable(table.get(id));
-    }
-
-    @Override
-    public List<Problem> findAllByTierBetweenOrderByAcceptedUserCountDesc(final Tier min, final Tier max) {
-        return table.values()
-                .stream()
-                .filter(p -> p.getTier().getLevel() <= max.getLevel() && p.getTier().getLevel() >= min.getLevel())
-                .sorted((a, b) -> b.getAcceptedUserCount() - a.getAcceptedUserCount())
-                .collect(Collectors.toList());
     }
 
     @Override

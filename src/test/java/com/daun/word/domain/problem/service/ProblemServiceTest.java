@@ -29,6 +29,8 @@ class ProblemServiceTest {
 
     private ProblemTagRepository problemTagRepository;
 
+    private ProblemQueryRepository problemQueryRepository;
+
     private SolvedAcClient solvedAcClient;
 
     @BeforeEach
@@ -37,7 +39,8 @@ class ProblemServiceTest {
         this.problemTagRepository = new FakeProblemTagRepository();
         this.solvedAcClient = new FakeSolvedAcClient();
         this.problemRepository = new FakeProblemRepositorySuite(problemTagRepository);
-        this.problemService = new ProblemService(problemRepository, tagRepository, problemTagRepository, solvedAcClient);
+        this.problemQueryRepository = new FakeProblemQueryRepository();
+        this.problemService = new ProblemService(problemRepository, tagRepository, problemTagRepository, solvedAcClient, problemQueryRepository);
     }
 
     @DisplayName(value = "문제를 조회한다")

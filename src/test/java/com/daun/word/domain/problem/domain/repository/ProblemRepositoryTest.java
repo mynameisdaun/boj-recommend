@@ -5,7 +5,6 @@ import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.ProblemTag;
 import com.daun.word.domain.problem.domain.Tag;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
-import com.daun.word.global.vo.Tier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import javax.persistence.EntityManager;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -112,23 +113,6 @@ class ProblemRepositoryTest {
         assertThat(problems).isNotNull();
         assertAll(
                 () -> assertThat(problems.size()).isEqualTo(0)
-        );
-    }
-
-    @DisplayName("특정 티어 사이의 문제를 푼 사람 수로 내림차순 정렬하여 조회한다.")
-    @Test
-    void findAllByTierBetweenOrderByAcceptedUserCountDesc() {
-        //given&&when
-        List<Problem> problems = problemRepository.findAllByTierBetweenOrderByAcceptedUserCountDesc(new Tier(11), new Tier(15));
-        //then
-        assertThat(problems).isNotNull();
-        assertAll(
-                () -> assertThat(problems.size()).isEqualTo(3),
-                () -> assertThat(problems.get(0).getTier().getLevel()).isBetween(11, 15),
-                () -> assertThat(problems.get(0).getAcceptedUserCount()).isGreaterThanOrEqualTo(problems.get(1).getAcceptedUserCount()),
-                () -> assertThat(problems.get(1).getTier().getLevel()).isBetween(11, 15),
-                () -> assertThat(problems.get(1).getAcceptedUserCount()).isGreaterThanOrEqualTo(problems.get(2).getAcceptedUserCount()),
-                () -> assertThat(problems.get(2).getTier().getLevel()).isBetween(11, 15)
         );
     }
 }

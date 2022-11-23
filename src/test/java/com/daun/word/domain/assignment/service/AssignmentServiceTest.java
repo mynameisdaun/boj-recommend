@@ -9,6 +9,7 @@ import com.daun.word.domain.member.service.MemberService;
 import com.daun.word.domain.problem.domain.repository.FakeProblemRepository;
 import com.daun.word.domain.problem.domain.repository.FakeProblemTagRepository;
 import com.daun.word.domain.problem.domain.repository.FakeTagRepository;
+import com.daun.word.domain.problem.domain.repository.ProblemQueryRepository;
 import com.daun.word.domain.problem.service.ProblemService;
 import com.daun.word.domain.study.domain.repository.FakeStudyMemberRepository;
 import com.daun.word.domain.study.domain.repository.FakeStudyRepository;
@@ -38,6 +39,8 @@ class AssignmentServiceTest {
 
     private AssignmentRepository assignmentRepository;
 
+    private ProblemQueryRepository problemQueryRepository;
+
     private MemberService memberService;
 
     private SolvedAcClient solvedAcClient;
@@ -55,7 +58,7 @@ class AssignmentServiceTest {
         FakeProblemRepository fakeProblemRepository = new FakeProblemRepository();
 
         this.solvedAcClient = new FakeSolvedAcClient();
-        this.problemService = new ProblemService(fakeProblemRepository, new FakeTagRepository(), new FakeProblemTagRepository(), solvedAcClient);
+        this.problemService = new ProblemService(fakeProblemRepository, new FakeTagRepository(), new FakeProblemTagRepository(), solvedAcClient, problemQueryRepository);
 
         FakeStudyRepository fakeStudyRepository = new FakeStudyRepository();
         FakeStudyMemberRepository fakeStudyMemberRepository = new FakeStudyMemberRepository();
@@ -81,7 +84,7 @@ class AssignmentServiceTest {
         //given
         AssignRequest request = new AssignRequest(daun9870jung().getEmail(), problem_16120().getId());
         //when&&then
-        assertThatThrownBy(() -> assignmentService.assign(request)).isInstanceOf(IllegalStateException.class).hasMessage(request.getProblemId()+"번 문제는 "+daun9870jung().getEmail().getValue()+"님께 이미 할당된 적 있는 문제입니다");
+        assertThatThrownBy(() -> assignmentService.assign(request)).isInstanceOf(IllegalStateException.class).hasMessage(request.getProblemId() + "번 문제는 " + daun9870jung().getEmail().getValue() + "님께 이미 할당된 적 있는 문제입니다");
     }
 
     @DisplayName(value = "이미 완료된 과제입니다")
@@ -91,7 +94,7 @@ class AssignmentServiceTest {
         //given
         AssignRequest request = new AssignRequest(daun9870jung().getEmail(), problemId);
         //when&&then
-        assertThatThrownBy(() -> assignmentService.assign(request)).isInstanceOf(IllegalStateException.class).hasMessage(problemId+"번 문제는 "+daun9870jung().getEmail().getValue()+"님께서 이미 완료한 과제입니다");
+        assertThatThrownBy(() -> assignmentService.assign(request)).isInstanceOf(IllegalStateException.class).hasMessage(problemId + "번 문제는 " + daun9870jung().getEmail().getValue() + "님께서 이미 완료한 과제입니다");
     }
 
     @DisplayName(value = "과제를 조회한다")

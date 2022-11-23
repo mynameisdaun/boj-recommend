@@ -1,5 +1,6 @@
 package com.daun.word.domain.recommend.dto;
 
+import com.daun.word.domain.recommend.dto.search.RecommendSearchQuery;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

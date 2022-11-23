@@ -28,11 +28,6 @@ public class ProblemController {
         return ResponseEntity.status(200).body(new ApiResponse(new ProblemDTO(problemService.manual(id))));
     }
 
-    @GetMapping("/between")
-    public ResponseEntity<ApiResponse> save(@RequestParam Tier min, @RequestParam Tier max) {
-        return ResponseEntity.status(200).body(new ApiResponse(problemService.findAllByTierBetween(min, max).stream().map(ProblemDTO::new).collect(Collectors.toList())));
-    }
-
     @PostMapping("/manual")
     public ResponseEntity<ApiResponse> manual(@RequestBody ManualUpdateRequest request) {
         return ResponseEntity.status(200).body(new ApiResponse(problemService.manual(request)));

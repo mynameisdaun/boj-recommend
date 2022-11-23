@@ -5,6 +5,7 @@ import com.daun.word.domain.problem.domain.ProblemTag;
 import com.daun.word.domain.problem.domain.Tag;
 import com.daun.word.domain.problem.domain.repository.*;
 import com.daun.word.domain.problem.dto.ManualUpdateRequest;
+import com.daun.word.domain.recommend.dto.search.RecommendSearchQuery;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import com.daun.word.global.infra.solvedac.dto.ProblemSearchResponse;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
@@ -35,6 +36,8 @@ public class ProblemService {
     private final ProblemTagRepository problemTagRepository;
 
     private final SolvedAcClient solvedAcClient;
+
+    private final ProblemQueryRepository problemQueryRepository;
 
     /**
      * BOJ문제 로컬 저장
@@ -114,18 +117,6 @@ public class ProblemService {
     }
 
     /**
-     * 최소, 최대 사이에 있는 문제 조회
-     *
-     * @param min 최소 티어
-     * @param max 최대 티어
-     * @return List
-     */
-    @Transactional(readOnly = true)
-    public List<Problem> findAllByTierBetween(final Tier min, final Tier max) {
-        return problemRepository.findAllByTierBetweenOrderByAcceptedUserCountDesc(min, max);
-    }
-
-    /**
      * SolvedAc로 부터 문제 업데이트
      * 1. SolvedAc에서 티어별 문제 수를 조회한다
      * 2. SolvedAc의 문제 수가 로컬에 있는 문제 수 보다 많을 경우 업데이트를 진행한다
@@ -144,7 +135,7 @@ public class ProblemService {
             final int local = problemRepository.countByTier(tier);
             int page = 1;
             if (solvedAc > local) {
-                List<Problem> localIds = problemRepository.findAllByTierBetweenOrderByAcceptedUserCountDesc(tier, tier);
+                List<Problem> localIds = problemQueryRepository.search(new RecommendSearchQuery(i,i));
                 final int gap = solvedAc - local;
                 int saveCount = 0;
                 log.error("gap: {}", gap);
