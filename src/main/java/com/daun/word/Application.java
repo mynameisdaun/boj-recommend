@@ -69,9 +69,4 @@ public class Application {
     public JPAQueryFactory jpaQueryFactory(EntityManager em) {
         return new JPAQueryFactory(em);
     }
-
-/*    @Bean
-    public StudyHashService studyHashService() {
-        return new DefaultHashService();
-    }*/
 }
