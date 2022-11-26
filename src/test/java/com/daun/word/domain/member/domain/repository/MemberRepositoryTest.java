@@ -116,27 +116,4 @@ class MemberRepositoryTest {
         //when
         assertAll(() -> assertThat(exist).isTrue(), () -> assertThat(no_exist).isFalse());
     }
-
-    @DisplayName(value = "querydsltest")
-    @Test
-    void querydsl() throws Exception {
-        UUID id = UUID.randomUUID();
-        Member request = new Member(id, new Email("no-exist"), new Name("꼬북이"), "sample-password", new Tier(11), SocialType.W);
-        em.persist(request);
-        //when
-        JPAQueryFactory query = new JPAQueryFactory(em);
-        Member one = query.selectFrom(member)
-                .where(member.email.email.eq("no-exist"))
-                .fetchOne();
-        assertThat(one).isNotNull();
-        assertAll(() -> assertThat(one.getEmail().getValue()).isEqualTo("no-exist"),
-                () -> assertThat(one.getName().getValue()).isEqualTo("꼬북이"),
-                () -> assertThat(passwordEncoder.matches("sample-password", one.getPassword())),
-                () -> assertThat(one.getTier().getLevel()).isEqualTo(11),
-                () -> assertThat(one.getLoginCount()).isEqualTo(0),
-                () -> assertThat(one.getLastLoginAt()).isNull(),
-                () -> assertThat(one.getCreatedAt()).isNotNull(),
-                () -> assertThat(one.getUpdatedAt()).isNotNull(),
-                () -> assertThat(one.isDeleted()).isFalse());
-    }
 }
