@@ -4,6 +4,7 @@ import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.repository.MemberRepository;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.dto.RegisterRequest;
+import com.daun.word.domain.member.exception.DuplicateMemberException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,14 +32,14 @@ public class MemberService {
      *
      * @param request RegisterRequest
      * @return Member
-     * @throws IllegalStateException 회원 요청이 null 일 경우, "잘못된 회원가입 요청입니다."
-     * @throws IllegalStateException 같은 이메일로 가입한 회원이 존재할 경우, "이미 가입한 회원입니다."
+     * @throws IllegalStateException    회원 요청이 null 일 경우, "잘못된 회원가입 요청입니다."
+     * @throws DuplicateMemberException 같은 이메일로 가입한 회원이 존재할 경우, "이미 가입한 회원입니다."
      */
     @Transactional
     public Member register(RegisterRequest request) {
         checkArgument(request != null, "잘못된 회원가입 요청입니다");
         if (memberRepository.existsMemberByEmail(request.getEmail())) {
-            throw new IllegalStateException("이미 가입한 회원입니다");
+            throw new DuplicateMemberException("이미 가입한 회원입니다");
         }
         Member member = new Member(
                 UUID.randomUUID(),

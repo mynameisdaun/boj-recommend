@@ -20,7 +20,6 @@ class ProblemQueryRepositoryTest {
     @Autowired
     private ProblemQueryRepository problemQueryRepository;
 
-
     @DisplayName(value = "조건에 맞는 문제들을 검색한다")
     @Test
     void search() throws Exception {

@@ -7,9 +7,12 @@ import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.global.vo.Tier;
 import com.google.common.base.Preconditions;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+
 @Data
+@NoArgsConstructor
 public class RegisterRequest {
     @NotNull(message = "이메일은 회원가입 하기 위한 필수 조건입니다.")
     private Email email;
@@ -24,11 +27,6 @@ public class RegisterRequest {
 
     //TODO: Validation test 하는 방법 있었는데 격이 안난다, 어질어질하다 수정 반드시 진행하자
     public RegisterRequest(String email, String password, String nickname, String socialType, Tier tier) {
-        Preconditions.checkArgument(email != null, "이메일은 회원가입 하기 위한 필수 조건입니다.");
-        Preconditions.checkArgument(password != null, "비밀번호는 회원가입 하기 위한 필수 조건입니다.");
-        Preconditions.checkArgument(nickname != null, "닉네임은 회원가입 하기 위한 필수 조건입니다.");
-        Preconditions.checkArgument(socialType != null, "소셜타입은 회원가입 하기 위한 필수 조건입니다.");
-        Preconditions.checkArgument(tier != null, "티어는 회원가입 하기 위한 필수 조건입니다.");
         this.email = new Email(email);
         this.password = new Password(password);
         this.name = new Name(nickname);

@@ -18,7 +18,6 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityManager;
 
-@Slf4j
 @SpringBootApplication
 public class Application {
 
@@ -56,17 +55,8 @@ public class Application {
     }
 
     @Bean
-    public DefaultImageClient imageClient() {
-        return new DefaultImageClient("/Users/jeongdaun/Desktop/word/src/main/resources/image/");
-    }
-
-    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public JPAQueryFactory jpaQueryFactory(EntityManager em) {
-        return new JPAQueryFactory(em);
-    }
 }

@@ -20,8 +20,8 @@ Content-Type: application/json
   "hash": "1234",
   "type": "TIER",
   "query": {
-    "minTier": 12,
-    "maxTier": 12
+    "minTier": 11,
+    "maxTier": 11
   }
 }
 

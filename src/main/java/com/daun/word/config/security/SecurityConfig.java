@@ -32,7 +32,6 @@ import java.util.regex.Pattern;
 import static org.apache.commons.lang3.math.NumberUtils.toLong;
 
 @EnableWebSecurity
-@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtAccessDeniedHandler accessDeniedHandler;
