@@ -1,0 +1,11 @@
+###
+POST http://localhost:8080/member
+Content-Type: application/json
+
+{
+  "email": "daun9870jung",
+  "password": "Tester1@#!@3",
+  "name": "쵝오다운",
+  "socialType": "W",
+  "tier": 11
+}

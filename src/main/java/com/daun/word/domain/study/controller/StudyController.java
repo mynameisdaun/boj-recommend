@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.daun.word.global.constant.ApiResponseCode.CREATED;
+import static com.daun.word.global.constant.ApiResponseCode.OK;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("study")
@@ -20,13 +23,12 @@ public class StudyController {
     private final StudyService studyService;
 
     @GetMapping("")
-    public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(studyService.findAll());
+    public ResponseEntity<ApiResponse> findAll() {
+        return ResponseEntity.ok(new ApiResponse(OK, studyService.findAll()));
     }
 
     @PostMapping("")
-    @ApiOperation(value = "study 생성", notes = "study를 생성한다")
-    public ResponseEntity<?> study(@RequestBody @Valid StudySaveRequest request) {
-        return ResponseEntity.ok(new ApiResponse(new StudyDTO(studyService.save(request))));
+    public ResponseEntity<ApiResponse> study(@RequestBody @Valid StudySaveRequest request) {
+        return ResponseEntity.status(201).body(new ApiResponse(CREATED, new StudyDTO(studyService.save(request))));
     }
 }

@@ -4,12 +4,11 @@ import com.daun.word.domain.problem.dto.ManualUpdateRequest;
 import com.daun.word.domain.problem.dto.ProblemDTO;
 import com.daun.word.domain.problem.service.ProblemService;
 import com.daun.word.global.dto.ApiResponse;
-import com.daun.word.global.vo.Tier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.stream.Collectors;
+import static com.daun.word.global.constant.ApiResponseCode.OK;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,16 +19,16 @@ public class ProblemController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> findById(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(new ApiResponse(new ProblemDTO(problemService.findById(id))));
+        return ResponseEntity.status(200).body(new ApiResponse(OK, new ProblemDTO(problemService.findById(id))));
     }
 
     @PostMapping("/{id}")
     public ResponseEntity<ApiResponse> save(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(new ApiResponse(new ProblemDTO(problemService.manual(id))));
+        return ResponseEntity.status(200).body(new ApiResponse(OK, new ProblemDTO(problemService.manual(id))));
     }
 
     @PostMapping("/manual")
     public ResponseEntity<ApiResponse> manual(@RequestBody ManualUpdateRequest request) {
-        return ResponseEntity.status(200).body(new ApiResponse(problemService.manual(request)));
+        return ResponseEntity.status(200).body(new ApiResponse(OK, problemService.manual(request)));
     }
 }

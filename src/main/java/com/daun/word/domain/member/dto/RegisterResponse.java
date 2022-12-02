@@ -2,7 +2,11 @@ package com.daun.word.domain.member.dto;
 
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.global.dto.TierDTO;
+import lombok.Data;
 
+import java.io.Serializable;
+
+@Data
 public class RegisterResponse {
 
     private String id;
