@@ -147,8 +147,8 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
                     .append(problem.getId())
                     .append(" | ");
         }
-        log.error(query.substring(0, query.length()-4));
-        ProblemSearchResponse search = search(query.substring(0, query.length()-4).toString(), 1, "solved", "asc");
+        log.error(query.substring(0, query.length()-3));
+        ProblemSearchResponse search = search(query.substring(0, query.length()-3).toString(), 1, "solved", "asc");
         return search.getCount() > 0;
     }
 

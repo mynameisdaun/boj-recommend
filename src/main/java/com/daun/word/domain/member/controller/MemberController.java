@@ -1,20 +1,19 @@
 package com.daun.word.domain.member.controller;
 
+import com.daun.word.domain.member.domain.vo.Email;
+import com.daun.word.domain.member.dto.RegisterAuthRequest;
+import com.daun.word.domain.member.dto.MemberDTO;
 import com.daun.word.domain.member.dto.RegisterRequest;
 import com.daun.word.domain.member.dto.RegisterResponse;
-import com.daun.word.domain.member.exception.DuplicateMemberException;
 import com.daun.word.domain.member.service.MemberService;
+import com.daun.word.domain.member.service.RegisterService;
 import com.daun.word.global.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import java.util.Optional;
-
-import static com.daun.word.global.constant.ApiResponseCode.CONFLICT;
 import static com.daun.word.global.constant.ApiResponseCode.OK;
 
 @RestController
@@ -24,15 +23,20 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("")
+    private final RegisterService registerService;
+
+    @PostMapping("/register")
     public ResponseEntity<ApiResponse> register(@Valid @RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(new ApiResponse(OK, new RegisterResponse(memberService.register(request))));
+        return ResponseEntity.ok(new ApiResponse(OK, new RegisterResponse(registerService.register(request))));
     }
 
-    @ExceptionHandler(DuplicateMemberException.class)
-    public ResponseEntity<ApiResponse> duplicate_member(DuplicateMemberException e) {
-        return ResponseEntity.status(CONFLICT.getCode()).body(new ApiResponse(CONFLICT, e.getMessage()));
+    @GetMapping("/{email}/auth")
+    public ResponseEntity<ApiResponse> checkAssignment(@PathVariable String email) {
+        return ResponseEntity.ok(new ApiResponse(OK, new RegisterResponse(registerService.auth_assignments(new Email(email)))));
     }
 
-
+    @PostMapping("/{email}/auth")
+    public ResponseEntity<ApiResponse> authenticate(@Valid @RequestBody RegisterAuthRequest request) {
+        return ResponseEntity.ok(new ApiResponse(OK, new MemberDTO(registerService.authenticate(request))));
+    }
 }

@@ -82,7 +82,6 @@ public class RecommendService {
 
         final List<Problem> filtered = problemPools.stream().filter(p -> !assigned.contains(p)).collect(toList());
 
-        System.out.println("filtered: ");
         for (Problem p : filtered) {
             System.out.println(p);
         }

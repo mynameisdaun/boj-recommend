@@ -1,6 +1,5 @@
 package com.daun.word.config.security;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -15,4 +14,5 @@ public class JwtTokenConfigure {
     private String issuer;
     private String secret;
     private int expirySeconds;
+    private String tokenType;
 }

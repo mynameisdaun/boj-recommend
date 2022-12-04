@@ -1,4 +1,4 @@
-package com.daun.word.global.auth.dto;
+package com.daun.word.auth.dto;
 
 import com.daun.word.domain.member.domain.Member;
 import lombok.Getter;

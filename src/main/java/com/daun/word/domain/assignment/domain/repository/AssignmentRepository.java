@@ -21,6 +21,8 @@ public interface AssignmentRepository {
 
     Optional<Assignment> findByMemberAndProblem(final Member member, final Problem problem);
 
+    List<Assignment> findByMember(final Member member);
+
     @Query(" select a from assignment a join fetch a.problem where a.member in :members and a.problem in :problems ")
     List<Assignment> findAllByMembersAndProblemIn(@Param("members") final List<Member> members, @Param("problems") final List<Problem> problems);
 

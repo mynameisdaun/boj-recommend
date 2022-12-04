@@ -15,4 +15,7 @@ public class ApiResponse<T> {
         this.message = code.getMessage();
         this.data = data;
     }
+
+    public ApiResponse(ApiResponseCode ok) {
+    }
 }

@@ -28,46 +28,10 @@ class MemberServiceTest {
     public void SetUp() {
         FakeMemberRepository memberRepository = new FakeMemberRepository();
         memberRepository.save(daun9870jung());
-        memberService = new MemberService(memberRepository, new BCryptPasswordEncoder());
+        memberService = new MemberService(memberRepository);
     }
 
-    @DisplayName(value = "회원을 등록한다")
-    @Test
-    void register() throws Exception {
-        //given
-        RegisterRequest request = new RegisterRequest("iwantNewMember@weword.com", "iWantBeNew@9", "songTTubi", "W", new Tier(1));
-        //when
-        Member member = memberService.register(request);
-        //then
-        assertThat(member).isNotNull();
-        assertAll(
-                () -> assertThat(member.getEmail()).isEqualTo(new Email("iwantNewMember@weword.com")),
-                () -> assertThat(member.getName()).isEqualTo(new Name("songTTubi")),
-                () -> assertThat(member.getSocialType()).isEqualTo(SocialType.W)
-        );
-    }
 
-    @DisplayName(value = "잘못된 회원가입 요청입니다")
-    @Test
-    void register_fail() throws Exception {
-        //given&&when&&then
-        assertThatThrownBy(() -> {
-            memberService.register(null);
-        }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("잘못된 회원가입 요청입니다");
-    }
-
-    @DisplayName(value = "이미 가입한 회원입니다")
-    @Test
-    void register_fail_exist_email() throws Exception {
-        //given
-        RegisterRequest request = new RegisterRequest(daun9870jung().getEmail().getValue(), "iWantBeNew@9", "songTTubi", "W", new Tier(1));
-        //when&&then
-        assertThatThrownBy(() -> {
-            memberService.register(request);
-        }).isInstanceOf(IllegalStateException.class)
-                .hasMessage("이미 가입한 회원입니다");
-    }
 
     @DisplayName(value = "이메일로 회원을 조회할 수 있다")
     @Test

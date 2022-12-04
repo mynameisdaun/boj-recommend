@@ -1,19 +1,18 @@
 package com.daun.word.domain.member.service;
 
+import com.daun.word.auth.dto.AuthRequest;
+import com.daun.word.config.security.JwtAuthenticationToken;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.repository.MemberRepository;
 import com.daun.word.domain.member.domain.vo.Email;
-import com.daun.word.domain.member.dto.RegisterRequest;
-import com.daun.word.domain.member.exception.DuplicateMemberException;
+import com.daun.word.domain.member.domain.vo.Password;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -25,31 +24,17 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder encoder;
 
     /**
-     * 회원을 등록한다
      *
-     * @param request RegisterRequest
-     * @return Member
-     * @throws IllegalStateException    회원 요청이 null 일 경우, "잘못된 회원가입 요청입니다."
-     * @throws DuplicateMemberException 같은 이메일로 가입한 회원이 존재할 경우, "이미 가입한 회원입니다."
+     * @param request
+     * @return
      */
     @Transactional
-    public Member register(RegisterRequest request) {
-        checkArgument(request != null, "잘못된 회원가입 요청입니다");
-        if (memberRepository.existsMemberByEmail(request.getEmail())) {
-            throw new DuplicateMemberException("이미 가입한 회원입니다");
-        }
-        Member member = new Member(
-                UUID.randomUUID(),
-                request.getEmail(),
-                request.getName(),
-                passwordEncoder.encode(request.getPassword().getValue()),
-                request.getTier(),
-                request.getSocialType()
-        );
-        memberRepository.save(member);
+    public Member login(AuthRequest request) {
+        Member member = findByEmail(request.getEmail());
+        member.login(encoder, request.getPassword());
         return member;
     }
 
@@ -68,11 +53,15 @@ public class MemberService {
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원 입니다"));
     }
 
+    /**
+     *
+     * @param emails
+     * @return
+     */
     @Transactional
     public List<Member> findByEmailIn(final List<Email> emails) {
         return emails.stream()
                 .map(this::findByEmail)
                 .collect(Collectors.toList());
     }
-
 }

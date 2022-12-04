@@ -49,4 +49,9 @@ public class FakeAssignmentRepository implements AssignmentRepository {
                 .filter(a -> members.contains(a.getMember()) && problems.contains(a.getProblem()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Assignment> findByMember(Member member) {
+        throw new NotImplementedException("not yet");
+    }
 }

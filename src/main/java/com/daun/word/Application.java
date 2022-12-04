@@ -6,6 +6,7 @@ import com.daun.word.global.infra.kakao.client.KakaoOAuthClient;
 import com.daun.word.global.infra.solvedac.DefaultSolvedAcClient;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import com.daun.word.global.utils.JwtUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,15 +21,6 @@ import javax.persistence.EntityManager;
 
 @SpringBootApplication
 public class Application {
-
-    @Value("${OAuth.jwt.access.key}")
-    private String accessKey;
-    @Value("${OAuth.jwt.refresh.key}")
-    private String refreshKey;
-    @Value("${OAuth.jwt.duration.access}")
-    private Long accessExpiresIn;
-    @Value("${OAuth.jwt.duration.refresh}")
-    private Long refreshExpiresIn;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -50,13 +42,8 @@ public class Application {
     }
 
     @Bean
-    public JwtUtils jwtUtils() {
-        return new JwtUtils(accessKey, refreshKey, accessExpiresIn, refreshExpiresIn);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 
 }

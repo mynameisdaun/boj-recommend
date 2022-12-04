@@ -1,9 +1,8 @@
 package com.daun.word.config.security;
 
-import com.daun.word.global.auth.dto.AuthenticationRequest;
+import com.daun.word.auth.dto.AuthRequest;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.Password;
-import com.daun.word.domain.member.domain.vo.SocialType;
 import lombok.ToString;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,26 +16,22 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     private Password credentials;
 
-    private SocialType socialType;
-
-    public JwtAuthenticationToken(Email principal, Password credentials, SocialType socialType) {
+    public JwtAuthenticationToken(Email principal, Password credentials) {
         super(null);
         super.setAuthenticated(false);
         this.principal = principal;
         this.credentials = credentials;
-        this.socialType = socialType;
     }
 
-    public JwtAuthenticationToken(Object principal, Password credentials, SocialType socialType, Collection<? extends GrantedAuthority> authorities) {
+    public JwtAuthenticationToken(Object principal, Password credentials, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         super.setAuthenticated(true);
         this.principal = principal;
         this.credentials = credentials;
-        this.socialType = socialType;
     }
 
-    public AuthenticationRequest authenticationRequest() {
-        return new AuthenticationRequest(((Email) this.principal).getValue(), this.credentials.getValue(), this.socialType.name());
+    public AuthRequest toAuthRequest() {
+        return new AuthRequest(((Email) this.principal).getValue(), this.credentials.getValue());
     }
 
     @Override
@@ -60,9 +55,5 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     public void eraseCredentials() {
         super.eraseCredentials();
         credentials = null;
-    }
-
-    public SocialType getSocialType() {
-        return socialType;
     }
 }

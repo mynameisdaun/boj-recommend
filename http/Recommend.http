@@ -13,6 +13,7 @@ Content-Type: application/json
 
 ###
 POST localhost:8080/recommend/study
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaXNzIjoiYm9qLXJlY29tbWVuZCIsImV4cCI6MTY3MDE2NDg4NCwiaWF0IjoxNjcwMTYzMDg0LCJlbWFpbCI6ImpjaG05ODQ2IiwibWVtYmVySWQiOiJlMWY1NjQwOC1mZWYzLTRlNjQtYjZkYy0xZWZkMDhkYTJiNGYifQ.yyXiXP3bN_WxQSivG3uTFRua28W6pqxHae9xvvoeWOoPrwbq4-8s0eTEnNjZnlT1rT34H1WWTuo0e0RMOqWPTQ
 Content-Type: application/json
 
 {
@@ -20,8 +21,8 @@ Content-Type: application/json
   "hash": "1234",
   "type": "TIER",
   "query": {
-    "minTier": 11,
-    "maxTier": 11
+    "minTier": 12,
+    "maxTier": 12
   }
 }
 

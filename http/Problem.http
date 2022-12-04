@@ -1,4 +1,7 @@
+###
 GET http://localhost:8080/problem/16120
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaXNzIjoiYm9qLXJlY29tbWVuZCIsImV4cCI6MTY3MDE2NDg4NCwiaWF0IjoxNjcwMTYzMDg0LCJlbWFpbCI6ImpjaG05ODQ2IiwibWVtYmVySWQiOiJlMWY1NjQwOC1mZWYzLTRlNjQtYjZkYy0xZWZkMDhkYTJiNGYifQ.yyXiXP3bN_WxQSivG3uTFRua28W6pqxHae9xvvoeWOoPrwbq4-8s0eTEnNjZnlT1rT34H1WWTuo0e0RMOqWPTQ
+
 
 ###
 POST http://localhost:8080/problem/2245
@@ -11,6 +14,6 @@ POST http://localhost:8080/problem/manual
 Content-Type: application/json
 
 {
-  "minTier": 14,
-  "maxTier": 15
+  "minTier": 1,
+  "maxTier": 2
 }

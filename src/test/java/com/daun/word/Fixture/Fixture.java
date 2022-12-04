@@ -5,13 +5,14 @@ import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.SolvedAcMember;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.Password;
+import com.daun.word.domain.member.domain.vo.Role;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.Tag;
 import com.daun.word.domain.recommend.domain.Recommend;
 import com.daun.word.domain.recommend.domain.vo.RecommendType;
 import com.daun.word.domain.study.domain.Study;
-import com.daun.word.global.auth.token.domain.Token;
+import com.daun.word.auth.token.domain.Token;
 import com.daun.word.global.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.global.infra.kakao.dto.KakaoTokenResponse;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
@@ -43,21 +44,21 @@ public class Fixture {
 
     public static Member daun9870jung() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(UUID.fromString("f1860abc-2ea1-411b-bd4a-baa44f0d5580"), new Email("tester1"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W);
+        return new Member(UUID.fromString("f1860abc-2ea1-411b-bd4a-baa44f0d5580"), new Email("tester1"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W, Role.USER);
     }
 
     public static Member member_2() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(UUID.fromString("e7f677ab-e1d5-4f24-a606-e183e43c7d54"), new Email("tester2"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W);
+        return new Member(UUID.fromString("e7f677ab-e1d5-4f24-a606-e183e43c7d54"), new Email("tester2"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W, Role.USER);
     }
 
 
     public static Member member_3() {
-        return new Member(UUID.randomUUID(), new Email("tester3"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W);
+        return new Member(UUID.randomUUID(), new Email("tester3"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W, Role.USER);
     }
 
-    public static Member member_4() {
-        return new Member(UUID.randomUUID(), new Email("tester4"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W);
+    public static Member member_unidentified() {
+        return new Member(UUID.randomUUID(), new Email("tester4"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W, Role.ROLE_TEMP);
     }
 
 

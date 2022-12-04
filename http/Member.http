@@ -3,9 +3,21 @@ POST http://localhost:8080/member
 Content-Type: application/json
 
 {
-  "email": "daun9870jung",
+  "email": "jchm9846",
   "password": "Tester1@#!@3",
-  "name": "쵝오다운",
-  "socialType": "W",
-  "tier": 11
+  "name": "테스터",
+  "socialType": "W"
 }
+
+###
+POST http://localhost:8080/member/jchm9846/auth
+Content-Type: application/json
+
+{
+  "email": "jchm9846",
+  "password": "Tester1@#!@3"
+}
+
+###
+GET http://localhost:8080/member/jchm9846/auth
+

@@ -87,7 +87,7 @@ class StudyServiceTest {
     void save_fail_not_joined_member() throws Exception {
         //given
         String leader = daun9870jung().getEmail().getValue();
-        List<String> members = Arrays.asList(daun9870jung().getEmail().getValue(), member_2().getEmail().getValue(), member_4().getEmail().getValue());
+        List<String> members = Arrays.asList(daun9870jung().getEmail().getValue(), member_2().getEmail().getValue(), member_unidentified().getEmail().getValue());
         StudySaveRequest request = new StudySaveRequest(leader, "name", "1234", members);
         //when&&then
         assertThatThrownBy(() -> studyService.save(request))

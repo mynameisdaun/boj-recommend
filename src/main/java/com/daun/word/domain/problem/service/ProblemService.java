@@ -5,21 +5,17 @@ import com.daun.word.domain.problem.domain.ProblemTag;
 import com.daun.word.domain.problem.domain.Tag;
 import com.daun.word.domain.problem.domain.repository.*;
 import com.daun.word.domain.problem.dto.ManualUpdateRequest;
-import com.daun.word.domain.recommend.dto.search.RecommendSearchQuery;
+import com.daun.word.domain.problem.dto.search.ProblemSearchQuery;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
-import com.daun.word.global.infra.solvedac.dto.ProblemSearchResponse;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
 import com.daun.word.global.infra.solvedac.dto.TierCounts;
 import com.daun.word.global.vo.Tier;
-import com.daun.word.global.vo.Title;
-import com.daun.word.global.vo.URL;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.*;
@@ -135,7 +131,7 @@ public class ProblemService {
             final int local = problemRepository.countByTier(tier);
             int page = 1;
             if (solvedAc > local) {
-                List<Problem> localIds = problemQueryRepository.search(new RecommendSearchQuery(i,i));
+                List<Problem> localIds = problemQueryRepository.search(new ProblemSearchQuery(i,i));
                 final int gap = solvedAc - local;
                 int saveCount = 0;
                 log.error("gap: {}", gap);
