@@ -42,6 +42,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-couchbase'
     implementation 'com.querydsl:querydsl-jpa'
 
+
+    implementation 'org.jsoup:jsoup:1.15.3'
+
     compileOnly 'org.projectlombok:lombok'
 
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.10.7'

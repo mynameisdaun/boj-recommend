@@ -7,15 +7,13 @@ import com.daun.word.domain.member.domain.repository.FakeMemberRepository;
 import com.daun.word.domain.member.domain.repository.MemberRepository;
 import com.daun.word.domain.member.service.MemberService;
 import com.daun.word.domain.problem.domain.repository.FakeProblemQueryRepository;
-import com.daun.word.domain.problem.domain.repository.FakeProblemRepository;
 import com.daun.word.domain.problem.domain.repository.ProblemQueryRepository;
-import com.daun.word.domain.problem.domain.repository.ProblemRepository;
+import com.daun.word.domain.problem.dto.search.ProblemSearchQuery;
 import com.daun.word.domain.recommend.domain.Recommend;
 import com.daun.word.domain.recommend.domain.repository.FakeRecommendRepository;
 import com.daun.word.domain.recommend.domain.repository.RecommendRepository;
 import com.daun.word.domain.recommend.domain.vo.RecommendType;
 import com.daun.word.domain.recommend.dto.RecommendRequest;
-import com.daun.word.domain.recommend.dto.search.RecommendSearchQuery;
 import com.daun.word.global.infra.solvedac.FakeSolvedAcClient;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +65,7 @@ class RecommendServiceTest {
     @Test
     void recommend() {
         //given
-        RecommendSearchQuery query = new RecommendSearchQuery(11, 15);
+        ProblemSearchQuery query = new ProblemSearchQuery(11, 15);
         RecommendRequest request = new RecommendRequest(Arrays.asList(Fixture.daun9870jung().email()), RecommendType.TIER, query);
         //when
         Recommend recommend = recommendService.recommend(request).get(0);

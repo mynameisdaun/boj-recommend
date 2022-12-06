@@ -15,5 +15,5 @@ Content-Type: application/json
 
 {
   "minTier": 1,
-  "maxTier": 2
+  "maxTier": 30
 }

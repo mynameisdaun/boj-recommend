@@ -11,7 +11,7 @@ application-oauth.properties
 ### DB ###
 application-db.properties
 
-
+src/test/java/com/daun/word/global/utils/HTMLParser.java
 
 ### STS ###
 .apt_generated

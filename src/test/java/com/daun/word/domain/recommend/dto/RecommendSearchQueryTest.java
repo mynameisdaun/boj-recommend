@@ -1,6 +1,6 @@
 package com.daun.word.domain.recommend.dto;
 
-import com.daun.word.domain.recommend.dto.search.RecommendSearchQuery;
+import com.daun.word.domain.problem.dto.search.ProblemSearchQuery;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ class RecommendSearchQueryTest {
         int minTier = 3;
         int maxTier = 1;
         //when&&then
-        assertThatThrownBy(() -> new RecommendSearchQuery(minTier, maxTier))
+        assertThatThrownBy(() -> new ProblemSearchQuery(minTier, maxTier))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("최대 티어는 최소 티어보다 같거나 커야 합니다");
     }

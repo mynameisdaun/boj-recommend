@@ -3,7 +3,10 @@ package com.daun.word.global.infra.solvedac;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.SolvedAcMember;
 import com.daun.word.domain.member.domain.vo.Email;
+import com.daun.word.domain.member.exception.NoSuchMemberException;
 import com.daun.word.domain.problem.domain.Problem;
+import com.daun.word.domain.problem.dto.search.SortDirection;
+import com.daun.word.domain.problem.dto.search.SortType;
 import com.daun.word.global.infra.solvedac.dto.ProblemSearchResponse;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
 import com.daun.word.global.infra.solvedac.dto.TierCounts;
@@ -23,13 +26,14 @@ public class FakeSolvedAcClient implements SolvedAcClient {
     }
 
     @Override
-    public ProblemSearchResponse search(String query, int page, String sort, String direction) {
+    public ProblemSearchResponse search(String query, int page, SortType sort, SortDirection direction) {
         return null;
     }
 
     @Override
-    public Optional<SolvedAcMember> findMemberByEmail(Email email) {
-        return Optional.ofNullable(fakeSolvedAcDB.getMember(email.getEmail()));
+    public SolvedAcMember findMemberByEmail(Email email) {
+        return Optional.ofNullable(fakeSolvedAcDB.getMember(email.getEmail()))
+                .orElseThrow(() -> new NoSuchMemberException("Solved AC에 등록되지 않은 회원입니다.\n서비스를 이용하기 위해 먼저 Solved AC에 가입해주세요.\nhttps://solved.ac"));
     }
 
     @Override

@@ -3,7 +3,10 @@ package com.daun.word.global.infra.solvedac;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.SolvedAcMember;
 import com.daun.word.domain.member.domain.vo.Email;
+import com.daun.word.domain.member.exception.NoSuchMemberException;
 import com.daun.word.domain.problem.domain.Problem;
+import com.daun.word.domain.problem.dto.search.SortDirection;
+import com.daun.word.domain.problem.dto.search.SortType;
 import com.daun.word.global.infra.solvedac.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,13 +41,13 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
      * @return ProblemSearchResponse
      */
     @Override
-    public ProblemSearchResponse search(String query, int page, String sort, String direction) {
+    public ProblemSearchResponse search(String query, int page, SortType sort, SortDirection direction) {
         StringBuilder url = new StringBuilder(BASE)
                 .append("/search/problem")
                 .append("?query=").append(query)
                 .append("&page=").append(page)
-                .append("&sort=").append(sort)
-                .append("&direction=").append(direction);
+                .append("&sort=").append(sort.getValue())
+                .append("&direction=").append(direction.getValue());
         return restTemplate.exchange(
                 url.toString(),
                 HttpMethod.GET,
@@ -100,15 +104,16 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
      * @return SolvedAcMember
      */
     @Override
-    public Optional<SolvedAcMember> findMemberByEmail(Email email) {
+    public SolvedAcMember findMemberByEmail(Email email) {
         StringBuilder url = new StringBuilder(BASE)
                 .append("/user/show?handle=")
                 .append(email.getValue());
         return Optional.ofNullable(new SolvedAcMember(restTemplate.exchange(
-                url.toString(),
-                HttpMethod.GET,
-                httpEntity(),
-                UserSearchResponse.class).getBody()));
+                        url.toString(),
+                        HttpMethod.GET,
+                        httpEntity(),
+                        UserSearchResponse.class).getBody()))
+                .orElseThrow(() -> new NoSuchMemberException("Solved AC에 등록되지 않은 회원입니다.\n서비스를 이용하기 위해 먼저 Solved AC에 가입해주세요.\nhttps://solved.ac"));
     }
 
     /**
@@ -140,15 +145,15 @@ public class DefaultSolvedAcClient implements SolvedAcClient {
     @Override
     public boolean isSolved(List<Member> members, Problem problem) {
         StringBuilder query = new StringBuilder();
-        for(Member m : members) {
+        for (Member m : members) {
             query.append("s@")
                     .append(m.getEmail().getValue())
                     .append(" ")
                     .append(problem.getId())
                     .append(" | ");
         }
-        log.error(query.substring(0, query.length()-3));
-        ProblemSearchResponse search = search(query.substring(0, query.length()-3).toString(), 1, "solved", "asc");
+        log.error(query.substring(0, query.length() - 3));
+        ProblemSearchResponse search = search(query.substring(0, query.length() - 3).toString(), 1, SortType.ACCEPTED_USER_COUNT, SortDirection.ASC);
         return search.getCount() > 0;
     }
 

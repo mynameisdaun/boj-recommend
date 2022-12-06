@@ -26,6 +26,10 @@ public class URL {
         this.url = "https://www.acmicpc.net/problem/" + id;
     }
 
+    public URL(String url) {
+        this.url = url;
+    }
+
     public String getValue() {
         return this.url;
     }

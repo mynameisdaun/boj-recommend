@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.NoSuchElementException;
 
@@ -24,13 +25,15 @@ class MemberServiceTest {
 
     private MemberService memberService;
 
+    private PasswordEncoder passwordEncoder;
+
     @BeforeEach
     public void SetUp() {
+        passwordEncoder = new BCryptPasswordEncoder();
         FakeMemberRepository memberRepository = new FakeMemberRepository();
         memberRepository.save(daun9870jung());
-        memberService = new MemberService(memberRepository);
+        memberService = new MemberService(memberRepository, passwordEncoder);
     }
-
 
 
     @DisplayName(value = "이메일로 회원을 조회할 수 있다")

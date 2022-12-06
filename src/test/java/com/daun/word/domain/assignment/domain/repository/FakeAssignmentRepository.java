@@ -54,4 +54,9 @@ public class FakeAssignmentRepository implements AssignmentRepository {
     public List<Assignment> findByMember(Member member) {
         throw new NotImplementedException("not yet");
     }
+
+    @Override
+    public int countByMember(Member member) {
+        throw new NotImplementedException("not yet");
+    }
 }

@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DataJpaTest
-class RecommendRepositoryTest {
+class ReferenceRepositoryTest {
 
     @Autowired
     RecommendRepository recommendRepository;

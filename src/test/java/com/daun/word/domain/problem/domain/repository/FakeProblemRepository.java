@@ -1,9 +1,7 @@
 package com.daun.word.domain.problem.domain.repository;
 
 import com.daun.word.domain.problem.domain.Problem;
-import com.daun.word.domain.recommend.dto.search.RecommendSearchQuery;
 import com.daun.word.global.vo.Tier;
-import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +10,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.daun.word.Fixture.Fixture.*;
-import static com.daun.word.Fixture.Fixture.problem_29;
 
 public class FakeProblemRepository implements ProblemRepository {
 

@@ -12,11 +12,13 @@ import com.daun.word.domain.problem.domain.Tag;
 import com.daun.word.domain.recommend.domain.Recommend;
 import com.daun.word.domain.recommend.domain.vo.RecommendType;
 import com.daun.word.domain.study.domain.Study;
-import com.daun.word.auth.token.domain.Token;
 import com.daun.word.global.infra.kakao.dto.KakaoProfileResponse;
 import com.daun.word.global.infra.kakao.dto.KakaoTokenResponse;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
-import com.daun.word.global.vo.*;
+import com.daun.word.global.vo.Name;
+import com.daun.word.global.vo.Tier;
+import com.daun.word.global.vo.Title;
+import com.daun.word.global.vo.URL;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,7 +28,6 @@ import java.util.UUID;
 public class Fixture {
     public static String FAKE_KAKAO_REST_API_KEY = "fake-api-key";
     public static String FAKE_KAKAO_REDIRECT_URI = "fake-redirect-uri";
-    private static Token token;
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 
@@ -44,17 +45,17 @@ public class Fixture {
 
     public static Member daun9870jung() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(UUID.fromString("f1860abc-2ea1-411b-bd4a-baa44f0d5580"), new Email("tester1"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W, Role.USER);
+        return new Member(UUID.fromString("f1860abc-2ea1-411b-bd4a-baa44f0d5580"), new Email("tester1"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W, Role.ROLE_USER);
     }
 
     public static Member member_2() {
         LocalDateTime now = LocalDateTime.now();
-        return new Member(UUID.fromString("e7f677ab-e1d5-4f24-a606-e183e43c7d54"), new Email("tester2"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W, Role.USER);
+        return new Member(UUID.fromString("e7f677ab-e1d5-4f24-a606-e183e43c7d54"), new Email("tester2"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W, Role.ROLE_USER);
     }
 
 
     public static Member member_3() {
-        return new Member(UUID.randomUUID(), new Email("tester3"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W, Role.USER);
+        return new Member(UUID.randomUUID(), new Email("tester3"), nickname(), "$2a$10$j.X5k/3SVnZI/VxSFkjw..n2cc5auOyWYp2z.kksSU0iYCgHcwfyS", new Tier(15), SocialType.W, Role.ROLE_USER);
     }
 
     public static Member member_unidentified() {
@@ -68,11 +69,6 @@ public class Fixture {
 
     public static KakaoProfileResponse kakaoProfileResponse() {
         return new KakaoProfileResponse("123456789", "2022-08-15T14:04:12Z", new KakaoProfileResponse.KakaoAccount(false, false, new KakaoProfileResponse.Properties("테스터", null, null), true, false, false, false, "tester@tester.com", true, false, "20-29", true, false, "0101", "SOLAR", true, false, "male"), new KakaoProfileResponse.Properties("테스터", "http://k.kakaocdn.net/dn/zt9yB/btrJsu3NH8Z/0YRXHJP3w7IHCbXLtqzzM1/img_640x640.jpg", "http://k.kakaocdn.net/dn/zt9yB/btrJsu3NH8Z/0YRXHJP3w7IHCbXLtqzzM1/img_110x110.jpg"));
-    }
-
-    public static Token token() {
-
-        return new Token(new Email("tester1@weword.com"), "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjA5Nzc4MzEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.Bs9nDgglcyg_IQCcsLQVH48RW1t1-w8QYqkLJissNuU", LocalDateTime.parse("2022-08-20 15:43:51", formatter), "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3b3JkIiwiaWF0IjoxNjYwOTc2MDMxLCJleHAiOjE2NjEwMzY1MTEsImVtYWlsIjoiaXJhZGl0QG5hdmVyLmNvbSJ9.uCNJxT-PuD2FNLZcplTULRqu1XO2YEWX_0--35quTGU", LocalDateTime.parse("2022-08-21 08:01:51", formatter), SocialType.valueOf("W"), "7MP8EHWXFLzHxQsi1YNMXs3KVb1paQBpEPLwZb6QCj1zFwAAAYK54uKs", LocalDateTime.parse("2022-08-20 15:13:51", formatter), "oOdpDpTD3juuQy7ZVuEBnYkDH3cWJmM_lUie3eUcCj1zFwAAAYK54uKq", LocalDateTime.parse("2022-10-19 15:13:50", formatter));
     }
 
     public static Tag tag() {

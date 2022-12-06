@@ -17,6 +17,7 @@ import com.daun.word.domain.problem.dto.search.ProblemSearchQuery;
 import com.daun.word.domain.problem.dto.search.SortDirection;
 import com.daun.word.domain.problem.dto.search.SortType;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
+import com.daun.word.global.infra.solvedac.dto.ProblemSearchResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,7 +38,6 @@ public class RegisterService {
     private final ProblemQueryRepository problemQueryRepository;
     private final SolvedAcClient solvedAcClient;
     private final AssignmentRepository assignmentRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     /**
@@ -75,12 +75,18 @@ public class RegisterService {
      * @return
      */
     @Transactional
-    public Member authenticate(RegisterAuthRequest request) {
-        Member unIdentified = findByEmail(request.getEmail());
-        List<Assignment> assignments = assignmentRepository.findByMember(unIdentified);
+    public Member authenticate(final RegisterAuthRequest request) {
+        final Member unIdentified = findByEmail(request.getEmail());
+        final List<Assignment> assignments = assignmentRepository.findByMember(unIdentified);
 
-        for (Assignment a : assignments) {
+        for (final Assignment a : assignments) {
             if (solvedAcClient.isSolved(Arrays.asList(unIdentified), a.getProblem())) {
+                //해당 회원이 푼 모든 문제를 확인해서 저장한다;
+                int page = 1;
+                List<Problem> solved = new ArrayList<>();
+                ProblemSearchResponse response = solvedAcClient.search("s@" + unIdentified.getEmail().getValue(), page, SortType.ACCEPTED_USER_COUNT, SortDirection.DESC);
+
+
                 return unIdentified.authenticate();
             }
         }
@@ -105,8 +111,7 @@ public class RegisterService {
      * @return
      */
     private Member guest(RegisterRequest request) {
-        SolvedAcMember solvedAcMember = solvedAcClient.findMemberByEmail(request.getEmail())
-                .orElseThrow(() -> new NoSuchMemberException("Solved AC에 등록되지 않은 회원입니다.\n서비스를 이용하기 위해 먼저 Solved AC에 가입해주세요.\nhttps://solved.ac"));
+        SolvedAcMember solvedAcMember = solvedAcClient.findMemberByEmail(request.getEmail());
         return new Member(solvedAcMember, request, passwordEncoder);
     }
 

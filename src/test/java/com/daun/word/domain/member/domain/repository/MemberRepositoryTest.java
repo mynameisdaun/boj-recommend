@@ -3,6 +3,7 @@ package com.daun.word.domain.member.domain.repository;
 import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.QMember;
 import com.daun.word.domain.member.domain.vo.Email;
+import com.daun.word.domain.member.domain.vo.Role;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.global.vo.Name;
 import com.daun.word.global.vo.Tier;
@@ -45,7 +46,7 @@ class MemberRepositoryTest {
     void save() {
         //given
         UUID id = UUID.randomUUID();
-        Member member = new Member(id, new Email("no-exist"), new Name("꼬북이"), "sample-password", new Tier(11), SocialType.W);
+        Member member = new Member(id, new Email("no-exist"), new Name("꼬북이"), "sample-password", new Tier(11), SocialType.W, Role.ROLE_GUEST);
         //when
         Member saved = memberRepository.save(member);
         em.flush();
@@ -59,7 +60,7 @@ class MemberRepositoryTest {
     void save_fail_exist() {
         //given&&when&then
         assertThatThrownBy(() -> {
-            memberRepository.save(new Member(UUID.randomUUID(), new Email("daun9870jung"), new Name("꼬북이"), "sample-password", new Tier(11), SocialType.W));
+            memberRepository.save(new Member(UUID.randomUUID(), new Email("daun9870jung"), new Name("꼬북이"), "sample-password", new Tier(11), SocialType.W, Role.ROLE_GUEST));
             em.flush();
         }).hasCauseInstanceOf(ConstraintViolationException.class);
     }

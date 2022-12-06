@@ -121,15 +121,8 @@ public class Member extends BaseEntity {
         return this;
     }
 
-
     public boolean isUser() {
         return this.role == Role.ROLE_USER;
-    }
-
-    /* 로그인 성공 후 */
-    public void afterLoginSuccess() {
-        this.loginCount++;
-        this.lastLoginAt = new Date();
     }
 
     public String email() {

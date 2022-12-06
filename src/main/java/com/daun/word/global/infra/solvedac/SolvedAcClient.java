@@ -4,6 +4,8 @@ import com.daun.word.domain.member.domain.Member;
 import com.daun.word.domain.member.domain.SolvedAcMember;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.problem.domain.Problem;
+import com.daun.word.domain.problem.dto.search.SortDirection;
+import com.daun.word.domain.problem.dto.search.SortType;
 import com.daun.word.global.infra.solvedac.dto.ProblemSearchResponse;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
 import com.daun.word.global.infra.solvedac.dto.TierCounts;
@@ -14,9 +16,9 @@ import java.util.Optional;
 
 public interface SolvedAcClient {
 
-    ProblemSearchResponse search(final String query, final int page, final String sort, final String direction);
+    ProblemSearchResponse search(final String query, final int page, final SortType sort, final SortDirection direction);
 
-    Optional<SolvedAcMember> findMemberByEmail(final Email email);
+    SolvedAcMember findMemberByEmail(final Email email);
 
     Optional<SolvedAcProblem> findById(final Integer id);
 

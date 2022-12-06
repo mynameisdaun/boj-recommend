@@ -87,7 +87,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/member/register").permitAll()
                 .antMatchers("/member/**/auth").permitAll()
-                .anyRequest().hasRole("USER")
+                .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .disable();

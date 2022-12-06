@@ -2,7 +2,7 @@ package com.daun.word.domain.problem.domain.repository;
 
 import com.daun.word.config.QueryDslConfig;
 import com.daun.word.domain.problem.domain.Problem;
-import com.daun.word.domain.recommend.dto.search.RecommendSearchQuery;
+import com.daun.word.domain.problem.dto.search.ProblemSearchQuery;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ class ProblemQueryRepositoryTest {
     @Test
     void search() throws Exception {
         //given
-        RecommendSearchQuery query = new RecommendSearchQuery(11, 15);
+        ProblemSearchQuery query = new ProblemSearchQuery(11, 15);
         //when
         List<Problem> results = problemQueryRepository.search(query);
         //then

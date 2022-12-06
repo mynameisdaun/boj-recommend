@@ -8,8 +8,6 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.daun.word.domain.member.domain.vo.Email;
 import com.daun.word.domain.member.domain.vo.Role;
-import com.daun.word.global.vo.Name;
-import com.daun.word.domain.member.domain.vo.SocialType;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 

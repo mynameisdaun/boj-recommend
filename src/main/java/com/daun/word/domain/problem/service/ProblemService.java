@@ -6,6 +6,8 @@ import com.daun.word.domain.problem.domain.Tag;
 import com.daun.word.domain.problem.domain.repository.*;
 import com.daun.word.domain.problem.dto.ManualUpdateRequest;
 import com.daun.word.domain.problem.dto.search.ProblemSearchQuery;
+import com.daun.word.domain.problem.dto.search.SortDirection;
+import com.daun.word.domain.problem.dto.search.SortType;
 import com.daun.word.global.infra.solvedac.SolvedAcClient;
 import com.daun.word.global.infra.solvedac.dto.SolvedAcProblem;
 import com.daun.word.global.infra.solvedac.dto.TierCounts;
@@ -138,7 +140,7 @@ public class ProblemService {
                 while (gap > saveCount) {
                     StringBuilder query = new StringBuilder("*")
                             .append(tier.getRate());
-                    List<Integer> solvedAcIds = solvedAcClient.search(query.toString(), page, "solved", "asc")
+                    List<Integer> solvedAcIds = solvedAcClient.search(query.toString(), page, SortType.ACCEPTED_USER_COUNT, SortDirection.ASC)
                             .toIdList();
 
                     List<Integer> filtered = solvedAcIds.stream()

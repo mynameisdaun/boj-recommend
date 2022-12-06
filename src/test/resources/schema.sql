@@ -1,3 +1,5 @@
+SET MODE MYSQL;
+
 drop table if exists recommend;
 drop table if exists assignment;
 drop table if exists hibernate_sequence;
@@ -41,6 +43,7 @@ insert into hibernate_sequence values ( 1 );
         social_type varchar(255),
         level integer not null,
         rate varchar(255) not null,
+        role varchar(12) not null,
         primary key (member_id)
     ) engine=InnoDB;
 
@@ -99,6 +102,18 @@ insert into hibernate_sequence values ( 1 );
         primary key (id)
     ) engine=InnoDB;
 
+    create table reference
+(
+    reference_id varbinary(16)                       not null,
+    created_at   timestamp default current_timestamp not null,
+    deleted      bit       default 0,
+    updated_at   timestamp default current_timestamp not null,
+    problem_id   integer                             not null,
+    url          varchar(500)                        not null,
+    allowed      bit       default 0,
+    primary key (reference_id)
+) engine=InnoDB;
+
     create table tag (
        tag_id integer not null,
         created_at timestamp default current_timestamp not null,
@@ -121,9 +136,6 @@ insert into hibernate_sequence values ( 1 );
        add constraint FK3l3fel3j9r6lenjib2xswuu75
        foreign key (problem_id)
        references problem (problem_id);
-
-   alter table assignment
-       add unique (problem_id, member_id);
 
     alter table problem_tag
        add constraint FKsbd0j3yjggts3lk19llwm0lwq
@@ -159,3 +171,6 @@ insert into hibernate_sequence values ( 1 );
        add constraint FKxu4jds4ab0mfyrvdxsu60iut
        foreign key (study_id)
        references study (study_id);
+
+   alter table reference
+        add constraint UK_reference unique (reference_id, problem_id);

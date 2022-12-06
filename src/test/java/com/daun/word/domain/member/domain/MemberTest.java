@@ -1,6 +1,7 @@
 package com.daun.word.domain.member.domain;
 
 import com.daun.word.domain.member.domain.vo.Email;
+import com.daun.word.domain.member.domain.vo.Role;
 import com.daun.word.global.vo.Name;
 import com.daun.word.domain.member.domain.vo.SocialType;
 import com.daun.word.global.vo.Tier;
@@ -38,7 +39,7 @@ class MemberTest {
     @Disabled
     void create() throws Exception {
         //given,when
-        Member member = new Member(UUID.randomUUID(), email(), nickname(), "fake-password", new Tier(11), SocialType.K);
+        Member member = new Member(UUID.randomUUID(), email(), nickname(), "fake-password", new Tier(11), SocialType.K, Role.ROLE_GUEST);
         //then
         assertThat(member).isNotNull();
         assertAll(
@@ -55,7 +56,7 @@ class MemberTest {
     void create_fail(UUID id, Email email, Name name, String password, Tier tier, SocialType socialType) throws Exception {
         //given&&when&&then
         assertThatThrownBy(() -> {
-            new Member(id, email, name, password, tier, socialType);
+            new Member(id, email, name, password, tier, socialType, Role.ROLE_GUEST);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 

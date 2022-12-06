@@ -26,4 +26,5 @@ public interface AssignmentRepository {
     @Query(" select a from assignment a join fetch a.problem where a.member in :members and a.problem in :problems ")
     List<Assignment> findAllByMembersAndProblemIn(@Param("members") final List<Member> members, @Param("problems") final List<Problem> problems);
 
+    int countByMember(final Member member);
 }

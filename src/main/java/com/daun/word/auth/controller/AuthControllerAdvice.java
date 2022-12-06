@@ -15,11 +15,11 @@ public class AuthControllerAdvice {
 
     @ExceptionHandler(NotAuthorizedException.class)
     public ResponseEntity<ApiResponse> notAuthorized(NotAuthorizedException e) {
-        return ResponseEntity.status(UNAUTHORIZED.getCode()).body(new ApiResponse(UNAUTHORIZED, e.getMessage()));
+        return ResponseEntity.status(FORBIDDEN.getCode()).body(new ApiResponse(FORBIDDEN, e.getMessage()));
     }
 
     @ExceptionHandler(NotAuthenticatedException.class)
     public ResponseEntity<ApiResponse> notAuthenticated(NotAuthenticatedException e) {
-        return ResponseEntity.status(FORBIDDEN.getCode()).body(new ApiResponse(FORBIDDEN, e.getMessage()));
+        return ResponseEntity.status(UNAUTHORIZED.getCode()).body(new ApiResponse(UNAUTHORIZED, e.getMessage()));
     }
 }
