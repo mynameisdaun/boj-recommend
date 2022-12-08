@@ -1,18 +1,17 @@
 package com.daun.word.domain.reference.domain;
 
 import com.daun.word.domain.problem.domain.Problem;
+import com.daun.word.domain.reference.domain.vo.RefDetail;
+import com.daun.word.domain.reference.domain.vo.ReferenceType;
+import com.daun.word.domain.reference.domain.vo.Resource;
 import com.daun.word.global.vo.BaseEntity;
-import com.daun.word.global.vo.URL;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -28,9 +27,16 @@ public class Reference extends BaseEntity {
     @JoinColumn(name = "problem_id")
     private Problem problem;
 
+    @Enumerated(EnumType.STRING)
+    private ReferenceType type;
+
     @Embedded
-    private URL url;
+    private Resource resource;
+
+    @Embedded
+    private RefDetail detail;
 
     @Column(name = "allowed", columnDefinition = "bit default 0")
     private boolean allowed;
+
 }

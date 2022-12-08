@@ -4,6 +4,7 @@ import com.daun.word.domain.problem.domain.Problem;
 import com.daun.word.domain.problem.domain.repository.ProblemRepository;
 import com.daun.word.domain.reference.domain.Reference;
 import com.daun.word.domain.reference.domain.repository.ReferenceRepository;
+import com.daun.word.domain.reference.domain.vo.ReferenceType;
 import com.daun.word.domain.reference.dto.RefRegisterRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,7 @@ public class ReferenceService {
         List<Problem> problems = problemRepository.findAllByIdIn(request.getProblemIds());
         for (Problem p : problems) {
             try {
-                Reference saved = referenceRepository.save(new Reference(UUID.randomUUID(), p, request.getUrl(), false));
+                Reference saved = referenceRepository.save(new Reference(UUID.randomUUID(), p, request.getType(), request.getResource(), request.getRefDetail(), request.isAllowed()));
                 references.add(saved);
                 em.flush();
             } catch (Exception e) {

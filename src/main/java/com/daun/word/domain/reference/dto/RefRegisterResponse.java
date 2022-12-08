@@ -12,7 +12,9 @@ public class RefRegisterResponse {
 
     private boolean allowed;
 
-    private String url;
+    private String resource;
+
+    private String type;
 
     private List<ProblemDTO> problems;
 
@@ -21,7 +23,8 @@ public class RefRegisterResponse {
             throw new IllegalStateException();
         }
         this.allowed = references.get(0).isAllowed();
-        this.url = references.get(0).getUrl().getValue();
+        this.resource = references.get(0).getResource().getValue();
+        this.type = references.get(0).getType().name();
         this.problems = references.stream()
                 .map(r -> new ProblemDTO(r.getProblem()))
                 .collect(Collectors.toList());
