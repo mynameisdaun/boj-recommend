@@ -1,0 +1,27 @@
+###
+POST http://localhost:8080/member
+Content-Type: application/json
+
+{
+  "email": "jchm9846",
+  "password": "Tester1@#!@3",
+  "name": "테스터",
+  "socialType": "W"
+}
+
+###
+POST http://localhost:8080/member/jchm9846/auth
+Content-Type: application/json
+
+{
+  "email": "jchm9846",
+  "password": "Tester1@#!@3"
+}
+
+###
+GET http://localhost:8080/member/jchm9846/auth
+
+###
+POST http://localhost:8080/member/daun9870jung/update
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwiaXNzIjoiYm9qLXJlY29tbWVuZCIsImV4cCI6MTY3MDIyODc2MiwiaWF0IjoxNjcwMjI2OTYyLCJlbWFpbCI6ImRhdW45ODcwanVuZyIsIm1lbWJlcklkIjoiMjNkYzcxMjUtN2UxYy00NDE5LWJhYjgtMjE3YzY2OGU4YzE1In0.KAUaPKi0zd1ALNvQwkyBTpQVPK4deSOHfbvyoVLxhUsprwxhvIgpWa0bQZU3hFCfpBXuvjB35gr0yUehPCTTCg
+
