@@ -28,7 +28,7 @@ public class MemberControllerAdvice {
 
     @ExceptionHandler(IllegalRegisterProcessException.class)
     public ResponseEntity<ApiResponse> registerNotInProgressExceptionHandler(IllegalRegisterProcessException e) {
-        e.printStackTrace();
+        e.printStackTrace();;;
         return ResponseEntity.status(CONFLICT.getCode()).body(new ApiResponse(CONFLICT, e.getMessage()));
     }
 }
